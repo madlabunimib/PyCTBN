@@ -33,8 +33,8 @@ class Importer():
         for file in read_files:
             my_df = pd.read_csv(file) #TODO:Aggiungere try-catch controllo correttezza dei tipi di dato presenti nel dataset e.g. i tipi di dato della seconda colonna devono essere float
             self.df_list.append(my_df)
+        
 
-    
     def merge_value_columns(self, df):
         """ Effettua il merging di tutte le colonne che contengono i valori delle variabili in un unica colonna chiamata State.
 
@@ -44,6 +44,15 @@ class Importer():
             void
         """
         df['State'] = df[df.columns[2:]].apply(lambda row: ''.join(row.values.astype(str)), axis=1)
+
+    def drop_unneccessary_columns(self, df):
+        cols = df.columns.values[2:-1]
+        print(cols)
+        df.drop(cols, axis=1, inplace=True)
+
+    def drop_unneccessary_columns_in_all_frames(self):
+        for data_frame in self.df_list:
+            self.drop_unneccessary_columns(data_frame)
 
     def merge_value_columns_in_all_frames(self):
         for data_frame in self.df_list:
@@ -55,30 +64,9 @@ class Importer():
     def clear_data_frames(self):
         for data_frame in self.df_list:
             data_frame = data_frame.iloc[0:0]
-    
-
-    
-    
 
 
 
-
-    """def build_trajectories(self):
-        for data_frame in self.df_list:
-            self.merge_value_columns(data_frame)
-            trajectory = data_frame[['Time','State']].to_numpy()
-            self.trajectories.append(trajectory)
-            #Clear the data_frame
-            data_frame = data_frame.iloc[0:0]"""
-
-
-
-
-
-#imp = Importer("../data")
-#imp.import_data_from_csv()
-#imp.build_trajectories()
-#print(imp.trajectories[0])
 
 
 
