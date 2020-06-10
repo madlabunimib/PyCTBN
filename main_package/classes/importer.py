@@ -74,7 +74,6 @@ class Importer():
 
          """
         cols = df.columns.values[2:-1]
-        print(cols)
         df.drop(cols, axis=1, inplace=True)
 
     def drop_unneccessary_columns_in_all_frames(self):

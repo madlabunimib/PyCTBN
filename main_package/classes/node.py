@@ -1,4 +1,9 @@
+from enum import Enum
 
+class Color(Enum):
+    WHITE = 0
+    GRAY = 1
+    BLACK = 2
 
 class Node():
     """
@@ -7,11 +12,13 @@ class Node():
     del nodo stesso nel grafo rappresentato attraverso la matrice di adiacenza.
     :state_id: UID del nodo
     :node_id: int
+    :color: indica che il nodo sia stato visitato o meno durante la successiva BFS visit
     """
 
-    def __init__(self, state_id, node_id=-1):
+    def __init__(self, state_id, node_id=-1, color=Color.WHITE):
         self.state_id = state_id
         self.node_id = node_id
+        self.color = color
 
     def __key(self):
         return (self.state_id)
@@ -34,4 +41,6 @@ class Node():
         return NotImplemented
 
     def __repr__(self):
-        return "<%s, %d>"% (self.state_id, self.node_id)
+        return "<%s, %d, %s>"% (self.state_id, self.node_id, self.color)
+
+
