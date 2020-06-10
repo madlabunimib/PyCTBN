@@ -6,6 +6,14 @@ import trajectory as tr
 
 
 class SamplePath():
+    """
+    Rappresenta l'aggregazione di una o più traiettorie.
+    Ha il compito dato di costruire tutte gli oggetti Trajectory a partire
+    dai dataset contenuti nella directory files_path.
+
+    :importer: l'oggetto Importer che ha il compito di caricare i dataset
+    :trajectories: lista contenente le traiettorie create
+    """
 
     def __init__(self, files_path=os.getcwd() + "/main_package/data"):
         self.importer = imp.Importer(files_path)
@@ -25,12 +33,5 @@ class SamplePath():
         return len(self.trajectories)
 
 
-
-######Veloci Tests#######
-
-s1 = SamplePath()
-s1.build_trajectories()
-print(s1.get_number_trajectories())
-#print(s1.trajectories[0].get_trajectory())
 
 
