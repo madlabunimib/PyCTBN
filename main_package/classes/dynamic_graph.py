@@ -68,7 +68,6 @@ class DynamicGraph():
         Returns:
             void
         """
-        
         matrix_traj = trajectory.get_trajectory_as_matrix()
         
         current_state = matrix_traj[0][1] #Aggiungi se necessario i primi due stati
@@ -96,14 +95,20 @@ class DynamicGraph():
             else:
                 self.append_new_trajectory(trajectory)
 
+    def get_root_node(self):
+        return self.graph[list(self.graph)[0]]["Node"]
+
+    def get_neighbours(self, node):
+        return self.graph[node.state_id]["Arcs"]
+
 
 ######Veloci Tests#######
 
-s1 = sp.SamplePath()
-s1.build_trajectories()
-print(s1.get_number_trajectories())
+#s1 = sp.SamplePath()
+#s1.build_trajectories()
+#print(s1.get_number_trajectories())
 
-g1 = DynamicGraph(s1)
-g1.build_graph()
-print(g1.graph)
-print(g1.states_number)
+#g1 = DynamicGraph(s1)
+#g1.build_graph()
+#print(g1.graph)
+#print(g1.states_number)
