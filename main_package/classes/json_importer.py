@@ -15,11 +15,10 @@ class JsonImporter(AbstractImporter):
         super(JsonImporter, self).__init__(files_path)
 
     def import_data(self):
-        data = self.read_json_file()
-        self.import_trajectories(data)
-        self.import_structure(data)
-        self.import_variables(data)
-
+        raw_data = self.read_json_file()
+        self.import_trajectories(raw_data)
+        self.import_structure(raw_data)
+        self.import_variables(raw_data)
 
     def import_trajectories(self, raw_data):
         self.normalize_trajectories(raw_data, 0, 'samples')
@@ -36,7 +35,7 @@ class JsonImporter(AbstractImporter):
             for file_name in read_files:
                 with open(file_name) as f:
                     data = json.load(f)
-            return data
+                    return data
         except ValueError as err:
             print(err.args)
 
@@ -45,7 +44,13 @@ class JsonImporter(AbstractImporter):
 
     def normalize_trajectories(self, raw_data, indx, trajectories_key):
         for sample_indx, sample in enumerate(raw_data[indx][trajectories_key]):
-           self.df_samples_list.append(pd.json_normalize(raw_data[indx][trajectories_key][sample_indx]))
+            self.df_samples_list.append(pd.json_normalize(raw_data[indx][trajectories_key][sample_indx]))
+
+    def build_list_of_samples_array(self, data_frame):
+        columns_list = []
+        for column in data_frame:
+            columns_list.append(data_frame[column].to_numpy())
+        return columns_list
 
     def clear_data_frames(self):
         """
@@ -55,13 +60,14 @@ class JsonImporter(AbstractImporter):
         Returns:
             void
          """
-        for data_frame in self.df_list:
-            data_frame = data_frame.iloc[0:0]
+        for indx in range(len(self.df_samples_list)):
+            #data_frame = data_frame.iloc[0:0]
+            self.df_samples_list[indx] = self.df_samples_list[indx].iloc[0:0]
 
 
-
-ij = JsonImporter("../data")
+"""ij = JsonImporter("../data")
 ij.import_data()
-print(ij.df_samples_list[7])
+#print(ij.df_samples_list[7])
 print(ij.df_structure)
 print(ij.df_variables)
+print((ij.build_list_of_samples_array(0)[1].size))"""

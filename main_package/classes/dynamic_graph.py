@@ -1,9 +1,10 @@
 import numpy as np
 import sample_path as sp
+import networkx as nx
 import node
 
 
-class DynamicGraph():
+class NetworkGraph():
     """
     Rappresenta un grafo dinamico con la seguente struttura:
         {Key: {Arcs:{node_object: #in_arcs.....}, Time:t, Node:node_object}.....}
@@ -20,7 +21,7 @@ class DynamicGraph():
     def __init__(self, sample_path):
         self.sample_path = sample_path
         self.graph = {}
-        self.states_number = 0
+        
 
     def initialize_graph(self, trajectory):
         """
