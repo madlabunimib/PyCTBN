@@ -1,5 +1,5 @@
 import numpy as np
-import dynamic_graph as dg
+import network_graph as dg
 import sample_path as sp
 import priority_queue as pq
 

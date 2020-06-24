@@ -61,7 +61,6 @@ class JsonImporter(AbstractImporter):
             void
          """
         for indx in range(len(self.df_samples_list)):
-            #data_frame = data_frame.iloc[0:0]
             self.df_samples_list[indx] = self.df_samples_list[indx].iloc[0:0]
 
 
