@@ -12,9 +12,9 @@ class AmalgamatedCims:
     def init_cims_structure(self, keys, dims):
         for key, dim in (keys, dims):
             self.actual_cims[key] = np.empty(dim, dtype=cim.ConditionalIntensityMatrix)
-        for block_matrix in self.actual_cims.values():
-            for matrix in block_matrix:
-                matrix = cim.ConditionalIntensityMatrix(self.states_per_variable)
+        for key in self.actual_cims.keys():
+            for indx in range(len(self.actual_cims[key])):
+                self.actual_cims[key][indx] = cim.ConditionalIntensityMatrix(self.states_per_variable)
 
     def compute_matrix_indx(self, row, col):
         return self.state_per_variable * row + col

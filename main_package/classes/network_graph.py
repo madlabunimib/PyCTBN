@@ -21,7 +21,6 @@ class NetworkGraph():
     def init_graph(self):
         self.sample_path.build_trajectories()
         self.sample_path.build_structure()
-        print(self.sample_path.structure.list_of_edges())
         self.add_edges(self.sample_path.structure.list_of_edges())
 
     def add_edges(self, list_of_edges):
@@ -40,4 +39,4 @@ s1 = sp.SamplePath(path)
 
 g1 = NetworkGraph(s1)
 g1.init_graph()
-print(g1.graph)
+
