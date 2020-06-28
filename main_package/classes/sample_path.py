@@ -35,16 +35,5 @@ class SamplePath:
     def get_number_trajectories(self):
         return len(self.trajectories)
 
-"""os.getcwd()
-os.chdir('..')
-path = os.getcwd() + '/data'
-print(path)
-sp = SamplePath(path)
-sp.build_trajectories()
-sp.build_structure()
-print(sp.trajectories[7].actual_trajectory)
-print(sp.importer.df_samples_list[7])
-print(sp.get_number_trajectories())
-print(list(sp.structure.list_of_edges()))"""
 
 
