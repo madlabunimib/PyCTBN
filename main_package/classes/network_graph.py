@@ -19,18 +19,13 @@ class NetworkGraph():
 
 
     def init_graph(self):
-        #self.sample_path.build_trajectories()
-        #self.sample_path.build_structure()
         self.add_nodes(self.graph_struct.list_of_nodes())
         self.add_edges(self.graph_struct.list_of_edges())
 
     def add_nodes(self, list_of_nodes):
         for indx, id in enumerate(list_of_nodes):
-            #print(indx, id)
             self.graph.add_node(id)
             nx.set_node_attributes(self.graph, {id:indx}, 'indx')
-        #for node in list(self.graph.nodes):
-            #print(node)
 
     def add_edges(self, list_of_edges):
         self.graph.add_edges_from(list_of_edges)
@@ -59,8 +54,11 @@ class NetworkGraph():
     def get_states_number(self):
         return self.graph_struct.get_states_number()
 
-    def get_node_by_index(self, node_id):
-        return self.graph_struct.get_node_indx(node_id)
+    def get_node_by_index(self, node_indx):
+        return self.graph_struct.get_node_id(node_indx)
+
+    def get_node_indx(self, node_id):
+        return nx.get_node_attributes(self.graph, 'indx')[node_id]
 
 
     

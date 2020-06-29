@@ -23,5 +23,8 @@ class AmalgamatedCims:
     def get_vars_order(self, node):
         return self.actual_cims[node][1]
 
-    def update_state_transition_for_matrix(self, node, dict_of_indxs, element_indx):
-        self.actual_cims[node]
+    def update_state_transition_for_matrix(self, node, dict_of_nodes_values, element_indx):
+        self.sets_of_cims[node].update_state_transition(dict_of_nodes_values, element_indx)
+
+    def update_state_residence_time_for_matrix(self, which_node, which_matrix, which_element, time):
+        self.sets_of_cims[which_node].update_state_residence_time(which_matrix, which_element, time)
