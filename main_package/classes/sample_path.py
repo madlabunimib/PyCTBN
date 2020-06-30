@@ -8,12 +8,14 @@ import structure as st
 
 class SamplePath:
     """
-    Rappresenta l'aggregazione di una o più traiettorie.
-    Ha il compito dato di costruire tutte gli oggetti Trajectory a partire
-    dai dataset contenuti nella directory files_path.
+    Contiene l'aggregazione di una o più traiettorie e la struttura della rete.
+    Ha il compito dato di costruire tutte gli oggetti Trajectory e l'oggetto Structure
+    a partire dai dataframe contenuti in self.importer
+
 
     :importer: l'oggetto Importer che ha il compito di caricare i dataset
-    :trajectories: lista contenente le traiettorie create
+    :trajectories: lista di oggetti Trajectories
+    :structure: oggetto Structure
     """
 
     def __init__(self, files_path):

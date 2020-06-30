@@ -2,11 +2,24 @@ import os
 import glob
 import pandas as pd
 import json
-import numpy as np
 from abstract_importer import AbstractImporter
 
 
 class JsonImporter(AbstractImporter):
+    """
+    Implementa l'interfaccia AbstractImporter e aggiunge i metodi necessari a costruire le trajectories e la struttura della rete
+    del dataset in formato json con la seguente struttura:
+    [] 0
+        |_ dyn.cims
+        |_ dyn.str
+        |_ samples
+        |_ variabels
+
+    :df_samples_list: lista di dataframe, ogni dataframe contiene una traj
+    :df_structure: dataframe contenente la struttura della rete
+    :df_variables: dataframe contenente le infromazioni sulle variabili della rete
+
+    """
 
     def __init__(self, files_path):
         self.df_samples_list = []
@@ -30,6 +43,15 @@ class JsonImporter(AbstractImporter):
         self.df_variables = self.one_level_normalizing(raw_data, 0, 'variables')
 
     def read_json_file(self):
+        """
+        Legge 'tutti' i file .json presenti nel path self.filepath
+
+        Parameters:
+              void
+        Returns:
+              :data: il contenuto del file json
+
+        """
         try:
             read_files = glob.glob(os.path.join(self.files_path, "*.json"))
             for file_name in read_files:
@@ -39,14 +61,43 @@ class JsonImporter(AbstractImporter):
         except ValueError as err:
             print(err.args)
 
-    def one_level_normalizing(self, raw_data, indx, variables_key):
-        return pd.json_normalize(raw_data[indx][variables_key])
+    def one_level_normalizing(self, raw_data, indx, key):
+        """
+        Estrae i dati innestati di un livello, presenti nel dataset raw_data,
+        presenti nel json array all'indice indx nel json object key
+
+        Parameters:
+            :raw_data: il dataset json completo
+            :indx: l'indice del json array da cui estrarre i dati
+            :key: il json object da cui estrarre i dati
+        Returns:
+            Il dataframe contenente i dati normalizzati
+
+        """
+        return pd.json_normalize(raw_data[indx][key])
 
     def normalize_trajectories(self, raw_data, indx, trajectories_key):
+        """
+        Estrae le traiettorie presenti in rawdata nel json array all'indice indx, nel json object trajectories_key.
+        Aggiunge le traj estratte nella lista di dataframe self.df_samples_list
+
+        Parameters:
+            void
+        Returns:
+            void
+        """
         for sample_indx, sample in enumerate(raw_data[indx][trajectories_key]):
             self.df_samples_list.append(pd.json_normalize(raw_data[indx][trajectories_key][sample_indx]))
 
     def build_list_of_samples_array(self, data_frame):
+        """
+        Costruisce una lista contenente le colonne presenti nel dataframe data_frame convertendole in numpy_array
+        Parameters:
+            :data_frame: il dataframe da cui estrarre e convertire le colonne
+        Returns:
+            :columns_list: la lista contenente le colonne convertite in numpyarray
+
+        """
         columns_list = []
         for column in data_frame:
             columns_list.append(data_frame[column].to_numpy())
@@ -54,7 +105,7 @@ class JsonImporter(AbstractImporter):
 
     def clear_data_frames(self):
         """
-        Rimuove tutti i valori contenuti nei data_frames presenti in df_list
+        Rimuove tutti i valori contenuti nei data_frames presenti in df_samples_list
         Parameters:
             void
         Returns:

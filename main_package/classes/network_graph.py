@@ -1,22 +1,22 @@
 
-import sample_path as sp
 import networkx as nx
-import os
+
 
 
 class NetworkGraph():
     """
-    Rappresenta un grafo dinamico con la seguente struttura:
+    Rappresenta il grafo che contiene i nodi e gli archi presenti nell'oggetto Structure graph_struct.
+    Ogni nodo contine la label node_id, al nodo è anche associato un id numerico progressivo indx che rappresenta la posizione
+    dei sui valori nella colonna indx della traj
 
-        :sample_path: le traiettorie/a da cui costruire il grafo
-        :graph: la struttura dinamica che definisce il grafo
+    :graph_struct: l'oggetto Structure da cui estrarre i dati per costruire il grafo graph
+    :graph: il grafo
 
     """
 
     def __init__(self, graph_struct):
         self.graph_struct = graph_struct
         self.graph = nx.DiGraph()
-
 
     def init_graph(self):
         self.add_nodes(self.graph_struct.list_of_nodes())

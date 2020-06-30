@@ -3,6 +3,14 @@ import conditional_intensity_matrix as cim
 
 
 class SetOfCims:
+    """
+    Rappresenta la struttura che aggrega tutte le CIM per la variabile di label node_id
+
+    :node_id: la label della varibile a cui fanno riferimento le CIM
+    :ordered_parent_set: il set dei parent della variabile node_id ordinata secondo la property indx
+    :value: il numero massimo di stati assumibili dalla variabile
+    :actual_cims: le CIM della varibile
+    """
 
     def __init__(self, node_id, ordered_parent_set, value_type):
         self.node_id = node_id
@@ -19,23 +27,18 @@ class SetOfCims:
 
     def update_state_transition(self, dict_of_indexes, element_indx_tuple):
         matrix_indx = self.indexes_converter(dict_of_indexes)
-        #print("Converted Indx SRT")
-        #print(matrix_indx)
         self.actual_cims[matrix_indx].update_state_transition_count(element_indx_tuple)
 
     def update_state_residence_time(self, which_matrix, which_element, time):
         matrix_indx = self.indexes_converter(which_matrix)
-        #print("Converted Indx")
-        #print(matrix_indx)
-        #print("Updating Time for variable ",self.node_id)
         self.actual_cims[matrix_indx].update_state_residence_time_for_state(which_element, time)
 
 
     def get_cims_number(self):
         return len(self.actual_cims)
 
-    def indexes_converter(self, dict_of_indexes): # Si aspetta oggetti del tipo {X:1, Y:1, Z:0}
-        #print(dict_of_indexes)
+    def indexes_converter(self, dict_of_indexes): # Si aspetta oggetti del tipo {X:1, Y:1, Z:0} dove
+                                                    # le keys sono i parent del nodo e i values sono i valori che assumono
         if not dict_of_indexes:
             return 0
         else:
