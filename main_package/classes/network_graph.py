@@ -1,5 +1,7 @@
-
+import os
+import sample_path as sp
 import networkx as nx
+import numpy as np
 
 
 
@@ -45,14 +47,47 @@ class NetworkGraph():
             result.append(self.get_ordered_by_indx_set_of_parents(node))
         return result
 
+    def get_ordered_by_indx_parents_values(self, node):
+        parents_values = []
+        parents = self.get_parents_by_id(node)
+        parents.sort() #Assumo che la structure rifletta l'ordine delle colonne del dataset
+        for n in parents:
+            parents_values.append(self.graph_struct.get_states_number(n))
+        return parents_values
+
+    def get_ordered_by_indx_parents_values_for_all_nodes(self):
+        result = []
+        for node in self.get_nodes(): #TODO bisogna essere sicuri che l'ordine sia coerente con quello del dataset serve un metodo get_nodes_sort_by_indx
+            result.append(self.get_ordered_by_indx_parents_values(node))
+        return result
+
+    def get_states_number_of_all_nodes_sorted(self):
+        states_number_list = []
+        for node in self.get_nodes(): #TODO SERVE UN get_nodes_ordered!!!!!!
+            states_number_list.append(self.get_states_number(node))
+        return states_number_list
+
+    def build_fancy_indexing_structure(self, start_indx):
+        list_of_parents_list = self.get_ord_set_of_par_of_all_nodes()
+        index_structure = []
+        for i, list_of_parents in enumerate(list_of_parents_list):
+            indexes_for_a_node = []
+            for j, node in enumerate(list_of_parents):
+                indexes_for_a_node.append(self.get_node_indx(node) + start_indx)
+            index_structure.append(indexes_for_a_node)
+        return index_structure
+
     def get_nodes(self):
         return list(self.graph.nodes)
+
+    def get_nodes_sorted_by_indx(self):
+        return self.graph_struct.list_of_nodes
 
     def get_parents_by_id(self, node_id):
        return list(self.graph.predecessors(node_id))
 
-    def get_states_number(self):
-        return self.graph_struct.get_states_number()
+    def get_states_number(self, node_id):
+        return self.graph_struct.get_states_number(node_id)
 
     def get_node_by_index(self, node_indx):
         return self.graph_struct.get_node_id(node_indx)
@@ -80,10 +115,11 @@ print(g1.graph.number_of_edges())
 
 print(nx.get_node_attributes(g1.graph, 'indx')['X'])
 for node in g1.get_parents_by_id('Z'):
-    print(g1.get_node_by_index(node))
+  #  print(g1.get_node_by_index(node))
     print(node)
-print(g1.get_ordered_by_indx_set_of_parents('Z'))
-print(g1.get_ord_set_of_par_of_all_nodes())"""
+print(g1.get_ordered_by_indx_parents_values_for_all_nodes())
+print(g1.build_fancy_indexing_structure())
+print(g1.get_states_number_of_all_nodes_sorted())"""
 
 
 

@@ -21,7 +21,7 @@ class Structure:
         return edges_list
 
     def list_of_nodes(self):
-        return self.variables_frame['Name'] #TODO rimuovere dipendenza diretta dalla key 'Name'
+        return self.variables_frame['Name'].values.tolist() #TODO rimuovere dipendenza diretta dalla key 'Name'
 
     def get_node_id(self, node_indx):
         return self.variables_frame['Name'][node_indx]
@@ -29,5 +29,5 @@ class Structure:
     def get_node_indx(self, node_id):
         return list(self.variables_frame['Name']).index(node_id)
 
-    def get_states_number(self):
-        return self.variables_frame['Value'][0]
+    def get_states_number(self, node):
+        return self.variables_frame['Value'][self.get_node_indx(node)]

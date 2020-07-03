@@ -12,21 +12,23 @@ class SetOfCims:
     :actual_cims: le CIM della varibile
     """
 
-    def __init__(self, node_id, ordered_parent_set, value_type):
+    def __init__(self, node_id, parents_states_number, node_states_number):
         self.node_id = node_id
-        self.ordered_parent_set = ordered_parent_set
-        self.value = value_type
+        self.parents_states_number = parents_states_number
+        self.node_states_number = node_states_number
         self.actual_cims = None
         self.build_actual_cims_structure()
 
     def build_actual_cims_structure(self):
-        cims_number = self.value**len(self.ordered_parent_set)
+        cims_number = 1
+        for state_number in self.parents_states_number:
+            cims_number = cims_number * state_number
         self.actual_cims = np.empty(cims_number, dtype=cim.ConditionalIntensityMatrix)
         for indx, matrix in enumerate(self.actual_cims):
-            self.actual_cims[indx] = cim.ConditionalIntensityMatrix(self.value)
+            self.actual_cims[indx] = cim.ConditionalIntensityMatrix(self.node_states_number)
 
-    def update_state_transition(self, dict_of_indexes, element_indx_tuple):
-        matrix_indx = self.indexes_converter(dict_of_indexes)
+    def update_state_transition(self, indexes, element_indx_tuple):
+        matrix_indx = self.indexes_converter(indexes)
         self.actual_cims[matrix_indx].update_state_transition_count(element_indx_tuple)
 
     def update_state_residence_time(self, which_matrix, which_element, time):
@@ -37,23 +39,22 @@ class SetOfCims:
     def get_cims_number(self):
         return len(self.actual_cims)
 
-    def indexes_converter(self, dict_of_indexes): # Si aspetta oggetti del tipo {X:1, Y:1, Z:0} dove
-                                                    # le keys sono i parent del nodo e i values sono i valori che assumono
-        if not dict_of_indexes:
+    def indexes_converter(self, indexes): # Si aspetta array del tipo [2,2] dove
+        #print(type(indexes))
+        if indexes.size == 0:
             return 0
         else:
-            literal_index = ""
-            for node in self.ordered_parent_set:
-                literal_index = literal_index + str(dict_of_indexes[node])
-                #print(literal_index)
-            return int(literal_index, self.value)
+            vector_index = 0
+            for indx, value in enumerate(indexes):
+                vector_index = vector_index*self.parents_states_number[indx] + indexes[indx]
+            return vector_index
 
 
-
-"""sofc = SetOfCims('W', ['X','Y', 'Z'], 2)
+"""
+sofc = SetOfCims('W', [], 2)
 sofc.build_actual_cims_structure()
 print(sofc.actual_cims)
-print(sofc.indexes_converter({'X':1, 'Y':1, 'Z':0}))"""
+print(sofc.indexes_converter([]))"""
 
 
 
