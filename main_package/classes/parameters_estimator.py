@@ -43,9 +43,12 @@ class ParametersEstimator:
 
             #changed_node = which_node
             time = self.compute_time_delta(trajectory[indx], trajectory[indx + 1])
+            which_element = transition[1][0]
+            self.amalgamated_cims_struct.update_state_residence_time_for_matrix(which_node, which_matrix, which_element,
+                                                                                time)
 
             for node_indx in range(0, 3):
-                #if node != changed_node:
+                if node_indx != transition[0]:
                     # print(node)
                     which_node = node_indx
                     which_matrix = self.which_matrix_to_update(row, node_indx)
