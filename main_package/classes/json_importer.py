@@ -23,6 +23,7 @@ class JsonImporter(AbstractImporter):
 
     def __init__(self, files_path):
         self.df_samples_list = []
+        self.concatenated_samples = None
         self.df_structure = pd.DataFrame()
         self.df_variables = pd.DataFrame()
         super(JsonImporter, self).__init__(files_path)
@@ -89,6 +90,26 @@ class JsonImporter(AbstractImporter):
         for sample_indx, sample in enumerate(raw_data[indx][trajectories_key]):
             self.df_samples_list.append(pd.json_normalize(raw_data[indx][trajectories_key][sample_indx]))
 
+    def compute_row_delta_sigle_samples_frame(self, sample_frame):
+        columns_header = list(sample_frame.columns.values)
+        #print(columns_header)
+        for col_name in columns_header:
+            if col_name == 'Time':
+                sample_frame[col_name + 'Delta'] = sample_frame[col_name].diff()
+            else:
+                sample_frame[col_name + 'Delta'] = (sample_frame[col_name].diff().bfill() != 0).astype(int)
+        #sample_frame['Delta'] = sample_frame['Time'].diff()
+        #print(sample_frame)
+
+    def compute_row_delta_in_all_samples_frames(self):
+        for sample in self.df_samples_list:
+            self.compute_row_delta_sigle_samples_frame(sample)
+        self.concatenated_samples = pd.concat(self.df_samples_list)
+        self.concatenated_samples['Time'] = self.concatenated_samples['TimeDelta']
+        del self.concatenated_samples['TimeDelta']
+        self.concatenated_samples['Time'] = self.concatenated_samples['Time'].fillna(0)
+
+
     def build_list_of_samples_array(self, data_frame):
         """
         Costruisce una lista contenente le colonne presenti nel dataframe data_frame convertendole in numpy_array
@@ -115,9 +136,12 @@ class JsonImporter(AbstractImporter):
             self.df_samples_list[indx] = self.df_samples_list[indx].iloc[0:0]
 
 
-"""ij = JsonImporter("../data")
+ij = JsonImporter("../data")
 ij.import_data()
 #print(ij.df_samples_list[7])
 print(ij.df_structure)
 print(ij.df_variables)
-print((ij.build_list_of_samples_array(0)[1].size))"""
+#print((ij.build_list_of_samples_array(0)[1].size))
+#ij.compute_row_delta_sigle_samples_frame(ij.df_samples_list[0])
+ij.compute_row_delta_in_all_samples_frames()
+print(ij.concatenated_samples.to_numpy())
