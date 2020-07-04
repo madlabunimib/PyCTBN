@@ -21,14 +21,16 @@ class SamplePath:
     def __init__(self, files_path):
         print()
         self.importer = imp.JsonImporter(files_path)
-        self.trajectories = []
+        self.trajectories = None
         self.structure = None
 
     def build_trajectories(self):
         self.importer.import_data()
-        for traj_data_frame in self.importer.df_samples_list:
-            trajectory = tr.Trajectory(self.importer.build_list_of_samples_array(traj_data_frame))
-            self.trajectories.append(trajectory)
+        self.importer.compute_row_delta_in_all_samples_frames()
+        #self.trajectories = self.importer.concatenated_samples.to_numpy()
+        #for traj_data_frame in self.importer.df_samples_list:
+        self.trajectories = tr.Trajectory(self.importer.build_list_of_samples_array(self.importer.concatenated_samples))
+            #self.trajectories.append(trajectory)
         self.importer.clear_data_frames()
 
     def build_structure(self):
@@ -38,4 +40,11 @@ class SamplePath:
         return len(self.trajectories)
 
 
+"""os.getcwd()
+os.chdir('..')
+path = os.getcwd() + '/data'
 
+s1 = SamplePath(path)
+s1.build_trajectories()
+s1.build_structure()
+print(s1.trajectories.get_trajectory())"""

@@ -96,8 +96,8 @@ class JsonImporter(AbstractImporter):
         for col_name in columns_header:
             if col_name == 'Time':
                 sample_frame[col_name + 'Delta'] = sample_frame[col_name].diff()
-            else:
-                sample_frame[col_name + 'Delta'] = (sample_frame[col_name].diff().bfill() != 0).astype(int)
+            #else:
+                #sample_frame[col_name + 'Delta'] = (sample_frame[col_name].diff().bfill() != 0).astype(int)
         #sample_frame['Delta'] = sample_frame['Time'].diff()
         #print(sample_frame)
 
@@ -134,9 +134,10 @@ class JsonImporter(AbstractImporter):
          """
         for indx in range(len(self.df_samples_list)):
             self.df_samples_list[indx] = self.df_samples_list[indx].iloc[0:0]
+        self.concatenated_samples = self.concatenated_samples.iloc[0:0]
 
 
-ij = JsonImporter("../data")
+"""ij = JsonImporter("../data")
 ij.import_data()
 #print(ij.df_samples_list[7])
 print(ij.df_structure)
@@ -144,4 +145,4 @@ print(ij.df_variables)
 #print((ij.build_list_of_samples_array(0)[1].size))
 #ij.compute_row_delta_sigle_samples_frame(ij.df_samples_list[0])
 ij.compute_row_delta_in_all_samples_frames()
-print(ij.concatenated_samples.to_numpy())
+print(ij.concatenated_samples.to_numpy())"""
