@@ -74,7 +74,7 @@ class NetworkGraph():
             indexes_for_a_node = []
             for j, node in enumerate(list_of_parents):
                 indexes_for_a_node.append(self.get_node_indx(node) + start_indx)
-            index_structure.append(indexes_for_a_node)
+            index_structure.append(tuple(indexes_for_a_node))
         return index_structure
 
     def get_nodes(self):
