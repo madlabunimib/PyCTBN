@@ -22,18 +22,19 @@ class ParametersEstimator:
     def parameters_estimation(self):
         print("Starting computing")
         t0 = tm.time()
-        for indx, trajectory in enumerate(self.sample_path.trajectories):
+        for trajectory in self.sample_path.trajectories:
+            #tr_length = trajectory.size()
             self.parameters_estimation_single_trajectory(trajectory.get_trajectory())
             #print("Finished Trajectory number", indx)
         t1 = tm.time() - t0
         print("Elapsed Time ", t1)
 
     def parameters_estimation_single_trajectory(self, trajectory):
+        #t0 = tm.time()
         row_length = trajectory.shape[1]
-        for indx, row in enumerate(trajectory):
-            if trajectory[indx][1] == -1:
-                break
-            if trajectory[indx + 1][1] != -1:
+        for indx, row in enumerate(trajectory[:-1]):
+            self.compute_sufficient_statistics_for_row(trajectory[indx], trajectory[indx + 1], row_length)
+            """if trajectory[indx + 1][1] != -1:
                 transition = self.find_transition(trajectory[indx], trajectory[indx + 1], row_length)
                 which_node = transition[0]
             # print(which_node)
@@ -54,7 +55,30 @@ class ParametersEstimator:
                     which_matrix = self.which_matrix_to_update(row, node_indx)
                     which_element = row[node_indx + 1]
                     self.amalgamated_cims_struct.update_state_residence_time_for_matrix(
-                        which_node, which_matrix, which_element, time)
+                     which_node, which_matrix, which_element, time)"""
+        #t1 = tm.time() - t0
+        #print("Elapsed Time ", t1)
+    def compute_sufficient_statistics_for_row(self, current_row, next_row, row_length):
+        #time = self.compute_time_delta(current_row, next_row)
+        time = current_row[0]
+        for indx in range(1, row_length):
+            if current_row[indx] != next_row[indx] and next_row[indx] != -1:
+                transition = [indx - 1, (current_row[indx], next_row[indx])]
+                which_node = transition[0]
+                which_matrix = self.which_matrix_to_update(current_row, transition[0])
+                which_element = transition[1]
+                self.amalgamated_cims_struct.update_state_transition_for_matrix(which_node, which_matrix, which_element)
+                which_element = transition[1][0]
+                self.amalgamated_cims_struct.update_state_residence_time_for_matrix(which_node, which_matrix,
+                                                                                    which_element,
+                                                                                    time)
+            else:
+                which_node = indx - 1
+                which_matrix = self.which_matrix_to_update(current_row, which_node)
+                which_element = current_row[indx]
+                self.amalgamated_cims_struct.update_state_residence_time_for_matrix(
+                    which_node, which_matrix, which_element, time)
+
 
 
     def find_transition(self, current_row, next_row, row_length):

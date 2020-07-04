@@ -20,6 +20,9 @@ class Trajectory():
     def get_trajectory(self):
         return self.actual_trajectory
 
+    def size(self):
+        return self.actual_trajectory.shape[0]
+
     def merge_columns(self, list_of_cols):
         return np.vstack(list_of_cols).T
 

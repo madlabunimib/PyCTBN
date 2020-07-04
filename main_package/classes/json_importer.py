@@ -30,6 +30,7 @@ class JsonImporter(AbstractImporter):
     def import_data(self):
         raw_data = self.read_json_file()
         self.import_trajectories(raw_data)
+        self.compute_row_delta_in_all_samples_frames()
         self.import_structure(raw_data)
         self.import_variables(raw_data)
 
@@ -89,6 +90,21 @@ class JsonImporter(AbstractImporter):
         for sample_indx, sample in enumerate(raw_data[indx][trajectories_key]):
             self.df_samples_list.append(pd.json_normalize(raw_data[indx][trajectories_key][sample_indx]))
 
+    def compute_row_delta_sigle_samples_frame(self, sample_frame):
+        columns_header = list(sample_frame.columns.values)
+        # print(columns_header)
+        for col_name in columns_header:
+            if col_name == 'Time':
+                sample_frame[col_name + 'Delta'] = sample_frame[col_name].diff()
+        sample_frame['Time'] = sample_frame['TimeDelta']
+        del sample_frame['TimeDelta']
+        sample_frame['Time'] = sample_frame['Time'].shift(-1)
+        sample_frame.drop(sample_frame.tail(1).index, inplace=True)
+
+    def compute_row_delta_in_all_samples_frames(self):
+        for sample in self.df_samples_list:
+            self.compute_row_delta_sigle_samples_frame(sample)
+
     def build_list_of_samples_array(self, data_frame):
         """
         Costruisce una lista contenente le colonne presenti nel dataframe data_frame convertendole in numpy_array
@@ -120,4 +136,6 @@ ij.import_data()
 #print(ij.df_samples_list[7])
 print(ij.df_structure)
 print(ij.df_variables)
-print((ij.build_list_of_samples_array(0)[1].size))"""
+#print((ij.build_list_of_samples_array(0)[1].size))
+ij.compute_row_delta_in_all_samples_frames()
+print(ij.df_samples_list[0])"""
