@@ -26,9 +26,9 @@ class SamplePath:
 
     def build_trajectories(self):
         self.importer.import_data()
-        for traj_data_frame in self.importer.df_samples_list:
-            trajectory = tr.Trajectory(self.importer.build_list_of_samples_array(traj_data_frame))
-            self.trajectories.append(trajectory)
+        #for traj_data_frame in self.importer.df_samples_list:
+        trajectory = tr.Trajectory(self.importer.build_list_of_samples_array(self.importer.concatenated_samples))
+        self.trajectories.append(trajectory)
         self.importer.clear_data_frames()
 
     def build_structure(self):

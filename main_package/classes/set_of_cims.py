@@ -43,10 +43,12 @@ class SetOfCims:
 
     def update_state_residence_time(self, which_matrix, which_element, time):
         #matrix_indx = self.indexes_converter(which_matrix)
-        #print(type(which_matrix))
+
         if not which_matrix:
             self.actual_cims[0].update_state_residence_time_for_state(which_element, time)
         else:
+            #print(type(which_matrix))
+            #print(self.actual_cims[(2,2)])
             self.actual_cims[which_matrix].update_state_residence_time_for_state(which_element, time)
 
     def build_actual_cims(self, cim_structure):

@@ -1,8 +1,10 @@
 import os
 import time as tm
 from line_profiler import LineProfiler
+from multiprocessing import Process
 
-
+import numba as nb
+import numpy as np
 import network_graph as ng
 import sample_path as sp
 import amalgamated_cims as acims
@@ -58,20 +60,73 @@ class ParametersEstimator:
                 self.amalgamated_cims_struct.update_state_residence_time_for_matrix(
                     which_node, which_matrix, which_element, time)
 
-
-    def find_transition(self, current_row, next_row, row_length):
-        for indx in range(1, row_length):
-            if current_row[indx] != next_row[indx]:
-                return [indx - 1, (current_row[indx], next_row[indx])]
-
-
-    def compute_time_delta(self, current_row, next_row):
-        return next_row[0] - current_row[0]
-
     def which_matrix_to_update(self, current_row, node_indx):
-       return tuple(current_row.take(self.fancy_indexing_structure[node_indx]))
+        #print(type(self.fancy_indexing_structure[node_indx]))
+        return tuple(current_row.take(self.fancy_indexing_structure[node_indx]))
+        #return tuple(ParametersEstimator.taker(current_row, self.fancy_indexing_structure[node_indx]))
 
+    def parameters_estimation_for_variable_multiple_parents(self, node_indx, times, transitions ,variable_values, parents_values):
+        #print(times)
+        #print(variable_values)
+        #print(parents_values)
 
+        #print("Starting computing")
+        #t0 = tm.time()
+        for indx, row in enumerate(variable_values):
+            time = times[indx]
+            which_matrix = tuple(parents_values[indx])  # questo è un vettore
+            current_state = variable_values[indx]
+            """if transitions[indx] == 1:
+                prev_state = variable_values[indx - 1]
+                transition = [node_indx, (prev_state, current_state)]
+                #which_node = transition[0]
+                which_element = transition[1]
+                self.amalgamated_cims_struct.update_state_transition_for_matrix(node_indx, which_matrix, which_element)
+            #which_element = current_state"""
+            self.amalgamated_cims_struct.update_state_residence_time_for_matrix(node_indx, which_matrix,
+                                                                                    current_state,
+                                                                                    time)
+
+    def parameters_estimation_for_variable_single_parent(self, node_indx, times, transitions, variable_values,
+                                                                parents_values):
+            for indx, row in enumerate(variable_values):
+                time = times[indx]
+                which_matrix = parents_values[indx]  # Avendo un solo parent questo è uno scalare
+                current_state = variable_values[indx]
+                #which_matrix = ParametersEstimator.taker(parents_values, indx)
+                # print(which_matrix.dtype)
+                if transitions[indx] == 1:
+                    prev_state = variable_values[indx - 1]
+                    transition = [node_indx, (prev_state, current_state)]
+                    which_element = transition[1]
+                    self.amalgamated_cims_struct.update_state_transition_for_matrix(node_indx, which_matrix,
+                                                                                    which_element)
+                which_element = current_state
+                self.amalgamated_cims_struct.update_state_residence_time_for_matrix(node_indx, which_matrix,
+                                                                                    which_element,time)
+
+    def parameters_estimation_for_variable_no_parent(self, node_indx, times, transitions,variable_values):
+
+        for indx, row in enumerate(variable_values):
+            time = times[indx]
+
+            which_matrix = 0
+            current_state = variable_values[indx]
+            """if transitions[indx] == 1:
+                prev_state = variable_values[indx - 1]
+                #current_state = variable_values[indx]
+                transition = [node_indx, (prev_state, current_state)]
+
+                which_element = transition[1]
+                self.amalgamated_cims_struct.update_state_transition_for_matrix(node_indx, which_matrix,
+                                                                                            which_element)"""
+            which_element = current_state
+            self.amalgamated_cims_struct.update_state_residence_time_for_matrix(node_indx, which_matrix,
+                                                                                            which_element,
+                                                                                            time)
+
+        #t1 = tm.time() - t0
+        #print("Elapsed Time ", t1)
 
 
 
@@ -92,17 +147,46 @@ pe.init_amalgamated_cims_struct()
 print(pe.amalgamated_cims_struct.get_set_of_cims(0).get_cims_number())
 print(pe.amalgamated_cims_struct.get_set_of_cims(1).get_cims_number())
 print(pe.amalgamated_cims_struct.get_set_of_cims(2).get_cims_number())
+print(np.shape(s1.trajectories[0].transitions)[0])
+#pe.parameters_estimation_for_variable(0, pe.sample_path.trajectories[0].get_trajectory()[:, 0],
+                                     # pe.sample_path.trajectories[0].get_trajectory()[:, 1], [])
 #pe.parameters_estimation_single_trajectory(pe.sample_path.trajectories[0].get_trajectory())
-pe.parameters_estimation()
-"""lp = LineProfiler()
-lp.add_function(pe.compute_sufficient_statistics_for_row)   # add additional function to profile
-lp_wrapper = lp(pe.parameters_estimation_single_trajectory)
+#pe.parameters_estimation()
+lp = LineProfiler()
+#lp.add_function(pe.compute_sufficient_statistics_for_row)   # add additional function to profile
+#lp_wrapper = lp(pe.parameters_estimation_single_trajectory)
 #lp_wrapper = lp(pe.parameters_estimation)
-lp_wrapper(pe.sample_path.trajectories[0].get_trajectory())
-lp.print_stats()"""
+#lp_wrapper(pe.sample_path.trajectories[0].get_trajectory())
+#lp.print_stats()
+
+#lp_wrapper = lp(pe.parameters_estimation_for_variable)
+#lp_wrapper(2, pe.sample_path.trajectories[0].get_times(),
+                                      #pe.sample_path.trajectories[0].get_trajectory()[:, 2],
+           #pe.sample_path.trajectories[0].get_trajectory()[:, [0,1]])
+
+
+"""lp_wrapper = lp(pe.parameters_estimation_for_variable_single_parent)
+lp_wrapper(1, pe.sample_path.trajectories[0].get_times(),
+                                      pe.sample_path.trajectories[0].get_trajectory()[:, 1],
+           pe.sample_path.trajectories[0].get_trajectory()[:, 2])
+lp.print_stats()
+
+#print( pe.sample_path.trajectories[0].get_trajectory()[:, [1,2]])
 for matrix in pe.amalgamated_cims_struct.get_set_of_cims(1).actual_cims:
     print(matrix.state_residence_times)
     print(matrix.state_transition_matrix)
     matrix.compute_cim_coefficients()
-    print(matrix.cim)
+    print(matrix.cim)"""
 
+"""lp_wrapper = lp(pe.parameters_estimation_for_variable_no_parent)
+lp_wrapper(0, pe.sample_path.trajectories[0].get_times(), pe.sample_path.trajectories[0].transitions[:, 0],
+           pe.sample_path.trajectories[0].get_trajectory()[:, 0] )
+lp.print_stats()
+lp_wrapper = lp(pe.parameters_estimation_for_variable_single_parent)
+lp_wrapper(1, pe.sample_path.trajectories[0].get_times(), pe.sample_path.trajectories[0].transitions[:, 1],
+           pe.sample_path.trajectories[0].get_trajectory()[:,1], pe.sample_path.trajectories[0].get_trajectory()[:,2] )
+lp.print_stats()"""
+lp_wrapper = lp(pe.parameters_estimation_for_variable_multiple_parents)
+lp_wrapper(2, pe.sample_path.trajectories[0].get_times(), pe.sample_path.trajectories[0].transitions[:, 2],
+           pe.sample_path.trajectories[0].get_trajectory()[:,2], pe.sample_path.trajectories[0].get_trajectory()[:, [0,1]] )
+lp.print_stats()

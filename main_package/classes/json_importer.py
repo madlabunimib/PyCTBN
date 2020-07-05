@@ -25,6 +25,7 @@ class JsonImporter(AbstractImporter):
         self.df_samples_list = []
         self.df_structure = pd.DataFrame()
         self.df_variables = pd.DataFrame()
+        self.concatenated_samples = None
         super(JsonImporter, self).__init__(files_path)
 
     def import_data(self):
@@ -96,14 +97,23 @@ class JsonImporter(AbstractImporter):
         for col_name in columns_header:
             if col_name == 'Time':
                 sample_frame[col_name + 'Delta'] = sample_frame[col_name].diff()
+            else:
+                sample_frame[col_name + 'Delta'] = (sample_frame[col_name].diff().bfill() != 0).astype(int)
         sample_frame['Time'] = sample_frame['TimeDelta']
         del sample_frame['TimeDelta']
         sample_frame['Time'] = sample_frame['Time'].shift(-1)
+        columns_header = list(sample_frame.columns.values)
+        #print(columns_header[4:])
+        for column in columns_header[4:]:
+            sample_frame[column] = sample_frame[column].shift(1)
+            sample_frame[column] = sample_frame[column].fillna(0)
         sample_frame.drop(sample_frame.tail(1).index, inplace=True)
+        #print(sample_frame)
 
     def compute_row_delta_in_all_samples_frames(self):
         for sample in self.df_samples_list:
             self.compute_row_delta_sigle_samples_frame(sample)
+        self.concatenated_samples = pd.concat(self.df_samples_list)
 
     def build_list_of_samples_array(self, data_frame):
         """

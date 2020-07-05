@@ -15,10 +15,15 @@ class Trajectory():
     """
 
     def __init__(self, list_of_columns):
-        self.actual_trajectory = np.array(list_of_columns, dtype=object).T
+        self.actual_trajectory = np.array(list_of_columns[1:], dtype=np.int).T
+        self.transitions = np.array(list_of_columns[4:], dtype=np.int).T
+        self.times = np.array(list_of_columns[0], dtype=np.float)
         
     def get_trajectory(self):
         return self.actual_trajectory
+
+    def get_times(self):
+        return self.times
 
     def size(self):
         return self.actual_trajectory.shape[0]
