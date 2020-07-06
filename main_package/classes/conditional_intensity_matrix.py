@@ -10,7 +10,8 @@ class ConditionalIntensityMatrix:
 
     def update_state_transition_count(self, element_indx):
         #print(element_indx)
-        self.state_transition_matrix[element_indx[0]][element_indx[1]] += 1
+        #self.state_transition_matrix[element_indx[0]][element_indx[1]] += 1
+        self.state_transition_matrix[element_indx] += 1
 
     def update_state_residence_time_for_state(self, state, time):
         #print("Time updating In state", state, time)
