@@ -14,14 +14,17 @@ class AmalgamatedCims:
         #self.states_per_variable = states_number
 
     def init_cims_structure(self, keys, states_number_per_node, list_of_parents_states_number):
-        print(keys)
-        print(list_of_parents_states_number)
+        #print(keys)
+        #print(list_of_parents_states_number)
         for indx, key in enumerate(keys):
             self.sets_of_cims.append(
                 socim.SetOfCims(key, list_of_parents_states_number[indx], states_number_per_node[indx]))
 
     def get_set_of_cims(self, node_id):
         return self.sets_of_cims[node_id]
+
+    def get_cims_of_node(self, node_indx, cim_indx):
+        return self.sets_of_cims[node_indx].get_cim(cim_indx)
 
     def get_vars_order(self, node):
         return self.actual_cims[node][1]

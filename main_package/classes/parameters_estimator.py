@@ -1,7 +1,6 @@
 import os
 import time as tm
 from line_profiler import LineProfiler
-from multiprocessing import Process
 
 import numba as nb
 import numpy as np
@@ -15,7 +14,10 @@ class ParametersEstimator:
     def __init__(self, sample_path, net_graph):
         self.sample_path = sample_path
         self.net_graph = net_graph
-        self.fancy_indexing_structure = self.net_graph.build_fancy_indexing_structure(1)
+        self.scalar_indexes_converter = self.net_graph.scalar_indexing_structure
+        self.columns_filtering_structure = self.net_graph.filtering_structure
+        self.transition_scalar_index_converter = self.net_graph.transition_scalar_indexing_structure
+        self.transition_filtering = self.net_graph.transition_filtering
         self.amalgamated_cims_struct = None
 
     def init_amalgamated_cims_struct(self):
@@ -37,26 +39,31 @@ class ParametersEstimator:
 
         row_length = trajectory.shape[1]
         for indx, row in enumerate(trajectory[:-1]):
-            self.compute_sufficient_statistics_for_row(trajectory[indx], trajectory[indx + 1], row_length)
+            self.compute_sufficient_statistics_for_trajectory(trajectory.times, trajectory.actual_trajectory, trajectory.transitions, row_length)
 
-    def compute_sufficient_statistics_for_row(self, current_row, next_row, row_length):
+    def compute_sufficient_statistics_for_trajectory(self, times, traj_values, traj_transitions, row_length):
         #time = self.compute_time_delta(current_row, next_row)
-        time = current_row[0]
-        for indx in range(1, row_length):
-            if current_row[indx] != next_row[indx] and next_row[indx] != -1:
-                transition = [indx - 1, (current_row[indx], next_row[indx])]
-                which_node = transition[0]
-                which_matrix = self.which_matrix_to_update(current_row, transition[0])
-                which_element = transition[1]
-                self.amalgamated_cims_struct.update_state_transition_for_matrix(which_node, which_matrix, which_element)
-                which_element = transition[1][0]
-                self.amalgamated_cims_struct.update_state_residence_time_for_matrix(which_node, which_matrix,
+        #time = current_row[0]
+        print(times)
+        print(traj_values)
+        print(traj_transitions)
+        for row in traj_transitions:
+            time = times[0]
+            for indx in range(0, row_length):
+                if row[indx] == 1:
+                    which_node = indx
+                    transition = [which_node, (traj_values[indx - 1], traj_values[indx])]
+                    which_matrix = self.which_matrix_to_update(row, which_node)
+                    which_element = transition[1]
+                    self.amalgamated_cims_struct.update_state_transition_for_matrix(which_node, which_matrix, which_element)
+                    which_element = transition[1][0]
+                    self.amalgamated_cims_struct.update_state_residence_time_for_matrix(which_node, which_matrix,
                                                                                     which_element,
                                                                                     time)
             else:
-                which_node = indx - 1
-                which_matrix = self.which_matrix_to_update(current_row, which_node)
-                which_element = current_row[indx]
+                which_node = indx
+                which_matrix = self.which_matrix_to_update(row, which_node)
+                which_element = row[indx]
                 self.amalgamated_cims_struct.update_state_residence_time_for_matrix(
                     which_node, which_matrix, which_element, time)
 
@@ -181,6 +188,72 @@ class ParametersEstimator:
         #t1 = tm.time() - t0
         #print("Elapsed Time ", t1)
 
+    def compute_parameters(self):
+        for node_indx, set_of_cims in enumerate(self.amalgamated_cims_struct.sets_of_cims):
+            self.compute_state_res_time_for_node(node_indx, self.sample_path.trajectories[0].get_times(),
+                                                 self.sample_path.trajectories[0].get_trajectory(),
+                                                 self.columns_filtering_structure[node_indx],
+                                                 self.scalar_indexes_converter[node_indx],
+                                                 set_of_cims.state_residence_times)
+            self.compute_state_transitions_for_a_node(node_indx,
+                                                      self.sample_path.trajectories[0].get_complete_trajectory(),
+                                                      self.transition_filtering[node_indx],
+                                                      self.transition_scalar_index_converter[node_indx],
+                                                      set_of_cims.transition_matrices)
+            set_of_cims.build_cims(set_of_cims.state_residence_times, set_of_cims.transition_matrices)
+
+
+
+    def compute_state_res_time_for_node(self, node_indx, times, trajectory, cols_filter, scalar_indexes_struct, T):
+        #print(times)
+        #print(trajectory)
+        #print(cols_filter)
+        #print(scalar_indexes_struct)
+        #print(T)
+        T[:] = np.bincount(np.sum(trajectory[:, cols_filter] * scalar_indexes_struct / scalar_indexes_struct[0], axis=1)
+                           .astype(np.int), \
+                           times,
+                           minlength=scalar_indexes_struct[-1]).reshape(-1, T.shape[1])
+        #print("Done This NODE", T)
+
+    def compute_state_residence_time_for_all_nodes(self):
+        for node_indx, set_of_cims in enumerate(self.amalgamated_cims_struct.sets_of_cims):
+            self.compute_state_res_time_for_node(node_indx, self.sample_path.trajectories[0].get_times(),
+                self.sample_path.trajectories[0].get_trajectory(), self.columns_filtering_structure[node_indx],
+                    self.scalar_indexes_converter[node_indx], set_of_cims.state_residence_times)
+
+
+    def compute_state_transitions_for_a_node(self, node_indx, trajectory, cols_filter, scalar_indexing, M):
+        #print(node_indx)
+        #print(trajectory)
+        #print(cols_filter)
+        #print(scalar_indexing)
+        #print(M)
+        diag_indices = np.array([x * M.shape[1] + x % M.shape[1] for x in range(M.shape[0] * M.shape[1])],
+                                dtype=np.int64)
+        trj_tmp = trajectory[trajectory[:, int(trajectory.shape[1] / 2) + node_indx].astype(np.int) >= 0]
+        #print(trj_tmp)
+        #print("Summing", np.sum(trj_tmp[:, cols_filter] * scalar_indexing / scalar_indexing[0], axis=1).astype(np.int))
+        #print(M.shape[1])
+        #print(M.shape[2])
+
+        M[:] = np.bincount(np.sum(trj_tmp[:, cols_filter] * scalar_indexing / scalar_indexing[0], axis=1).astype(np.int),
+                           minlength=scalar_indexing[-1]).reshape(-1, M.shape[1], M.shape[2])
+        M_raveled = M.ravel()
+        M_raveled[diag_indices] = 0
+        #print(M_raveled)
+        M_raveled[diag_indices] = np.sum(M, axis=2).ravel()
+        #print(M_raveled)
+
+        #print(M)
+
+
+
+    def compute_state_transitions_for_all_nodes(self):
+        for node_indx, set_of_cims in enumerate(self.amalgamated_cims_struct.sets_of_cims):
+            self.compute_state_transitions_for_a_node(node_indx, self.sample_path.trajectories[0].get_complete_trajectory(),
+                 self.transition_filtering[node_indx],
+                    self.transition_scalar_index_converter[node_indx], set_of_cims.transition_matrices)
 
 
 # Simple Test #
@@ -197,15 +270,25 @@ g1.init_graph()
 
 pe = ParametersEstimator(s1, g1)
 pe.init_amalgamated_cims_struct()
-print(pe.amalgamated_cims_struct.get_set_of_cims(0).get_cims_number())
-print(pe.amalgamated_cims_struct.get_set_of_cims(1).get_cims_number())
-print(pe.amalgamated_cims_struct.get_set_of_cims(2).get_cims_number())
-print(np.shape(s1.trajectories[0].transitions)[0])
+#print(pe.amalgamated_cims_struct.get_set_of_cims(0).get_cims_number())
+#print(pe.amalgamated_cims_struct.get_set_of_cims(1).get_cims_number())
+#print(pe.amalgamated_cims_struct.get_set_of_cims(2).get_cims_number())
+#print(np.shape(s1.trajectories[0].transitions)[0])
+#print(pe.columns_filtering_structure)
+#print(pe.scalar_indexes_converter)
+#print(pe.amalgamated_cims_struct.sets_of_cims[1].state_residence_times)
+#print(pe.amalgamated_cims_struct.sets_of_cims[2].state_residence_times)
+#print(pe.amalgamated_cims_struct.sets_of_cims[2].transition_matrices)
+#print(pe.amalgamated_cims_struct.sets_of_cims[1].transition_matrices)
+#print(pe.amalgamated_cims_struct.sets_of_cims[0].transition_matrices)
+#pe.compute_state_transitions_for_all_nodes()
+lp = LineProfiler()
+"""pe.compute_state_residence_time_for_all_nodes()
 #pe.parameters_estimation_for_variable(0, pe.sample_path.trajectories[0].get_trajectory()[:, 0],
                                      # pe.sample_path.trajectories[0].get_trajectory()[:, 1], [])
 #pe.parameters_estimation_single_trajectory(pe.sample_path.trajectories[0].get_trajectory())
 #pe.parameters_estimation()
-lp = LineProfiler()
+
 #lp.add_function(pe.compute_sufficient_statistics_for_row)   # add additional function to profile
 #lp_wrapper = lp(pe.parameters_estimation_single_trajectory)
 #lp_wrapper = lp(pe.parameters_estimation)
@@ -218,7 +301,7 @@ lp = LineProfiler()
            #pe.sample_path.trajectories[0].get_trajectory()[:, [0,1]])
 
 
-"""lp_wrapper = lp(pe.parameters_estimation_for_variable_single_parent)
+lp_wrapper = lp(pe.parameters_estimation_for_variable_single_parent)
 lp_wrapper(1, pe.sample_path.trajectories[0].get_times(),
                                       pe.sample_path.trajectories[0].get_trajectory()[:, 1],
            pe.sample_path.trajectories[0].get_trajectory()[:, 2])
@@ -245,7 +328,64 @@ lp_wrapper(2, pe.sample_path.trajectories[0].get_times(), pe.sample_path.traject
            pe.sample_path.trajectories[0].get_trajectory()[:,2], pe.sample_path.trajectories[0].get_trajectory()[:, [0,1]] )
 lp.print_stats()"""
 
-lp_wrapper = lp(pe.parameters_estimation_for_variable_single_parent_in_place)
+"""lp_wrapper = lp(pe.parameters_estimation_for_variable_single_parent_in_place)
 lp_wrapper(1, pe.sample_path.trajectories[0].get_times(), pe.sample_path.trajectories[0].transitions[:, 1],
            pe.sample_path.trajectories[0].get_trajectory()[:,1], pe.sample_path.trajectories[0].get_trajectory()[:,2], (3,3,3) )
+lp.print_stats()"""
+
+"""lp_wrapper = lp(pe.compute_sufficient_statistics_for_trajectory)
+lp_wrapper(pe.sample_path.trajectories[0].get_times(), pe.sample_path.trajectories[0].actual_trajectory,
+           pe.sample_path.trajectories[0].transitions, 3)
+lp.print_stats()
+
+lp_wrapper = lp(pe.compute_state_res_time_for_node)
+lp_wrapper(0, pe.sample_path.trajectories[0].get_times(),
+                                   pe.sample_path.trajectories[0].actual_trajectory, [0], [3], np.zeros([3,3], dtype=np.float))
+lp.print_stats()
+#pe.compute_state_res_time_for_node(0, pe.sample_path.trajectories[0].get_times(),
+                                   #pe.sample_path.trajectories[0].actual_trajectory, [0], [3], np.zeros([3,3], dtype=np.float))"""
+
+"""[[2999.2966 2749.2298 3301.5975]
+ [3797.1737 3187.8345 2939.2009]
+ [3432.224  3062.5402 4530.9028]]
+
+[[ 827.6058  838.1515  686.1365]
+ [1426.384  2225.2093 1999.8528]
+ [ 745.3068  733.8129  746.2347]
+ [ 520.8113  690.9502  853.4022]
+ [1590.8609 1853.0021 1554.1874]
+ [ 637.5576  643.8822  654.9506]
+ [ 718.7632  742.2117  998.5844]
+ [1811.984  1598.0304 2547.988 ]
+ [ 770.8503  598.9588  984.3304]]
+
+lp_wrapper = lp(pe.compute_state_residence_time_for_all_nodes)
+lp_wrapper()
+lp.print_stats()
+
+#pe.compute_state_residence_time_for_all_nodes()
+print(pe.amalgamated_cims_struct.sets_of_cims[0].state_residence_times)
+
+[[[14472,  3552, 10920],
+        [12230, 25307, 13077],
+        [ 9707, 14408, 24115]],
+
+       [[22918,  6426, 16492],
+        [10608, 16072,  5464],
+        [10746, 11213, 21959]],
+
+       [[23305,  6816, 16489],
+        [ 3792, 19190, 15398],
+        [13718, 18243, 31961]]])
+        
+        Raveled [14472  3552 10920 12230 25307 13077  9707 14408 24115 22918  6426 16492
+ 10608 16072  5464 10746 11213 21959 23305  6816 16489  3792 19190 15398
+ 13718 18243 31961]"""
+
+lp_wrapper = lp(pe.compute_parameters)
+lp_wrapper()
+#for variable in pe.amalgamated_cims_struct.sets_of_cims:
+    #for cond in variable.get_cims():
+        #print(cond.cim)
+print(pe.amalgamated_cims_struct.get_cims_of_node(1,[2]))
 lp.print_stats()

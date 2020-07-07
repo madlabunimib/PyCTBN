@@ -31,3 +31,6 @@ class Structure:
 
     def get_states_number(self, node):
         return self.variables_frame['Value'][self.get_node_indx(node)]
+
+    def get_states_number_by_indx(self, node_indx):
+        return self.variables_frame['Value'][node_indx]

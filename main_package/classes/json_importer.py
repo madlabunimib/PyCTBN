@@ -90,28 +90,31 @@ class JsonImporter(AbstractImporter):
         """
         for sample_indx, sample in enumerate(raw_data[indx][trajectories_key]):
             self.df_samples_list.append(pd.json_normalize(raw_data[indx][trajectories_key][sample_indx]))
+            #print(sample_indx, self.df_samples_list[sample_indx])
 
     def compute_row_delta_sigle_samples_frame(self, sample_frame):
         columns_header = list(sample_frame.columns.values)
-        # print(columns_header)
+        #print(columns_header)
         for col_name in columns_header:
             if col_name == 'Time':
                 sample_frame[col_name + 'Delta'] = sample_frame[col_name].diff()
             else:
-                sample_frame[col_name + 'Delta'] = (sample_frame[col_name].diff().bfill() != 0).astype(int)
+                sample_frame[col_name + 'Delta'] = sample_frame[col_name]
         sample_frame['Time'] = sample_frame['TimeDelta']
         del sample_frame['TimeDelta']
         sample_frame['Time'] = sample_frame['Time'].shift(-1)
         columns_header = list(sample_frame.columns.values)
-        #print(columns_header[4:])
+        #print(columns_header[4:]) #TODO rimuovere dipendeza diretta da 'Time' e 4
         for column in columns_header[4:]:
-            sample_frame[column] = sample_frame[column].shift(1)
-            sample_frame[column] = sample_frame[column].fillna(0)
+            sample_frame[column] = sample_frame[column].shift(-1)
+            #sample_frame[column] = sample_frame[column].fillna(0)"""
         sample_frame.drop(sample_frame.tail(1).index, inplace=True)
-        #print(sample_frame)
+        #print("After Time Delta",sample_frame)
 
     def compute_row_delta_in_all_samples_frames(self):
-        for sample in self.df_samples_list:
+        for indx, sample in enumerate(self.df_samples_list):
+            #print(indx)
+            #print(self.df_samples_list[299])
             self.compute_row_delta_sigle_samples_frame(sample)
         self.concatenated_samples = pd.concat(self.df_samples_list)
 
@@ -139,6 +142,7 @@ class JsonImporter(AbstractImporter):
          """
         for indx in range(len(self.df_samples_list)):
             self.df_samples_list[indx] = self.df_samples_list[indx].iloc[0:0]
+        self.concatenated_samples = self.concatenated_samples.iloc[0:0]
 
 
 """ij = JsonImporter("../data")
@@ -146,6 +150,7 @@ ij.import_data()
 #print(ij.df_samples_list[7])
 print(ij.df_structure)
 print(ij.df_variables)
+print(ij.concatenated_samples)
 #print((ij.build_list_of_samples_array(0)[1].size))
-ij.compute_row_delta_in_all_samples_frames()
-print(ij.df_samples_list[0])"""
+#ij.compute_row_delta_in_all_samples_frames()
+#print(ij.df_samples_list[0])"""

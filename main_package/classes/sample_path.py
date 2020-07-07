@@ -38,4 +38,11 @@ class SamplePath:
         return len(self.trajectories)
 
 
+"""os.getcwd()
+os.chdir('..')
+path = os.getcwd() + '/data'
 
+s1 = SamplePath(path)
+s1.build_trajectories()
+s1.build_structure()
+print(s1.trajectories[0].get_complete_trajectory())"""
