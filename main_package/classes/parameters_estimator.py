@@ -14,10 +14,10 @@ class ParametersEstimator:
     def __init__(self, sample_path, net_graph):
         self.sample_path = sample_path
         self.net_graph = net_graph
-        self.scalar_indexes_converter = self.net_graph.scalar_indexing_structure
-        self.columns_filtering_structure = self.net_graph.filtering_structure
-        self.transition_scalar_index_converter = self.net_graph.transition_scalar_indexing_structure
-        self.transition_filtering = self.net_graph.transition_filtering
+        #self.scalar_indexes_converter = self.net_graph.
+        #self.columns_filtering_structure = self.net_graph.filtering_structure
+        #self.transition_scalar_index_converter = self.net_graph.transition_scalar_indexing_structure
+        #self.transition_filtering = self.net_graph.transition_filtering
         self.amalgamated_cims_struct = None
 
     def init_amalgamated_cims_struct(self):
@@ -190,22 +190,22 @@ class ParametersEstimator:
 
     def compute_parameters(self):
         for node_indx, set_of_cims in enumerate(self.amalgamated_cims_struct.sets_of_cims):
-            self.compute_state_res_time_for_node(node_indx, self.sample_path.trajectories[0].get_times(),
-                                                 self.sample_path.trajectories[0].get_trajectory(),
-                                                 self.columns_filtering_structure[node_indx],
-                                                 self.scalar_indexes_converter[node_indx],
+            self.compute_state_res_time_for_node(node_indx, self.sample_path.trajectories.times,
+                                                 self.sample_path.trajectories.trajectory,
+                                                 self.net_graph.time_filtering[node_indx],
+                                                 self.net_graph.time_scalar_indexing_strucure[node_indx],
                                                  set_of_cims.state_residence_times)
             self.compute_state_transitions_for_a_node(node_indx,
-                                                      self.sample_path.trajectories[0].get_complete_trajectory(),
-                                                      self.transition_filtering[node_indx],
-                                                      self.transition_scalar_index_converter[node_indx],
+                                                      self.sample_path.trajectories.complete_trajectory,
+                                                      self.net_graph.transition_filtering[node_indx],
+                                                      self.net_graph.transition_scalar_indexing_structure[node_indx],
                                                       set_of_cims.transition_matrices)
             set_of_cims.build_cims(set_of_cims.state_residence_times, set_of_cims.transition_matrices)
 
 
 
     def compute_state_res_time_for_node(self, node_indx, times, trajectory, cols_filter, scalar_indexes_struct, T):
-        #print(times)
+        #print(times.size)
         #print(trajectory)
         #print(cols_filter)
         #print(scalar_indexes_struct)
@@ -270,80 +270,7 @@ g1.init_graph()
 
 pe = ParametersEstimator(s1, g1)
 pe.init_amalgamated_cims_struct()
-#print(pe.amalgamated_cims_struct.get_set_of_cims(0).get_cims_number())
-#print(pe.amalgamated_cims_struct.get_set_of_cims(1).get_cims_number())
-#print(pe.amalgamated_cims_struct.get_set_of_cims(2).get_cims_number())
-#print(np.shape(s1.trajectories[0].transitions)[0])
-#print(pe.columns_filtering_structure)
-#print(pe.scalar_indexes_converter)
-#print(pe.amalgamated_cims_struct.sets_of_cims[1].state_residence_times)
-#print(pe.amalgamated_cims_struct.sets_of_cims[2].state_residence_times)
-#print(pe.amalgamated_cims_struct.sets_of_cims[2].transition_matrices)
-#print(pe.amalgamated_cims_struct.sets_of_cims[1].transition_matrices)
-#print(pe.amalgamated_cims_struct.sets_of_cims[0].transition_matrices)
-#pe.compute_state_transitions_for_all_nodes()
 lp = LineProfiler()
-"""pe.compute_state_residence_time_for_all_nodes()
-#pe.parameters_estimation_for_variable(0, pe.sample_path.trajectories[0].get_trajectory()[:, 0],
-                                     # pe.sample_path.trajectories[0].get_trajectory()[:, 1], [])
-#pe.parameters_estimation_single_trajectory(pe.sample_path.trajectories[0].get_trajectory())
-#pe.parameters_estimation()
-
-#lp.add_function(pe.compute_sufficient_statistics_for_row)   # add additional function to profile
-#lp_wrapper = lp(pe.parameters_estimation_single_trajectory)
-#lp_wrapper = lp(pe.parameters_estimation)
-#lp_wrapper(pe.sample_path.trajectories[0].get_trajectory())
-#lp.print_stats()
-
-#lp_wrapper = lp(pe.parameters_estimation_for_variable)
-#lp_wrapper(2, pe.sample_path.trajectories[0].get_times(),
-                                      #pe.sample_path.trajectories[0].get_trajectory()[:, 2],
-           #pe.sample_path.trajectories[0].get_trajectory()[:, [0,1]])
-
-
-lp_wrapper = lp(pe.parameters_estimation_for_variable_single_parent)
-lp_wrapper(1, pe.sample_path.trajectories[0].get_times(),
-                                      pe.sample_path.trajectories[0].get_trajectory()[:, 1],
-           pe.sample_path.trajectories[0].get_trajectory()[:, 2])
-lp.print_stats()
-
-#print( pe.sample_path.trajectories[0].get_trajectory()[:, [1,2]])
-for matrix in pe.amalgamated_cims_struct.get_set_of_cims(1).actual_cims:
-    print(matrix.state_residence_times)
-    print(matrix.state_transition_matrix)
-    matrix.compute_cim_coefficients()
-    print(matrix.cim)"""
-
-"""lp_wrapper = lp(pe.parameters_estimation_for_variable_no_parent_in_place)
-lp_wrapper(0, pe.sample_path.trajectories[0].get_times(), pe.sample_path.trajectories[0].transitions[:, 0],
-           pe.sample_path.trajectories[0].get_trajectory()[:, 0] )
-lp.print_stats()
-
-lp_wrapper = lp(pe.parameters_estimation_for_variable_single_parent)
-lp_wrapper(1, pe.sample_path.trajectories[0].get_times(), pe.sample_path.trajectories[0].transitions[:, 1],
-           pe.sample_path.trajectories[0].get_trajectory()[:,1], pe.sample_path.trajectories[0].get_trajectory()[:,2] )
-lp.print_stats()
-lp_wrapper = lp(pe.parameters_estimation_for_variable_multiple_parents)
-lp_wrapper(2, pe.sample_path.trajectories[0].get_times(), pe.sample_path.trajectories[0].transitions[:, 2],
-           pe.sample_path.trajectories[0].get_trajectory()[:,2], pe.sample_path.trajectories[0].get_trajectory()[:, [0,1]] )
-lp.print_stats()"""
-
-"""lp_wrapper = lp(pe.parameters_estimation_for_variable_single_parent_in_place)
-lp_wrapper(1, pe.sample_path.trajectories[0].get_times(), pe.sample_path.trajectories[0].transitions[:, 1],
-           pe.sample_path.trajectories[0].get_trajectory()[:,1], pe.sample_path.trajectories[0].get_trajectory()[:,2], (3,3,3) )
-lp.print_stats()"""
-
-"""lp_wrapper = lp(pe.compute_sufficient_statistics_for_trajectory)
-lp_wrapper(pe.sample_path.trajectories[0].get_times(), pe.sample_path.trajectories[0].actual_trajectory,
-           pe.sample_path.trajectories[0].transitions, 3)
-lp.print_stats()
-
-lp_wrapper = lp(pe.compute_state_res_time_for_node)
-lp_wrapper(0, pe.sample_path.trajectories[0].get_times(),
-                                   pe.sample_path.trajectories[0].actual_trajectory, [0], [3], np.zeros([3,3], dtype=np.float))
-lp.print_stats()
-#pe.compute_state_res_time_for_node(0, pe.sample_path.trajectories[0].get_times(),
-                                   #pe.sample_path.trajectories[0].actual_trajectory, [0], [3], np.zeros([3,3], dtype=np.float))"""
 
 """[[2999.2966 2749.2298 3301.5975]
  [3797.1737 3187.8345 2939.2009]

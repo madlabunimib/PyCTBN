@@ -88,6 +88,8 @@ class SetOfCims:
             cim_to_add.compute_cim_coefficients()
             #print(cim_to_add)
             self.actual_cims.append(cim_to_add)
+        self.transition_matrices = None
+        self.state_residence_times = None
 
     def get_cims(self):
         return self.actual_cims
