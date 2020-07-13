@@ -27,6 +27,7 @@ class JsonImporter(AbstractImporter):
         self._df_structure = pd.DataFrame()
         self._df_variables = pd.DataFrame()
         self._concatenated_samples = None
+
         super(JsonImporter, self).__init__(files_path)
 
     def import_data(self):
@@ -115,6 +116,26 @@ class JsonImporter(AbstractImporter):
         for indx in range(len(self.df_samples_list)): # Le singole traj non servono più
             self.df_samples_list[indx] = self.df_samples_list[indx].iloc[0:0]
 
+    def compute_row_delta_sigle_samples_frame(self, sample_frame):
+        columns_header = list(sample_frame.columns.values)
+        #print(columns_header)
+        for col_name in columns_header:
+            if col_name == 'Time':
+                sample_frame[col_name + 'Delta'] = sample_frame[col_name].diff()
+            #else:
+                #sample_frame[col_name + 'Delta'] = (sample_frame[col_name].diff().bfill() != 0).astype(int)
+        #sample_frame['Delta'] = sample_frame['Time'].diff()
+        #print(sample_frame)
+
+    def compute_row_delta_in_all_samples_frames(self):
+        for sample in self.df_samples_list:
+            self.compute_row_delta_sigle_samples_frame(sample)
+        self.concatenated_samples = pd.concat(self.df_samples_list)
+        self.concatenated_samples['Time'] = self.concatenated_samples['TimeDelta']
+        del self.concatenated_samples['TimeDelta']
+        self.concatenated_samples['Time'] = self.concatenated_samples['Time'].fillna(0)
+
+
     def build_list_of_samples_array(self, data_frame):
         """
         Costruisce una lista contenente le colonne presenti nel dataframe data_frame convertendole in numpy_array
@@ -147,6 +168,7 @@ class JsonImporter(AbstractImporter):
     def variables(self):
         return self._df_variables
 
+
     @property
     def structure(self):
         return self._df_structure
@@ -164,4 +186,6 @@ ij.import_data()
 print(ij.df_structure)
 print(ij.df_variables)
 print(ij.concatenated_samples)"""
+
+
 

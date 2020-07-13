@@ -18,6 +18,7 @@ class ConditionalIntensityMatrix:
         #print("Time updating In state", state, time)
         self.state_residence_times[state] += time
 
+
     def compute_cim_coefficients(self):
         np.fill_diagonal(self.cim, self.cim.diagonal() * -1)
         self.cim = ((self.cim.T + 1) / (self.state_residence_times + 1)).T

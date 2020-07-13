@@ -1,4 +1,5 @@
 import os
+
 from line_profiler import LineProfiler
 
 import numba as nb
@@ -19,6 +20,7 @@ class ParametersEstimator:
         self.amalgamated_cims_struct = acims.AmalgamatedCims(self.net_graph.get_states_number_of_all_nodes_sorted(),
                                                      self.net_graph.get_nodes(),
                                                     self.net_graph.get_ordered_by_indx_parents_values_for_all_nodes())
+
 
     def compute_parameters(self):
         for node_indx, set_of_cims in enumerate(self.amalgamated_cims_struct.sets_of_cims):
@@ -86,6 +88,7 @@ class ParametersEstimator:
                     self.transition_scalar_index_converter[node_indx], set_of_cims.transition_matrices)
 
 
+
 # Simple Test #
 os.getcwd()
 os.chdir('..')
@@ -146,3 +149,4 @@ lp_wrapper()
         #print(cond.cim)
 print(pe.amalgamated_cims_struct.get_cims_of_node(1,[2]))
 lp.print_stats()
+

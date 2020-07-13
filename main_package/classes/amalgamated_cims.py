@@ -20,8 +20,9 @@ class AmalgamatedCims:
             self.sets_of_cims.append(
                 socim.SetOfCims(key, list_of_parents_states_number[indx], states_number_per_node[indx]))
 
-    def get_set_of_cims(self, node_id):
-        return self.sets_of_cims[node_id]
+
+    def get_set_of_cims(self, node_indx):
+        return self.sets_of_cims[node_indx]
 
     def get_cims_of_node(self, node_indx, cim_indx):
         return self.sets_of_cims[node_indx].get_cim(cim_indx)
