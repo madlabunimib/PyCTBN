@@ -3,27 +3,26 @@ import numpy as np
 
 class ConditionalIntensityMatrix:
 
-    def __init__(self, dimension):
-        self.state_residence_times = np.zeros(shape=dimension)
-        self.state_transition_matrix = np.zeros(shape=(dimension, dimension), dtype=int)
-        self.cim = np.zeros(shape=(dimension, dimension), dtype=float)
+    def __init__(self, dimension, state_residence_times, state_transition_matrix):
+        self.state_residence_times = state_residence_times
+        self.state_transition_matrix = state_transition_matrix
+        #self.cim = np.zeros(shape=(dimension, dimension), dtype=float)
+        self.cim = self.state_transition_matrix.astype(np.float)
 
     def update_state_transition_count(self, element_indx):
         #print(element_indx)
-        self.state_transition_matrix[element_indx[0]][element_indx[1]] = \
-            self.state_transition_matrix[element_indx[0]][element_indx[1]] + 1
+        #self.state_transition_matrix[element_indx[0]][element_indx[1]] += 1
+        self.state_transition_matrix[element_indx] += 1
 
     def update_state_residence_time_for_state(self, state, time):
         #print("Time updating In state", state, time)
-        #print(state)
-        self.state_residence_times[state] = self.state_residence_times[state] + time
+        self.state_residence_times[state] += time
+
 
     def compute_cim_coefficients(self):
-        for i, row in enumerate(self.state_transition_matrix):
-            row_sum = 0.0
-            for j, elem in enumerate(row):
-                rate_coefficient = elem / self.state_residence_times[i]
-                self.cim[i][j] = rate_coefficient
-                row_sum = row_sum + rate_coefficient
-            self.cim[i][i] = -1 * row_sum
+        np.fill_diagonal(self.cim, self.cim.diagonal() * -1)
+        self.cim = ((self.cim.T + 1) / (self.state_residence_times + 1)).T
+
+    def __repr__(self):
+        return 'CIM:\n' + str(self.cim)
 
