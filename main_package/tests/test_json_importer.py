@@ -109,7 +109,11 @@ class TestJsonImporter(unittest.TestCase):
     def test_import_data(self):
         j1 = ji.JsonImporter('../data', 'samples', 'dyn.str', 'variables', 'Time', 'Name')
         j1.import_data()
+        self.assertEqual(list(j1.variables[j1.variables_key]),
+                         list(j1.concatenated_samples.columns.values[1:len(j1.variables[j1.variables_key]) + 1]))
         print(j1.variables)
+        print(j1.structure)
+        print(j1.concatenated_samples)
 
 
 

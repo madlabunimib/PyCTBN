@@ -12,7 +12,6 @@ class Structure:
     def __init__(self, structure, variables):
         self.structure_frame = structure
         self.variables_frame = variables
-        #self._nodes_indexes = self.list_of_nodes_indexes()
         self.name_label = variables.columns.values[0]
         self.value_label = variables.columns.values[1]
 

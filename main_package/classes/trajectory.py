@@ -14,15 +14,17 @@ class Trajectory:
 
     """
 
-    def __init__(self, list_of_columns):
-        print(list_of_columns)
+    def __init__(self, list_of_columns, original_cols_number):
+        if type(list_of_columns[0][0]) != np.float64:
+            raise TypeError('The first array in the list has to be Times')
+        #TODO valutare se vale la pena ordinare la lista di numpy array per tipo
+        self.original_cols_number = original_cols_number
         self._actual_trajectory = np.array(list_of_columns[1:], dtype=np.int).T
         self._times = np.array(list_of_columns[0], dtype=np.float)
-        print(self._times)
 
     @property
     def trajectory(self):
-        return self._actual_trajectory[:, :4]
+        return self._actual_trajectory[:, :self.original_cols_number]
 
     @property
     def complete_trajectory(self):

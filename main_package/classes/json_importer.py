@@ -118,7 +118,6 @@ class JsonImporter(AbstractImporter):
         for indx, sample in enumerate(self.df_samples_list):
             self.df_samples_list[indx] = self.compute_row_delta_sigle_samples_frame(sample,
                                                         time_header_label, columns_header, shifted_cols_header)
-            #print(self.df_samples_list[indx])
         self._concatenated_samples = pd.concat(self.df_samples_list)
 
     def build_list_of_samples_array(self, data_frame):

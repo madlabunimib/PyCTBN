@@ -25,7 +25,9 @@ class SamplePath:
 
     def build_trajectories(self):
         self.importer.import_data()
-        self._trajectories = tr.Trajectory(self.importer.build_list_of_samples_array(self.importer.concatenated_samples))
+        self._trajectories = \
+            tr.Trajectory(self.importer.build_list_of_samples_array(self.importer.concatenated_samples),
+                          len(self.importer.sorter) + 1)
         #self.trajectories.append(trajectory)
         self.importer.clear_data_frames()
 
