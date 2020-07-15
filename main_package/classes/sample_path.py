@@ -45,7 +45,7 @@ os.chdir('..')
 path = os.getcwd() + '/data'
 
 
-"""os.getcwd()
+os.getcwd()
 os.chdir('..')
 path = os.getcwd() + '/data'
 

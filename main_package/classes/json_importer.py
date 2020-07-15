@@ -22,36 +22,42 @@ class JsonImporter(AbstractImporter):
 
     """
 
-    def __init__(self, files_path):
+    def __init__(self, files_path, samples_label, structure_label, variables_label, time_key, variables_key):
+        self.samples_label = samples_label
+        self.structure_label = structure_label
+        self.variables_label = variables_label
+        self.time_key = time_key
+        self.variables_key = variables_key
         self.df_samples_list = []
         self._df_structure = pd.DataFrame()
         self._df_variables = pd.DataFrame()
         self._concatenated_samples = None
-
+        self.sorter = None
         super(JsonImporter, self).__init__(files_path)
 
     def import_data(self):
         raw_data = self.read_json_file()
         self.import_trajectories(raw_data)
-        self.compute_row_delta_in_all_samples_frames('Time')
+        self.compute_row_delta_in_all_samples_frames(self.time_key)
+        self.clear_data_frame_list()
         self.import_structure(raw_data)
-        self.import_variables(raw_data)
-        #Le variabili DEVONO essere ordinate come le Colonne del dataset
-        assert list(self._df_variables['Name']) == \
-               (list(self._concatenated_samples.columns.values[1:len(self.variables['Name']) + 1]))
+        self.import_variables(raw_data, self.sorter)
 
     def import_trajectories(self, raw_data):
-        self.normalize_trajectories(raw_data, 0, 'samples')
+        self.normalize_trajectories(raw_data, 0, self.samples_label)
 
     def import_structure(self, raw_data):
-        self._df_structure = self.one_level_normalizing(raw_data, 0, 'dyn.str')
+        self._df_structure = self.one_level_normalizing(raw_data, 0, self.structure_label)
 
-    def import_variables(self, raw_data):
-        self._df_variables = self.one_level_normalizing(raw_data, 0, 'variables')
+    def import_variables(self, raw_data, sorter):
+        self._df_variables = self.one_level_normalizing(raw_data, 0, self.variables_label)
+        self._df_variables[self.variables_key] = self._df_variables[self.variables_key].astype("category")
+        self._df_variables[self.variables_key] = self._df_variables[self.variables_key].cat.set_categories(sorter)
+        self._df_variables = self._df_variables.sort_values([self.variables_key])
 
     def read_json_file(self):
         """
-        Legge 'tutti' i file .json presenti nel path self.filepath
+        Legge il primo file .json nel path self.filepath
 
         Parameters:
               void
@@ -61,10 +67,11 @@ class JsonImporter(AbstractImporter):
         """
         try:
             read_files = glob.glob(os.path.join(self.files_path, "*.json"))
-            for file_name in read_files:
-                with open(file_name) as f:
-                    data = json.load(f)
-                    return data
+            if not read_files:
+                raise ValueError('No .json file found in the entered path!')
+            with open(read_files[0]) as f:
+                data = json.load(f)
+                return data
         except ValueError as err:
             print(err.args)
 
@@ -81,7 +88,7 @@ class JsonImporter(AbstractImporter):
             Il dataframe contenente i dati normalizzati
 
         """
-        return pd.json_normalize(raw_data[indx][key])
+        return pd.DataFrame(raw_data[indx][key])
 
     def normalize_trajectories(self, raw_data, indx, trajectories_key):
         """
@@ -106,35 +113,13 @@ class JsonImporter(AbstractImporter):
 
     def compute_row_delta_in_all_samples_frames(self, time_header_label):
         columns_header = list(self.df_samples_list[0].columns.values)
+        self.sorter = columns_header[1:]
         shifted_cols_header = [s + "S" for s in columns_header[1:]]
         for indx, sample in enumerate(self.df_samples_list):
             self.df_samples_list[indx] = self.compute_row_delta_sigle_samples_frame(sample,
                                                         time_header_label, columns_header, shifted_cols_header)
             #print(self.df_samples_list[indx])
         self._concatenated_samples = pd.concat(self.df_samples_list)
-        #print("Concatenated", self._concatenated_samples)
-        for indx in range(len(self.df_samples_list)): # Le singole traj non servono più
-            self.df_samples_list[indx] = self.df_samples_list[indx].iloc[0:0]
-
-    def compute_row_delta_sigle_samples_frame(self, sample_frame):
-        columns_header = list(sample_frame.columns.values)
-        #print(columns_header)
-        for col_name in columns_header:
-            if col_name == 'Time':
-                sample_frame[col_name + 'Delta'] = sample_frame[col_name].diff()
-            #else:
-                #sample_frame[col_name + 'Delta'] = (sample_frame[col_name].diff().bfill() != 0).astype(int)
-        #sample_frame['Delta'] = sample_frame['Time'].diff()
-        #print(sample_frame)
-
-    def compute_row_delta_in_all_samples_frames(self):
-        for sample in self.df_samples_list:
-            self.compute_row_delta_sigle_samples_frame(sample)
-        self.concatenated_samples = pd.concat(self.df_samples_list)
-        self.concatenated_samples['Time'] = self.concatenated_samples['TimeDelta']
-        del self.concatenated_samples['TimeDelta']
-        self.concatenated_samples['Time'] = self.concatenated_samples['Time'].fillna(0)
-
 
     def build_list_of_samples_array(self, data_frame):
         """
@@ -160,6 +145,10 @@ class JsonImporter(AbstractImporter):
          """
         self._concatenated_samples = self._concatenated_samples.iloc[0:0]
 
+    def clear_data_frame_list(self):
+        for indx in range(len(self.df_samples_list)):  # Le singole traj non servono più
+            self.df_samples_list[indx] = self.df_samples_list[indx].iloc[0:0]
+
     @property
     def concatenated_samples(self):
         return self._concatenated_samples
@@ -168,24 +157,10 @@ class JsonImporter(AbstractImporter):
     def variables(self):
         return self._df_variables
 
-
     @property
     def structure(self):
         return self._df_structure
 
-"""ij = JsonImporter("../data")
-#raw_data = ij.read_json_file()
-lp = LineProfiler()
-lp_wrapper = lp(ij.import_data)
-lp_wrapper()
-lp.print_stats()
-
-
-ij.import_data()
-#print(ij.df_samples_list[7])
-print(ij.df_structure)
-print(ij.df_variables)
-print(ij.concatenated_samples)"""
 
 
 
