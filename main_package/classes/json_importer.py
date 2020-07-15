@@ -134,7 +134,7 @@ class JsonImporter(AbstractImporter):
             columns_list.append(data_frame[column].to_numpy())
         return columns_list
 
-    def clear_data_frames(self):
+    def clear_concatenated_frame(self):
         """
         Rimuove tutti i valori contenuti nei data_frames presenti in df_samples_list
         Parameters:

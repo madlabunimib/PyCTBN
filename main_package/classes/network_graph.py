@@ -50,7 +50,7 @@ class NetworkGraph():
         for n in parents:
             indx = self._nodes_labels.index(n)
             ordered_set[n] = indx
-        {k: v for k, v in sorted(ordered_set.items(), key=lambda item: item[1])}
+        ordered_set = {k: v for k, v in sorted(ordered_set.items(), key=lambda item: item[1])}
         return list(ordered_set.keys())
 
     def get_ord_set_of_par_of_all_nodes(self):

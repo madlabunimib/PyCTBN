@@ -13,6 +13,7 @@ class TestTrajecotry(unittest.TestCase):
         self.assertTrue(np.array_equal(np.ravel(t1.complete_trajectory[:, : 1]), cols_list[1]))
         self.assertTrue(np.array_equal(np.ravel(t1.complete_trajectory[:, 1: 2]), cols_list[2]))
         self.assertEqual(len(cols_list) - 1, t1.complete_trajectory.shape[1])
+        self.assertEqual(t1.size(), t1.times.size)
 
     def test_init_first_array_not_float_type(self):
         cols_list = [np.arange(1, 4), np.arange(4, 7), np.array([1.2, 1.3, .14])]

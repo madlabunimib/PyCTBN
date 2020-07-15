@@ -16,10 +16,12 @@ class Structure:
         self.value_label = variables.columns.values[1]
 
     def list_of_edges(self):
-        edges_list = []
-        for indx, row in self.structure_frame.iterrows():
-            row_tuple = (row.From, row.To)
-            edges_list.append(row_tuple)
+        #edges_list = []
+        #for indx, row in self.structure_frame.iterrows():
+            #row_tuple = (row[0], row[1])
+            #edges_list.append(row_tuple)
+        records = self.structure_frame.to_records(index=False)
+        edges_list = list(records)
         return edges_list
 
     def list_of_nodes_labels(self):
@@ -43,3 +45,6 @@ class Structure:
     def get_states_number_by_indx(self, node_indx):
         #print(self.value_label)
         return self.variables_frame[self.value_label][node_indx]
+
+    def __repr__(self):
+        return "Variables:\n" + str(self.variables_frame) + "\nEdges: \n" + str(self.structure_frame)

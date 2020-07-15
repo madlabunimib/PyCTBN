@@ -35,6 +35,10 @@ class Trajectory:
         return self._times
 
     def size(self):
-        return self.actual_trajectory.shape[0]
+        return self._actual_trajectory.shape[0]
+
+    def __repr__(self):
+        return "Complete Trajectory Rows: " + str(self.size()) + "\n" + self.complete_trajectory.__repr__() + \
+               "\nTimes Rows:" + str(self.times.size) + "\n" + self.times.__repr__()
 
 
