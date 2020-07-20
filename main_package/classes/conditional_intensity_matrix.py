@@ -22,6 +22,7 @@ class ConditionalIntensityMatrix:
     def compute_cim_coefficients(self):
         np.fill_diagonal(self.cim, self.cim.diagonal() * -1)
         self.cim = ((self.cim.T + 1) / (self.state_residence_times + 1)).T
+        #np.fill_diagonal(self.state_transition_matrix, 0)
 
     def __repr__(self):
         return 'CIM:\n' + str(self.cim)

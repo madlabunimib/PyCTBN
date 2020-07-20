@@ -102,10 +102,12 @@ class JsonImporter(AbstractImporter):
         """
         for sample_indx, sample in enumerate(raw_data[indx][trajectories_key]):
             self.df_samples_list.append(pd.DataFrame(sample))
+        self.sorter = list(self.df_samples_list[0].columns.values)[1:]
 
     def compute_row_delta_sigle_samples_frame(self, sample_frame, time_header_label, columns_header, shifted_cols_header):
         sample_frame[time_header_label] = sample_frame[time_header_label].diff().shift(-1)
-        shifted_cols = sample_frame[columns_header[1:]].shift(-1)
+        shifted_cols = sample_frame[columns_header].shift(-1).fillna(0).astype('int32')
+        #print(shifted_cols)
         shifted_cols.columns = shifted_cols_header
         sample_frame = sample_frame.assign(**shifted_cols)
         sample_frame.drop(sample_frame.tail(1).index, inplace=True)
@@ -113,11 +115,11 @@ class JsonImporter(AbstractImporter):
 
     def compute_row_delta_in_all_samples_frames(self, time_header_label):
         columns_header = list(self.df_samples_list[0].columns.values)
-        self.sorter = columns_header[1:]
-        shifted_cols_header = [s + "S" for s in columns_header[1:]]
+        #self.sorter = columns_header[1:]
+        shifted_cols_header = [s + "S" for s in self.sorter]
         for indx, sample in enumerate(self.df_samples_list):
             self.df_samples_list[indx] = self.compute_row_delta_sigle_samples_frame(sample,
-                                                        time_header_label, columns_header, shifted_cols_header)
+                                                        time_header_label, self.sorter, shifted_cols_header)
         self._concatenated_samples = pd.concat(self.df_samples_list)
 
     def build_list_of_samples_array(self, data_frame):

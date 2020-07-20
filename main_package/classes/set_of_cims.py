@@ -69,7 +69,6 @@ class SetOfCims:
     def get_cims_number(self):
         return len(self.actual_cims)
 
-
     def indexes_converter(self, indexes): # Si aspetta array del tipo [2,2] dove
         assert len(indexes) == len(self.parents_states_number)
         vector_index = 0

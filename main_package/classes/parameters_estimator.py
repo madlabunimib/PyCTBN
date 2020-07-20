@@ -23,18 +23,25 @@ class ParametersEstimator:
 
 
     def compute_parameters(self):
-        for node_indx, set_of_cims in enumerate(self.amalgamated_cims_struct.sets_of_cims):
-            self.compute_state_res_time_for_node(node_indx, self.sample_path.trajectories.times,
+        #print(self.net_graph.get_nodes())
+        #print(self.amalgamated_cims_struct.sets_of_cims)
+        #enumerate(zip(self.net_graph.get_nodes(), self.amalgamated_cims_struct.sets_of_cims))
+        for indx, aggr in enumerate(zip(self.net_graph.get_nodes(), self.amalgamated_cims_struct.sets_of_cims)):
+            #print(self.net_graph.time_filtering[indx])
+            #print(self.net_graph.time_scalar_indexing_strucure[indx])
+            self.compute_state_res_time_for_node(self.net_graph.get_node_indx(aggr[0]), self.sample_path.trajectories.times,
                                                  self.sample_path.trajectories.trajectory,
-                                                 self.net_graph.time_filtering[node_indx],
-                                                 self.net_graph.time_scalar_indexing_strucure[node_indx],
-                                                 set_of_cims.state_residence_times)
-            self.compute_state_transitions_for_a_node(node_indx,
+                                                 self.net_graph.time_filtering[indx],
+                                                 self.net_graph.time_scalar_indexing_strucure[indx],
+                                                 aggr[1].state_residence_times)
+            #print(self.net_graph.transition_filtering[indx])
+            #print(self.net_graph.transition_scalar_indexing_structure[indx])
+            self.compute_state_transitions_for_a_node(self.net_graph.get_node_indx(aggr[0]),
                                                       self.sample_path.trajectories.complete_trajectory,
-                                                      self.net_graph.transition_filtering[node_indx],
-                                                      self.net_graph.transition_scalar_indexing_structure[node_indx],
-                                                      set_of_cims.transition_matrices)
-            set_of_cims.build_cims(set_of_cims.state_residence_times, set_of_cims.transition_matrices)
+                                                      self.net_graph.transition_filtering[indx],
+                                                      self.net_graph.transition_scalar_indexing_structure[indx],
+                                                      aggr[1].transition_matrices)
+            aggr[1].build_cims(aggr[1].state_residence_times, aggr[1].transition_matrices)
 
 
 
@@ -90,7 +97,7 @@ class ParametersEstimator:
 
 
 # Simple Test #
-os.getcwd()
+"""os.getcwd()
 os.chdir('..')
 path = os.getcwd() + '/data'
 
@@ -105,7 +112,7 @@ pe = ParametersEstimator(s1, g1)
 pe.init_amalgamated_cims_struct()
 lp = LineProfiler()
 
-"""[[2999.2966 2749.2298 3301.5975]
+[[2999.2966 2749.2298 3301.5975]
  [3797.1737 3187.8345 2939.2009]
  [3432.224  3062.5402 4530.9028]]
 
@@ -140,7 +147,7 @@ print(pe.amalgamated_cims_struct.sets_of_cims[0].state_residence_times)
         
         Raveled [14472  3552 10920 12230 25307 13077  9707 14408 24115 22918  6426 16492
  10608 16072  5464 10746 11213 21959 23305  6816 16489  3792 19190 15398
- 13718 18243 31961]"""
+ 13718 18243 31961]
 
 lp_wrapper = lp(pe.compute_parameters)
 lp_wrapper()
@@ -148,5 +155,5 @@ lp_wrapper()
     #for cond in variable.get_cims():
         #print(cond.cim)
 print(pe.amalgamated_cims_struct.get_cims_of_node(1,[2]))
-lp.print_stats()
+lp.print_stats()"""
 

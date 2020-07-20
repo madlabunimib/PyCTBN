@@ -15,10 +15,9 @@ class TestSamplePath(unittest.TestCase):
         self.assertIsNotNone(s1.structure)
         self.assertIsInstance(s1.structure, st.Structure)
         self.assertTrue(s1.importer.concatenated_samples.empty)
+        self.assertEqual(s1.total_variables_count, len(s1.importer.sorter))
         print(s1.structure)
         print(s1.trajectories)
-
-
 
 
 if __name__ == '__main__':

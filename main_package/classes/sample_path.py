@@ -21,6 +21,7 @@ class SamplePath:
                                          variables_label, time_key, variables_key)
         self._trajectories = None
         self._structure = None
+        self.total_variables_count = None
 
     def build_trajectories(self):
         self.importer.import_data()
@@ -31,7 +32,9 @@ class SamplePath:
         self.importer.clear_concatenated_frame()
 
     def build_structure(self):
-        self._structure = st.Structure(self.importer.structure, self.importer.variables)
+        self.total_variables_count = len(self.importer.sorter)
+        self._structure = st.Structure(self.importer.structure, self.importer.variables,
+                                       self.total_variables_count)
 
     @property
     def trajectories(self):
@@ -40,6 +43,17 @@ class SamplePath:
     @property
     def structure(self):
         return self._structure
+
+    def total_variables_count(self):
+        return self.total_variables_count
+
+    """def build_possible_values_variables_structure(self):
+        possible_val_list = []
+        print(self.importer.variables)
+        for cardinality in self.importer.variables['Value']:
+            possible_val_list.append(list(range(0, cardinality)))
+        self.possible_variables_values = possible_val_list"""
+
 
 
 

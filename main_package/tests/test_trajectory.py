@@ -4,7 +4,7 @@ import numpy as np
 import trajectory as tr
 
 
-class TestTrajecotry(unittest.TestCase):
+class TestTrajectory(unittest.TestCase):
 
     def test_init(self):
         cols_list = [np.array([1.2,1.3,.14]), np.arange(1,4), np.arange(4,7)]
