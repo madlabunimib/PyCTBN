@@ -1,3 +1,5 @@
+import sys
+sys.path.append("/Users/Zalum/Desktop/Tesi/CTBN_Project/main_package/classes/")
 import unittest
 import pandas as pd
 import structure as st

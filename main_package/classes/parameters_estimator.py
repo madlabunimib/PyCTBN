@@ -6,7 +6,7 @@ import numba as nb
 import numpy as np
 import network_graph as ng
 import sample_path as sp
-import amalgamated_cims as acims
+import sets_of_cims_container as acims
 
 
 class ParametersEstimator:
@@ -14,10 +14,10 @@ class ParametersEstimator:
     def __init__(self, sample_path, net_graph):
         self.sample_path = sample_path
         self.net_graph = net_graph
-        self.amalgamated_cims_struct = None
+        self.sets_of_cims_struct = None
 
     def init_amalgamated_cims_struct(self):
-        self.amalgamated_cims_struct = acims.AmalgamatedCims(self.net_graph.get_states_number_of_all_nodes_sorted(),
+        self.sets_of_cims_struct = acims.SetsOfCimsContainer(self.net_graph.get_states_number_of_all_nodes_sorted(),
                                                      self.net_graph.get_nodes(),
                                                     self.net_graph.get_ordered_by_indx_parents_values_for_all_nodes())
 

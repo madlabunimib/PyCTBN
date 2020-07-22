@@ -115,13 +115,14 @@ class NetworkGraph():
             return fancy_indx
 
 
-    def build_time_scalar_indexing_structure_for_a_node(self, node_id, parents_id):
-        #print(node_id)
-        #print("Parents_id", parents_id)
-        T_vector = np.array([self.graph_struct.variables_frame.iloc[node_id, 1].astype(np.int)])
+    def build_time_scalar_indexing_structure_for_a_node(self, node_indx, parents_indxs):
+        #print(node_indx)
+        #print("Parents_id", parents_indxs)
+        #T_vector = np.array([self.graph_struct.variables_frame.iloc[node_id, 1].astype(np.int)])
+        T_vector = np.array([self.get_states_number_by_indx(node_indx)])
         #print(T_vector)
         #print("Here ", self.graph_struct.variables_frame.iloc[parents_id[0], 1])
-        T_vector = np.append(T_vector, [self.graph_struct.get_states_number_by_indx(x) for x in parents_id])
+        T_vector = np.append(T_vector, [self.graph_struct.get_states_number_by_indx(x) for x in parents_indxs])
         #print(T_vector)
         T_vector = T_vector.cumprod().astype(np.int)
         return T_vector
@@ -130,32 +131,34 @@ class NetworkGraph():
     def build_time_scalar_indexing_structure(self):
         parents_indexes_list = self._fancy_indexing
         for node_indx, p_indxs in zip(self.graph_struct.list_of_nodes_indexes(), parents_indexes_list):
-            if p_indxs.size == 0:
-                self._time_scalar_indexing_structure.append(np.array([self.get_states_number_by_indx(node_indx)],
-                                                                     dtype=np.int))
-            else:
+            #if not p_indxs:
+                #self._time_scalar_indexing_structure.append(np.array([self.get_states_number_by_indx(node_indx)],
+                                                                     #dtype=np.int))
+            #else:
                 self._time_scalar_indexing_structure.append(
                     self.build_time_scalar_indexing_structure_for_a_node(node_indx, p_indxs))
 
-    def build_transition_scalar_indexing_structure_for_a_node(self, node_id, parents_id):
-        M_vector = np.array([self.graph_struct.variables_frame.iloc[node_id, 1],
-                             self.graph_struct.variables_frame.iloc[node_id, 1].astype(np.int)])
-        M_vector = np.append(M_vector, [self.graph_struct.get_states_number_by_indx(x) for x in parents_id])
+    def build_transition_scalar_indexing_structure_for_a_node(self, node_indx, parents_indxs):
+        #M_vector = np.array([self.graph_struct.variables_frame.iloc[node_id, 1],
+                             #self.graph_struct.variables_frame.iloc[node_id, 1].astype(np.int)])
+        M_vector = np.array([self.get_states_number_by_indx(node_indx),
+                             self.get_states_number_by_indx(node_indx)])
+        M_vector = np.append(M_vector, [self.graph_struct.get_states_number_by_indx(x) for x in parents_indxs])
         M_vector = M_vector.cumprod().astype(np.int)
         return M_vector
 
     def build_transition_scalar_indexing_structure(self):
         parents_indexes_list = self._fancy_indexing
-        for node_indx, p_indxs in enumerate(parents_indexes_list):
+        for node_indx, p_indxs in zip(self.graph_struct.list_of_nodes_indexes(), parents_indexes_list):
             self._transition_scalar_indexing_structure.append(
                 self.build_transition_scalar_indexing_structure_for_a_node(node_indx, p_indxs))
 
     def build_time_columns_filtering_structure(self):
         parents_indexes_list = self._fancy_indexing
-        for node_indx, p_indxs in enumerate(parents_indexes_list):
-            if p_indxs.size == 0:
-                self._time_filtering.append(np.append(p_indxs, np.array([node_indx], dtype=np.int)))
-            else:
+        for node_indx, p_indxs in zip(self.graph_struct.list_of_nodes_indexes(), parents_indexes_list):
+            #if p_indxs.size == 0:
+                #self._time_filtering.append(np.append(p_indxs, np.array([node_indx], dtype=np.int)))
+            #else:
                 self._time_filtering.append(np.append(np.array([node_indx], dtype=np.int), p_indxs))
 
     def build_transition_columns_filtering_structure(self):

@@ -1,5 +1,4 @@
 import numpy as np
-from numba import njit, int32
 import conditional_intensity_matrix as cim
 
 
@@ -23,48 +22,15 @@ class SetOfCims:
         self.build_actual_cims_structure()
 
     def build_actual_cims_structure(self):
-        #cims_number = 1
-        #for state_number in self.parents_states_number:
-            #cims_number = cims_number * state_number
         if not self.parents_states_number:
-            #self.actual_cims = np.empty(1, dtype=cim.ConditionalIntensityMatrix)
-            #self.actual_cims[0] = cim.ConditionalIntensityMatrix(self.node_states_number)
             self.state_residence_times = np.zeros((1, self.node_states_number), dtype=np.float)
             self.transition_matrices = np.zeros((1,self.node_states_number, self.node_states_number), dtype=np.int)
         else:
-            #self.actual_cims = np.empty(self.parents_states_number, dtype=cim.ConditionalIntensityMatrix)
-            #self.build_actual_cims(self.actual_cims)
-        #for indx, matrix in enumerate(self.actual_cims):
-            #self.actual_cims[indx] = cim.ConditionalIntensityMatrix(self.node_states_number)
             self.state_residence_times = \
                 np.zeros((np.prod(self.parents_states_number), self.node_states_number), dtype=np.float)
             self.transition_matrices = np.zeros([np.prod(self.parents_states_number), self.node_states_number,
                                                  self.node_states_number], dtype=np.int)
 
-    def update_state_transition(self, indexes, element_indx_tuple):
-        #matrix_indx = self.indexes_converter(indexes)
-        #print(indexes)
-        if not indexes:
-            self.actual_cims[0].update_state_transition_count(element_indx_tuple)
-        else:
-            self.actual_cims[indexes].update_state_transition_count(element_indx_tuple)
-
-    def update_state_residence_time(self, which_matrix, which_element, time):
-        #matrix_indx = self.indexes_converter(which_matrix)
-
-        if not which_matrix:
-            self.actual_cims[0].update_state_residence_time_for_state(which_element, time)
-        else:
-            #print(type(which_matrix))
-            #print(self.actual_cims[(2,2)])
-            self.actual_cims[which_matrix].update_state_residence_time_for_state(which_element, time)
-
-    def build_actual_cims(self, cim_structure):
-        for indx in range(len(cim_structure)):
-            if cim_structure[indx] is None:
-                cim_structure[indx] = cim.ConditionalIntensityMatrix(self.node_states_number)
-            else:
-                self.build_actual_cims(cim_structure[indx])
 
     def get_cims_number(self):
         return len(self.actual_cims)
@@ -82,8 +48,7 @@ class SetOfCims:
     def build_cims(self, state_res_times, transition_matrices):
         for state_res_time_vector, transition_matrix in zip(state_res_times, transition_matrices):
             #print(state_res_time_vector, transition_matrix)
-            cim_to_add = cim.ConditionalIntensityMatrix(self.node_states_number,
-                                                        state_res_time_vector, transition_matrix)
+            cim_to_add = cim.ConditionalIntensityMatrix(state_res_time_vector, transition_matrix)
             cim_to_add.compute_cim_coefficients()
             #print(cim_to_add)
             self.actual_cims.append(cim_to_add)
