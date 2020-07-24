@@ -159,7 +159,7 @@ class NetworkGraph():
             #if p_indxs.size == 0:
                 #self._time_filtering.append(np.append(p_indxs, np.array([node_indx], dtype=np.int)))
             #else:
-                self._time_filtering.append(np.append(np.array([node_indx], dtype=np.int), p_indxs))
+                self._time_filtering.append(np.append(np.array([node_indx], dtype=np.int), p_indxs).astype(np.int))
 
     def build_transition_columns_filtering_structure(self):
         parents_indexes_list = self._fancy_indexing

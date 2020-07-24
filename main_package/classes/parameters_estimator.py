@@ -16,9 +16,9 @@ class ParametersEstimator:
         self.net_graph = net_graph
         self.sets_of_cims_struct = None
 
-    def init_amalgamated_cims_struct(self):
-        self.sets_of_cims_struct = acims.SetsOfCimsContainer(self.net_graph.get_states_number_of_all_nodes_sorted(),
-                                                     self.net_graph.get_nodes(),
+    def init_sets_cims_container(self):
+        self.sets_of_cims_struct = acims.SetsOfCimsContainer(self.net_graph.get_nodes(),
+                                                             self.net_graph.get_states_number_of_all_nodes_sorted(),
                                                     self.net_graph.get_ordered_by_indx_parents_values_for_all_nodes())
 
 
@@ -26,7 +26,7 @@ class ParametersEstimator:
         #print(self.net_graph.get_nodes())
         #print(self.amalgamated_cims_struct.sets_of_cims)
         #enumerate(zip(self.net_graph.get_nodes(), self.amalgamated_cims_struct.sets_of_cims))
-        for indx, aggr in enumerate(zip(self.net_graph.get_nodes(), self.amalgamated_cims_struct.sets_of_cims)):
+        for indx, aggr in enumerate(zip(self.net_graph.get_nodes(), self.sets_of_cims_struct.sets_of_cims)):
             #print(self.net_graph.time_filtering[indx])
             #print(self.net_graph.time_scalar_indexing_strucure[indx])
             self.compute_state_res_time_for_node(self.net_graph.get_node_indx(aggr[0]), self.sample_path.trajectories.times,

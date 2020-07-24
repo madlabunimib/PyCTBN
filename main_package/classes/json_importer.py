@@ -150,6 +150,16 @@ class JsonImporter(AbstractImporter):
         for indx in range(len(self.df_samples_list)):  # Le singole traj non servono più
             self.df_samples_list[indx] = self.df_samples_list[indx].iloc[0:0]
 
+    def import_sampled_cims(self, raw_data, indx, cims_key):
+        cims_for_all_vars = {}
+        for var in raw_data[indx][cims_key]:
+            sampled_cims_list = []
+            cims_for_all_vars[var] = sampled_cims_list
+            for p_comb in raw_data[indx][cims_key][var]:
+                cims_for_all_vars[var].append(pd.DataFrame(raw_data[indx][cims_key][var][p_comb]).to_numpy())
+        return cims_for_all_vars
+
+
     @property
     def concatenated_samples(self):
         return self._concatenated_samples
