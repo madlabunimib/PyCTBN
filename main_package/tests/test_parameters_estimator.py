@@ -7,7 +7,7 @@ import sets_of_cims_container as scc
 import parameters_estimator as pe
 import json_importer as ji
 
-
+#TODO bisogna trovare un modo per testare i metodi che stimano i tempi e le transizioni per i singoli nodi
 class TestParametersEstimatior(unittest.TestCase):
 
     @classmethod
