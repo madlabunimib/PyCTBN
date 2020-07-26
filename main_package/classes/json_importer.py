@@ -2,6 +2,7 @@ import os
 import glob
 import pandas as pd
 import json
+import typing
 from abstract_importer import AbstractImporter
 from line_profiler import LineProfiler
 
@@ -22,7 +23,8 @@ class JsonImporter(AbstractImporter):
 
     """
 
-    def __init__(self, files_path, samples_label, structure_label, variables_label, time_key, variables_key):
+    def __init__(self, files_path: str, samples_label: str, structure_label: str, variables_label: str, time_key: str,
+                 variables_key: str):
         self.samples_label = samples_label
         self.structure_label = structure_label
         self.variables_label = variables_label
@@ -43,19 +45,19 @@ class JsonImporter(AbstractImporter):
         self.import_structure(raw_data)
         self.import_variables(raw_data, self.sorter)
 
-    def import_trajectories(self, raw_data):
+    def import_trajectories(self, raw_data: pd.DataFrame):
         self.normalize_trajectories(raw_data, 0, self.samples_label)
 
-    def import_structure(self, raw_data):
+    def import_structure(self, raw_data: pd.DataFrame):
         self._df_structure = self.one_level_normalizing(raw_data, 0, self.structure_label)
 
-    def import_variables(self, raw_data, sorter):
+    def import_variables(self, raw_data: pd.DataFrame, sorter: typing.List):
         self._df_variables = self.one_level_normalizing(raw_data, 0, self.variables_label)
         self._df_variables[self.variables_key] = self._df_variables[self.variables_key].astype("category")
         self._df_variables[self.variables_key] = self._df_variables[self.variables_key].cat.set_categories(sorter)
         self._df_variables = self._df_variables.sort_values([self.variables_key])
 
-    def read_json_file(self):
+    def read_json_file(self) -> typing.List:
         """
         Legge il primo file .json nel path self.filepath
 
@@ -75,7 +77,7 @@ class JsonImporter(AbstractImporter):
         except ValueError as err:
             print(err.args)
 
-    def one_level_normalizing(self, raw_data, indx, key):
+    def one_level_normalizing(self, raw_data: pd.DataFrame, indx: int, key: str) -> pd.DataFrame:
         """
         Estrae i dati innestati di un livello, presenti nel dataset raw_data,
         presenti nel json array all'indice indx nel json object key
@@ -90,7 +92,7 @@ class JsonImporter(AbstractImporter):
         """
         return pd.DataFrame(raw_data[indx][key])
 
-    def normalize_trajectories(self, raw_data, indx, trajectories_key):
+    def normalize_trajectories(self, raw_data: pd.DataFrame, indx: int, trajectories_key: str):
         """
         Estrae le traiettorie presenti in rawdata nel json array all'indice indx, nel json object trajectories_key.
         Aggiunge le traj estratte nella lista di dataframe self.df_samples_list
@@ -104,7 +106,9 @@ class JsonImporter(AbstractImporter):
             self.df_samples_list.append(pd.DataFrame(sample))
         self.sorter = list(self.df_samples_list[0].columns.values)[1:]
 
-    def compute_row_delta_sigle_samples_frame(self, sample_frame, time_header_label, columns_header, shifted_cols_header):
+    def compute_row_delta_sigle_samples_frame(self, sample_frame: pd.DataFrame, time_header_label: str,
+                                              columns_header: typing.List, shifted_cols_header: typing.List) \
+            -> pd.DataFrame:
         sample_frame[time_header_label] = sample_frame[time_header_label].diff().shift(-1)
         shifted_cols = sample_frame[columns_header].shift(-1).fillna(0).astype('int32')
         #print(shifted_cols)
@@ -113,8 +117,8 @@ class JsonImporter(AbstractImporter):
         sample_frame.drop(sample_frame.tail(1).index, inplace=True)
         return sample_frame
 
-    def compute_row_delta_in_all_samples_frames(self, time_header_label):
-        columns_header = list(self.df_samples_list[0].columns.values)
+    def compute_row_delta_in_all_samples_frames(self, time_header_label: str):
+        #columns_header = list(self.df_samples_list[0].columns.values)
         #self.sorter = columns_header[1:]
         shifted_cols_header = [s + "S" for s in self.sorter]
         for indx, sample in enumerate(self.df_samples_list):
@@ -122,7 +126,7 @@ class JsonImporter(AbstractImporter):
                                                         time_header_label, self.sorter, shifted_cols_header)
         self._concatenated_samples = pd.concat(self.df_samples_list)
 
-    def build_list_of_samples_array(self, data_frame):
+    def build_list_of_samples_array(self, data_frame: pd.DataFrame) -> typing.List:
         """
         Costruisce una lista contenente le colonne presenti nel dataframe data_frame convertendole in numpy_array
         Parameters:
@@ -150,7 +154,7 @@ class JsonImporter(AbstractImporter):
         for indx in range(len(self.df_samples_list)):  # Le singole traj non servono più
             self.df_samples_list[indx] = self.df_samples_list[indx].iloc[0:0]
 
-    def import_sampled_cims(self, raw_data, indx, cims_key):
+    def import_sampled_cims(self, raw_data: pd.DataFrame, indx: int, cims_key: str) -> typing.Dict:
         cims_for_all_vars = {}
         for var in raw_data[indx][cims_key]:
             sampled_cims_list = []

@@ -19,8 +19,9 @@ class TestStructureEstimator(unittest.TestCase):
 
     def test_one_iteration(self):
         se1 = se.StructureEstimator(self.s1, 0.1, 0.1)
-        se1.one_iteration_of_CTPC_algorithm('X')
+        #se1.one_iteration_of_CTPC_algorithm('X')
         #self.aux_test_complete_test(se1, 'X', 'Y', ['Z'])
+        se1.ctpc_algorithm()
         print(se1.complete_graph.edges)
 
     def aux_test_complete_test(self, estimator, test_par, test_child, p_set):

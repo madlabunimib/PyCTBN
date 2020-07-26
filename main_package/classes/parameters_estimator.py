@@ -43,6 +43,26 @@ class ParametersEstimator:
                                                       aggr[1].transition_matrices)
             aggr[1].build_cims(aggr[1].state_residence_times, aggr[1].transition_matrices)
 
+    def compute_parameters_for_node(self, node_id):
+        pos_index = self.net_graph.graph_struct.get_positional_node_indx(node_id)
+        #print("Nodes", self.net_graph.get_nodes())
+        #print(pos_index)
+        #print(self.net_graph.time_filtering)
+        self.compute_state_res_time_for_node(self.net_graph.get_node_indx(node_id), self.sample_path.trajectories.times,
+                                             self.sample_path.trajectories.trajectory,
+                                             self.net_graph.time_filtering[pos_index],
+                                             self.net_graph.time_scalar_indexing_strucure[pos_index],
+                                             self.sets_of_cims_struct.sets_of_cims[pos_index].state_residence_times)
+        # print(self.net_graph.transition_filtering[indx])
+        # print(self.net_graph.transition_scalar_indexing_structure[indx])
+        self.compute_state_transitions_for_a_node(self.net_graph.get_node_indx(node_id),
+                                                  self.sample_path.trajectories.complete_trajectory,
+                                                  self.net_graph.transition_filtering[pos_index],
+                                                  self.net_graph.transition_scalar_indexing_structure[pos_index],
+                                                  self.sets_of_cims_struct.sets_of_cims[pos_index].transition_matrices)
+        self.sets_of_cims_struct.sets_of_cims[pos_index].build_cims(
+            self.sets_of_cims_struct.sets_of_cims[pos_index].state_residence_times,
+            self.sets_of_cims_struct.sets_of_cims[pos_index].transition_matrices)
 
 
     def compute_state_res_time_for_node(self, node_indx, times, trajectory, cols_filter, scalar_indexes_struct, T):
@@ -95,65 +115,4 @@ class ParametersEstimator:
                     self.transition_scalar_index_converter[node_indx], set_of_cims.transition_matrices)
 
 
-
-# Simple Test #
-"""os.getcwd()
-os.chdir('..')
-path = os.getcwd() + '/data'
-
-s1 = sp.SamplePath(path)
-s1.build_trajectories()
-s1.build_structure()
-
-g1 = ng.NetworkGraph(s1.structure)
-g1.init_graph()
-
-pe = ParametersEstimator(s1, g1)
-pe.init_amalgamated_cims_struct()
-lp = LineProfiler()
-
-[[2999.2966 2749.2298 3301.5975]
- [3797.1737 3187.8345 2939.2009]
- [3432.224  3062.5402 4530.9028]]
-
-[[ 827.6058  838.1515  686.1365]
- [1426.384  2225.2093 1999.8528]
- [ 745.3068  733.8129  746.2347]
- [ 520.8113  690.9502  853.4022]
- [1590.8609 1853.0021 1554.1874]
- [ 637.5576  643.8822  654.9506]
- [ 718.7632  742.2117  998.5844]
- [1811.984  1598.0304 2547.988 ]
- [ 770.8503  598.9588  984.3304]]
-
-lp_wrapper = lp(pe.compute_state_residence_time_for_all_nodes)
-lp_wrapper()
-lp.print_stats()
-
-#pe.compute_state_residence_time_for_all_nodes()
-print(pe.amalgamated_cims_struct.sets_of_cims[0].state_residence_times)
-
-[[[14472,  3552, 10920],
-        [12230, 25307, 13077],
-        [ 9707, 14408, 24115]],
-
-       [[22918,  6426, 16492],
-        [10608, 16072,  5464],
-        [10746, 11213, 21959]],
-
-       [[23305,  6816, 16489],
-        [ 3792, 19190, 15398],
-        [13718, 18243, 31961]]])
-        
-        Raveled [14472  3552 10920 12230 25307 13077  9707 14408 24115 22918  6426 16492
- 10608 16072  5464 10746 11213 21959 23305  6816 16489  3792 19190 15398
- 13718 18243 31961]
-
-lp_wrapper = lp(pe.compute_parameters)
-lp_wrapper()
-#for variable in pe.amalgamated_cims_struct.sets_of_cims:
-    #for cond in variable.get_cims():
-        #print(cond.cim)
-print(pe.amalgamated_cims_struct.get_cims_of_node(1,[2]))
-lp.print_stats()"""
 
