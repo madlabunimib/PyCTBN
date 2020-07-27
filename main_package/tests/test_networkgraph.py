@@ -1,6 +1,7 @@
 import unittest
 import networkx as nx
 import numpy as np
+from line_profiler import LineProfiler
 
 import sample_path as sp
 import network_graph as ng
@@ -175,6 +176,24 @@ class TestNetworkGraph(unittest.TestCase):
         print(m_filter)
         for a1, a2 in zip(g1.transition_filtering, m_filter):
             self.assertTrue(np.array_equal(a1, a2))
+
+    def test_init_graph(self):
+        g1 = ng.NetworkGraph(self.s1.structure)
+        lp = LineProfiler()
+        lp.add_function(g1.get_ordered_by_indx_set_of_parents)
+        lp_wrapper = lp(g1.init_graph)
+        lp_wrapper()
+        lp.print_stats()
+
+    """def test_remove_node(self):
+        g1 = ng.NetworkGraph(self.s1.structure)
+        g1.init_graph()
+        g1.remove_node('Y')
+        print(g1.get_nodes())
+        print(g1.get_edges())"""
+
+
+
 
 #TODO mancano i test sulle property e sui getters_vari
 if __name__ == '__main__':

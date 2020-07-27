@@ -45,17 +45,16 @@ class ParametersEstimator:
 
     def compute_parameters_for_node(self, node_id):
         pos_index = self.net_graph.graph_struct.get_positional_node_indx(node_id)
+        node_indx = self.net_graph.get_node_indx(node_id)
         #print("Nodes", self.net_graph.get_nodes())
-        #print(pos_index)
-        #print(self.net_graph.time_filtering)
-        self.compute_state_res_time_for_node(self.net_graph.get_node_indx(node_id), self.sample_path.trajectories.times,
+        self.compute_state_res_time_for_node(node_indx, self.sample_path.trajectories.times,
                                              self.sample_path.trajectories.trajectory,
                                              self.net_graph.time_filtering[pos_index],
                                              self.net_graph.time_scalar_indexing_strucure[pos_index],
                                              self.sets_of_cims_struct.sets_of_cims[pos_index].state_residence_times)
         # print(self.net_graph.transition_filtering[indx])
         # print(self.net_graph.transition_scalar_indexing_structure[indx])
-        self.compute_state_transitions_for_a_node(self.net_graph.get_node_indx(node_id),
+        self.compute_state_transitions_for_a_node(node_indx,
                                                   self.sample_path.trajectories.complete_trajectory,
                                                   self.net_graph.transition_filtering[pos_index],
                                                   self.net_graph.transition_scalar_indexing_structure[pos_index],

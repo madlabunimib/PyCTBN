@@ -1,4 +1,5 @@
 import unittest
+from line_profiler import LineProfiler
 
 import sample_path as sp
 import structure_estimator as se
@@ -21,7 +22,13 @@ class TestStructureEstimator(unittest.TestCase):
         se1 = se.StructureEstimator(self.s1, 0.1, 0.1)
         #se1.one_iteration_of_CTPC_algorithm('X')
         #self.aux_test_complete_test(se1, 'X', 'Y', ['Z'])
-        se1.ctpc_algorithm()
+        lp = LineProfiler()
+        lp.add_function(se1.complete_test)
+        lp.add_function(se1.one_iteration_of_CTPC_algorithm)
+        lp_wrapper = lp(se1.ctpc_algorithm)
+        lp_wrapper()
+        lp.print_stats()
+        #se1.ctpc_algorithm()
         print(se1.complete_graph.edges)
 
     def aux_test_complete_test(self, estimator, test_par, test_child, p_set):

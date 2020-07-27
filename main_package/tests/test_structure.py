@@ -68,5 +68,13 @@ class TestStructure(unittest.TestCase):
         for indx, row in self.variables_frame.iterrows():
             self.assertEqual(row[1], s1.get_states_number_by_indx(indx))
 
+    def test_remove_node(self):
+        s1 = st.Structure(self.structure_frame, self.variables_frame, len(self.variables_frame.index))
+        s1.remove_node('Y')
+        print(s1.variables_frame)
+        print(s1.structure_frame)
+        print(s1.get_node_indx('Z'))
+        print(s1.get_positional_node_indx('Z'))
+
 if __name__ == '__main__':
     unittest.main()

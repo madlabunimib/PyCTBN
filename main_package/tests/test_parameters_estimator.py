@@ -1,5 +1,6 @@
 import unittest
 import numpy as np
+from line_profiler import LineProfiler
 
 import network_graph as ng
 import sample_path as sp
@@ -56,10 +57,18 @@ class TestParametersEstimatior(unittest.TestCase):
             self.assertTrue(np.all(np.isclose(r1, r2, 1e-01, 1e-01) == True))
 
     def test_compute_parameters_for_node(self):#TODO Questo non è un test
+        self.g1.remove_node('Y')
+        print(self.g1.time_filtering)
         pe1 = pe.ParametersEstimator(self.s1, self.g1)
         pe1.init_sets_cims_container()
-        pe1.compute_parameters_for_node('Y')
-        print(pe1.sets_of_cims_struct.get_set_of_cims(1).actual_cims)
+        lp = LineProfiler()
+        #lp.add_function(pe1.init_sets_cims_container)
+        lp_wrapper = lp(pe1.compute_parameters_for_node)
+        lp_wrapper('X')
+        lp.print_stats()
+        #pe1.init_sets_cims_container()
+        #pe1.compute_parameters_for_node('Y')
+        print(pe1.sets_of_cims_struct.get_set_of_cims(0).actual_cims)
 
 
     def aux_import_sampled_cims(self, cims_label):

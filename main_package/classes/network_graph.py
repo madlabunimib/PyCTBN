@@ -1,5 +1,4 @@
-import os
-import sample_path as sp
+
 import networkx as nx
 import numpy as np
 
@@ -39,6 +38,7 @@ class NetworkGraph():
         self.build_transition_columns_filtering_structure()
 
     def add_nodes(self, list_of_nodes):
+        #self.graph.add_nodes_from(list_of_nodes)
         for id in list_of_nodes:
             self.graph.add_node(id)
             nx.set_node_attributes(self.graph, {id:self.graph_struct.get_node_indx(id)}, 'indx')
@@ -48,7 +48,7 @@ class NetworkGraph():
 
     def get_ordered_by_indx_set_of_parents(self, node):
         #print(node)
-        ordered_set = {}
+        #ordered_set = {}
         parents = self.get_parents_by_id(node)
         #print(parents)
         sorted_parents = [x for _, x in sorted(zip(self.graph_struct.list_of_nodes_labels(), parents))]
@@ -61,8 +61,10 @@ class NetworkGraph():
 
             #print(indx)
             #ordered_set[n] = indx
-            p_indxes.append(self.graph_struct.get_node_indx(n))
-            p_values.append(self.graph_struct.get_states_number(n))
+            node_indx = self.get_node_indx(n)
+            p_indxes.append(node_indx)
+            #p_values.append(self.graph_struct.get_states_number(n))
+            p_values.append(self.get_states_number_by_indx(node_indx))
         ordered_set = (sorted_parents, p_indxes, p_values)
         #print(ordered_set)
 
@@ -129,8 +131,8 @@ class NetworkGraph():
         #print(T_vector)
 
     def build_time_scalar_indexing_structure(self):
-        parents_indexes_list = self._fancy_indexing
-        for node_indx, p_indxs in zip(self.graph_struct.list_of_nodes_indexes(), parents_indexes_list):
+        #parents_indexes_list = self._fancy_indexing
+        for node_indx, p_indxs in zip(self.graph_struct.list_of_nodes_indexes(), self._fancy_indexing):
             #if not p_indxs:
                 #self._time_scalar_indexing_structure.append(np.array([self.get_states_number_by_indx(node_indx)],
                                                                      #dtype=np.int))
@@ -148,23 +150,23 @@ class NetworkGraph():
         return M_vector
 
     def build_transition_scalar_indexing_structure(self):
-        parents_indexes_list = self._fancy_indexing
-        for node_indx, p_indxs in zip(self.graph_struct.list_of_nodes_indexes(), parents_indexes_list):
+        #parents_indexes_list = self._fancy_indexing
+        for node_indx, p_indxs in zip(self.graph_struct.list_of_nodes_indexes(), self._fancy_indexing):
             self._transition_scalar_indexing_structure.append(
                 self.build_transition_scalar_indexing_structure_for_a_node(node_indx, p_indxs))
 
     def build_time_columns_filtering_structure(self):
-        parents_indexes_list = self._fancy_indexing
-        for node_indx, p_indxs in zip(self.graph_struct.list_of_nodes_indexes(), parents_indexes_list):
+        #parents_indexes_list = self._fancy_indexing
+        for node_indx, p_indxs in zip(self.graph_struct.list_of_nodes_indexes(), self._fancy_indexing):
             #if p_indxs.size == 0:
                 #self._time_filtering.append(np.append(p_indxs, np.array([node_indx], dtype=np.int)))
             #else:
                 self._time_filtering.append(np.append(np.array([node_indx], dtype=np.int), p_indxs).astype(np.int))
 
     def build_transition_columns_filtering_structure(self):
-        parents_indexes_list = self._fancy_indexing
+        #parents_indexes_list = self._fancy_indexing
         nodes_number = self.graph_struct.total_variables_number
-        for node_indx, p_indxs in zip(self.graph_struct.list_of_nodes_indexes(), parents_indexes_list):
+        for node_indx, p_indxs in zip(self.graph_struct.list_of_nodes_indexes(), self._fancy_indexing):
             self._transition_filtering.append(np.array([node_indx + nodes_number, node_indx, *p_indxs], dtype=np.int))
 
     def get_nodes(self):
@@ -177,7 +179,7 @@ class NetworkGraph():
         return self.graph_struct.list_of_nodes_labels()
 
     def get_parents_by_id(self, node_id):
-       return list(self.graph.predecessors(node_id))
+        return list(self.graph.predecessors(node_id))
 
     def get_states_number(self, node_id):
         return self.graph_struct.get_states_number(node_id)
@@ -190,6 +192,7 @@ class NetworkGraph():
 
     def get_node_indx(self, node_id):
         return nx.get_node_attributes(self.graph, 'indx')[node_id]
+        #return self.graph_struct.get_node_indx(node_id)
 
     @property
     def time_scalar_indexing_strucure(self):
@@ -207,36 +210,16 @@ class NetworkGraph():
     def transition_filtering(self):
         return self._transition_filtering
 
-    
-
-
-
-######Veloci Tests#######
-"""os.getcwd()
-os.chdir('..')
-path = os.getcwd() + '/data'
-s1 = sp.SamplePath(path)
-s1.build_trajectories()
-s1.build_structure()
-
-g1 = NetworkGraph(s1.structure)
-g1.init_graph()
-print(g1.transition_scalar_indexing_structure)
-print(g1.transition_filtering)
-print(g1.time_scalar_indexing_strucure)
-print(g1.time_filering)
-
-
-#print(g1.build_fancy_indexing_structure(0))
-#print(g1.get_states_number_of_all_nodes_sorted())
-g1.build_scalar_indexing_structure()
-print(g1.scalar_indexing_structure)
-print(g1.build_columns_filtering_structure())
-g1.build_transition_scalar_indexing_structure()
-print(g1.transition_scalar_indexing_structure)
-g1.build_transition_columns_filtering_structure()
-print(g1.transition_filtering)
-
-[array([3, 9]), array([ 3,  9, 27]), array([ 3,  9, 27, 81])]
-[array([3, 0]), array([4, 1, 2]), array([5, 2, 0, 1])]"""
+    """def remove_node(self, node_id):
+        node_indx = self.get_node_indx(node_id)
+        self.graph_struct.remove_node(node_id)
+        self.graph.remove_node(node_id)
+        del self._fancy_indexing[node_indx]
+        del self._time_filtering[node_indx]
+        del self._nodes_labels[node_indx]
+        del self._transition_scalar_indexing_structure[node_indx]
+        del self._transition_filtering[node_indx]
+        del self._time_scalar_indexing_structure[node_indx]
+        del self.aggregated_info_about_nodes_parents[node_indx]
+        del self._nodes_indexes[node_indx]"""
 

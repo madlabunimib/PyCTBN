@@ -57,3 +57,8 @@ class Structure:
             return self.structure_frame.equals(other.structure_frame) and \
                    self.variables_frame.equals(other.variables_frame)
         return NotImplemented
+
+    """def remove_node(self, node_id):
+        self.variables_frame = self.variables_frame[self.variables_frame.Name != node_id]
+        self.structure_frame = self.structure_frame[(self.structure_frame.From != node_id) &
+                                                    (self.structure_frame.To != node_id)]"""
