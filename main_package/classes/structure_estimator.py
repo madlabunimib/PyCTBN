@@ -4,7 +4,7 @@ import itertools
 import networkx as nx
 from scipy.stats import f as f_dist
 from scipy.stats import chi2 as chi2_dist
-from numba import njit
+
 
 
 
@@ -36,16 +36,17 @@ class StructureEstimator:
         complete_graph.add_edges_from(itertools.permutations(node_ids, 2))
         return complete_graph
 
-    def complete_test(self, test_parent, test_child, parent_set):
+    def complete_test(self, tmp_df, test_parent, test_child, parent_set):
         p_set = parent_set[:]
         complete_info = parent_set[:]
         complete_info.append(test_parent)
-        tmp_df = self.complete_graph_frame.loc[self.complete_graph_frame['To'].isin([test_child])]
+        #tmp_df = self.complete_graph_frame.loc[self.complete_graph_frame['To'].isin([test_child])]
         #tmp_df = self.complete_graph_frame.loc[np.in1d(self.complete_graph_frame['To'], test_child)]
         d2 = tmp_df.loc[tmp_df['From'].isin(complete_info)]
         complete_info.append(test_child)
-        v2 = self.sample_path.structure.variables_frame.loc[
-                self.sample_path.structure.variables_frame['Name'].isin(complete_info)]
+        values_frame = self.sample_path.structure.variables_frame
+        v2 = values_frame.loc[
+                values_frame['Name'].isin(complete_info)]
 
         #print(tmp_df)
         #d1 = tmp_df.loc[tmp_df['From'].isin(parent_set)]
@@ -63,10 +64,13 @@ class StructureEstimator:
         g2 = ng.NetworkGraph(s2)
         g2.init_graph()"""
         #parent_set.append(test_child)
-        sofc1 = None
+        #sofc1 = None
         #if not sofc1:
         if not p_set:
             sofc1 = self.cache.find(test_child)
+        else:
+            sofc1 = self.cache.find(set(p_set))
+
         if not sofc1:
             #d1 = tmp_df.loc[tmp_df['From'].isin(parent_set)]
             d1 = d2[d2.From != test_parent]
@@ -81,17 +85,19 @@ class StructureEstimator:
             g1.init_graph()
             p1 = pe.ParametersEstimator(self.sample_path, g1)
             p1.init_sets_cims_container()
-            #print("Computing params for",test_child, test_parent, parent_set)
             p1.compute_parameters_for_node(test_child)
             sofc1 = p1.sets_of_cims_struct.sets_of_cims[s1.get_positional_node_indx(test_child)]
-            self.cache.put(test_child,sofc1)
+            if not p_set:
+                self.cache.put(test_child, sofc1)
+            else:
+                self.cache.put(set(p_set), sofc1)
         sofc2 = None
         p_set.append(test_parent)
         if p_set:
             #p_set.append(test_parent)
             #print("PSET ", p_set)
-            set_p_set = set(p_set)
-            sofc2 = self.cache.find(set_p_set)
+            #set_p_set = set(p_set)
+            sofc2 = self.cache.find(set(p_set))
             #print("Sofc2 ", sofc2)
             #print(self.cache.list_of_sets_of_indxs)
 
@@ -100,7 +106,7 @@ class StructureEstimator:
         #p2.compute_parameters()
         p2.compute_parameters_for_node(test_child)
         sofc2 = p2.sets_of_cims_struct.sets_of_cims[s2.get_positional_node_indx(test_child)]"""
-        if not sofc2 or p_set:
+        if not sofc2:
             print("Cache Miss SOC2")
             #parent_set.append(test_parent)
             #d2 = tmp_df.loc[tmp_df['From'].isin(p_set)]
@@ -114,12 +120,11 @@ class StructureEstimator:
             g2.init_graph()
             p2 = pe.ParametersEstimator(self.sample_path, g2)
             p2.init_sets_cims_container()
-            # p2.compute_parameters()
             p2.compute_parameters_for_node(test_child)
             sofc2 = p2.sets_of_cims_struct.sets_of_cims[s2.get_positional_node_indx(test_child)]
             if p_set:
                 #set_p_set = set(p_set)
-                self.cache.put(set_p_set, sofc2)
+                self.cache.put(set(p_set), sofc2)
         end = 0
         increment = self.sample_path.structure.get_states_number(test_parent)
         for cim1 in sofc1.actual_cims:
@@ -143,8 +148,11 @@ class StructureEstimator:
                     F_stats[val] > f_dist.ppf(1 - self.exp_test_sign / 2, r1s[val], r2s[val]):
                 print("CONDITIONALLY DEPENDENT EXP")
                 return False
-        M1_no_diag = self.remove_diagonal_elements(cim1.state_transition_matrix)
-        M2_no_diag = self.remove_diagonal_elements(cim2.state_transition_matrix)
+        #M1_no_diag = self.remove_diagonal_elements(cim1.state_transition_matrix)
+        #M2_no_diag = self.remove_diagonal_elements(cim2.state_transition_matrix)
+        M1_no_diag = cim1.state_transition_matrix[~np.eye(cim1.state_transition_matrix.shape[0], dtype=bool)].reshape(cim1.state_transition_matrix.shape[0], -1)
+        M2_no_diag = cim2.state_transition_matrix[~np.eye(cim2.state_transition_matrix.shape[0], dtype=bool)].reshape(
+            cim2.state_transition_matrix.shape[0], -1)
         chi_2_quantile = chi2_dist.ppf(1 - self.chi_test_alfa, child_states_numb - 1)
         """
         Ks = np.sqrt(cim1.state_transition_matrix.diagonal() / cim2.state_transition_matrix.diagonal())
@@ -170,12 +178,10 @@ class StructureEstimator:
 
     def one_iteration_of_CTPC_algorithm(self, var_id):
         u = list(self.complete_graph.predecessors(var_id))
-        #TODO aggiungere qui il filtraggio del complete_graph_frame verso il nodo di arrivo 'To' var_id e passare il frame a complete test
-        #TODO trovare un modo per passare direttamente anche i valori delle variabili comprese nel test del nodo var_id
         tests_parents_numb = len(u)
-        #print(u)
+        complete_frame = self.complete_graph_frame
+        test_frame = complete_frame.loc[complete_frame['To'].isin([var_id])]
         b = 0
-        #parent_indx = 0
         while b < len(u):
             #for parent_id in u:
             parent_indx = 0
@@ -186,13 +192,13 @@ class StructureEstimator:
                 #print("Parent Indx", parent_indx)
                 #if not list(self.generate_possible_sub_sets_of_size(u, b, u[parent_indx])):
                     #break
-                S = self.generate_possible_sub_sets_of_size(u, b, u[parent_indx])
+                S = self.generate_possible_sub_sets_of_size(u, b, parent_indx)
                 #print("U Set", u)
                 #print("S", S)
                 for parents_set in S:
                     #print("Parent Set", parents_set)
                     #print("Test Parent", u[parent_indx])
-                    if self.complete_test(u[parent_indx], var_id, parents_set):
+                    if self.complete_test(test_frame, u[parent_indx], var_id, parents_set):
                         #print("Removing EDGE:", u[parent_indx], var_id)
                         self.complete_graph.remove_edge(u[parent_indx], var_id)
                         #print(self.complete_graph_frame)
@@ -200,7 +206,9 @@ class StructureEstimator:
                             self.complete_graph_frame.drop(
                                 self.complete_graph_frame[(self.complete_graph_frame.From ==
                                                      u[parent_indx]) & (self.complete_graph_frame.To == var_id)].index)"""
-                        self.complete_graph_frame.drop(self.complete_graph_frame[(self.complete_graph_frame.From == u[parent_indx]) & (self.complete_graph_frame.To == var_id)].index)
+
+                        complete_frame.drop(complete_frame[(complete_frame.From == u[parent_indx]) &
+                                                           (complete_frame.To == var_id)].index, inplace=True)
                         #print(self.complete_graph_frame)
                         #u.remove(u[parent_indx])
                         del u[parent_indx]
@@ -210,13 +218,13 @@ class StructureEstimator:
                 if not removed:
                     parent_indx += 1
             b += 1
-            self.cache.clear()
+        self.cache.clear()
 
-    def generate_possible_sub_sets_of_size(self, u, size, parent_id):
+    def generate_possible_sub_sets_of_size(self, u, size, parent_indx):
         #print("Inside Generate subsets", u)
         #print("InsideGenerate Subsets", parent_id)
         list_without_test_parent = u[:]
-        list_without_test_parent.remove(parent_id)
+        del list_without_test_parent[parent_indx]
         # u.remove(parent_id)
         #print(list(map(list, itertools.combinations(list_without_test_parent, size))))
         return map(list, itertools.combinations(list_without_test_parent, size))
@@ -228,7 +236,11 @@ class StructureEstimator:
         return strided(matrix.ravel()[1:], shape=(m - 1, m), strides=(s0 + s1, s1)).reshape(m, -1)
 
     def ctpc_algorithm(self):
-        for node_id in self.sample_path.structure.list_of_nodes_labels():
-            print("TESTING VAR:", node_id)
-            self.one_iteration_of_CTPC_algorithm(node_id)
+        ctpc_algo = self.one_iteration_of_CTPC_algorithm
+        nodes = self.sample_path.structure.list_of_nodes_labels()
+        #for node_id in self.sample_path.structure.list_of_nodes_labels():
+            #print("TESTING VAR:", node_id)
+            #self.one_iteration_of_CTPC_algorithm(node_id)
+            #print(self.complete_graph_frame)
+        [ctpc_algo(n) for n in nodes]
 

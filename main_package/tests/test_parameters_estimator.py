@@ -57,14 +57,12 @@ class TestParametersEstimatior(unittest.TestCase):
             self.assertTrue(np.all(np.isclose(r1, r2, 1e-01, 1e-01) == True))
 
     def test_compute_parameters_for_node(self):#TODO Questo non è un test
-        self.g1.remove_node('Y')
-        print(self.g1.time_filtering)
         pe1 = pe.ParametersEstimator(self.s1, self.g1)
-        pe1.init_sets_cims_container()
+        #pe1.init_sets_cims_container()
         lp = LineProfiler()
-        #lp.add_function(pe1.init_sets_cims_container)
-        lp_wrapper = lp(pe1.compute_parameters_for_node)
-        lp_wrapper('X')
+        lp_wrapper = lp(pe1.init_sets_cims_container)
+        #lp.add_function(pe1.sets_of_cims_struct.init_cims_structure)
+        lp_wrapper()
         lp.print_stats()
         #pe1.init_sets_cims_container()
         #pe1.compute_parameters_for_node('Y')

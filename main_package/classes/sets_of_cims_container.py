@@ -6,7 +6,6 @@ class SetsOfCimsContainer:
     """
     Aggrega un insieme di oggetti SetOfCims
     """
-    # list_of_vars_orders contiene tutte le liste con i parent ordinati secondo il valore indx
     def __init__(self, list_of_keys, states_number_per_node, list_of_parents_states_number):
         self.sets_of_cims = None
         self.init_cims_structure(list_of_keys, states_number_per_node, list_of_parents_states_number)

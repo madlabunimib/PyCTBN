@@ -179,10 +179,12 @@ class TestNetworkGraph(unittest.TestCase):
 
     def test_init_graph(self):
         g1 = ng.NetworkGraph(self.s1.structure)
+        #g1.init_graph()
         lp = LineProfiler()
-        lp.add_function(g1.get_ordered_by_indx_set_of_parents)
-        lp_wrapper = lp(g1.init_graph)
-        lp_wrapper()
+        #lp.add_function(g1.get_ordered_by_indx_set_of_parents)
+        #lp.add_function(g1.get_states_number)
+        lp_wrapper = lp(g1.get_states_number)
+        lp_wrapper('X')
         lp.print_stats()
 
     """def test_remove_node(self):

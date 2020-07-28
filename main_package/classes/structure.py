@@ -1,5 +1,6 @@
 import numpy as np
 
+
 class Structure:
     """
     Contiene tutte il informazioni sulla struttura della rete (connessione dei nodi, valori assumibili dalle variabili)
@@ -25,7 +26,7 @@ class Structure:
         return self.variables_frame[self.name_label].values.tolist()
 
     def list_of_nodes_indexes(self):
-        return list(self.variables_frame.index)
+        return self.variables_frame.index.to_list()
 
     def get_node_id(self, node_indx):
         return self.variables_frame[self.name_label][node_indx]
@@ -44,6 +45,9 @@ class Structure:
         #print(self.value_label)
         #print("Node indx", node_indx)
         return self.variables_frame[self.value_label][node_indx]
+
+    def nodes_values(self):
+        return self.variables_frame[self.value_label].to_list()
 
     def total_variables_number(self):
         return self.total_variables_number

@@ -39,25 +39,26 @@ class NetworkGraph():
 
     def add_nodes(self, list_of_nodes):
         #self.graph.add_nodes_from(list_of_nodes)
-        for id in list_of_nodes:
-            self.graph.add_node(id)
-            nx.set_node_attributes(self.graph, {id:self.graph_struct.get_node_indx(id)}, 'indx')
+        set_node_attr = nx.set_node_attributes
+        nodes_indxs = self.graph_struct.list_of_nodes_indexes()
+        nodes_vals = self.graph_struct.nodes_values()
+        for id, node_indx, node_val in zip(list_of_nodes, nodes_indxs, nodes_vals):
+            self.graph.add_node(id, indx=node_indx, val=node_val)
+            #set_node_attr(self.graph, {id:node_indx}, 'indx')
 
     def add_edges(self, list_of_edges):
         self.graph.add_edges_from(list_of_edges)
 
     def get_ordered_by_indx_set_of_parents(self, node):
-        #print(node)
-        #ordered_set = {}
         parents = self.get_parents_by_id(node)
-        #print(parents)
-        sorted_parents = [x for _, x in sorted(zip(self.graph_struct.list_of_nodes_labels(), parents))]
-        #print(sorted_parents)
-        #print(parents)
+        nodes = self.get_nodes()
+        sorted_parents = [x for _, x in sorted(zip(nodes, parents))]
         #p_indxes= []
         #p_values = []
-        p_indxes = [self.get_node_indx(node) for node in parents]
-        p_values = [self.get_states_number_by_indx(indx) for indx in p_indxes]
+        get_node_indx = self.get_node_indx
+        get_states_number_by_indx = self.get_states_number_by_indx
+        p_indxes = [get_node_indx(node) for node in sorted_parents]
+        p_values = [get_states_number_by_indx(indx) for indx in p_indxes]
         """for n in parents:
             #indx = self.graph_struct.get_node_indx(n)
 
@@ -67,17 +68,15 @@ class NetworkGraph():
             p_indxes.append(node_indx)
             #p_values.append(self.graph_struct.get_states_number(n))
             p_values.append(self.get_states_number_by_indx(node_indx))"""
-        ordered_set = (sorted_parents, p_indxes, p_values)
-        #print(ordered_set)
-
-        #ordered_set = {k: v for k, v in sorted(ordered_set.items(), key=lambda item: item[1])}
-        return ordered_set
+        #ordered_set = (sorted_parents, p_indxes, p_values)
+        return (sorted_parents, p_indxes, p_values)
 
     def get_ord_set_of_par_of_all_nodes(self):
-        result = []
+        #result = []
         #for node in self._nodes_labels:
             #result.append(self.get_ordered_by_indx_set_of_parents(node))
-        result = [self.get_ordered_by_indx_set_of_parents(node) for node in self._nodes_labels]
+        get_ordered_by_indx_set_of_parents = self.get_ordered_by_indx_set_of_parents
+        result = [get_ordered_by_indx_set_of_parents(node) for node in self._nodes_labels]
         return result
 
     """def get_ordered_by_indx_parents_values(self, node):
@@ -96,10 +95,11 @@ class NetworkGraph():
         return pars_values
 
     def get_states_number_of_all_nodes_sorted(self):
-        states_number_list = []
+        #states_number_list = []
         #for node in self._nodes_labels:
             #states_number_list.append(self.get_states_number(node))
-        states_number_list = [self.get_states_number(node) for node in self._nodes_labels]
+        get_states_number = self.get_states_number
+        states_number_list = [get_states_number(node) for node in self._nodes_labels]
         return states_number_list
 
     def build_fancy_indexing_structure(self, start_indx):
@@ -124,10 +124,10 @@ class NetworkGraph():
         #print(node_indx)
         #print("Parents_id", parents_indxs)
         #T_vector = np.array([self.graph_struct.variables_frame.iloc[node_id, 1].astype(np.int)])
-        T_vector = np.array([self.get_states_number_by_indx(node_indx)])
+        get_states_number_by_indx = self.graph_struct.get_states_number_by_indx
+        T_vector = np.array([get_states_number_by_indx(node_indx)])
         #print(T_vector)
-        #print("Here ", self.graph_struct.variables_frame.iloc[parents_id[0], 1])
-        T_vector = np.append(T_vector, [self.graph_struct.get_states_number_by_indx(x) for x in parents_indxs])
+        T_vector = np.append(T_vector, [get_states_number_by_indx(x) for x in parents_indxs])
         #print(T_vector)
         T_vector = T_vector.cumprod().astype(np.int)
         return T_vector
@@ -138,16 +138,19 @@ class NetworkGraph():
         """for node_indx, p_indxs in zip(self.graph_struct.list_of_nodes_indexes(), self._fancy_indexing):
                 self._time_scalar_indexing_structure.append(
                     self.build_time_scalar_indexing_structure_for_a_node(node_indx, p_indxs))"""
-        self._time_scalar_indexing_structure = [self.build_time_scalar_indexing_structure_for_a_node(node_indx, p_indxs)
+        build_time_scalar_indexing_structure_for_a_node = self.build_time_scalar_indexing_structure_for_a_node
+        self._time_scalar_indexing_structure = [build_time_scalar_indexing_structure_for_a_node(node_indx, p_indxs)
                                                 for node_indx, p_indxs in zip(self.graph_struct.list_of_nodes_indexes(),
                                                                               self._fancy_indexing)]
 
     def build_transition_scalar_indexing_structure_for_a_node(self, node_indx, parents_indxs):
         #M_vector = np.array([self.graph_struct.variables_frame.iloc[node_id, 1],
                              #self.graph_struct.variables_frame.iloc[node_id, 1].astype(np.int)])
-        M_vector = np.array([self.get_states_number_by_indx(node_indx),
-                             self.get_states_number_by_indx(node_indx)])
-        M_vector = np.append(M_vector, [self.graph_struct.get_states_number_by_indx(x) for x in parents_indxs])
+        node_states_number = self.get_states_number_by_indx(node_indx)
+        get_states_number_by_indx = self.graph_struct.get_states_number_by_indx
+        M_vector = np.array([node_states_number,
+                             node_states_number])
+        M_vector = np.append(M_vector, [get_states_number_by_indx(x) for x in parents_indxs])
         M_vector = M_vector.cumprod().astype(np.int)
         return M_vector
 
@@ -156,8 +159,9 @@ class NetworkGraph():
         """for node_indx, p_indxs in zip(self.graph_struct.list_of_nodes_indexes(), self._fancy_indexing):
             self._transition_scalar_indexing_structure.append(
                 self.build_transition_scalar_indexing_structure_for_a_node(node_indx, p_indxs))"""
+        build_transition_scalar_indexing_structure_for_a_node = self.build_transition_scalar_indexing_structure_for_a_node
         self._transition_scalar_indexing_structure = \
-            [self.build_transition_scalar_indexing_structure_for_a_node(node_indx, p_indxs)
+            [build_transition_scalar_indexing_structure_for_a_node(node_indx, p_indxs)
                                                       for node_indx, p_indxs in
                                                       zip(self.graph_struct.list_of_nodes_indexes(),
                                                           self._fancy_indexing) ]
@@ -191,7 +195,8 @@ class NetworkGraph():
         return list(self.graph.predecessors(node_id))
 
     def get_states_number(self, node_id):
-        return self.graph_struct.get_states_number(node_id)
+        #return self.graph_struct.get_states_number(node_id)
+        return self.graph.nodes[node_id]['val']
 
     def get_states_number_by_indx(self, node_indx):
         return self.graph_struct.get_states_number_by_indx(node_indx)
