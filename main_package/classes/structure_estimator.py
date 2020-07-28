@@ -4,6 +4,7 @@ import itertools
 import networkx as nx
 from scipy.stats import f as f_dist
 from scipy.stats import chi2 as chi2_dist
+from numba import njit
 
 
 
@@ -133,29 +134,17 @@ class StructureEstimator:
         return True
 
     def independence_test(self, tested_child, cim1, cim2):
-        # Fake exp test
         r1s = cim1.state_transition_matrix.diagonal()
         r2s = cim2.state_transition_matrix.diagonal()
         F_stats = cim2.cim.diagonal() / cim1.cim.diagonal()
         child_states_numb = self.sample_path.structure.get_states_number(tested_child)
-        for val in range(0, child_states_numb):  # i possibili valori di tested child TODO QUESTO CONTO DEVE ESSERE VETTORIZZATO
-            #r1 = cim1.state_transition_matrix[val][val]
-            #r2 = cim2.state_transition_matrix[val][val]
-            #print("No Test Parent:",cim1.cim[val][val],"With Test Parent", cim2.cim[val][val])
-            #F = cim2.cim[val][val] / cim1.cim[val][val]
-
-            #print("Exponential test", F_stats[val], r1s[val], r2s[val])
-            #print(f_dist.ppf(1 - self.exp_test_sign / 2, r1, r2))
-            #print(f_dist.ppf(self.exp_test_sign / 2, r1, r2))
+        for val in range(0, child_states_numb):
             if F_stats[val] < f_dist.ppf(self.exp_test_sign / 2, r1s[val], r2s[val]) or \
                     F_stats[val] > f_dist.ppf(1 - self.exp_test_sign / 2, r1s[val], r2s[val]):
                 print("CONDITIONALLY DEPENDENT EXP")
                 return False
-        # fake chi test
         M1_no_diag = self.remove_diagonal_elements(cim1.state_transition_matrix)
         M2_no_diag = self.remove_diagonal_elements(cim2.state_transition_matrix)
-        #print("M1 no diag", M1_no_diag)
-        #print("M2 no diag", M2_no_diag)
         chi_2_quantile = chi2_dist.ppf(1 - self.chi_test_alfa, child_states_numb - 1)
         """
         Ks = np.sqrt(cim1.state_transition_matrix.diagonal() / cim2.state_transition_matrix.diagonal())
@@ -181,6 +170,8 @@ class StructureEstimator:
 
     def one_iteration_of_CTPC_algorithm(self, var_id):
         u = list(self.complete_graph.predecessors(var_id))
+        #TODO aggiungere qui il filtraggio del complete_graph_frame verso il nodo di arrivo 'To' var_id e passare il frame a complete test
+        #TODO trovare un modo per passare direttamente anche i valori delle variabili comprese nel test del nodo var_id
         tests_parents_numb = len(u)
         #print(u)
         b = 0

@@ -102,8 +102,9 @@ class JsonImporter(AbstractImporter):
         Returns:
             void
         """
-        for sample_indx, sample in enumerate(raw_data[indx][trajectories_key]):
-            self.df_samples_list.append(pd.DataFrame(sample))
+        self.df_samples_list = [pd.DataFrame(sample) for sample in raw_data[indx][trajectories_key]]
+        #for sample_indx, sample in enumerate(raw_data[indx][trajectories_key]):
+            #self.df_samples_list.append(pd.DataFrame(sample))
         self.sorter = list(self.df_samples_list[0].columns.values)[1:]
 
     def compute_row_delta_sigle_samples_frame(self, sample_frame: pd.DataFrame, time_header_label: str,
@@ -135,9 +136,9 @@ class JsonImporter(AbstractImporter):
             :columns_list: la lista contenente le colonne convertite in numpyarray
 
         """
-        columns_list = []
-        for column in data_frame:
-            columns_list.append(data_frame[column].to_numpy())
+        columns_list = [data_frame[column].to_numpy() for column in data_frame]
+        #for column in data_frame:
+            #columns_list.append(data_frame[column].to_numpy())
         return columns_list
 
     def clear_concatenated_frame(self):

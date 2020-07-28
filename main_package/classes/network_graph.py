@@ -22,10 +22,10 @@ class NetworkGraph():
         self._nodes_labels = self.graph_struct.list_of_nodes_labels()
         self.aggregated_info_about_nodes_parents = None
         self._fancy_indexing = None
-        self._time_scalar_indexing_structure = []
-        self._transition_scalar_indexing_structure = []
-        self._time_filtering = []
-        self._transition_filtering = []
+        self._time_scalar_indexing_structure = None
+        self._transition_scalar_indexing_structure = None
+        self._time_filtering = None
+        self._transition_filtering = None
 
     def init_graph(self):
         self.add_nodes(self.graph_struct.list_of_nodes_labels())
@@ -54,9 +54,11 @@ class NetworkGraph():
         sorted_parents = [x for _, x in sorted(zip(self.graph_struct.list_of_nodes_labels(), parents))]
         #print(sorted_parents)
         #print(parents)
-        p_indxes= []
-        p_values = []
-        for n in parents:
+        #p_indxes= []
+        #p_values = []
+        p_indxes = [self.get_node_indx(node) for node in parents]
+        p_values = [self.get_states_number_by_indx(indx) for indx in p_indxes]
+        """for n in parents:
             #indx = self.graph_struct.get_node_indx(n)
 
             #print(indx)
@@ -64,7 +66,7 @@ class NetworkGraph():
             node_indx = self.get_node_indx(n)
             p_indxes.append(node_indx)
             #p_values.append(self.graph_struct.get_states_number(n))
-            p_values.append(self.get_states_number_by_indx(node_indx))
+            p_values.append(self.get_states_number_by_indx(node_indx))"""
         ordered_set = (sorted_parents, p_indxes, p_values)
         #print(ordered_set)
 
@@ -73,9 +75,9 @@ class NetworkGraph():
 
     def get_ord_set_of_par_of_all_nodes(self):
         result = []
-        for node in self._nodes_labels:
-            result.append(self.get_ordered_by_indx_set_of_parents(node))
-        #print(result)
+        #for node in self._nodes_labels:
+            #result.append(self.get_ordered_by_indx_set_of_parents(node))
+        result = [self.get_ordered_by_indx_set_of_parents(node) for node in self._nodes_labels]
         return result
 
     """def get_ordered_by_indx_parents_values(self, node):
@@ -95,8 +97,9 @@ class NetworkGraph():
 
     def get_states_number_of_all_nodes_sorted(self):
         states_number_list = []
-        for node in self._nodes_labels:
-            states_number_list.append(self.get_states_number(node))
+        #for node in self._nodes_labels:
+            #states_number_list.append(self.get_states_number(node))
+        states_number_list = [self.get_states_number(node) for node in self._nodes_labels]
         return states_number_list
 
     def build_fancy_indexing_structure(self, start_indx):
@@ -132,13 +135,12 @@ class NetworkGraph():
 
     def build_time_scalar_indexing_structure(self):
         #parents_indexes_list = self._fancy_indexing
-        for node_indx, p_indxs in zip(self.graph_struct.list_of_nodes_indexes(), self._fancy_indexing):
-            #if not p_indxs:
-                #self._time_scalar_indexing_structure.append(np.array([self.get_states_number_by_indx(node_indx)],
-                                                                     #dtype=np.int))
-            #else:
+        """for node_indx, p_indxs in zip(self.graph_struct.list_of_nodes_indexes(), self._fancy_indexing):
                 self._time_scalar_indexing_structure.append(
-                    self.build_time_scalar_indexing_structure_for_a_node(node_indx, p_indxs))
+                    self.build_time_scalar_indexing_structure_for_a_node(node_indx, p_indxs))"""
+        self._time_scalar_indexing_structure = [self.build_time_scalar_indexing_structure_for_a_node(node_indx, p_indxs)
+                                                for node_indx, p_indxs in zip(self.graph_struct.list_of_nodes_indexes(),
+                                                                              self._fancy_indexing)]
 
     def build_transition_scalar_indexing_structure_for_a_node(self, node_indx, parents_indxs):
         #M_vector = np.array([self.graph_struct.variables_frame.iloc[node_id, 1],
@@ -151,23 +153,30 @@ class NetworkGraph():
 
     def build_transition_scalar_indexing_structure(self):
         #parents_indexes_list = self._fancy_indexing
-        for node_indx, p_indxs in zip(self.graph_struct.list_of_nodes_indexes(), self._fancy_indexing):
+        """for node_indx, p_indxs in zip(self.graph_struct.list_of_nodes_indexes(), self._fancy_indexing):
             self._transition_scalar_indexing_structure.append(
-                self.build_transition_scalar_indexing_structure_for_a_node(node_indx, p_indxs))
+                self.build_transition_scalar_indexing_structure_for_a_node(node_indx, p_indxs))"""
+        self._transition_scalar_indexing_structure = \
+            [self.build_transition_scalar_indexing_structure_for_a_node(node_indx, p_indxs)
+                                                      for node_indx, p_indxs in
+                                                      zip(self.graph_struct.list_of_nodes_indexes(),
+                                                          self._fancy_indexing) ]
 
     def build_time_columns_filtering_structure(self):
         #parents_indexes_list = self._fancy_indexing
-        for node_indx, p_indxs in zip(self.graph_struct.list_of_nodes_indexes(), self._fancy_indexing):
-            #if p_indxs.size == 0:
-                #self._time_filtering.append(np.append(p_indxs, np.array([node_indx], dtype=np.int)))
-            #else:
-                self._time_filtering.append(np.append(np.array([node_indx], dtype=np.int), p_indxs).astype(np.int))
+        """for node_indx, p_indxs in zip(self.graph_struct.list_of_nodes_indexes(), self._fancy_indexing):
+                self._time_filtering.append(np.append(np.array([node_indx], dtype=np.int), p_indxs).astype(np.int))"""
+        self._time_filtering = [np.append(np.array([node_indx], dtype=np.int), p_indxs).astype(np.int)
+            for node_indx, p_indxs in zip(self.graph_struct.list_of_nodes_indexes(), self._fancy_indexing)]
 
     def build_transition_columns_filtering_structure(self):
         #parents_indexes_list = self._fancy_indexing
         nodes_number = self.graph_struct.total_variables_number
-        for node_indx, p_indxs in zip(self.graph_struct.list_of_nodes_indexes(), self._fancy_indexing):
-            self._transition_filtering.append(np.array([node_indx + nodes_number, node_indx, *p_indxs], dtype=np.int))
+        """for node_indx, p_indxs in zip(self.graph_struct.list_of_nodes_indexes(), self._fancy_indexing):
+            self._transition_filtering.append(np.array([node_indx + nodes_number, node_indx, *p_indxs], dtype=np.int))"""
+        self._transition_filtering = [np.array([node_indx + nodes_number, node_indx, *p_indxs], dtype=np.int)
+                                      for node_indx, p_indxs in zip(self.graph_struct.list_of_nodes_indexes(),
+                                                                    self._fancy_indexing)]
 
     def get_nodes(self):
         return list(self.graph.nodes)

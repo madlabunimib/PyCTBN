@@ -1,5 +1,6 @@
 import unittest
 from line_profiler import LineProfiler
+from multiprocessing import  Pool
 
 import sample_path as sp
 import structure_estimator as se

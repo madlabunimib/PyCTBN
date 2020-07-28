@@ -2,7 +2,7 @@ import os
 
 from line_profiler import LineProfiler
 
-import numba as nb
+from numba.experimental import jitclass
 import numpy as np
 import network_graph as ng
 import sample_path as sp
@@ -62,7 +62,6 @@ class ParametersEstimator:
         self.sets_of_cims_struct.sets_of_cims[pos_index].build_cims(
             self.sets_of_cims_struct.sets_of_cims[pos_index].state_residence_times,
             self.sets_of_cims_struct.sets_of_cims[pos_index].transition_matrices)
-
 
     def compute_state_res_time_for_node(self, node_indx, times, trajectory, cols_filter, scalar_indexes_struct, T):
         #print(times.size)
