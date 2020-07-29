@@ -30,7 +30,7 @@ class TestStructureEstimator(unittest.TestCase):
         lp_wrapper()
         lp.print_stats()
         #se1.ctpc_algorithm()
-        #print(se1.complete_graph.edges)
+        print(se1.complete_graph.edges)
 
     def aux_test_complete_test(self, estimator, test_par, test_child, p_set):
         estimator.complete_test(test_par, test_child, p_set)

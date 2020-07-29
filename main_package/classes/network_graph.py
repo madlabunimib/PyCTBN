@@ -3,7 +3,6 @@ import networkx as nx
 import numpy as np
 
 
-
 class NetworkGraph():
     """
     Rappresenta il grafo che contiene i nodi e gli archi presenti nell'oggetto Structure graph_struct.
@@ -196,16 +195,4 @@ class NetworkGraph():
     def transition_filtering(self):
         return self._transition_filtering
 
-    """def remove_node(self, node_id):
-        node_indx = self.get_node_indx(node_id)
-        self.graph_struct.remove_node(node_id)
-        self.graph.remove_node(node_id)
-        del self._fancy_indexing[node_indx]
-        del self._time_filtering[node_indx]
-        del self._nodes_labels[node_indx]
-        del self._transition_scalar_indexing_structure[node_indx]
-        del self._transition_filtering[node_indx]
-        del self._time_scalar_indexing_structure[node_indx]
-        del self.aggregated_info_about_nodes_parents[node_indx]
-        del self._nodes_indexes[node_indx]"""
 
