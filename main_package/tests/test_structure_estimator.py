@@ -26,6 +26,7 @@ class TestStructureEstimator(unittest.TestCase):
         lp = LineProfiler()
         lp.add_function(se1.complete_test)
         lp.add_function(se1.one_iteration_of_CTPC_algorithm)
+        lp.add_function(se1.independence_test)
         lp_wrapper = lp(se1.ctpc_algorithm)
         lp_wrapper()
         lp.print_stats()

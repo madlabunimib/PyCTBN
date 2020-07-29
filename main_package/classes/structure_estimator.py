@@ -35,8 +35,8 @@ class StructureEstimator:
         complete_graph.add_nodes_from(node_ids)
         complete_graph.add_edges_from(itertools.permutations(node_ids, 2))
         return complete_graph
-
-    def complete_test(self, tmp_df, test_parent, test_child, parent_set):
+#TODO Tutti i valori che riguardano il test child possono essere settati una volta sola
+    def complete_test(self, tmp_df, test_parent, test_child, parent_set, child_states_numb):
         p_set = parent_set[:]
         complete_info = parent_set[:]
         complete_info.append(test_parent)
@@ -80,13 +80,14 @@ class StructureEstimator:
             v1 = v2[v2.Name != test_parent]
             #print("D1", d1)
             #print("V1", v1)
+            #TODO il numero di variabili puo essere passato dall'esterno
             s1 = st.Structure(d1, v1, self.sample_path.total_variables_count)
             g1 = ng.NetworkGraph(s1)
             g1.init_graph()
             p1 = pe.ParametersEstimator(self.sample_path, g1)
             p1.init_sets_cims_container()
             p1.compute_parameters_for_node(test_child)
-            sofc1 = p1.sets_of_cims_struct.sets_of_cims[s1.get_positional_node_indx(test_child)]
+            sofc1 = p1.sets_of_cims_struct.sets_of_cims[g1.get_positional_node_indx(test_child)]
             if not p_set:
                 self.cache.put(test_child, sofc1)
             else:
@@ -107,7 +108,7 @@ class StructureEstimator:
         p2.compute_parameters_for_node(test_child)
         sofc2 = p2.sets_of_cims_struct.sets_of_cims[s2.get_positional_node_indx(test_child)]"""
         if not sofc2:
-            print("Cache Miss SOC2")
+            #print("Cache Miss SOC2")
             #parent_set.append(test_parent)
             #d2 = tmp_df.loc[tmp_df['From'].isin(p_set)]
             #v2 = self.sample_path.structure.variables_frame.loc[
@@ -121,7 +122,7 @@ class StructureEstimator:
             p2 = pe.ParametersEstimator(self.sample_path, g2)
             p2.init_sets_cims_container()
             p2.compute_parameters_for_node(test_child)
-            sofc2 = p2.sets_of_cims_struct.sets_of_cims[s2.get_positional_node_indx(test_child)]
+            sofc2 = p2.sets_of_cims_struct.sets_of_cims[g2.get_positional_node_indx(test_child)]
             if p_set:
                 #set_p_set = set(p_set)
                 self.cache.put(set(p_set), sofc2)
@@ -134,15 +135,19 @@ class StructureEstimator:
                 #cim2 = sofc2.actual_cims[j]
                 #print(indx)
                 #print("Run Test", i, j)
-                if not self.independence_test(test_child, cim1, sofc2.actual_cims[j]):
+                if not self.independence_test(child_states_numb, cim1, sofc2.actual_cims[j]):
                     return False
         return True
 
-    def independence_test(self, tested_child, cim1, cim2):
-        r1s = cim1.state_transition_matrix.diagonal()
-        r2s = cim2.state_transition_matrix.diagonal()
-        F_stats = cim2.cim.diagonal() / cim1.cim.diagonal()
-        child_states_numb = self.sample_path.structure.get_states_number(tested_child)
+    def independence_test(self, child_states_numb, cim1, cim2):
+        M1 = cim1.state_transition_matrix
+        M2 = cim2.state_transition_matrix
+        r1s = M1.diagonal()
+        r2s = M2.diagonal()
+        C1 = cim1.cim
+        C2 = cim2.cim
+        F_stats = C2.diagonal() / C1.diagonal()
+        #child_states_numb = self.sample_path.structure.get_states_number(tested_child)
         for val in range(0, child_states_numb):
             if F_stats[val] < f_dist.ppf(self.exp_test_sign / 2, r1s[val], r2s[val]) or \
                     F_stats[val] > f_dist.ppf(1 - self.exp_test_sign / 2, r1s[val], r2s[val]):
@@ -150,9 +155,9 @@ class StructureEstimator:
                 return False
         #M1_no_diag = self.remove_diagonal_elements(cim1.state_transition_matrix)
         #M2_no_diag = self.remove_diagonal_elements(cim2.state_transition_matrix)
-        M1_no_diag = cim1.state_transition_matrix[~np.eye(cim1.state_transition_matrix.shape[0], dtype=bool)].reshape(cim1.state_transition_matrix.shape[0], -1)
-        M2_no_diag = cim2.state_transition_matrix[~np.eye(cim2.state_transition_matrix.shape[0], dtype=bool)].reshape(
-            cim2.state_transition_matrix.shape[0], -1)
+        M1_no_diag = M1[~np.eye(M1.shape[0], dtype=bool)].reshape(M1.shape[0], -1)
+        M2_no_diag = M2[~np.eye(M2.shape[0], dtype=bool)].reshape(
+            M2.shape[0], -1)
         chi_2_quantile = chi2_dist.ppf(1 - self.chi_test_alfa, child_states_numb - 1)
         """
         Ks = np.sqrt(cim1.state_transition_matrix.diagonal() / cim2.state_transition_matrix.diagonal())
@@ -181,6 +186,7 @@ class StructureEstimator:
         tests_parents_numb = len(u)
         complete_frame = self.complete_graph_frame
         test_frame = complete_frame.loc[complete_frame['To'].isin([var_id])]
+        child_states_numb = self.sample_path.structure.get_states_number(var_id)
         b = 0
         while b < len(u):
             #for parent_id in u:
@@ -198,7 +204,7 @@ class StructureEstimator:
                 for parents_set in S:
                     #print("Parent Set", parents_set)
                     #print("Test Parent", u[parent_indx])
-                    if self.complete_test(test_frame, u[parent_indx], var_id, parents_set):
+                    if self.complete_test(test_frame, u[parent_indx], var_id, parents_set, child_states_numb):
                         #print("Removing EDGE:", u[parent_indx], var_id)
                         self.complete_graph.remove_edge(u[parent_indx], var_id)
                         #print(self.complete_graph_frame)
