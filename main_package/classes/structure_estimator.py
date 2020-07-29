@@ -5,10 +5,6 @@ import networkx as nx
 from scipy.stats import f as f_dist
 from scipy.stats import chi2 as chi2_dist
 
-
-
-
-import sample_path as sp
 import structure as st
 import network_graph as ng
 import parameters_estimator as pe
@@ -19,7 +15,10 @@ class StructureEstimator:
 
     def __init__(self, sample_path, exp_test_alfa, chi_test_alfa):
         self.sample_path = sample_path
-        self.complete_graph_frame = self.build_complete_graph_frame(self.sample_path.structure.list_of_nodes_labels())
+        #self.complete_graph_frame = self.build_complete_graph_frame(self.sample_path.structure.list_of_nodes_labels())
+        self.nodes = np.array(self.sample_path.structure.list_of_nodes_labels())
+        self.nodes_vals = self.sample_path.structure.nodes_vals_arr
+        self.nodes_indxs = self.sample_path.structure.nodes_indexes_arr
         self.complete_graph = self.build_complete_graph(self.sample_path.structure.list_of_nodes_labels())
         self.exp_test_sign = exp_test_alfa
         self.chi_test_alfa = chi_test_alfa
@@ -36,52 +35,23 @@ class StructureEstimator:
         complete_graph.add_edges_from(itertools.permutations(node_ids, 2))
         return complete_graph
 #TODO Tutti i valori che riguardano il test child possono essere settati una volta sola
-    def complete_test(self, tmp_df, test_parent, test_child, parent_set, child_states_numb):
+    def complete_test(self, test_parent, test_child, parent_set, child_states_numb, tot_vars_count):
         p_set = parent_set[:]
         complete_info = parent_set[:]
-        complete_info.append(test_parent)
-        #tmp_df = self.complete_graph_frame.loc[self.complete_graph_frame['To'].isin([test_child])]
-        #tmp_df = self.complete_graph_frame.loc[np.in1d(self.complete_graph_frame['To'], test_child)]
-        d2 = tmp_df.loc[tmp_df['From'].isin(complete_info)]
         complete_info.append(test_child)
-        values_frame = self.sample_path.structure.variables_frame
-        v2 = values_frame.loc[
-                values_frame['Name'].isin(complete_info)]
-
-        #print(tmp_df)
-        #d1 = tmp_df.loc[tmp_df['From'].isin(parent_set)]
-        #parent_set.append(test_child)
-        #print(parent_set)
-        """v1 = self.sample_path.structure.variables_frame.loc[self.sample_path.structure.variables_frame['Name'].isin(parent_set)]
-        s1 = st.Structure(d1, v1, self.sample_path.total_variables_count)
-        g1 = ng.NetworkGraph(s1)
-        g1.init_graph()"""
-
-        #parent_set.append(test_parent)
-        """d2 = tmp_df.loc[tmp_df['From'].isin(parent_set)]
-        v2 = self.sample_path.structure.variables_frame.loc[self.sample_path.structure.variables_frame['Name'].isin(parent_set)]
-        s2 = st.Structure(d2, v2, self.sample_path.total_variables_count)
-        g2 = ng.NetworkGraph(s2)
-        g2.init_graph()"""
-        #parent_set.append(test_child)
-        #sofc1 = None
-        #if not sofc1:
         if not p_set:
             sofc1 = self.cache.find(test_child)
         else:
             sofc1 = self.cache.find(set(p_set))
 
         if not sofc1:
-            #d1 = tmp_df.loc[tmp_df['From'].isin(parent_set)]
-            d1 = d2[d2.From != test_parent]
-
-            #v1 = self.sample_path.structure.variables_frame.loc[
-                #self.sample_path.structure.variables_frame['Name'].isin(parent_set)]
-            v1 = v2[v2.Name != test_parent]
-            #print("D1", d1)
-            #print("V1", v1)
+            bool_mask1 = np.isin(self.nodes,complete_info)
+            l1 = list(self.nodes[bool_mask1])
+            indxs1 = self.nodes_indxs[bool_mask1]
+            vals1 = self.nodes_vals[bool_mask1]
+            eds1 = list(itertools.product(parent_set,test_child))
             #TODO il numero di variabili puo essere passato dall'esterno
-            s1 = st.Structure(d1, v1, self.sample_path.total_variables_count)
+            s1 = st.Structure(l1, indxs1, vals1, eds1, tot_vars_count)
             g1 = ng.NetworkGraph(s1)
             g1.init_graph()
             p1 = pe.ParametersEstimator(self.sample_path, g1)
@@ -93,7 +63,8 @@ class StructureEstimator:
             else:
                 self.cache.put(set(p_set), sofc1)
         sofc2 = None
-        p_set.append(test_parent)
+        #p_set.append(test_parent)
+        p_set.insert(0, test_parent)
         if p_set:
             #p_set.append(test_parent)
             #print("PSET ", p_set)
@@ -108,15 +79,13 @@ class StructureEstimator:
         p2.compute_parameters_for_node(test_child)
         sofc2 = p2.sets_of_cims_struct.sets_of_cims[s2.get_positional_node_indx(test_child)]"""
         if not sofc2:
-            #print("Cache Miss SOC2")
-            #parent_set.append(test_parent)
-            #d2 = tmp_df.loc[tmp_df['From'].isin(p_set)]
-            #v2 = self.sample_path.structure.variables_frame.loc[
-                #self.sample_path.structure.variables_frame['Name'].isin(parent_set)]
-            #print("D2", d2)
-            #print("V2", v2)
-            #s2 = st.Structure(d2, v2, self.sample_path.total_variables_count)
-            s2 = st.Structure(d2, v2, self.sample_path.total_variables_count)
+            complete_info.append(test_parent)
+            bool_mask2 = np.isin(self.nodes, complete_info)
+            l2 = list(self.nodes[bool_mask2])
+            indxs2 = self.nodes_indxs[bool_mask2]
+            vals2 = self.nodes_vals[bool_mask2]
+            eds2 = list(itertools.product(p_set, test_child))
+            s2 = st.Structure(l2, indxs2, vals2, eds2, tot_vars_count)
             g2 = ng.NetworkGraph(s2)
             g2.init_graph()
             p2 = pe.ParametersEstimator(self.sample_path, g2)
@@ -151,7 +120,7 @@ class StructureEstimator:
         for val in range(0, child_states_numb):
             if F_stats[val] < f_dist.ppf(self.exp_test_sign / 2, r1s[val], r2s[val]) or \
                     F_stats[val] > f_dist.ppf(1 - self.exp_test_sign / 2, r1s[val], r2s[val]):
-                print("CONDITIONALLY DEPENDENT EXP")
+                #print("CONDITIONALLY DEPENDENT EXP")
                 return False
         #M1_no_diag = self.remove_diagonal_elements(cim1.state_transition_matrix)
         #M2_no_diag = self.remove_diagonal_elements(cim2.state_transition_matrix)
@@ -176,26 +145,26 @@ class StructureEstimator:
             #print("Chi Quantile", chi_2_quantile)
             if Chi > chi_2_quantile:
         #if np.any(chi_stats > chi_2_quantile):
-                print("CONDITIONALLY DEPENDENT CHI")
+                #print("CONDITIONALLY DEPENDENT CHI")
                 return False
             #print("Chi test", Chi)
         return True
 
-    def one_iteration_of_CTPC_algorithm(self, var_id):
+    def one_iteration_of_CTPC_algorithm(self, var_id, tot_vars_count):
+        print("TESTING VAR", var_id)
         u = list(self.complete_graph.predecessors(var_id))
-        tests_parents_numb = len(u)
-        complete_frame = self.complete_graph_frame
-        test_frame = complete_frame.loc[complete_frame['To'].isin([var_id])]
+        #tests_parents_numb = len(u)
+        #complete_frame = self.complete_graph_frame
+        #test_frame = complete_frame.loc[complete_frame['To'].isin([var_id])]
         child_states_numb = self.sample_path.structure.get_states_number(var_id)
         b = 0
         while b < len(u):
             #for parent_id in u:
             parent_indx = 0
-            while u and parent_indx < tests_parents_numb and b < len(u):
+            while parent_indx < len(u):
                 # list_without_test_parent = u.remove(parent_id)
+
                 removed = False
-                #print("b", b)
-                #print("Parent Indx", parent_indx)
                 #if not list(self.generate_possible_sub_sets_of_size(u, b, u[parent_indx])):
                     #break
                 S = self.generate_possible_sub_sets_of_size(u, b, parent_indx)
@@ -204,19 +173,9 @@ class StructureEstimator:
                 for parents_set in S:
                     #print("Parent Set", parents_set)
                     #print("Test Parent", u[parent_indx])
-                    if self.complete_test(test_frame, u[parent_indx], var_id, parents_set, child_states_numb):
-                        #print("Removing EDGE:", u[parent_indx], var_id)
+                    if self.complete_test(u[parent_indx], var_id, parents_set, child_states_numb, tot_vars_count):
+                        print("Removing EDGE:", u[parent_indx], var_id)
                         self.complete_graph.remove_edge(u[parent_indx], var_id)
-                        #print(self.complete_graph_frame)
-                        """self.complete_graph_frame = \
-                            self.complete_graph_frame.drop(
-                                self.complete_graph_frame[(self.complete_graph_frame.From ==
-                                                     u[parent_indx]) & (self.complete_graph_frame.To == var_id)].index)"""
-
-                        complete_frame.drop(complete_frame[(complete_frame.From == u[parent_indx]) &
-                                                           (complete_frame.To == var_id)].index, inplace=True)
-                        #print(self.complete_graph_frame)
-                        #u.remove(u[parent_indx])
                         del u[parent_indx]
                         removed = True
                     #else:
@@ -227,8 +186,6 @@ class StructureEstimator:
         self.cache.clear()
 
     def generate_possible_sub_sets_of_size(self, u, size, parent_indx):
-        #print("Inside Generate subsets", u)
-        #print("InsideGenerate Subsets", parent_id)
         list_without_test_parent = u[:]
         del list_without_test_parent[parent_indx]
         # u.remove(parent_id)
@@ -243,10 +200,10 @@ class StructureEstimator:
 
     def ctpc_algorithm(self):
         ctpc_algo = self.one_iteration_of_CTPC_algorithm
-        nodes = self.sample_path.structure.list_of_nodes_labels()
+        total_vars_numb = self.sample_path.total_variables_count
         #for node_id in self.sample_path.structure.list_of_nodes_labels():
             #print("TESTING VAR:", node_id)
             #self.one_iteration_of_CTPC_algorithm(node_id)
             #print(self.complete_graph_frame)
-        [ctpc_algo(n) for n in nodes]
+        [ctpc_algo(n, total_vars_numb) for n in self.nodes]
 

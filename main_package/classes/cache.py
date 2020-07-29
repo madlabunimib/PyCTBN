@@ -10,6 +10,8 @@ class Cache:
 
     def find(self, parents_comb: typing.Set):
             try:
+                #print("Cache State:", self.list_of_sets_of_indxs)
+                #print("Look For:", parents_comb)
                 result = self.actual_cache[self.list_of_sets_of_indxs.index(parents_comb)]
                 print("CACHE HIT!!!!")
                 return result
@@ -17,6 +19,7 @@ class Cache:
                 return None
 
     def put(self, parents_comb: typing.Set, socim: sofc.SetOfCims):
+        #print("Putting in cache:", parents_comb)
         self.list_of_sets_of_indxs.append(parents_comb)
         self.actual_cache.append(socim)
 

@@ -10,44 +10,48 @@ class Structure:
     rispetto alle colonne del dataset
     """
 
-    def __init__(self, structure, variables, total_variables_number):
-        self.structure_frame = structure
-        self.variables_frame = variables
+    def __init__(self, nodes_label_list, node_indexes_arr, nodes_vals_arr, edges_list, total_variables_number):
+        #self.structure_frame = structure
+        #self.variables_frame = variables
+        self.nodes_labels_list = nodes_label_list
+        self.nodes_indexes_arr = node_indexes_arr
+        self.nodes_vals_arr = nodes_vals_arr
+        self.edges_list = edges_list
         self.total_variables_number = total_variables_number
-        self.name_label = variables.columns.values[0]
-        self.value_label = variables.columns.values[1]
+        #self.name_label = variables.columns.values[0]
+        #self.value_label = variables.columns.values[1]
 
     def list_of_edges(self):
-        records = self.structure_frame.to_records(index=False)
-        edges_list = list(records)
-        return edges_list
+        #records = self.structure_frame.to_records(index=False)
+        #edges_list = list(records)
+        return self.edges_list
 
     def list_of_nodes_labels(self):
-        return self.variables_frame[self.name_label].values.tolist()
+        return self.nodes_labels_list
 
     def list_of_nodes_indexes(self):
-        return self.variables_frame.index.to_list()
+        return self.nodes_indexes_arr
 
     def get_node_id(self, node_indx):
-        return self.variables_frame[self.name_label][node_indx]
+        return self.nodes_labels_list[node_indx]
 
     def get_node_indx(self, node_id):
-        return self.variables_frame[self.name_label][self.variables_frame[self.name_label] == node_id].index[0]
+        return self.nodes_indexes_arr[self.nodes_labels_list.index(node_id)]
 
     def get_positional_node_indx(self, node_id):
-        return np.flatnonzero(self.variables_frame[self.name_label] == node_id)[0]
+        return self.nodes_labels_list.index(node_id)
 
     def get_states_number(self, node):
         #print("node", node)
-        return self.variables_frame[self.value_label][self.get_node_indx(node)]
+        return self.nodes_vals_arr[self.get_positional_node_indx(node)]
 
     def get_states_number_by_indx(self, node_indx):
         #print(self.value_label)
         #print("Node indx", node_indx)
-        return self.variables_frame[self.value_label][node_indx]
+        return self.nodes_vals_arr[node_indx]
 
     def nodes_values(self):
-        return self.variables_frame[self.value_label].to_list()
+        return self.nodes_vals_arr
 
     def total_variables_number(self):
         return self.total_variables_number
