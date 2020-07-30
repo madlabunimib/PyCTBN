@@ -191,7 +191,7 @@ class StructureEstimator:
         while b < len(u):
             #for parent_id in u:
             parent_indx = 0
-            while u and parent_indx < tests_parents_numb and b < len(u):
+            while parent_indx < len(u):
                 # list_without_test_parent = u.remove(parent_id)
                 removed = False
                 #print("b", b)

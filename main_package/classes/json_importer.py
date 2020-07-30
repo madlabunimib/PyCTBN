@@ -39,11 +39,12 @@ class JsonImporter(AbstractImporter):
 
     def import_data(self):
         raw_data = self.read_json_file()
+        self.import_variables(raw_data)
         self.import_trajectories(raw_data)
         self.compute_row_delta_in_all_samples_frames(self.time_key)
         self.clear_data_frame_list()
         self.import_structure(raw_data)
-        self.import_variables(raw_data, self.sorter)
+        # self.import_variables(raw_data, self.sorter)
 
     def import_trajectories(self, raw_data: pd.DataFrame):
         self.normalize_trajectories(raw_data, 0, self.samples_label)
@@ -51,10 +52,13 @@ class JsonImporter(AbstractImporter):
     def import_structure(self, raw_data: pd.DataFrame):
         self._df_structure = self.one_level_normalizing(raw_data, 0, self.structure_label)
 
-    def import_variables(self, raw_data: pd.DataFrame, sorter: typing.List):
+    def import_variables(self, raw_data: pd.DataFrame):
         self._df_variables = self.one_level_normalizing(raw_data, 0, self.variables_label)
+        self.sorter = self._df_variables[self.variables_key].to_list()
+        self.sorter.sort()
+        print("Sorter:", self.sorter)
         self._df_variables[self.variables_key] = self._df_variables[self.variables_key].astype("category")
-        self._df_variables[self.variables_key] = self._df_variables[self.variables_key].cat.set_categories(sorter)
+        self._df_variables[self.variables_key] = self._df_variables[self.variables_key].cat.set_categories(self.sorter)
         self._df_variables = self._df_variables.sort_values([self.variables_key])
 
     def read_json_file(self) -> typing.List:
@@ -105,7 +109,7 @@ class JsonImporter(AbstractImporter):
         self.df_samples_list = [pd.DataFrame(sample) for sample in raw_data[indx][trajectories_key]]
         #for sample_indx, sample in enumerate(raw_data[indx][trajectories_key]):
             #self.df_samples_list.append(pd.DataFrame(sample))
-        self.sorter = list(self.df_samples_list[0].columns.values)[1:]
+        #self.sorter = list(self.df_samples_list[0].columns.values)[1:]
 
     def compute_row_delta_sigle_samples_frame(self, sample_frame: pd.DataFrame, time_header_label: str,
                                               columns_header: typing.List, shifted_cols_header: typing.List) \
@@ -126,6 +130,12 @@ class JsonImporter(AbstractImporter):
             self.df_samples_list[indx] = self.compute_row_delta_sigle_samples_frame(sample,
                                                         time_header_label, self.sorter, shifted_cols_header)
         self._concatenated_samples = pd.concat(self.df_samples_list)
+        complete_header = self.sorter[:]
+        complete_header.insert(0, 'Time')
+        complete_header.extend(shifted_cols_header)
+        print("Complete Header", complete_header)
+        self._concatenated_samples = self._concatenated_samples[complete_header]
+        print("Concat Samples", self._concatenated_samples)
 
     def build_list_of_samples_array(self, data_frame: pd.DataFrame) -> typing.List:
         """
