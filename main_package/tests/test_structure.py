@@ -107,7 +107,7 @@ class TestStructure(unittest.TestCase):
         sp1 = sp.SamplePath('../data', 'samples', 'dyn.str', 'variables', 'Time', 'Name')
         sp1.build_trajectories()
         sp1.build_structure()
-        st1 = st.Structure(['X', 'Y', 'Z'], np.array([0,1,2]), np.array([3,3,3]), [('X', 'Y'), ('Z', 'Y')], sp1.total_variables_count)
+        st1 = st.Structure(['Y'], np.array([2]), np.array([2]), [], sp1.total_variables_count)
         g1 = ng.NetworkGraph(st1)
         g1.init_graph()
         print(g1.transition_scalar_indexing_structure)
@@ -117,7 +117,7 @@ class TestStructure(unittest.TestCase):
         p1 = pe.ParametersEstimator(sp1,g1)
         p1.init_sets_cims_container()
         p1.compute_parameters_for_node('Y')
-        print(p1.sets_of_cims_struct.sets_of_cims[1].actual_cims)
+        print(p1.sets_of_cims_struct.sets_of_cims[0].actual_cims)
 
 
 if __name__ == '__main__':

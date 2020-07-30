@@ -51,12 +51,6 @@ class SamplePath:
     def total_variables_count(self):
         return self.total_variables_count
 
-    """def build_possible_values_variables_structure(self):
-        possible_val_list = []
-        print(self.importer.variables)
-        for cardinality in self.importer.variables['Value']:
-            possible_val_list.append(list(range(0, cardinality)))
-        self.possible_variables_values = possible_val_list"""
 
 
 

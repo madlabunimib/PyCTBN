@@ -52,9 +52,12 @@ class StructureEstimator:
             s1 = st.Structure(l1, indxs1, vals1, eds1, tot_vars_count)
             g1 = ng.NetworkGraph(s1)
             g1.init_graph()
+            print("G1 NODES", g1.get_nodes())
+            print("G1 Edges", g1.get_edges())
             p1 = pe.ParametersEstimator(self.sample_path, g1)
             p1.init_sets_cims_container()
             p1.compute_parameters_for_node(test_child)
+            
             sofc1 = p1.sets_of_cims_struct.sets_of_cims[g1.get_positional_node_indx(test_child)]
             if not p_set:
                 self.cache.put(test_child, sofc1)
@@ -86,6 +89,8 @@ class StructureEstimator:
             s2 = st.Structure(l2, indxs2, vals2, eds2, tot_vars_count)
             g2 = ng.NetworkGraph(s2)
             g2.init_graph()
+            print("G2 Nodes", g2.get_nodes())
+            print("G2 Edges", g2.get_edges())
             p2 = pe.ParametersEstimator(self.sample_path, g2)
             p2.init_sets_cims_container()
             p2.compute_parameters_for_node(test_child)
@@ -113,6 +118,8 @@ class StructureEstimator:
         r2s = M2.diagonal()
         C1 = cim1.cim
         C2 = cim2.cim
+        print("C1", C1)
+        print("C2", C2)
         F_stats = C2.diagonal() / C1.diagonal()
         exp_alfa = self.exp_test_sign
         for val in range(0, child_states_numb):
@@ -149,7 +156,7 @@ class StructureEstimator:
         return True
 
     def one_iteration_of_CTPC_algorithm(self, var_id, tot_vars_count):
-        #print("TESTING VAR", var_id)
+        print("TESTING VAR", var_id)
         u = list(self.complete_graph.predecessors(var_id))
         #tests_parents_numb = len(u)
         #complete_frame = self.complete_graph_frame
