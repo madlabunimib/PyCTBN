@@ -34,6 +34,7 @@ class SamplePath:
     def build_structure(self):
         self.total_variables_count = len(self.importer.sorter)
         labels = self.importer._df_variables['Name'].to_list()
+        #print("SAMPLE PATH LABELS",labels)
         indxs = self.importer._df_variables.index.to_numpy()
         vals = self.importer._df_variables['Value'].to_numpy()
         edges = list(self.importer._df_structure.to_records(index=False))

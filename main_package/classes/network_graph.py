@@ -19,29 +19,31 @@ class NetworkGraph():
         self.graph = nx.DiGraph()
         self._nodes_indexes = self.graph_struct.list_of_nodes_indexes()
         self._nodes_labels = self.graph_struct.list_of_nodes_labels()
+        self._nodes_values = self.graph_struct.nodes_values()
         self.aggregated_info_about_nodes_parents = None
         self._fancy_indexing = None
         self._time_scalar_indexing_structure = None
         self._transition_scalar_indexing_structure = None
         self._time_filtering = None
         self._transition_filtering = None
+        self._p_combs_structure = None
 
     def init_graph(self):
-        self.add_nodes(self.graph_struct.list_of_nodes_labels())
+        self.add_nodes(self._nodes_labels)
         self.add_edges(self.graph_struct.list_of_edges())
         self.aggregated_info_about_nodes_parents = self.get_ord_set_of_par_of_all_nodes()
         self._fancy_indexing = self.build_fancy_indexing_structure(0)
         self.build_scalar_indexing_structures()
-        #self.build_time_scalar_indexing_structure()
         self.build_time_columns_filtering_structure()
-        #self.build_transition_scalar_indexing_structure()
         self.build_transition_columns_filtering_structure()
-
+        self._p_combs_structure = self.build_p_combs_structure()
+    #ATTENZIONE LIST_OF_NODES DEVE ESSERE COERENTE CON L?ORDINAMENTO DEL DS
     def add_nodes(self, list_of_nodes):
         #self.graph.add_nodes_from(list_of_nodes)
-        nodes_indxs = self.graph_struct.list_of_nodes_indexes()
+        nodes_indxs = self._nodes_indexes
         nodes_vals = self.graph_struct.nodes_values()
         pos = 0
+        #print("LIST OF NODES", list_of_nodes)
         for id, node_indx, node_val in zip(list_of_nodes, nodes_indxs, nodes_vals):
             self.graph.add_node(id, indx=node_indx, val=node_val, pos_indx=pos)
             pos += 1
@@ -52,13 +54,21 @@ class NetworkGraph():
 
     def get_ordered_by_indx_set_of_parents(self, node):
         parents = self.get_parents_by_id(node)
+        #print("PARENTS", parents)
         nodes = self.get_nodes()
-        sorted_parents = [x for _, x in sorted(zip(nodes, parents))]
+        #print("NODES", nodes)
+        d = {v: i for i, v in enumerate(nodes)}
+        sorted_parents = sorted(parents, key=lambda v: d[v])
+        #sorted_parents = [x for _, x in sorted(zip(nodes, parents))]
+        #print("SORTED PARENTS IN GRAPH",sorted_parents)
         #p_indxes= []
         #p_values = []
         get_node_indx = self.get_node_indx
         p_indxes = [get_node_indx(node) for node in sorted_parents]
+        #p_indxes.sort()
         p_values = [self.get_states_number(node) for node in sorted_parents]
+        #print("P INDXS", p_indxes)
+        #print("P VALS", p_values)
         return (sorted_parents, p_indxes, p_values)
 
     def get_ord_set_of_par_of_all_nodes(self):
@@ -88,9 +98,9 @@ class NetworkGraph():
         #states_number_list = []
         #for node in self._nodes_labels:
             #states_number_list.append(self.get_states_number(node))
-        get_states_number = self.get_states_number
-        states_number_list = [get_states_number(node) for node in self._nodes_labels]
-        return states_number_list
+        #get_states_number = self.get_states_number
+        #states_number_list = [get_states_number(node) for node in self._nodes_labels]
+        return self._nodes_values
 
     def build_fancy_indexing_structure(self, start_indx):
         if start_indx > 0:
@@ -125,6 +135,8 @@ class NetworkGraph():
         """for node_indx, p_indxs in zip(self.graph_struct.list_of_nodes_indexes(), self._fancy_indexing):
                 self._time_filtering.append(np.append(np.array([node_indx], dtype=np.int), p_indxs).astype(np.int))"""
         nodes_indxs = self.graph_struct.list_of_nodes_indexes()
+        #print("FINDXING", self._fancy_indexing)
+        #print("Nodes Indxs", nodes_indxs)
         self._time_filtering = [np.append(np.array([node_indx], dtype=np.int), p_indxs).astype(np.int)
             for node_indx, p_indxs in zip(nodes_indxs, self._fancy_indexing)]
 
@@ -149,6 +161,28 @@ class NetworkGraph():
                                                           parents_values_for_all_nodes)]
         self._transition_scalar_indexing_structure = [i[0] for i in aggr]
         self._time_scalar_indexing_structure = [i[1] for i in aggr]
+
+    def build_p_combs_structure(self):
+        parents_values_for_all_nodes = self.get_ordered_by_indx_parents_values_for_all_nodes()
+        p_combs_struct = [self.build_p_comb_structure_for_a_node(p_vals) for p_vals in parents_values_for_all_nodes]
+        return p_combs_struct
+
+    def build_p_comb_structure_for_a_node(self, parents_values):
+        tmp = []
+        for val in parents_values:
+            tmp.append([x for x in range(val)])
+        #print("TIMP", tmp)
+        if len(parents_values) > 0:
+            parents_comb = np.array(np.meshgrid(*tmp)).T.reshape(-1, len(parents_values))
+            #print("PArents COmb", parents_comb)
+            if len(parents_values) > 1:
+                tmp_comb = parents_comb[:, 1].copy()
+                #print(tmp_comb)
+                parents_comb[:, 1] = parents_comb[:, 0].copy()
+                parents_comb[:, 0] = tmp_comb
+        else:
+            parents_comb = np.array([[]], dtype=np.int)
+        return parents_comb
 
     def get_nodes(self):
         return list(self.graph.nodes)
@@ -194,5 +228,9 @@ class NetworkGraph():
     @property
     def transition_filtering(self):
         return self._transition_filtering
+
+    @property
+    def p_combs(self):
+        return self._p_combs_structure
 
 

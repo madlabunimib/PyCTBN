@@ -19,7 +19,8 @@ class ParametersEstimator:
     def init_sets_cims_container(self):
         self.sets_of_cims_struct = acims.SetsOfCimsContainer(self.net_graph.get_nodes(),
                                                              self.net_graph.get_states_number_of_all_nodes_sorted(),
-                                                    self.net_graph.get_ordered_by_indx_parents_values_for_all_nodes())
+                                                    self.net_graph.get_ordered_by_indx_parents_values_for_all_nodes(),
+                                                    self.net_graph.p_combs)
 
 
     def compute_parameters(self):
@@ -42,26 +43,28 @@ class ParametersEstimator:
                                                       self.net_graph.transition_scalar_indexing_structure[indx],
                                                       aggr[1].transition_matrices)
             aggr[1].build_cims(aggr[1].state_residence_times, aggr[1].transition_matrices)
-
+#TODO togliere tutti sti self.
     def compute_parameters_for_node(self, node_id):
-        pos_index = self.net_graph.graph_struct.get_positional_node_indx(node_id)
+        pos_index = self.net_graph.get_positional_node_indx(node_id)
         node_indx = self.net_graph.get_node_indx(node_id)
+        state_res_times = self.sets_of_cims_struct.sets_of_cims[pos_index].state_residence_times
+        transition_matrices = self.sets_of_cims_struct.sets_of_cims[pos_index].transition_matrices
         #print("Nodes", self.net_graph.get_nodes())
         self.compute_state_res_time_for_node(node_indx, self.sample_path.trajectories.times,
                                              self.sample_path.trajectories.trajectory,
                                              self.net_graph.time_filtering[pos_index],
                                              self.net_graph.time_scalar_indexing_strucure[pos_index],
-                                             self.sets_of_cims_struct.sets_of_cims[pos_index].state_residence_times)
+                                             state_res_times)
         # print(self.net_graph.transition_filtering[indx])
         # print(self.net_graph.transition_scalar_indexing_structure[indx])
         self.compute_state_transitions_for_a_node(node_indx,
                                                   self.sample_path.trajectories.complete_trajectory,
                                                   self.net_graph.transition_filtering[pos_index],
                                                   self.net_graph.transition_scalar_indexing_structure[pos_index],
-                                                  self.sets_of_cims_struct.sets_of_cims[pos_index].transition_matrices)
+                                                  transition_matrices)
         self.sets_of_cims_struct.sets_of_cims[pos_index].build_cims(
-            self.sets_of_cims_struct.sets_of_cims[pos_index].state_residence_times,
-            self.sets_of_cims_struct.sets_of_cims[pos_index].transition_matrices)
+            state_res_times,
+            transition_matrices)
 
     def compute_state_res_time_for_node(self, node_indx, times, trajectory, cols_filter, scalar_indexes_struct, T):
         #print(times.size)
@@ -98,6 +101,7 @@ class ParametersEstimator:
 
         M[:] = np.bincount(np.sum(trj_tmp[:, cols_filter] * scalar_indexing / scalar_indexing[0], axis=1).astype(np.int),
                            minlength=scalar_indexing[-1]).reshape(-1, M.shape[1], M.shape[2])
+        #print(M)
         M_raveled = M.ravel()
         M_raveled[diag_indices] = 0
         #print(M_raveled)

@@ -12,13 +12,14 @@ class SetOfCims:
     :actual_cims: le CIM della varibile
     """
 
-    def __init__(self, node_id, parents_states_number, node_states_number):
+    def __init__(self, node_id, parents_states_number, node_states_number, p_combs):
         self.node_id = node_id
         self.parents_states_number = parents_states_number
         self.node_states_number = node_states_number
         self.actual_cims = []
         self.state_residence_times = None
         self.transition_matrices = None
+        self.p_combs = p_combs
         self.build_actual_cims_structure()
 
     def build_actual_cims_structure(self):
@@ -52,6 +53,7 @@ class SetOfCims:
             cim_to_add.compute_cim_coefficients()
             #print(cim_to_add)
             self.actual_cims.append(cim_to_add)
+        self.actual_cims = np.array(self.actual_cims)
         self.transition_matrices = None
         self.state_residence_times = None
 
@@ -62,6 +64,13 @@ class SetOfCims:
         flat_index = self.indexes_converter(index)
         return self.actual_cims[flat_index]
 
+    def filter_cims_with_mask(self, mask_arr, comb):
+        if mask_arr.size <= 1:
+            return self.actual_cims
+        else:
+            tmp_parents_comb_from_ids = np.argwhere(np.all(self.p_combs[:, mask_arr] == comb, axis=1)).ravel()
+            #print("CIMS INDEXES TO USE!",tmp_parents_comb_from_ids)
+            return self.actual_cims[tmp_parents_comb_from_ids]
 
 """sofc = SetOfCims('Z', [3, 3], 3)
 sofc.build_actual_cims_structure()

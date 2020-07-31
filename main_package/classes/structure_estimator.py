@@ -16,8 +16,11 @@ class StructureEstimator:
     def __init__(self, sample_path, exp_test_alfa, chi_test_alfa):
         self.sample_path = sample_path
         self.nodes = np.array(self.sample_path.structure.list_of_nodes_labels())
+        #print("NODES", self.nodes)
         self.nodes_vals = self.sample_path.structure.nodes_vals_arr
         self.nodes_indxs = self.sample_path.structure.nodes_indexes_arr
+        #self.nodes_indxs = np.array(range(0,4))
+        #print("INDXS", self.nodes_indxs)
         self.complete_graph = self.build_complete_graph(self.sample_path.structure.list_of_nodes_labels())
         self.exp_test_sign = exp_test_alfa
         self.chi_test_alfa = chi_test_alfa
@@ -35,9 +38,20 @@ class StructureEstimator:
         return complete_graph
 
     def complete_test(self, test_parent, test_child, parent_set, child_states_numb, tot_vars_count):
+        #print("Test Parent:", test_parent)
+        #print("Sep Set", parent_set)
         p_set = parent_set[:]
         complete_info = parent_set[:]
         complete_info.append(test_child)
+
+        parents = np.array(parent_set)
+        parents = np.append(parents, test_parent)
+        #print("PARENTS", parents)
+        #parents.sort()
+        sorted_parents = self.nodes[np.isin(self.nodes, parents)]
+        #print("SORTED PARENTS", sorted_parents)
+        cims_filter = sorted_parents != test_parent
+        #print("PARENTS NO FROM MASK", cims_filter)
         if not p_set:
             sofc1 = self.cache.find(test_child)
         else:
@@ -45,15 +59,22 @@ class StructureEstimator:
 
         if not sofc1:
             bool_mask1 = np.isin(self.nodes,complete_info)
+            #print("Bool mask 1", bool_mask1)
             l1 = list(self.nodes[bool_mask1])
+            #print("L1", l1)
             indxs1 = self.nodes_indxs[bool_mask1]
+            #print("INDXS 1", indxs1)
             vals1 = self.nodes_vals[bool_mask1]
             eds1 = list(itertools.product(parent_set,test_child))
             s1 = st.Structure(l1, indxs1, vals1, eds1, tot_vars_count)
             g1 = ng.NetworkGraph(s1)
             g1.init_graph()
-            print("G1 NODES", g1.get_nodes())
-            print("G1 Edges", g1.get_edges())
+        #print("M Vector", g1.transition_scalar_indexing_structure)
+        #print("Time Vecotr", g1.time_scalar_indexing_strucure)
+        #print("Time Filter", g1.time_filtering)
+        #print("M Filter", g1.transition_filtering)
+        #print("G1 NODES", g1.get_nodes())
+        #print("G1 Edges", g1.get_edges())
             p1 = pe.ParametersEstimator(self.sample_path, g1)
             p1.init_sets_cims_container()
             p1.compute_parameters_for_node(test_child)
@@ -71,7 +92,8 @@ class StructureEstimator:
             #print("PSET ", p_set)
             #set_p_set = set(p_set)
             sofc2 = self.cache.find(set(p_set))
-            #print("Sofc2 ", sofc2)
+            #if sofc2:
+                #print("Sofc2 in CACHE ", sofc2.actual_cims)
             #print(self.cache.list_of_sets_of_indxs)
 
         """p2 = pe.ParametersEstimator(self.sample_path, g2)
@@ -82,32 +104,45 @@ class StructureEstimator:
         if not sofc2:
             complete_info.append(test_parent)
             bool_mask2 = np.isin(self.nodes, complete_info)
+            #print("BOOL MASK 2",bool_mask2)
             l2 = list(self.nodes[bool_mask2])
+            #print("L2", l2)
             indxs2 = self.nodes_indxs[bool_mask2]
+            #print("INDXS 2", indxs2)
             vals2 = self.nodes_vals[bool_mask2]
             eds2 = list(itertools.product(p_set, test_child))
             s2 = st.Structure(l2, indxs2, vals2, eds2, tot_vars_count)
             g2 = ng.NetworkGraph(s2)
             g2.init_graph()
-            print("G2 Nodes", g2.get_nodes())
-            print("G2 Edges", g2.get_edges())
+        #print("M Vector", g2.transition_scalar_indexing_structure)
+        #print("Time Vecotr", g2.time_scalar_indexing_strucure)
+        #print("Time Filter", g2.time_filtering)
+        #print("M Filter", g2.transition_filtering)
+        #print("G2 Nodes", g2.get_nodes())
+        #print("G2 Edges", g2.get_edges())
             p2 = pe.ParametersEstimator(self.sample_path, g2)
             p2.init_sets_cims_container()
             p2.compute_parameters_for_node(test_child)
             sofc2 = p2.sets_of_cims_struct.sets_of_cims[g2.get_positional_node_indx(test_child)]
-            if p_set:
+            #if p_set:
                 #set_p_set = set(p_set)
-                self.cache.put(set(p_set), sofc2)
-        end = 0
-        increment = self.sample_path.structure.get_states_number(test_parent)
-        for cim1 in sofc1.actual_cims:
-            start = end
-            end = start + increment
-            for j in range(start, end):
+            self.cache.put(set(p_set), sofc2)
+        #start = 0
+        #end = self.sample_path.structure.get_states_number(test_parent)
+        #print("SOFC2", sofc2.actual_cims)
+        #print("Sofc2 pcomb", sofc2.p_combs)
+        for cim1, p_comb in zip(sofc1.actual_cims, sofc1.p_combs):
+            #print("GETTING THIS P COMB", p_comb)
+            #if len(parent_set) > 1:
+            cond_cims = sofc2.filter_cims_with_mask(cims_filter, p_comb)
+            #else:
+                #cond_cims = sofc2.actual_cims
+            #print("COnd Cims", cond_cims)
+            for cim2 in cond_cims:
                 #cim2 = sofc2.actual_cims[j]
                 #print(indx)
                 #print("Run Test", i, j)
-                if not self.independence_test(child_states_numb, cim1, sofc2.actual_cims[j]):
+                if not self.independence_test(child_states_numb, cim1, cim2):
                     return False
         return True
 
@@ -118,8 +153,8 @@ class StructureEstimator:
         r2s = M2.diagonal()
         C1 = cim1.cim
         C2 = cim2.cim
-        print("C1", C1)
-        print("C2", C2)
+        #print("C1", C1)
+        #print("C2", C2)
         F_stats = C2.diagonal() / C1.diagonal()
         exp_alfa = self.exp_test_sign
         for val in range(0, child_states_numb):
@@ -156,7 +191,7 @@ class StructureEstimator:
         return True
 
     def one_iteration_of_CTPC_algorithm(self, var_id, tot_vars_count):
-        print("TESTING VAR", var_id)
+        print("##################TESTING VAR################", var_id)
         u = list(self.complete_graph.predecessors(var_id))
         #tests_parents_numb = len(u)
         #complete_frame = self.complete_graph_frame
@@ -167,22 +202,26 @@ class StructureEstimator:
             #for parent_id in u:
             parent_indx = 0
             while parent_indx < len(u):
-                # list_without_test_parent = u.remove(parent_id)
+                #print("Parent_indx",parent_indx)
+                #print("LEN U", len(u))
 
                 removed = False
                 #if not list(self.generate_possible_sub_sets_of_size(u, b, u[parent_indx])):
                     #break
-                S = self.generate_possible_sub_sets_of_size(u, b, parent_indx)
+                S = self.generate_possible_sub_sets_of_size(u, b, u[parent_indx])
                 #print("U Set", u)
                 #print("S", S)
+                test_parent = u[parent_indx]
+                #print("Test Parent", test_parent)
                 for parents_set in S:
                     #print("Parent Set", parents_set)
-                    #print("Test Parent", u[parent_indx])
-                    if self.complete_test(u[parent_indx], var_id, parents_set, child_states_numb, tot_vars_count):
-                        print("Removing EDGE:", u[parent_indx], var_id)
-                        self.complete_graph.remove_edge(u[parent_indx], var_id)
-                        del u[parent_indx]
+                    #print("Test Parent", test_parent)
+                    if self.complete_test(test_parent, var_id, parents_set, child_states_numb, tot_vars_count):
+                        #print("Removing EDGE:", test_parent, var_id)
+                        self.complete_graph.remove_edge(test_parent, var_id)
+                        u.remove(test_parent)
                         removed = True
+                        break
                     #else:
                         #parent_indx += 1
                 if not removed:
@@ -192,8 +231,11 @@ class StructureEstimator:
 
     def generate_possible_sub_sets_of_size(self, u, size, parent_indx):
         list_without_test_parent = u[:]
-        del list_without_test_parent[parent_indx]
-        # u.remove(parent_id)
+        #del list_without_test_parent[parent_indx]
+        #print("U", u)
+        #print("Szie", size)
+        #print("parent indx", parent_indx)
+        list_without_test_parent.remove(parent_indx)
         #print(list(map(list, itertools.combinations(list_without_test_parent, size))))
         return map(list, itertools.combinations(list_without_test_parent, size))
 
