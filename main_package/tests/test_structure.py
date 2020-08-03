@@ -11,71 +11,74 @@ import parameters_estimator as pe
 
 
 class TestStructure(unittest.TestCase):
-    def setUp(self):
-        self.structure_frame = pd.DataFrame([{"From":"X","To":"Z"}, {"From":"Y","To":"Z"},
-                                             {"From":"Z","To":"Y"} ])
-        self.variables_frame = pd.DataFrame([{"Name":"X","Value":3},{"Name":"Y","Value":3},{"Name":"Z","Value":3}])
+    @classmethod
+    def setUpClass(cls):
+        cls.labels = ['X','Y','Z']
+        cls.indxs = np.array([0,1,2])
+        cls.vals = np.array([3,3,3])
+        cls.edges = [('X','Z'),('Y','Z'), ('Z','Y')]
+        cls.vars_numb = len(cls.labels)
 
     def test_init(self):
-        s1 = st.Structure(self.structure_frame, self.variables_frame, len(self.variables_frame.index))
-        self.assertTrue(self.structure_frame.equals(s1.structure_frame))
-        self.assertTrue(self.variables_frame.equals(s1.variables_frame))
-        self.assertEqual(self.variables_frame.columns.values[0], s1.name_label)
-        self.assertEqual(self.variables_frame.columns.values[1], s1.value_label)
-        #print(len(self.variables_frame.index))
-        self.assertEqual(len(self.variables_frame.index), s1.total_variables_number)
-
-    def test_list_of_edges(self):
-        s1 = st.Structure(self.structure_frame, self.variables_frame, len(self.variables_frame.index))
-        records = self.structure_frame.to_records(index=False)
-        result = list(records)
-        for e1, e2 in zip(result, s1.list_of_edges()):
-           self.assertEqual(e1, e2)
-
-    def test_list_of_nodes_labels(self):
-        s1 = st.Structure(self.structure_frame, self.variables_frame, len(self.variables_frame.index))
-        self.assertEqual(list(self.variables_frame['Name']), s1.list_of_nodes_labels())
+        s1 = st.Structure(self.labels, self.indxs, self.vals, self.edges, self.vars_numb)
+        self.assertListEqual(self.labels,s1.nodes_labels)
+        self.assertTrue(np.array_equal(self.indxs, s1.nodes_indexes))
+        self.assertTrue(np.array_equal(self.vals, s1.nodes_values))
+        self.assertListEqual(self.edges, s1.edges)
+        self.assertEqual(self.vars_numb, s1.total_variables_number)
 
     def test_get_node_id(self):
-        s1 = st.Structure(self.structure_frame, self.variables_frame, len(self.variables_frame.index))
-        for indx, var in enumerate(list(self.variables_frame['Name'])):
+        s1 = st.Structure(self.labels, self.indxs, self.vals, self.edges, self.vars_numb)
+        for indx, var in enumerate(self.labels):
             self.assertEqual(var, s1.get_node_id(indx))
 
     def test_get_node_indx(self):
-        filtered_frame = self.variables_frame.drop(self.variables_frame[self.variables_frame['Name'] == 'Y'].index)
-        #print(filtered_frame)
-        s1 = st.Structure(self.structure_frame, filtered_frame, len(self.variables_frame.index))
-        for indx, var in zip(filtered_frame.index, filtered_frame['Name']):
+        l2 = self.labels[:]
+        l2.remove('Y')
+        i2 = self.indxs.copy()
+        np.delete(i2, 1)
+        v2 = self.vals.copy()
+        np.delete(v2, 1)
+        e2 = [('X','Z')]
+        n2 = self.vars_numb - 1
+        s1 = st.Structure(l2, i2, v2, e2, n2)
+        for indx, var in zip(i2, l2):
             self.assertEqual(indx, s1.get_node_indx(var))
 
-    def test_list_of_node_indxs(self):
-        filtered_frame = self.variables_frame.drop(self.variables_frame[self.variables_frame['Name'] == 'Y'].index)
-        # print(filtered_frame)
-        s1 = st.Structure(self.structure_frame, filtered_frame, len(self.variables_frame.index))
-
-        for indx1, indx2 in zip(filtered_frame.index, s1.list_of_nodes_indexes()):
-            self.assertEqual(indx1, indx2)
-
     def test_get_positional_node_indx(self):
-        filtered_frame = self.variables_frame.drop(self.variables_frame[self.variables_frame['Name'] == 'Y'].index)
-        # print(filtered_frame)
-        s1 = st.Structure(self.structure_frame, filtered_frame, len(self.variables_frame.index))
-        for indx, var in enumerate(s1.list_of_nodes_labels()):
+        l2 = self.labels[:]
+        l2.remove('Y')
+        i2 = self.indxs.copy()
+        np.delete(i2, 1)
+        v2 = self.vals.copy()
+        np.delete(v2, 1)
+        e2 = [('X', 'Z')]
+        n2 = self.vars_numb - 1
+        s1 = st.Structure(l2, i2, v2, e2, n2)
+        for indx, var in enumerate(s1.nodes_labels):
             self.assertEqual(indx, s1.get_positional_node_indx(var))
 
     def test_get_states_number(self):
-        s1 = st.Structure(self.structure_frame, self.variables_frame, len(self.variables_frame.index))
-        for indx, row in self.variables_frame.iterrows():
-            self.assertEqual(row[1], s1.get_states_number(row[0]))
-
-    def test_get_states_numeber_by_indx(self):
+        l2 = self.labels[:]
+        l2.remove('Y')
+        i2 = self.indxs.copy()
+        np.delete(i2, 1)
+        v2 = self.vals.copy()
+        np.delete(v2, 1)
+        e2 = [('X', 'Z')]
+        n2 = self.vars_numb - 1
+        s1 = st.Structure(l2, i2, v2, e2, n2)
+        for val, node in zip(v2, l2):
+            self.assertEqual(val, s1.get_states_number(node))
+#TODO FORSE QUESTO TEST NON serve verificare se questo metodo sia davvero utile
+    """def test_get_states_numeber_by_indx(self):
         s1 = st.Structure(self.structure_frame, self.variables_frame, len(self.variables_frame.index))
         for indx, row in self.variables_frame.iterrows():
             self.assertEqual(row[1], s1.get_states_number_by_indx(indx))
 
     def test_new_init(self):
         #self.variables_frame.drop(self.variables_frame[(self.variables_frame['Name'] == 'Y')].index, inplace=True)
-        """labels = self.variables_frame['Name'].to_list()
+        labels = self.variables_frame['Name'].to_list()
         indxs = self.variables_frame.index.to_numpy()
         vals = self.variables_frame['Value'].to_numpy()
         edges = list(self.structure_frame.to_records(index=False))
@@ -103,7 +106,7 @@ class TestStructure(unittest.TestCase):
  array([3, 9])
  array([1, 2])
  array([4, 1, 2])
-        """
+
         sp1 = sp.SamplePath('../data', 'samples', 'dyn.str', 'variables', 'Time', 'Name')
         sp1.build_trajectories()
         sp1.build_structure()
@@ -122,7 +125,7 @@ class TestStructure(unittest.TestCase):
         #print(p1.sets_of_cims_struct.get_cims_of_node(0,[1,0]))
         print(p1.sets_of_cims_struct.sets_of_cims[1].actual_cims)
         #print(p1.sets_of_cims_struct.sets_of_cims[2].get_cims_where_parents_except_last_are_in_state(np.array([0])))
-        #print(p1.sets_of_cims_struct.sets_of_cims[0].p_combs)
+        #print(p1.sets_of_cims_struct.sets_of_cims[0].p_combs)"""
 
 
 if __name__ == '__main__':

@@ -4,23 +4,28 @@ import pandas as pd
 import json
 import typing
 from abstract_importer import AbstractImporter
-from line_profiler import LineProfiler
 
 
 class JsonImporter(AbstractImporter):
     """
-    Implementa l'interfaccia AbstractImporter e aggiunge i metodi necessari a costruire le trajectories e la struttura della rete
-    del dataset in formato json con la seguente struttura:
+    Implements the Interface AbstractImporter and adds all the necessary methods to process and prepare the data in json ext.
+    with the following structure:
     [] 0
         |_ dyn.cims
         |_ dyn.str
         |_ samples
         |_ variabels
-
-    :df_samples_list: lista di dataframe, ogni dataframe contiene una traj
-    :df_structure: dataframe contenente la struttura della rete
-    :df_variables: dataframe contenente le infromazioni sulle variabili della rete
-
+    :files_path: the path that contains tha data to be imported
+    :samples_label: the reference key for the samples in the trajectories
+    :structure_label: the reference key for the structure of the network data
+    :variables_label: the reference key for the cardinalites of the nodes data
+    :time_key: the key used to identify the timestamps in each trajectory
+    :variables_key: the key used to identify the names of the variables in the net
+    :df_samples_list: a Dataframe list in which every df contains a trajectory
+    :df_structure: Dataframe containing the structure of the network (edges)
+    :df_variables: Dataframe containing the nodes cardinalities
+    :df_concatenated_samples: the concatenation and processing of all the trajectories present in the list df_samples list
+    :sorter: the columns header(excluding the time column) of the Dataframe concatenated_samples
     """
 
     def __init__(self, files_path: str, samples_label: str, structure_label: str, variables_label: str, time_key: str,
@@ -38,6 +43,13 @@ class JsonImporter(AbstractImporter):
         super(JsonImporter, self).__init__(files_path)
 
     def import_data(self):
+        """
+        Imports and prepares all data present needed for susequent computation.
+        Parameters:
+            void
+        Returns:
+            void
+        """
         raw_data = self.read_json_file()
         #self.import_variables(raw_data)
         self.import_trajectories(raw_data)
@@ -46,14 +58,38 @@ class JsonImporter(AbstractImporter):
         self.import_structure(raw_data)
         self.import_variables(raw_data, self.sorter)
 
-    def import_trajectories(self, raw_data: pd.DataFrame):
+    def import_trajectories(self, raw_data: typing.List):
+        """
+        Imports the trajectories in the list of dicts raw_data.
+        Parameters:
+            :raw_data: List of Dicts
+        Returns:
+            void
+        """
         self.normalize_trajectories(raw_data, 0, self.samples_label)
 
-    def import_structure(self, raw_data: pd.DataFrame):
+    def import_structure(self, raw_data: typing.List):
+        """
+        Imports in a dataframe the data in the list raw_data at the key structure_label
+
+        Parameters:
+            raw_data: the data
+        Returns:
+            void
+        """
         self._df_structure = self.one_level_normalizing(raw_data, 0, self.structure_label)
-    #TODO Attenzione l'ordine delle vars non è alfabetico come nel dataset -> agire di conseguenza
-    #Ordinando la vars alfabeticamente
-    def import_variables(self, raw_data: pd.DataFrame, sorter):
+
+    def import_variables(self, raw_data: typing.List, sorter: typing.List):
+        """
+        Imports the data in raw_data at the key variables_label.
+        Sorts the row of the dataframe df_variables using the list sorter.
+
+        Parameters:
+            raw_data: the data
+            sorter: the list used to sort the dataframe self.df_variables
+        Returns:
+            void
+        """
         self._df_variables = self.one_level_normalizing(raw_data, 0, self.variables_label)
         #self.sorter = self._df_variables[self.variables_key].to_list()
         #self.sorter.sort()
@@ -62,16 +98,16 @@ class JsonImporter(AbstractImporter):
         self._df_variables[self.variables_key] = self._df_variables[self.variables_key].cat.set_categories(sorter)
         self._df_variables = self._df_variables.sort_values([self.variables_key])
         self._df_variables.reset_index(inplace=True)
-        #print("Var Frame", self._df_variables)
+        print("Var Frame", self._df_variables)
 
     def read_json_file(self) -> typing.List:
         """
-        Legge il primo file .json nel path self.filepath
+        Reads the first json file in the path self.filePath
 
         Parameters:
               void
         Returns:
-              :data: il contenuto del file json
+              data: the contents of the json file
 
         """
         try:
@@ -84,39 +120,55 @@ class JsonImporter(AbstractImporter):
         except ValueError as err:
             print(err.args)
 
-    def one_level_normalizing(self, raw_data: pd.DataFrame, indx: int, key: str) -> pd.DataFrame:
+    def one_level_normalizing(self, raw_data: typing.List, indx: int, key: str) -> pd.DataFrame:
         """
-        Estrae i dati innestati di un livello, presenti nel dataset raw_data,
-        presenti nel json array all'indice indx nel json object key
+        Extracts the one-level nested data in the list raw_data at the index indx at the key key
 
         Parameters:
-            :raw_data: il dataset json completo
-            :indx: l'indice del json array da cui estrarre i dati
-            :key: il json object da cui estrarre i dati
+            raw_data: List of Dicts
+            indx: The index of the array from which the data have to be extracted
+            key: the key for the Dicts from which exctract data
         Returns:
-            Il dataframe contenente i dati normalizzati
+            a normalized dataframe
 
         """
         return pd.DataFrame(raw_data[indx][key])
 
-    def normalize_trajectories(self, raw_data: pd.DataFrame, indx: int, trajectories_key: str):
+    def normalize_trajectories(self, raw_data: typing.List, indx: int, trajectories_key: str):
         """
-        Estrae le traiettorie presenti in rawdata nel json array all'indice indx, nel json object trajectories_key.
-        Aggiunge le traj estratte nella lista di dataframe self.df_samples_list
+        Extracts the traj in raw_data at the index index at the key trajectories key.
+        Adds the extracted traj in the dataframe list self._df_samples_list.
+        Initializes the list self.sorter.
 
         Parameters:
-            void
+            raw_data: the data
+            indx: the index of the array from which extract data
+            trajectories_key: the key of the trajectories objects
         Returns:
             void
         """
-        self.df_samples_list = [pd.DataFrame(sample) for sample in raw_data[indx][trajectories_key]]
-        #for sample_indx, sample in enumerate(raw_data[indx][trajectories_key]):
-            #self.df_samples_list.append(pd.DataFrame(sample))
-        #self.sorter = list(self.df_samples_list[0].columns.values)[1:] #TODO Qui ci deve essere la colonna NAME ordinata alfabeticamente
+        dataframe = pd.DataFrame
+        smps = raw_data[indx][trajectories_key]
+        self.df_samples_list = [dataframe(sample) for sample in smps]
+        columns_header = list(self.df_samples_list[0].columns.values)
+        columns_header.remove(self.time_key)
+        self.sorter = columns_header
 
     def compute_row_delta_sigle_samples_frame(self, sample_frame: pd.DataFrame, time_header_label: str,
                                               columns_header: typing.List, shifted_cols_header: typing.List) \
             -> pd.DataFrame:
+        """
+        Computes the difference between each value present in th time column.
+        Copies and shift by one position up all the values present in the remaining columns.
+        Parameters:
+            sample_frame: the traj to be processed
+            time_header_label: the label for the times
+            columns_header: the original header of sample_frame
+            shifted_cols_header: a copy of columns_header with changed names of the contents
+        Returns:
+            sample_frame: the processed dataframe
+
+        """
         sample_frame[time_header_label] = sample_frame[time_header_label].diff().shift(-1)
         shifted_cols = sample_frame[columns_header].shift(-1).fillna(0).astype('int32')
         #print(shifted_cols)
@@ -126,15 +178,25 @@ class JsonImporter(AbstractImporter):
         return sample_frame
 
     def compute_row_delta_in_all_samples_frames(self, time_header_label: str):
-        columns_header = list(self.df_samples_list[0].columns.values)
+        """
+        Calls the method compute_row_delta_sigle_samples_frame on every dataframe present in the list self.df_samples_list.
+        Concatenates the result in the dataframe concatanated_samples
+
+        Parameters:
+            time_header_label: the label of the time column
+        Returns:
+            void
+        """
+        """columns_header = list(self.df_samples_list[0].columns.values)
         columns_header.remove('Time')
-        self.sorter = columns_header
+        self.sorter = columns_header"""
         shifted_cols_header = [s + "S" for s in self.sorter]
         compute_row_delta = self.compute_row_delta_sigle_samples_frame
         """for indx, sample in enumerate(self.df_samples_list):
             self.df_samples_list[indx] = self.compute_row_delta_sigle_samples_frame(sample,
                                                         time_header_label, self.sorter, shifted_cols_header)"""
-        self.df_samples_list = [compute_row_delta(sample, time_header_label, self.sorter, shifted_cols_header) for sample in self.df_samples_list]
+        self.df_samples_list = [compute_row_delta(sample, time_header_label, self.sorter, shifted_cols_header)
+                                for sample in self.df_samples_list]
         self._concatenated_samples = pd.concat(self.df_samples_list)
         complete_header = self.sorter[:]
         complete_header.insert(0,'Time')
@@ -146,10 +208,11 @@ class JsonImporter(AbstractImporter):
     def build_list_of_samples_array(self, data_frame: pd.DataFrame) -> typing.List:
         """
         Costruisce una lista contenente le colonne presenti nel dataframe data_frame convertendole in numpy_array
+        Builds a List containing the columns of dataframe and converts them to a numpy array.
         Parameters:
-            :data_frame: il dataframe da cui estrarre e convertire le colonne
+            :data_frame: the dataframe from which the columns have to be extracted and converted
         Returns:
-            :columns_list: la lista contenente le colonne convertite in numpyarray
+            :columns_list: the resulting list of numpy arrays
 
         """
         columns_list = [data_frame[column].to_numpy() for column in data_frame]
@@ -159,7 +222,7 @@ class JsonImporter(AbstractImporter):
 
     def clear_concatenated_frame(self):
         """
-        Rimuove tutti i valori contenuti nei data_frames presenti in df_samples_list
+        Removes all values in the dataframe concatenated_samples
         Parameters:
             void
         Returns:
@@ -168,6 +231,9 @@ class JsonImporter(AbstractImporter):
         self._concatenated_samples = self._concatenated_samples.iloc[0:0]
 
     def clear_data_frame_list(self):
+        """
+        Removes all values present in the dataframes in the list df_samples_list
+        """
         for indx in range(len(self.df_samples_list)):  # Le singole traj non servono più #TODO usare list comprens
             self.df_samples_list[indx] = self.df_samples_list[indx].iloc[0:0]
 
@@ -179,7 +245,6 @@ class JsonImporter(AbstractImporter):
             for p_comb in raw_data[indx][cims_key][var]:
                 cims_for_all_vars[var].append(pd.DataFrame(raw_data[indx][cims_key][var][p_comb]).to_numpy())
         return cims_for_all_vars
-
 
     @property
     def concatenated_samples(self):

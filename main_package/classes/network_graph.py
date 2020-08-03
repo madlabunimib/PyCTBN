@@ -3,7 +3,7 @@ import networkx as nx
 import numpy as np
 
 
-class NetworkGraph():
+class NetworkGraph:
     """
     Rappresenta il grafo che contiene i nodi e gli archi presenti nell'oggetto Structure graph_struct.
     Ogni nodo contine la label node_id, al nodo è anche associato un id numerico progressivo indx che rappresenta la posizione
@@ -17,9 +17,9 @@ class NetworkGraph():
     def __init__(self, graph_struct):
         self.graph_struct = graph_struct
         self.graph = nx.DiGraph()
-        self._nodes_indexes = self.graph_struct.list_of_nodes_indexes()
-        self._nodes_labels = self.graph_struct.list_of_nodes_labels()
-        self._nodes_values = self.graph_struct.nodes_values()
+        self._nodes_indexes = self.graph_struct.nodes_indexes
+        self._nodes_labels = self.graph_struct.nodes_labels
+        self._nodes_values = self.graph_struct.nodes_values
         self.aggregated_info_about_nodes_parents = None
         self._fancy_indexing = None
         self._time_scalar_indexing_structure = None
@@ -30,7 +30,7 @@ class NetworkGraph():
 
     def init_graph(self):
         self.add_nodes(self._nodes_labels)
-        self.add_edges(self.graph_struct.list_of_edges())
+        self.add_edges(self.graph_struct.edges)
         self.aggregated_info_about_nodes_parents = self.get_ord_set_of_par_of_all_nodes()
         self._fancy_indexing = self.build_fancy_indexing_structure(0)
         self.build_scalar_indexing_structures()
@@ -41,7 +41,7 @@ class NetworkGraph():
     def add_nodes(self, list_of_nodes):
         #self.graph.add_nodes_from(list_of_nodes)
         nodes_indxs = self._nodes_indexes
-        nodes_vals = self.graph_struct.nodes_values()
+        nodes_vals = self.graph_struct.nodes_values
         pos = 0
         #print("LIST OF NODES", list_of_nodes)
         for id, node_indx, node_val in zip(list_of_nodes, nodes_indxs, nodes_vals):
@@ -134,7 +134,7 @@ class NetworkGraph():
         #parents_indexes_list = self._fancy_indexing
         """for node_indx, p_indxs in zip(self.graph_struct.list_of_nodes_indexes(), self._fancy_indexing):
                 self._time_filtering.append(np.append(np.array([node_indx], dtype=np.int), p_indxs).astype(np.int))"""
-        nodes_indxs = self.graph_struct.list_of_nodes_indexes()
+        nodes_indxs = self._nodes_indexes
         #print("FINDXING", self._fancy_indexing)
         #print("Nodes Indxs", nodes_indxs)
         self._time_filtering = [np.append(np.array([node_indx], dtype=np.int), p_indxs).astype(np.int)
@@ -145,7 +145,7 @@ class NetworkGraph():
         nodes_number = self.graph_struct.total_variables_number
         """for node_indx, p_indxs in zip(self.graph_struct.list_of_nodes_indexes(), self._fancy_indexing):
             self._transition_filtering.append(np.array([node_indx + nodes_number, node_indx, *p_indxs], dtype=np.int))"""
-        nodes_indxs = self.graph_struct.list_of_nodes_indexes()
+        nodes_indxs = self._nodes_indexes
         self._transition_filtering = [np.array([node_indx + nodes_number, node_indx, *p_indxs], dtype=np.int)
                                       for node_indx, p_indxs in zip(nodes_indxs,
                                                                     self._fancy_indexing)]

@@ -5,6 +5,8 @@ import numpy as np
 import pandas as pd
 import json_importer as ji
 
+from line_profiler import LineProfiler
+
 import os
 import json
 
@@ -44,6 +46,7 @@ class TestJsonImporter(unittest.TestCase):
     def test_normalize_trajectories(self):
         j1 = ji.JsonImporter('../data', 'samples', 'dyn.str', 'variables', 'Time', 'Name')
         raw_data = j1.read_json_file()
+        #print(raw_data)
         j1.normalize_trajectories(raw_data, 0, j1.samples_label)
         self.assertEqual(len(j1.df_samples_list), len(raw_data[0][j1.samples_label]))
         self.assertEqual(list(j1.df_samples_list[0].columns.values)[1:], j1.sorter)
@@ -51,7 +54,7 @@ class TestJsonImporter(unittest.TestCase):
     def test_normalize_trajectories_wrong_indx(self):
         j1 = ji.JsonImporter('../data', 'samples', 'dyn.str', 'variables', 'Time', 'Name')
         raw_data = j1.read_json_file()
-        self.assertRaises(IndexError, j1.normalize_trajectories, raw_data, 1, j1.samples_label)
+        self.assertRaises(IndexError, j1.normalize_trajectories, raw_data, 474, j1.samples_label)
 
     def test_normalize_trajectories_wrong_key(self):
         j1 = ji.JsonImporter('../data', 'sample', 'dyn.str', 'variables', 'Time', 'Name')
@@ -77,6 +80,7 @@ class TestJsonImporter(unittest.TestCase):
         j1.import_trajectories(raw_data)
         j1.compute_row_delta_in_all_samples_frames(j1.time_key)
         self.assertEqual(list(j1.df_samples_list[0].columns.values), list(j1.concatenated_samples.columns.values))
+        self.assertEqual(list(j1.concatenated_samples.columns.values)[0], j1.time_key)
 
     def test_clear_data_frame_list(self):
         j1 = ji.JsonImporter('../data', 'samples', 'dyn.str', 'variables', 'Time', 'Name')
@@ -112,7 +116,12 @@ class TestJsonImporter(unittest.TestCase):
 
     def test_import_data(self):
         j1 = ji.JsonImporter('../data', 'samples', 'dyn.str', 'variables', 'Time', 'Name')
-        j1.import_data()
+        lp = LineProfiler()
+
+        lp_wrapper = lp(j1.import_data)
+        lp_wrapper()
+        lp.print_stats()
+        #j1.import_data()
         self.assertEqual(list(j1.variables[j1.variables_key]),
                          list(j1.concatenated_samples.columns.values[1:len(j1.variables[j1.variables_key]) + 1]))
         print(j1.variables)

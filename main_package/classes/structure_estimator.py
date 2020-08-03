@@ -15,13 +15,13 @@ class StructureEstimator:
 
     def __init__(self, sample_path, exp_test_alfa, chi_test_alfa):
         self.sample_path = sample_path
-        self.nodes = np.array(self.sample_path.structure.list_of_nodes_labels())
+        self.nodes = np.array(self.sample_path.structure.nodes_labels)
         #print("NODES", self.nodes)
-        self.nodes_vals = self.sample_path.structure.nodes_vals_arr
-        self.nodes_indxs = self.sample_path.structure.nodes_indexes_arr
+        self.nodes_vals = self.sample_path.structure.nodes_values
+        self.nodes_indxs = self.sample_path.structure.nodes_indexes
         #self.nodes_indxs = np.array(range(0,4))
         #print("INDXS", self.nodes_indxs)
-        self.complete_graph = self.build_complete_graph(self.sample_path.structure.list_of_nodes_labels())
+        self.complete_graph = self.build_complete_graph(self.sample_path.structure.nodes_labels)
         self.exp_test_sign = exp_test_alfa
         self.chi_test_alfa = chi_test_alfa
         self.cache = ch.Cache()
@@ -53,11 +53,13 @@ class StructureEstimator:
         cims_filter = sorted_parents != test_parent
         #print("PARENTS NO FROM MASK", cims_filter)
         if not p_set:
+            print("EMPTY PSET TRYING TO FIND", test_child)
             sofc1 = self.cache.find(test_child)
         else:
             sofc1 = self.cache.find(set(p_set))
 
         if not sofc1:
+            print("CACHE MISSS SOFC1")
             bool_mask1 = np.isin(self.nodes,complete_info)
             #print("Bool mask 1", bool_mask1)
             l1 = list(self.nodes[bool_mask1])
@@ -88,6 +90,7 @@ class StructureEstimator:
         #p_set.append(test_parent)
         p_set.insert(0, test_parent)
         if p_set:
+            print("FULL PSET TRYING TO FIND", p_set)
             #p_set.append(test_parent)
             #print("PSET ", p_set)
             #set_p_set = set(p_set)
@@ -102,6 +105,7 @@ class StructureEstimator:
         p2.compute_parameters_for_node(test_child)
         sofc2 = p2.sets_of_cims_struct.sets_of_cims[s2.get_positional_node_indx(test_child)]"""
         if not sofc2:
+            print("Cache MISSS SOFC2")
             complete_info.append(test_parent)
             bool_mask2 = np.isin(self.nodes, complete_info)
             #print("BOOL MASK 2",bool_mask2)
