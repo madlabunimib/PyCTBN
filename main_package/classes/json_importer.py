@@ -237,7 +237,7 @@ class JsonImporter(AbstractImporter):
         for indx in range(len(self.df_samples_list)):  # Le singole traj non servono più #TODO usare list comprens
             self.df_samples_list[indx] = self.df_samples_list[indx].iloc[0:0]
 
-    def import_sampled_cims(self, raw_data: pd.DataFrame, indx: int, cims_key: str) -> typing.Dict:
+    def import_sampled_cims(self, raw_data: typing.List, indx: int, cims_key: str) -> typing.Dict:
         cims_for_all_vars = {}
         for var in raw_data[indx][cims_key]:
             sampled_cims_list = []

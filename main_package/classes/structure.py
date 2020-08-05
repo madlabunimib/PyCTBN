@@ -72,7 +72,7 @@ class Structure:
             return set(self._nodes_labels_list) == set(other._nodes_labels_list) and \
                    np.array_equal(self._nodes_vals_arr, other._nodes_vals_arr) and \
                    np.array_equal(self._nodes_indexes_arr, other._nodes_indexes_arr) and \
-                   set(self._edges_list) == set(other._edges_list)
+                   self._edges_list == other._edges_list
 
         return NotImplemented
 

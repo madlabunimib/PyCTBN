@@ -1,7 +1,6 @@
 import set_of_cims as socim
 
 
-
 class SetsOfCimsContainer:
     """
     Aggrega un insieme di oggetti SetOfCims
@@ -24,13 +23,3 @@ class SetsOfCimsContainer:
     def get_cims_of_node(self, node_indx, cim_indx):
         return self.sets_of_cims[node_indx].get_cim(cim_indx)
 
-"""
-    def get_vars_order(self, node):
-        return self.actual_cims[node][1]
-
-    def update_state_transition_for_matrix(self, node, which_matrix, element_indx):
-        self.sets_of_cims[node].update_state_transition(which_matrix, element_indx)
-
-    def update_state_residence_time_for_matrix(self, which_node, which_matrix, which_element, time):
-        self.sets_of_cims[which_node].update_state_residence_time(which_matrix, which_element, time)
-"""
