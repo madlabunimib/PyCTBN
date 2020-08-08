@@ -14,10 +14,9 @@ class Cache:
         self.list_of_sets_of_parents = []
         self.actual_cache = []
 
-    def find(self, parents_comb: typing.Union[typing.Set, str]):
+    def find(self, parents_comb: typing.Set): #typing.Union[typing.Set, str]
         """
         Tries to find in cache given the symbolic parents combination parents_comb the SetOfCims related to that parents_comb.
-        N.B. if the parents_comb is not a Set, than the index refers to the SetOfCims of the actual node with no parents.
         Parameters:
             parents_comb: the parents related to that SetOfCims
         Returns:
