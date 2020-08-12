@@ -1,24 +1,69 @@
 import unittest
 import numpy as np
+import glob
+import os
 from line_profiler import LineProfiler
 
 import network_graph as ng
 import sample_path as sp
-import sets_of_cims_container as scc
+import set_of_cims as sofc
 import parameters_estimator as pe
 import json_importer as ji
 
-#TODO bisogna trovare un modo per testare i metodi che stimano i tempi e le transizioni per i singoli nodi
+
 class TestParametersEstimatior(unittest.TestCase):
 
     @classmethod
     def setUpClass(cls) -> None:
-        cls.s1 = sp.SamplePath('../data', 'samples', 'dyn.str', 'variables', 'Time', 'Name')
+        cls.read_files = glob.glob(os.path.join('../data', "*.json"))
+        cls.importer = ji.JsonImporter(cls.read_files[0], 'samples', 'dyn.str', 'variables', 'Time', 'Name')
+        cls.s1 = sp.SamplePath(cls.importer)
         cls.s1.build_trajectories()
         cls.s1.build_structure()
         cls.g1 = ng.NetworkGraph(cls.s1.structure)
         cls.g1.init_graph()
 
+    def test_fast_init(self):
+        for node in self.g1.nodes:
+            g = ng.NetworkGraph(self.s1.structure)
+            g.fast_init(node)
+            p1 = pe.ParametersEstimator(self.s1, g)
+            self.assertEqual(p1.sample_path, self.s1)
+            self.assertEqual(p1.net_graph, g)
+            self.assertIsNone(p1.single_set_of_cims)
+            p1.fast_init(node)
+            self.assertIsInstance(p1.single_set_of_cims, sofc.SetOfCims)
+
+    def test_compute_parameters_for_node(self):
+        for indx, node in enumerate(self.g1.nodes):
+            print(node)
+            g = ng.NetworkGraph(self.s1.structure)
+            g.fast_init(node)
+            p1 = pe.ParametersEstimator(self.s1, g)
+            p1.fast_init(node)
+            sofc1 = p1.compute_parameters_for_node(node)
+            sampled_cims = self.aux_import_sampled_cims('dyn.cims')
+            sc = list(sampled_cims.values())
+            #print(sc[indx])
+            self.equality_of_cims_of_node(sc[indx], sofc1.actual_cims)
+
+    def equality_of_cims_of_node(self, sampled_cims, estimated_cims):
+        #print(sampled_cims)
+        #print(estimated_cims)
+        self.assertEqual(len(sampled_cims), len(estimated_cims))
+        for c1, c2 in zip(sampled_cims, estimated_cims):
+            self.cim_equality_test(c1, c2.cim)
+
+    def cim_equality_test(self, cim1, cim2):
+        for r1, r2 in zip(cim1, cim2):
+            self.assertTrue(np.all(np.isclose(r1, r2, 1e-01, 1e-01) == True))
+
+    def aux_import_sampled_cims(self, cims_label):
+        i1 = ji.JsonImporter(self.read_files[0], '', '', '', '', '')
+        raw_data = i1.read_json_file()
+        return i1.import_sampled_cims(raw_data, 0, cims_label)
+
+    """
     def test_init(self):
         self.aux_test_init(self.s1, self.g1)
 
@@ -38,45 +83,6 @@ class TestParametersEstimatior(unittest.TestCase):
 
     def test_compute_parameters(self):
         self.aux_test_compute_parameters(self.s1, self.g1)
-
-    def aux_test_compute_parameters(self, sample_p, graph):
-        pe1 = pe.ParametersEstimator(sample_p, graph)
-        pe1.init_sets_cims_container()
-        pe1.compute_parameters()
-        samples_cims = self.aux_import_sampled_cims('dyn.cims')
-        for indx, sc in enumerate(samples_cims.values()):
-            self.equality_of_cims_of_node(sc, pe1.sets_of_cims_struct.get_set_of_cims(indx).get_cims())
-
-    def equality_of_cims_of_node(self, sampled_cims, estimated_cims):
-        self.assertEqual(len(sampled_cims), len(estimated_cims))
-        for c1, c2 in zip(sampled_cims, estimated_cims):
-            self.cim_equality_test(c1, c2.cim)
-
-    def cim_equality_test(self, cim1, cim2):
-        for r1, r2 in zip(cim1, cim2):
-            self.assertTrue(np.all(np.isclose(r1, r2, 1e-01, 1e-01) == True))
-
-    def test_compute_parameters_for_node(self):#TODO Questo non è un test
-        pe1 = pe.ParametersEstimator(self.s1, self.g1)
-        #pe1.init_sets_cims_container()
-        lp = LineProfiler()
-        lp_wrapper = lp(pe1.init_sets_cims_container)
-        #lp.add_function(pe1.sets_of_cims_struct.init_cims_structure)
-        lp_wrapper()
-        lp.print_stats()
-        #pe1.init_sets_cims_container()
-        #pe1.compute_parameters_for_node('Y')
-        print(pe1.sets_of_cims_struct.get_set_of_cims(0).actual_cims)
-
-
-    def aux_import_sampled_cims(self, cims_label):
-        i1 = ji.JsonImporter('../data', '', '', '', '', '')
-        raw_data = i1.read_json_file()
-        return i1.import_sampled_cims(raw_data, 0, cims_label)
-
-
-
-
-
+        """
 if __name__ == '__main__':
     unittest.main()
