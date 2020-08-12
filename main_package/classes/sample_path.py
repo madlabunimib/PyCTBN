@@ -1,29 +1,41 @@
-
+import abstract_sample_path as asam
 import json_importer as imp
 import trajectory as tr
 import structure as st
 
 
-class SamplePath:
+class SamplePath(asam.AbstractSamplePath):
     """
-    Contiene l'aggregazione di una o più traiettorie e la struttura della rete.
-    Ha il compito dato di costruire tutte gli oggetti Trajectory e l'oggetto Structure
-    a partire dai dataframe contenuti in self.importer
+    Aggregates all the informations about the trajectories, the real structure of the sampled net and variables
+    cardinalites.
+    Has the task of creating the objects that will contain the mentioned data.
+    :importer: the Importer objects that will import ad process data
 
+    :trajectories: the Trajectory object that will contain all the concatenated trajectories
+    :structure: the Structure Object that will contain all the structurral infos about the net
+    :total_variables_count: the number of variables in the net
 
-    :importer: l'oggetto Importer che ha il compito di caricare i dataset
-    :trajectories: lista di oggetti Trajectories
-    :structure: oggetto Structure
     """
 
-    def __init__(self, files_path, samples_label, structure_label, variables_label, time_key, variables_key):
-        self.importer = imp.JsonImporter(files_path, samples_label, structure_label,
-                                         variables_label, time_key, variables_key)
-        self._trajectories = None
-        self._structure = None
+    #def __init__(self, files_path: str, samples_label: str, structure_label: str, variables_label: str, time_key: str,
+                 #variables_key: str):
+    def __init__(self, importer: imp.JsonImporter):
+        #self.importer =importer
+        super().__init__(importer)
+        #self._trajectories = None
+        #self._structure = None
         self.total_variables_count = None
 
     def build_trajectories(self):
+        """
+        Builds the Trajectory object that will contain all the trajectories.
+        Clears all the unused dataframes in Importer Object
+
+        Parameters:
+            void
+        Returns:
+            void
+        """
         self.importer.import_data()
         self._trajectories = \
             tr.Trajectory(self.importer.build_list_of_samples_array(self.importer.concatenated_samples),
@@ -32,8 +44,20 @@ class SamplePath:
         self.importer.clear_concatenated_frame()
 
     def build_structure(self):
+        """
+        Builds the Structure object that aggregates all the infos about the net.
+        Parameters:
+            void
+        Returns:
+            void
+        """
         self.total_variables_count = len(self.importer.sorter)
-        self._structure = st.Structure(self.importer.structure, self.importer.variables,
+        labels = self.importer.variables[self.importer.variables_key].to_list()
+        #print("SAMPLE PATH LABELS",labels)
+        indxs = self.importer.variables.index.to_numpy()
+        vals = self.importer.variables['Value'].to_numpy()
+        edges = list(self.importer.structure.to_records(index=False))
+        self._structure = st.Structure(labels, indxs, vals, edges,
                                        self.total_variables_count)
 
     @property
@@ -47,12 +71,6 @@ class SamplePath:
     def total_variables_count(self):
         return self.total_variables_count
 
-    """def build_possible_values_variables_structure(self):
-        possible_val_list = []
-        print(self.importer.variables)
-        for cardinality in self.importer.variables['Value']:
-            possible_val_list.append(list(range(0, cardinality)))
-        self.possible_variables_values = possible_val_list"""
 
 
 

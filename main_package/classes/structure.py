@@ -1,64 +1,73 @@
+import typing as ty
 import numpy as np
+
 
 class Structure:
     """
-    Contiene tutte il informazioni sulla struttura della rete (connessione dei nodi, valori assumibili dalle variabili)
+    Contains all the infos about the network structure(nodes names, nodes caridinalites, edges...)
 
-    :structure_frame: il dataframe contenente le connessioni dei nodi della rete
-    :variables_frame: il data_frame contenente i valori assumibili dalle variabili e si suppone il corretto ordinamento
-    rispetto alle colonne del dataset
+    :nodes_labels_list: the symbolic names of the variables
+    :nodes_indexes_arr: the indexes of the nodes
+    :nodes_vals_arr: the cardinalites of the nodes
+    :edges_list: the edges of the network
+    :total_variables_number: the total number of variables in the net
     """
 
-    def __init__(self, structure, variables, total_variables_number):
-        self.structure_frame = structure
-        self.variables_frame = variables
-        self.total_variables_number = total_variables_number
-        self.name_label = variables.columns.values[0]
-        self.value_label = variables.columns.values[1]
+    def __init__(self, nodes_label_list: ty.List, node_indexes_arr: np.ndarray, nodes_vals_arr: np.ndarray,
+                 edges_list: ty.List, total_variables_number: int):
+        self._nodes_labels_list = nodes_label_list
+        self._nodes_indexes_arr = node_indexes_arr
+        self._nodes_vals_arr = nodes_vals_arr
+        self._edges_list = edges_list
+        self._total_variables_number = total_variables_number
 
-    def list_of_edges(self):
-        records = self.structure_frame.to_records(index=False)
-        edges_list = list(records)
-        return edges_list
+    @property
+    def edges(self):
+        #records = self.structure_frame.to_records(index=False)
+        #edges_list = list(records)
+        return self._edges_list
 
-    def list_of_nodes_labels(self):
-        return self.variables_frame[self.name_label].values.tolist()
+    @property
+    def nodes_labels(self):
+        return self._nodes_labels_list
 
-    def list_of_nodes_indexes(self):
-        return list(self.variables_frame.index)
+    @property
+    def nodes_indexes(self) -> np.ndarray:
+        return self._nodes_indexes_arr
 
-    def get_node_id(self, node_indx):
-        return self.variables_frame[self.name_label][node_indx]
+    @property
+    def nodes_values(self) -> np.ndarray:
+        return self._nodes_vals_arr
 
-    def get_node_indx(self, node_id):
-        return self.variables_frame[self.name_label][self.variables_frame[self.name_label] == node_id].index[0]
-
-    def get_positional_node_indx(self, node_id):
-        return np.flatnonzero(self.variables_frame[self.name_label] == node_id)[0]
-
-    def get_states_number(self, node):
-        #print("node", node)
-        return self.variables_frame[self.value_label][self.get_node_indx(node)]
-
-    def get_states_number_by_indx(self, node_indx):
-        #print(self.value_label)
-        #print("Node indx", node_indx)
-        return self.variables_frame[self.value_label][node_indx]
-
+    @property
     def total_variables_number(self):
-        return self.total_variables_number
+        return self._total_variables_number
+
+    def get_node_id(self, node_indx: int) -> str:
+        return self._nodes_labels_list[node_indx]
+
+    def get_node_indx(self, node_id: str) -> int:
+        pos_indx = self._nodes_labels_list.index(node_id)
+        return self._nodes_indexes_arr[pos_indx]
+
+    def get_positional_node_indx(self, node_id: str) -> int:
+        return self._nodes_labels_list.index(node_id)
+
+    def get_states_number(self, node: str) -> int:
+        pos_indx = self._nodes_labels_list.index(node)
+        return self._nodes_vals_arr[pos_indx]
 
     def __repr__(self):
-        return "Variables:\n" + str(self.variables_frame) + "\nEdges: \n" + str(self.structure_frame)
+        return "Variables:\n" + str(self._nodes_labels_list) +"\nValues:\n"+ str(self._nodes_vals_arr) +\
+               "\nEdges: \n" + str(self._edges_list)
 
     def __eq__(self, other):
         """Overrides the default implementation"""
         if isinstance(other, Structure):
-            return self.structure_frame.equals(other.structure_frame) and \
-                   self.variables_frame.equals(other.variables_frame)
+            return set(self._nodes_labels_list) == set(other._nodes_labels_list) and \
+                   np.array_equal(self._nodes_vals_arr, other._nodes_vals_arr) and \
+                   np.array_equal(self._nodes_indexes_arr, other._nodes_indexes_arr) and \
+                   self._edges_list == other._edges_list
+
         return NotImplemented
 
-    """def remove_node(self, node_id):
-        self.variables_frame = self.variables_frame[self.variables_frame.Name != node_id]
-        self.structure_frame = self.structure_frame[(self.structure_frame.From != node_id) &
-                                                    (self.structure_frame.To != node_id)]"""

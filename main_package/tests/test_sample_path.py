@@ -1,4 +1,7 @@
 import unittest
+import glob
+import os
+import json_importer as ji
 import sample_path as sp
 import trajectory as tr
 import structure as st
@@ -6,8 +9,13 @@ import structure as st
 
 class TestSamplePath(unittest.TestCase):
 
+    @classmethod
+    def setUpClass(cls) -> None:
+        cls.read_files = glob.glob(os.path.join('../data', "*.json"))
+        cls.importer = ji.JsonImporter(cls.read_files[0], 'samples', 'dyn.str', 'variables', 'Time', 'Name')
+
     def test_init(self):
-        s1 = sp.SamplePath('../data', 'samples', 'dyn.str', 'variables', 'Time', 'Name')
+        s1 = sp.SamplePath(self.importer)
         s1.build_trajectories()
         self.assertIsNotNone(s1.trajectories)
         self.assertIsInstance(s1.trajectories, tr.Trajectory)
