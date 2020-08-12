@@ -2,9 +2,12 @@
 import numpy as np
 import itertools
 import networkx as nx
+from networkx.readwrite import json_graph
+import json
 import typing
 from scipy.stats import f as f_dist
 from scipy.stats import chi2 as chi2_dist
+
 
 import sample_path as sp
 import structure as st
@@ -288,6 +291,22 @@ class StructureEstimator:
         ctpc_algo = self.one_iteration_of_CTPC_algorithm
         total_vars_numb = self.sample_path.total_variables_count
         [ctpc_algo(n, total_vars_numb) for n in self.nodes]
+
+    def save_results(self):
+        """
+        Save the estimated Structure to a .json file
+
+        Parameters:
+            void
+        Returns:
+            void
+        """
+        res = json_graph.node_link_data(self.complete_graph)
+        name = self.sample_path.importer.file_path.rsplit('/',1)[-1]
+        #print(name)
+        name = 'results_' + name
+        with open(name, 'w') as f:
+            json.dump(res, f)
 
 
     def remove_diagonal_elements(self, matrix):

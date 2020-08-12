@@ -62,30 +62,8 @@ class ParametersEstimator:
                                                       self.net_graph.transition_scalar_indexing_structure[indx],
                                                       aggr[1].transition_matrices)
             aggr[1].build_cims(aggr[1].state_residence_times, aggr[1].transition_matrices)
-    """
-    def compute_parameters_for_node(self, node_id):
-        pos_index = self.net_graph.get_positional_node_indx(node_id)
-        node_indx = self.net_graph.get_node_indx(node_id)
-        state_res_times = self.sets_of_cims_struct.sets_of_cims[pos_index].state_residence_times
-        transition_matrices = self.sets_of_cims_struct.sets_of_cims[pos_index].transition_matrices
-        #print("Nodes", self.net_graph.get_nodes())
-        self.compute_state_res_time_for_node(node_indx, self.sample_path.trajectories.times,
-                                             self.sample_path.trajectories.trajectory,
-                                             self.net_graph.time_filtering[pos_index],
-                                             self.net_graph.time_scalar_indexing_strucure[pos_index],
-                                             state_res_times)
-        # print(self.net_graph.transition_filtering[indx])
-        # print(self.net_graph.transition_scalar_indexing_structure[indx])
-        self.compute_state_transitions_for_a_node(node_indx,
-                                                  self.sample_path.trajectories.complete_trajectory,
-                                                  self.net_graph.transition_filtering[pos_index],
-                                                  self.net_graph.transition_scalar_indexing_structure[pos_index],
-                                                  transition_matrices)
-        self.sets_of_cims_struct.sets_of_cims[pos_index].build_cims(
-            state_res_times,
-            transition_matrices) #TODO potrebbe restituire direttamente l'oggetto setof cims
-    """
-    def compute_parameters_for_node(self, node_id: str):
+
+    def compute_parameters_for_node(self, node_id: str) -> sofc.SetOfCims:
         """
         Compute the CIMS of the node identified by the label node_id
 

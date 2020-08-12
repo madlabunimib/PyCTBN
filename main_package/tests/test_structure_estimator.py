@@ -1,9 +1,13 @@
 import unittest
 import numpy as np
 import networkx as nx
+import glob
+import os
 import math
 from line_profiler import LineProfiler
+import psutil
 
+import json_importer as ji
 import sample_path as sp
 import structure_estimator as se
 import cache as ch
@@ -13,7 +17,9 @@ class TestStructureEstimator(unittest.TestCase):
 
     @classmethod
     def setUpClass(cls) -> None:
-        cls.s1 = sp.SamplePath('../data', 'samples', 'dyn.str', 'variables', 'Time', 'Name')
+        cls.read_files = glob.glob(os.path.join('../data', "*.json"))
+        cls.importer = ji.JsonImporter(cls.read_files[0], 'samples', 'dyn.str', 'variables', 'Time', 'Name')
+        cls.s1 = sp.SamplePath(cls.importer)
         cls.s1.build_trajectories()
         cls.s1.build_structure()
 
@@ -58,7 +64,7 @@ class TestStructureEstimator(unittest.TestCase):
                 for sset in sets2:
                     self.assertFalse(node in sset)
 
-    def test_one_iteration(self):
+    def test_time(self):
         se1 = se.StructureEstimator(self.s1, 0.1, 0.1)
         lp = LineProfiler()
         lp.add_function(se1.complete_test)
@@ -76,8 +82,16 @@ class TestStructureEstimator(unittest.TestCase):
         for ed in se1.complete_graph.edges:
             if not(ed in tuples_edges):
                 spurious_edges.append(ed)
-        print("Spurious Edges:",spurious_edges)
 
+        print("Spurious Edges:",spurious_edges)
+        se1.save_results()
+
+    def test_memory(self):
+        se1 = se.StructureEstimator(self.s1, 0.1, 0.1)
+        se1.ctpc_algorithm()
+        current_process = psutil.Process(os.getpid())
+        mem = current_process.memory_info().rss
+        print("Average Memory Usage in MB:", mem / 10**6)
 
 if __name__ == '__main__':
     unittest.main()

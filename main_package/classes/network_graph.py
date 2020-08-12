@@ -136,7 +136,7 @@ class NetworkGraph:
             fancy_indx = [i[1] for i in self.aggregated_info_about_nodes_parents]
             return fancy_indx
 
-    def build_time_scalar_indexing_structure_for_a_node(self, node_id: str, parents_vals: typing.List):
+    def build_time_scalar_indexing_structure_for_a_node(self, node_id: str, parents_vals: typing.List) -> np.ndarray:
         """
         Builds an indexing structure for the computation of state residence times values.
 
@@ -153,7 +153,7 @@ class NetworkGraph:
         return T_vector
 
 
-    def build_transition_scalar_indexing_structure_for_a_node(self, node_id: str, parents_vals: typing.List):
+    def build_transition_scalar_indexing_structure_for_a_node(self, node_id: str, parents_vals: typing.List) -> np.ndarray:
         """
         Builds an indexing structure for the computation of state transitions values.
 
@@ -171,7 +171,7 @@ class NetworkGraph:
         M_vector = M_vector.cumprod().astype(np.int)
         return M_vector
 
-    def build_time_columns_filtering_for_a_node(self, node_indx: int, p_indxs: typing.List):
+    def build_time_columns_filtering_for_a_node(self, node_indx: int, p_indxs: typing.List) -> np.ndarray:
         """
         Builds the necessary structure to filter the desired columns indicated by node_indx and p_indxs in the dataset.
         This structute will be used in the computation of the state res times.
@@ -183,7 +183,7 @@ class NetworkGraph:
         """
         return np.append(np.array([node_indx], dtype=np.int), p_indxs).astype(np.int)
 
-    def build_transition_filtering_for_a_node(self, node_indx, p_indxs):
+    def build_transition_filtering_for_a_node(self, node_indx, p_indxs) -> np.ndarray:
         """
         Builds the necessary structure to filter the desired columns indicated by node_indx and p_indxs in the dataset.
         This structute will be used in the computation of the state transitions values.
@@ -196,7 +196,7 @@ class NetworkGraph:
         nodes_number = self.graph_struct.total_variables_number
         return np.array([node_indx + nodes_number, node_indx, *p_indxs], dtype=np.int)
 
-    def build_p_comb_structure_for_a_node(self, parents_values: typing.List):
+    def build_p_comb_structure_for_a_node(self, parents_values: typing.List) -> np.ndarray:
         """
         Builds the combinatory structure that contains the combinations of all the values contained in parents_values.
 
@@ -252,12 +252,6 @@ class NetworkGraph:
 
     def get_states_number(self, node_id):
         return self.graph.nodes[node_id]['val']
-    """
-    def get_states_number_by_indx(self, node_indx):
-        return self.graph_struct.get_states_number_by_indx(node_indx)
-    
-    def get_node_by_index(self, node_indx):
-        return self.graph_struct.get_node_id(node_indx)"""
 
     def get_node_indx(self, node_id):
         return nx.get_node_attributes(self.graph, 'indx')[node_id]

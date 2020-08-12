@@ -15,7 +15,7 @@ class JsonImporter(AbstractImporter):
         |_ dyn.str
         |_ samples
         |_ variabels
-    :files_path: the path that contains tha data to be imported
+    :file_path: the path of the file that contains tha data to be imported
     :samples_label: the reference key for the samples in the trajectories
     :structure_label: the reference key for the structure of the network data
     :variables_label: the reference key for the cardinalites of the nodes data
@@ -28,7 +28,7 @@ class JsonImporter(AbstractImporter):
     :sorter: the columns header(excluding the time column) of the Dataframe concatenated_samples
     """
 
-    def __init__(self, files_path: str, samples_label: str, structure_label: str, variables_label: str, time_key: str,
+    def __init__(self, file_path: str, samples_label: str, structure_label: str, variables_label: str, time_key: str,
                  variables_key: str):
         self.samples_label = samples_label
         self.structure_label = structure_label
@@ -40,7 +40,7 @@ class JsonImporter(AbstractImporter):
         self._df_variables = pd.DataFrame()
         self._concatenated_samples = None
         self.sorter = None
-        super(JsonImporter, self).__init__(files_path)
+        super(JsonImporter, self).__init__(file_path)
 
     def import_data(self):
         """
@@ -110,15 +110,15 @@ class JsonImporter(AbstractImporter):
               data: the contents of the json file
 
         """
-        try:
-            read_files = glob.glob(os.path.join(self.files_path, "*.json"))
-            if not read_files:
-                raise ValueError('No .json file found in the entered path!')
-            with open(read_files[0]) as f:
-                data = json.load(f)
-                return data
-        except ValueError as err:
-            print(err.args)
+        #try:
+            #read_files = glob.glob(os.path.join(self.files_path, "*.json"))
+            #if not read_files:
+                #raise ValueError('No .json file found in the entered path!')
+        with open(self.file_path) as f:
+            data = json.load(f)
+            return data
+        #except ValueError as err:
+            #print(err.args)
 
     def one_level_normalizing(self, raw_data: typing.List, indx: int, key: str) -> pd.DataFrame:
         """
@@ -207,13 +207,11 @@ class JsonImporter(AbstractImporter):
 
     def build_list_of_samples_array(self, data_frame: pd.DataFrame) -> typing.List:
         """
-        Costruisce una lista contenente le colonne presenti nel dataframe data_frame convertendole in numpy_array
         Builds a List containing the columns of dataframe and converts them to a numpy array.
         Parameters:
             :data_frame: the dataframe from which the columns have to be extracted and converted
         Returns:
             :columns_list: the resulting list of numpy arrays
-
         """
         columns_list = [data_frame[column].to_numpy() for column in data_frame]
         #for column in data_frame:

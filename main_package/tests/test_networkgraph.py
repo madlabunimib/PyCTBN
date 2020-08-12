@@ -1,4 +1,6 @@
 import unittest
+import glob
+import os
 import networkx as nx
 import numpy as np
 import itertools
@@ -6,13 +8,16 @@ from line_profiler import LineProfiler
 
 import sample_path as sp
 import network_graph as ng
+import json_importer as ji
 
 
 
 class TestNetworkGraph(unittest.TestCase):
     @classmethod
     def setUpClass(cls):
-        cls.s1 = sp.SamplePath('../data', 'samples', 'dyn.str', 'variables', 'Time', 'Name')
+        cls.read_files = glob.glob(os.path.join('../data', "*.json"))
+        cls.importer = ji.JsonImporter(cls.read_files[0], 'samples', 'dyn.str', 'variables', 'Time', 'Name')
+        cls.s1 = sp.SamplePath(cls.importer)
         cls.s1.build_trajectories()
         cls.s1.build_structure()
 

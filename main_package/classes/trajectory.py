@@ -22,7 +22,7 @@ class Trajectory:
         self._times = np.array(list_of_columns[0], dtype=np.float)
 
     @property
-    def trajectory(self):
+    def trajectory(self) -> np.ndarray:
         """
         Parameters:
             void
@@ -32,7 +32,7 @@ class Trajectory:
         return self._actual_trajectory[:, :self.original_cols_number]
 
     @property
-    def complete_trajectory(self):
+    def complete_trajectory(self) -> np.ndarray:
         """
                 Parameters:
                     void

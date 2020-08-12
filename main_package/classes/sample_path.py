@@ -1,41 +1,35 @@
-
+import abstract_sample_path as asam
 import json_importer as imp
 import trajectory as tr
 import structure as st
 
 
-class SamplePath:
+class SamplePath(asam.AbstractSamplePath):
     """
     Aggregates all the informations about the trajectories, the real structure of the sampled net and variables
     cardinalites.
     Has the task of creating the objects that will contain the mentioned data.
-
-    :files_path: the path that contains tha data to be imported
-    :samples_label: the reference key for the samples in the trajectories
-    :structure_label: the reference key for the structure of the network data
-    :variables_label: the reference key for the cardinalites of the nodes data
-    :time_key: the key used to identify the timestamps in each trajectory
-    :variables_key: the key used to identify the names of the variables in the net
-
     :importer: the Importer objects that will import ad process data
+
     :trajectories: the Trajectory object that will contain all the concatenated trajectories
     :structure: the Structure Object that will contain all the structurral infos about the net
     :total_variables_count: the number of variables in the net
 
     """
 
-    def __init__(self, files_path: str, samples_label: str, structure_label: str, variables_label: str, time_key: str,
-                 variables_key: str):
-        self.importer = imp.JsonImporter(files_path, samples_label, structure_label,
-                                         variables_label, time_key, variables_key)
-        self._trajectories = None
-        self._structure = None
+    #def __init__(self, files_path: str, samples_label: str, structure_label: str, variables_label: str, time_key: str,
+                 #variables_key: str):
+    def __init__(self, importer: imp.JsonImporter):
+        #self.importer =importer
+        super().__init__(importer)
+        #self._trajectories = None
+        #self._structure = None
         self.total_variables_count = None
 
     def build_trajectories(self):
         """
         Builds the Trajectory object that will contain all the trajectories.
-        Clears all the unsed dataframes in Importer Object
+        Clears all the unused dataframes in Importer Object
 
         Parameters:
             void

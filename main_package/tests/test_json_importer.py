@@ -1,6 +1,8 @@
 import sys
 sys.path.append("/Users/Zalum/Desktop/Tesi/CTBN_Project/main_package/classes/")
 import unittest
+import os
+import glob
 import numpy as np
 import pandas as pd
 import json_importer as ji
@@ -13,15 +15,18 @@ import json
 
 class TestJsonImporter(unittest.TestCase):
 
+    @classmethod
+    def setUpClass(cls) -> None:
+        cls.read_files = glob.glob(os.path.join('../data', "*.json"))
+
     def test_init(self):
-        path = os.getcwd()
-        j1 = ji.JsonImporter(path, 'samples', 'dyn.str', 'variables', 'Time', 'Name')
+        j1 = ji.JsonImporter(self.read_files[0], 'samples', 'dyn.str', 'variables', 'Time', 'Name')
         self.assertEqual(j1.samples_label, 'samples')
         self.assertEqual(j1.structure_label, 'dyn.str')
         self.assertEqual(j1.variables_label, 'variables')
         self.assertEqual(j1.time_key, 'Time')
         self.assertEqual(j1.variables_key, 'Name')
-        self.assertEqual(j1.files_path, path)
+        self.assertEqual(j1.file_path, self.read_files[0])
         self.assertFalse(j1.df_samples_list)
         self.assertTrue(j1.variables.empty)
         self.assertTrue(j1.structure.empty)
@@ -33,6 +38,7 @@ class TestJsonImporter(unittest.TestCase):
         with open('data.json', 'w') as f:
             json.dump(data_set, f)
         path = os.getcwd()
+        path = path + '/data.json'
         j1 = ji.JsonImporter(path, '', '', '', '', '')
         imported_data = j1.read_json_file()
         self.assertTrue(self.ordered(data_set) == self.ordered(imported_data))
@@ -40,11 +46,12 @@ class TestJsonImporter(unittest.TestCase):
 
     def test_read_json_file_not_found(self):
         path = os.getcwd()
+        path = path + '/data.json'
         j1 = ji.JsonImporter(path, '', '', '', '', '')
-        self.assertIsNone(j1.read_json_file())
+        self.assertRaises(FileNotFoundError, j1.read_json_file)
 
     def test_normalize_trajectories(self):
-        j1 = ji.JsonImporter('../data', 'samples', 'dyn.str', 'variables', 'Time', 'Name')
+        j1 = ji.JsonImporter(self.read_files[0], 'samples', 'dyn.str', 'variables', 'Time', 'Name')
         raw_data = j1.read_json_file()
         #print(raw_data)
         j1.normalize_trajectories(raw_data, 0, j1.samples_label)
@@ -52,17 +59,17 @@ class TestJsonImporter(unittest.TestCase):
         self.assertEqual(list(j1.df_samples_list[0].columns.values)[1:], j1.sorter)
 
     def test_normalize_trajectories_wrong_indx(self):
-        j1 = ji.JsonImporter('../data', 'samples', 'dyn.str', 'variables', 'Time', 'Name')
+        j1 = ji.JsonImporter(self.read_files[0], 'samples', 'dyn.str', 'variables', 'Time', 'Name')
         raw_data = j1.read_json_file()
         self.assertRaises(IndexError, j1.normalize_trajectories, raw_data, 474, j1.samples_label)
 
     def test_normalize_trajectories_wrong_key(self):
-        j1 = ji.JsonImporter('../data', 'sample', 'dyn.str', 'variables', 'Time', 'Name')
+        j1 = ji.JsonImporter(self.read_files[0], 'sample', 'dyn.str', 'variables', 'Time', 'Name')
         raw_data = j1.read_json_file()
         self.assertRaises(KeyError, j1.normalize_trajectories, raw_data, 0, j1.samples_label)
 
     def test_compute_row_delta_single_samples_frame(self):
-        j1 = ji.JsonImporter('../data', 'samples', 'dyn.str', 'variables', 'Time', 'Name')
+        j1 = ji.JsonImporter(self.read_files[0], 'samples', 'dyn.str', 'variables', 'Time', 'Name')
         raw_data = j1.read_json_file()
         j1.normalize_trajectories(raw_data, 0, j1.samples_label)
         sample_frame = j1.df_samples_list[0]
@@ -75,7 +82,7 @@ class TestJsonImporter(unittest.TestCase):
         self.assertEqual(sample_frame.shape[0] - 1, new_sample_frame.shape[0])
 
     def test_compute_row_delta_in_all_frames(self):
-        j1 = ji.JsonImporter('../data', 'samples', 'dyn.str', 'variables', 'Time', 'Name')
+        j1 = ji.JsonImporter(self.read_files[0], 'samples', 'dyn.str', 'variables', 'Time', 'Name')
         raw_data = j1.read_json_file()
         j1.import_trajectories(raw_data)
         j1.compute_row_delta_in_all_samples_frames(j1.time_key)
@@ -83,7 +90,7 @@ class TestJsonImporter(unittest.TestCase):
         self.assertEqual(list(j1.concatenated_samples.columns.values)[0], j1.time_key)
 
     def test_clear_data_frame_list(self):
-        j1 = ji.JsonImporter('../data', 'samples', 'dyn.str', 'variables', 'Time', 'Name')
+        j1 = ji.JsonImporter(self.read_files[0], 'samples', 'dyn.str', 'variables', 'Time', 'Name')
         raw_data = j1.read_json_file()
         j1.import_trajectories(raw_data)
         j1.compute_row_delta_in_all_samples_frames(j1.time_key)
@@ -96,6 +103,7 @@ class TestJsonImporter(unittest.TestCase):
         with open('data.json', 'w') as f:
             json.dump(data_set, f)
         path = os.getcwd()
+        path = path + '/data.json'
         j1 = ji.JsonImporter(path, '', '', '', '', '')
         raw_data = j1.read_json_file()
         frame = pd.DataFrame(raw_data)
@@ -108,14 +116,14 @@ class TestJsonImporter(unittest.TestCase):
         os.remove('data.json')
 
     def test_import_variables(self):
-        j1 = ji.JsonImporter('../data', 'samples', 'dyn.str', 'variables', 'Time', 'Name')
+        j1 = ji.JsonImporter(self.read_files[0], 'samples', 'dyn.str', 'variables', 'Time', 'Name')
         sorter = ['X', 'Y', 'Z']
         raw_data = [{'variables':{"Name": ['Z', 'Y', 'X'], "value": [3, 3, 3]}}]
         j1.import_variables(raw_data, sorter)
         self.assertEqual(list(j1.variables[j1.variables_key]), sorter)
 
     def test_import_data(self):
-        j1 = ji.JsonImporter('../data', 'samples', 'dyn.str', 'variables', 'Time', 'Name')
+        j1 = ji.JsonImporter(self.read_files[0], 'samples', 'dyn.str', 'variables', 'Time', 'Name')
         lp = LineProfiler()
 
         lp_wrapper = lp(j1.import_data)

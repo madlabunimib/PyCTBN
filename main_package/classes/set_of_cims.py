@@ -46,6 +46,16 @@ class SetOfCims:
                                                  self.node_states_number], dtype=np.int)
 
     def build_cims(self, state_res_times: typing.List, transition_matrices: typing.List):
+        """
+        Build the ConditionalIntensityMatrix object given the state residence times and transitions matrices.
+        Compute the cim coefficients.
+
+        Parameters:
+            state_res_times: the state residence times matrix
+            transition_matrices: the transition matrices
+        Returns:
+            void
+        """
         for state_res_time_vector, transition_matrix in zip(state_res_times, transition_matrices):
             cim_to_add = cim.ConditionalIntensityMatrix(state_res_time_vector, transition_matrix)
             cim_to_add.compute_cim_coefficients()
@@ -54,7 +64,16 @@ class SetOfCims:
         self.transition_matrices = None
         self.state_residence_times = None
 
-    def filter_cims_with_mask(self, mask_arr: np.ndarray, comb: typing.List):
+    def filter_cims_with_mask(self, mask_arr: np.ndarray, comb: typing.List) -> np.ndarray:
+        """
+        Filter the cims contained in the array actual_cims given the boolean mask mask_arr and the index comb.
+        Parameters:
+            mask_arr: the boolean mask
+            comb: the indexes of the selected cims
+
+        Returns:
+            Array of ConditionalIntensityMatrix
+        """
         if mask_arr.size <= 1:
             return self.actual_cims
         else:

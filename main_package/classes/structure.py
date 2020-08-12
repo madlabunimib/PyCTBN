@@ -13,7 +13,7 @@ class Structure:
     :total_variables_number: the total number of variables in the net
     """
 
-    def __init__(self, nodes_label_list: ty.List, node_indexes_arr: np.array, nodes_vals_arr: np.array,
+    def __init__(self, nodes_label_list: ty.List, node_indexes_arr: np.ndarray, nodes_vals_arr: np.ndarray,
                  edges_list: ty.List, total_variables_number: int):
         self._nodes_labels_list = nodes_label_list
         self._nodes_indexes_arr = node_indexes_arr
@@ -32,35 +32,30 @@ class Structure:
         return self._nodes_labels_list
 
     @property
-    def nodes_indexes(self):
+    def nodes_indexes(self) -> np.ndarray:
         return self._nodes_indexes_arr
 
     @property
-    def nodes_values(self):
+    def nodes_values(self) -> np.ndarray:
         return self._nodes_vals_arr
 
     @property
     def total_variables_number(self):
         return self._total_variables_number
 
-    def get_node_id(self, node_indx: int):
+    def get_node_id(self, node_indx: int) -> str:
         return self._nodes_labels_list[node_indx]
 
-    def get_node_indx(self, node_id: str):
+    def get_node_indx(self, node_id: str) -> int:
         pos_indx = self._nodes_labels_list.index(node_id)
         return self._nodes_indexes_arr[pos_indx]
 
-    def get_positional_node_indx(self, node_id: str):
+    def get_positional_node_indx(self, node_id: str) -> int:
         return self._nodes_labels_list.index(node_id)
 
-    def get_states_number(self, node: str):
+    def get_states_number(self, node: str) -> int:
         pos_indx = self._nodes_labels_list.index(node)
         return self._nodes_vals_arr[pos_indx]
-
-    def get_states_number_by_indx(self, node_indx: int):
-        #print(self.value_label)
-        #print("Node indx", node_indx)
-        return self._nodes_vals_arr[node_indx]
 
     def __repr__(self):
         return "Variables:\n" + str(self._nodes_labels_list) +"\nValues:\n"+ str(self._nodes_vals_arr) +\
