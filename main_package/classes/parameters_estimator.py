@@ -22,12 +22,6 @@ class ParametersEstimator:
         self.sets_of_cims_struct = None
         self.single_set_of_cims = None
 
-    def init_sets_cims_container(self):
-        self.sets_of_cims_struct = acims.SetsOfCimsContainer(self.net_graph.nodes,
-                                                             self.net_graph.nodes_values,
-                                                    self.net_graph.get_ordered_by_indx_parents_values_for_all_nodes(),
-                                                    self.net_graph.p_combs)
-
     def fast_init(self, node_id: str):
         """
         Initializes all the necessary structures for the parameters estimation.
@@ -40,28 +34,6 @@ class ParametersEstimator:
         p_vals = self.net_graph.aggregated_info_about_nodes_parents[2]
         node_states_number = self.net_graph.get_states_number(node_id)
         self.single_set_of_cims = sofc.SetOfCims(node_id, p_vals, node_states_number, self.net_graph.p_combs)
-
-
-    def compute_parameters(self):
-        #print(self.net_graph.get_nodes())
-        #print(self.amalgamated_cims_struct.sets_of_cims)
-        #enumerate(zip(self.net_graph.get_nodes(), self.amalgamated_cims_struct.sets_of_cims))
-        for indx, aggr in enumerate(zip(self.net_graph.nodes, self.sets_of_cims_struct.sets_of_cims)):
-            #print(self.net_graph.time_filtering[indx])
-            #print(self.net_graph.time_scalar_indexing_strucure[indx])
-            self.compute_state_res_time_for_node(self.net_graph.get_node_indx(aggr[0]), self.sample_path.trajectories.times,
-                                                 self.sample_path.trajectories.trajectory,
-                                                 self.net_graph.time_filtering[indx],
-                                                 self.net_graph.time_scalar_indexing_strucure[indx],
-                                                 aggr[1].state_residence_times)
-            #print(self.net_graph.transition_filtering[indx])
-            #print(self.net_graph.transition_scalar_indexing_structure[indx])
-            self.compute_state_transitions_for_a_node(self.net_graph.get_node_indx(aggr[0]),
-                                                      self.sample_path.trajectories.complete_trajectory,
-                                                      self.net_graph.transition_filtering[indx],
-                                                      self.net_graph.transition_scalar_indexing_structure[indx],
-                                                      aggr[1].transition_matrices)
-            aggr[1].build_cims(aggr[1].state_residence_times, aggr[1].transition_matrices)
 
     def compute_parameters_for_node(self, node_id: str) -> sofc.SetOfCims:
         """
@@ -131,6 +103,33 @@ class ParametersEstimator:
         M_raveled = M.ravel()
         M_raveled[diag_indices] = 0
         M_raveled[diag_indices] = np.sum(M, axis=2).ravel()
+
+    def init_sets_cims_container(self):
+        self.sets_of_cims_struct = acims.SetsOfCimsContainer(self.net_graph.nodes,
+                                                             self.net_graph.nodes_values,
+                                                             self.net_graph.get_ordered_by_indx_parents_values_for_all_nodes(),
+                                                             self.net_graph.p_combs)
+
+    def compute_parameters(self):
+        #print(self.net_graph.get_nodes())
+        #print(self.amalgamated_cims_struct.sets_of_cims)
+        #enumerate(zip(self.net_graph.get_nodes(), self.amalgamated_cims_struct.sets_of_cims))
+        for indx, aggr in enumerate(zip(self.net_graph.nodes, self.sets_of_cims_struct.sets_of_cims)):
+            #print(self.net_graph.time_filtering[indx])
+            #print(self.net_graph.time_scalar_indexing_strucure[indx])
+            self.compute_state_res_time_for_node(self.net_graph.get_node_indx(aggr[0]), self.sample_path.trajectories.times,
+                                                 self.sample_path.trajectories.trajectory,
+                                                 self.net_graph.time_filtering[indx],
+                                                 self.net_graph.time_scalar_indexing_strucure[indx],
+                                                 aggr[1].state_residence_times)
+            #print(self.net_graph.transition_filtering[indx])
+            #print(self.net_graph.transition_scalar_indexing_structure[indx])
+            self.compute_state_transitions_for_a_node(self.net_graph.get_node_indx(aggr[0]),
+                                                      self.sample_path.trajectories.complete_trajectory,
+                                                      self.net_graph.transition_filtering[indx],
+                                                      self.net_graph.transition_scalar_indexing_structure[indx],
+                                                      aggr[1].transition_matrices)
+            aggr[1].build_cims(aggr[1].state_residence_times, aggr[1].transition_matrices)
 
 
 

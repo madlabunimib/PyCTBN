@@ -94,7 +94,7 @@ class JsonImporter(AbstractImporter):
         #self.sorter.sort()
         #print("Sorter:", self.sorter)
         self._df_variables[self.variables_key] = self._df_variables[self.variables_key].astype("category")
-        self._df_variables[self.variables_key] = self._df_variables[self.variables_key].cat.set_categories(self.sorter)
+        self._df_variables[self.variables_key] = self._df_variables[self.variables_key].cat.set_categories(sorter)
         self._df_variables = self._df_variables.sort_values([self.variables_key])
         self._df_variables.reset_index(inplace=True)
         print("Var Frame", self._df_variables)
@@ -186,14 +186,8 @@ class JsonImporter(AbstractImporter):
         Returns:
             void
         """
-        """columns_header = list(self.df_samples_list[0].columns.values)
-        columns_header.remove('Time')
-        self.sorter = columns_header"""
         shifted_cols_header = [s + "S" for s in self.sorter]
         compute_row_delta = self.compute_row_delta_sigle_samples_frame
-        """for indx, sample in enumerate(self.df_samples_list):
-            self.df_samples_list[indx] = self.compute_row_delta_sigle_samples_frame(sample,
-                                                        time_header_label, self.sorter, shifted_cols_header)"""
         self.df_samples_list = [compute_row_delta(sample, time_header_label, self.sorter, shifted_cols_header)
                                 for sample in self.df_samples_list]
         self._concatenated_samples = pd.concat(self.df_samples_list)
