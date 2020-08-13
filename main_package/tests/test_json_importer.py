@@ -9,8 +9,8 @@ import json_importer as ji
 
 from line_profiler import LineProfiler
 
-import os
 import json
+
 
 
 class TestJsonImporter(unittest.TestCase):
@@ -98,6 +98,12 @@ class TestJsonImporter(unittest.TestCase):
         for df in j1.df_samples_list:
             self.assertTrue(df.empty)
 
+    def test_clear_concatenated_frame(self):
+        j1 = ji.JsonImporter(self.read_files[0], 'samples', 'dyn.str', 'variables', 'Time', 'Name')
+        j1.import_data()
+        j1.clear_concatenated_frame()
+        self.assertTrue(j1.concatenated_samples.empty)
+
     def test_build_list_of_samples_array(self):
         data_set = {"key1": [1, 2, 3], "key2": [4.1, 5.2, 6.3]}
         with open('data.json', 'w') as f:
@@ -122,13 +128,28 @@ class TestJsonImporter(unittest.TestCase):
         j1.import_variables(raw_data, sorter)
         self.assertEqual(list(j1.variables[j1.variables_key]), sorter)
 
+    def test_import_structure(self):
+        j1 = ji.JsonImporter(self.read_files[0], 'samples', 'dyn.str', 'variables', 'Time', 'Name')
+        raw_data = [{"dyn.str":[{"From":"X","To":"Z"},{"From":"Y","To":"Z"},{"From":"Z","To":"Y"}]}]
+        j1.import_structure(raw_data)
+        #print(raw_data[0]['dyn.str'][0].items())
+        self.assertIsInstance(j1.structure, pd.DataFrame)
+
+    def test_import_sampled_cims(self):
+        j1 = ji.JsonImporter(self.read_files[0], 'samples', 'dyn.str', 'variables', 'Time', 'Name')
+        raw_data = j1.read_json_file()
+        cims = j1.import_sampled_cims(raw_data, 0, 'dyn.cims')
+        j1.import_variables(raw_data, ['X','Y','Z'])
+        self.assertEqual(list(cims.keys()), j1.variables['Name'].tolist())
+
     def test_import_data(self):
         j1 = ji.JsonImporter(self.read_files[0], 'samples', 'dyn.str', 'variables', 'Time', 'Name')
-        lp = LineProfiler()
+        j1.import_data()
+        #lp = LineProfiler()
 
-        lp_wrapper = lp(j1.import_data)
-        lp_wrapper()
-        lp.print_stats()
+        #lp_wrapper = lp(j1.import_data)
+        #lp_wrapper()
+        #lp.print_stats()
         #j1.import_data()
         self.assertEqual(list(j1.variables[j1.variables_key]),
                          list(j1.concatenated_samples.columns.values[1:len(j1.variables[j1.variables_key]) + 1]))

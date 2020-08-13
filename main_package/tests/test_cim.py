@@ -1,3 +1,5 @@
+import sys
+sys.path.append("/Users/Zalum/Desktop/Tesi/CTBN_Project/main_package/classes/")
 import unittest
 import numpy as np
 
@@ -35,6 +37,10 @@ class TestConditionalIntensityMatrix(unittest.TestCase):
         for i in range(0, len(self.state_res_times)):
             for j in range(0, len(self.state_res_times)):
                 self.assertTrue(np.isclose(c1.cim[i, j], c2[i, j], 1e-02, 1e-01))
+
+    def test_repr(self):
+        c1 = cim.ConditionalIntensityMatrix(self.state_res_times, self.state_transition_matrix)
+        print(c1)
 
 
 if __name__ == '__main__':

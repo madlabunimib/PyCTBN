@@ -1,3 +1,5 @@
+import sys
+sys.path.append("/Users/Zalum/Desktop/Tesi/CTBN_Project/main_package/classes/")
 import unittest
 import numpy as np
 
@@ -34,6 +36,11 @@ class TestTrajectory(unittest.TestCase):
         cols_list = [np.array([1.2, 1.3, .14]), np.arange(1, 4), np.arange(4, 7)]
         t1 = tr.Trajectory(cols_list, len(cols_list) - 2)
         self.assertTrue(np.array_equal(cols_list[0], t1.times))
+
+    def test_repr(self):
+        cols_list = [np.array([1.2, 1.3, .14]), np.arange(1, 4), np.arange(4, 7)]
+        t1 = tr.Trajectory(cols_list, len(cols_list) - 2)
+        print(t1)
 
 
 if __name__ == '__main__':

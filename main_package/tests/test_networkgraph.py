@@ -1,3 +1,5 @@
+import sys
+sys.path.append("/Users/Zalum/Desktop/Tesi/CTBN_Project/main_package/classes/")
 import unittest
 import glob
 import os
@@ -147,7 +149,7 @@ class TestNetworkGraph(unittest.TestCase):
         #print(fancy_indx)
         for node_id, p_indxs, p_labels, p_v in zip(g1.graph_struct.nodes_labels, fancy_indx, p_labels, p_vals):
             self.aux_build_time_scalar_indexing_structure_for_a_node(g1, node_id, p_indxs, p_labels, p_v)
-#TODO Sei arrivato QUI
+
     def test_build_time_columns_filtering_structure(self):
         g1 = ng.NetworkGraph(self.s1.structure)
         g1.add_nodes(self.s1.structure.nodes_labels)

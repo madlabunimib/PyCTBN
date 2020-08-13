@@ -1,3 +1,5 @@
+import sys
+sys.path.append("/Users/Zalum/Desktop/Tesi/CTBN_Project/main_package/classes/")
 import unittest
 import numpy as np
 import networkx as nx
@@ -74,9 +76,6 @@ class TestStructureEstimator(unittest.TestCase):
         lp_wrapper()
         lp.print_stats()
         print(se1.complete_graph.edges)
-<<<<<<< HEAD
-        print(self.s1.structure.list_of_edges())
-=======
         print(self.s1.structure.edges)
         for ed in self.s1.structure.edges:
             self.assertIn(tuple(ed), se1.complete_graph.edges)
@@ -85,8 +84,6 @@ class TestStructureEstimator(unittest.TestCase):
         for ed in se1.complete_graph.edges:
             if not(ed in tuples_edges):
                 spurious_edges.append(ed)
->>>>>>> 6ced913c442e75d14d07c379635b2afdead1d9ea
-
         print("Spurious Edges:",spurious_edges)
         se1.save_results()
 

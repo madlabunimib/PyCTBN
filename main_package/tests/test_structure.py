@@ -68,6 +68,15 @@ class TestStructure(unittest.TestCase):
         for val, node in zip(v2, l2):
             self.assertEqual(val, s1.get_states_number(node))
 
+    def test_equality(self):
+        s1 = st.Structure(self.labels, self.indxs, self.vals, self.edges, self.vars_numb)
+        s2 = st.Structure(self.labels, self.indxs, self.vals, self.edges, self.vars_numb)
+        self.assertEqual(s1, s2)
+
+    def test_repr(self):
+        s1 = st.Structure(self.labels, self.indxs, self.vals, self.edges, self.vars_numb)
+        print(s1)
+
 
 if __name__ == '__main__':
     unittest.main()
