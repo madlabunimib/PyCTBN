@@ -1,24 +1,25 @@
 import sys
-sys.path.append("/Users/Zalum/Desktop/Tesi/CTBN_Project/main_package/classes/")
-import unittest
-import numpy as np
-import networkx as nx
+sys.path.append("../classes/")
 import glob
-import os
 import math
-from line_profiler import LineProfiler
-import psutil
+import os
+import unittest
 
-import json_importer as ji
+import networkx as nx
+import numpy as np
+import psutil
+from line_profiler import LineProfiler
+
+import cache as ch
 import sample_path as sp
 import structure_estimator as se
-import cache as ch
+import json_importer as ji
 
 
 class TestStructureEstimator(unittest.TestCase):
 
     @classmethod
-    def setUpClass(cls) -> None:
+    def setUpClass(cls):
         cls.read_files = glob.glob(os.path.join('../data', "*.json"))
         cls.importer = ji.JsonImporter(cls.read_files[0], 'samples', 'dyn.str', 'variables', 'Time', 'Name')
         cls.s1 = sp.SamplePath(cls.importer)

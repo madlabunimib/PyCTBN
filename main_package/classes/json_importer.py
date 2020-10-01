@@ -1,11 +1,13 @@
 
-import pandas as pd
 import json
 import typing
-from abstract_importer import AbstractImporter
+
+import pandas as pd
+
+import abstract_importer as ai
 
 
-class JsonImporter(AbstractImporter):
+class JsonImporter(ai.AbstractImporter):
     """
     Implements the Interface AbstractImporter and adds all the necessary methods to process and prepare the data in json ext.
     with the following structure:

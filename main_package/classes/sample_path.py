@@ -1,7 +1,7 @@
 import abstract_sample_path as asam
 import json_importer as imp
-import trajectory as tr
 import structure as st
+import trajectory as tr
 
 
 class SamplePath(asam.AbstractSamplePath):

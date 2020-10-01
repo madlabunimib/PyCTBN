@@ -1,20 +1,20 @@
 
-import numpy as np
 import itertools
-import networkx as nx
-from networkx.readwrite import json_graph
 import json
 import typing
-from scipy.stats import f as f_dist
+
+import networkx as nx
+import numpy as np
+from networkx.readwrite import json_graph
 from scipy.stats import chi2 as chi2_dist
+from scipy.stats import f as f_dist
 
-
+import cache as ch
+import conditional_intensity_matrix as condim
+import network_graph as ng
+import parameters_estimator as pe
 import sample_path as sp
 import structure as st
-import network_graph as ng
-import conditional_intensity_matrix as condim
-import parameters_estimator as pe
-import cache as ch
 
 
 class StructureEstimator:

@@ -1,9 +1,10 @@
 
 import numpy as np
-import sets_of_cims_container as acims
-import set_of_cims as sofc
-import sample_path as sp
+
 import network_graph as ng
+import sample_path as sp
+import set_of_cims as sofc
+import sets_of_cims_container as acims
 
 
 class ParametersEstimator:

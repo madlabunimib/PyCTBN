@@ -1,5 +1,5 @@
 import sys
-sys.path.append("/Users/Zalum/Desktop/Tesi/CTBN_Project/main_package/classes/")
+sys.path.append("../classes/")
 import unittest
 import glob
 import os

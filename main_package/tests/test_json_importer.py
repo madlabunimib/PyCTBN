@@ -1,13 +1,11 @@
 import sys
-sys.path.append("/Users/Zalum/Desktop/Tesi/CTBN_Project/main_package/classes/")
+sys.path.append("../classes/")
 import unittest
 import os
 import glob
 import numpy as np
 import pandas as pd
 import json_importer as ji
-
-from line_profiler import LineProfiler
 
 import json
 

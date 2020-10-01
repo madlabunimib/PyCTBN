@@ -1,12 +1,11 @@
 import sys
-sys.path.append("/Users/Zalum/Desktop/Tesi/CTBN_Project/main_package/classes/")
+sys.path.append("../classes/")
 import unittest
 import glob
 import os
 import networkx as nx
 import numpy as np
 import itertools
-from line_profiler import LineProfiler
 
 import sample_path as sp
 import network_graph as ng

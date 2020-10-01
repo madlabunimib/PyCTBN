@@ -1,7 +1,8 @@
 
+import typing
+
 import networkx as nx
 import numpy as np
-import typing
 
 
 class NetworkGraph:
@@ -21,7 +22,7 @@ class NetworkGraph:
     :_transition_scalar_indexing_structure: the indexing structure for transition computation
     :_time_filtering: the columns filtering structure used in the computation of the state res times
     :_transition_filtering: the columns filtering structure used in the computation of the transition from one state to another
-    :self._p_combs_structure: all the possibile parents states combination for every node in the net
+    :self._p_combs_structure: all the possible parents states combination for every node in the net
     """
 
     def __init__(self, graph_struct):

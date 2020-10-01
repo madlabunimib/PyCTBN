@@ -1,5 +1,7 @@
-import numpy as np
 import typing
+
+import numpy as np
+
 import conditional_intensity_matrix as cim
 
 

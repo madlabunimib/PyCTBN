@@ -1,7 +1,8 @@
+import sys
+sys.path.append("../classes/")
 import unittest
-
-import sets_of_cims_container as scc
 import set_of_cims as sc
+import sets_of_cims_container as scc
 
 
 class TestSetsOfCimsContainer(unittest.TestCase):
