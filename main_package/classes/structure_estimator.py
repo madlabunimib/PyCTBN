@@ -302,7 +302,7 @@ class StructureEstimator:
         name = self.sample_path.importer.file_path.rsplit('/',1)[-1]
         #print(name)
         name = 'results_' + name
-        with open(name, 'w') as f:
+        with open(name, 'w+') as f:
             json.dump(res, f)
 
 

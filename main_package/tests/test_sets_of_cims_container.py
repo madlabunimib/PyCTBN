@@ -14,6 +14,7 @@ class TestSetsOfCimsContainer(unittest.TestCase):
         cls.parents_states_list = [[], [3], [3, 3]]
 
     def test_init(self):
+        #TODO: Fix this initialization
         c1 = scc.SetsOfCimsContainer(self.variables, self.states_per_node, self.parents_states_list)
         self.assertEqual(len(c1.sets_of_cims), len(self.variables))
         for set_of_cims in c1.sets_of_cims:

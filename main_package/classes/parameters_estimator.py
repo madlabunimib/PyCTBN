@@ -14,7 +14,7 @@ class ParametersEstimator:
 
     :sample_path: the container of the trajectories
     :net_graph: the net structure
-    :single_srt_of_cims: the set of cims object that will hold the cims of the node
+    :single_set_of_cims: the set of cims object that will hold the cims of the node
     """
 
     def __init__(self, sample_path: sp.SamplePath, net_graph: ng.NetworkGraph):
