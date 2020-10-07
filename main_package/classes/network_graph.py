@@ -100,6 +100,17 @@ class NetworkGraph:
         """
         self.graph.add_edges_from(list_of_edges)
 
+    def remove_edges(self, list_of_edges: typing.List):
+        """
+        Remove the edges to the graph contained in the list list_of_edges.
+
+        Parameters:
+            list_of_edges
+        Returns:
+            void
+        """
+        self.graph.remove_edges_from(list_of_edges)
+
     def get_ordered_by_indx_set_of_parents(self, node: str):
         """
         Builds the aggregated structure that holds all the infos relative to the parent set of the node, namely

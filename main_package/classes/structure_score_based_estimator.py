@@ -80,34 +80,41 @@ class StructureScoreBasedEstimator:
     def estimate_parents(self,node_id:str):
         """
         Use the FamScore of a node in order to find the best parent nodes
-
         Parameters:
             void
         Returns:
             void
-
         """
         'Create the graph for the single node'
         graph = ng.NetworkGraph(self.sample_path.structure)
         'inizialize the graph for a single node'
-        graph.fast_init(node_id)
 
+        graph.graph_struct._edges_list=[]
+
+        graph.fast_init(node_id) 
+
+        #graph.graph.remove_edge('Z','X')
+
+        graph.add_edges([['Z','X']])
+        #graph.add_edges([['X','Z']])
+
+        graph.fast_init(node_id) 
+    
         params_estimation = pe.ParametersEstimator(self.sample_path, graph)
 
         'Inizialize and compute parameters for node'
         params_estimation.fast_init(node_id)
         SoCims = params_estimation.compute_parameters_for_node(node_id)
 
-        'Get the node\'s parents list'
-        parents = graph.get_parents_by_id(node_id)
+        print(f"il numero di cims è : {len(SoCims.actual_cims)}")
 
-        values = graph.get_states_number(parents[0])
-
-        print(f" actual_cims {len(SoCims.actual_cims)} padri {len(parents)} ")
-
+        'calculate the FamScore for the node'
         fam_score_obj = fam_score.FamScoreCalculator()
 
         score = fam_score_obj.get_fam_score(SoCims.actual_cims)
+        
+        print(f" lo score per {node_id} risulta: {score} ")
+        return score 
         
         '''mask = np.array([True,True])
 

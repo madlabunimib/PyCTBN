@@ -29,7 +29,6 @@ class TestStructureScoreBasedEstimator(unittest.TestCase):
 
 
 
-
     def test_esecuzione(self):
         se1 = se.StructureScoreBasedEstimator(self.s1)
         se1.estimate_structure()
