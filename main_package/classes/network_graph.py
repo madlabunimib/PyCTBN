@@ -89,6 +89,17 @@ class NetworkGraph:
             self.graph.add_node(id, indx=node_indx, val=node_val, pos_indx=pos)
             pos += 1
 
+    def has_edge(self,edge:tuple)-> bool:
+        """
+        Check if the graph contains a specific edge
+
+        Parameters:
+            edge: a tuple that rappresents the edge
+        Returns:
+            bool
+        """
+        return self.graph.has_edge(edge[0],edge[1])
+
     def add_edges(self, list_of_edges: typing.List):
         """
         Add the edges to the graph contained in the list list_of_edges.

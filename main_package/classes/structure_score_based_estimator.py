@@ -9,6 +9,7 @@ from networkx.readwrite import json_graph
 
 from random import choice
 
+import copy
 import cache as ch
 import conditional_intensity_matrix as condim
 import network_graph as ng
@@ -20,8 +21,9 @@ import fam_score_calculator as fam_score
 
 '''
 #TODO: Insert maximum number of parents
-#TODO: Evaluate if it's better to start from a complete or an empty graph 
+#TODO: Insert maximum number of iteration or other exit criterions
 #TODO: Create a parent class StructureEstimator and Two Subclasses (Score-Based and Constraint-Based)
+#TODO: Evaluate if it could be better to change list_edges to set for improve the performance
 '''
 
 class StructureScoreBasedEstimator:
@@ -67,70 +69,96 @@ class StructureScoreBasedEstimator:
         Compute the score-based algorithm to find the optimal structure
 
         Parameters:
-           node_id: the label of the node
+
         Returns:
             void
 
         """
+        'Remove all the edges from the structure'   
+        print( self.sample_path.structure.edges)  
+        print( type(self.sample_path.structure.edges))
+        print( type(self.sample_path.structure.edges[0])) 
+        self.sample_path.structure.clean_structure_edges()
+
         estimate_parents = self.estimate_parents
         'Estimate the best parents for each node'
-        #[estimate_parents(n) for n in self.nodes]
-        estimate_parents('X')
+        list_edges_partial = [estimate_parents(n) for n in self.nodes]
+        
+        'Concatenate all the edges list'
+        list_edges =  list(itertools.chain.from_iterable(list_edges_partial))
+
+        print('-------------------------')
+        print(list_edges)
     
     def estimate_parents(self,node_id:str):
         """
         Use the FamScore of a node in order to find the best parent nodes
         Parameters:
-            void
+            node_id: current node's id
         Returns:
-            void
+            A list of the best edges for the currente node
         """
+        
         'Create the graph for the single node'
         graph = ng.NetworkGraph(self.sample_path.structure)
+
+        other_nodes =  [node for node in self.sample_path.structure.nodes_labels if node != node_id]
+        actual_best_score = self.get_score_from_structure(graph,node_id)
+
+        for i in range(40):
+            'choose a new random edge'
+            current_new_parent = choice(other_nodes)
+            current_edge =  (current_new_parent,node_id)
+            added = False
+
+            if graph.has_edge(current_edge):
+                graph.remove_edges([current_edge])
+            else:
+                graph.add_edges([current_edge])
+                added = True
+            
+            current_score =  self.get_score_from_structure(graph,node_id)
+
+            if current_score > actual_best_score:
+                'update current best score' 
+                actual_best_score = current_score
+            else:
+                'undo the last update'
+                if added:
+                    graph.remove_edges([current_edge])
+                else:
+                    graph.add_edges([current_edge])
+
+        return graph.edges
+
+
+       
+    def get_score_from_structure(self,graph: ng.NetworkGraph,node_id:str):
+        """
+        Use the FamScore of a node in order to find the best parent nodes
+        Parameters:
+           node_id: current node's id
+           graph: current graph to be computed 
+        Returns:
+            The FamSCore for this structure
+        """
+
         'inizialize the graph for a single node'
-
-        graph.graph_struct._edges_list=[]
-
         graph.fast_init(node_id) 
 
-        #graph.graph.remove_edge('Z','X')
-
-        graph.add_edges([['Z','X']])
-        #graph.add_edges([['X','Z']])
-
-        graph.fast_init(node_id) 
-    
         params_estimation = pe.ParametersEstimator(self.sample_path, graph)
 
         'Inizialize and compute parameters for node'
         params_estimation.fast_init(node_id)
         SoCims = params_estimation.compute_parameters_for_node(node_id)
 
-        print(f"il numero di cims è : {len(SoCims.actual_cims)}")
-
         'calculate the FamScore for the node'
         fam_score_obj = fam_score.FamScoreCalculator()
 
         score = fam_score_obj.get_fam_score(SoCims.actual_cims)
         
-        print(f" lo score per {node_id} risulta: {score} ")
+        #print(f" lo score per {node_id} risulta: {score} ")
         return score 
-        
-        '''mask = np.array([True,True])
-
-        cims = SoCims.filter_cims_with_mask(mask,[1,1])
-
-       # print(f"-----{len(SoCims.transition_matrices)}-------")
-        print(f"{cims[0].state_transition_matrix}")
-
-        cims = SoCims.filter_cims_with_mask(mask,[0,0])
-
-        print(f"---parents {len(parents)}---------")
-        print(f"{cims[0].state_transition_matrix}")
-        '''
-
-       
-        
 
 
     def generate_possible_sub_sets_of_size(self, u: typing.List, size: int, parent_label: str):

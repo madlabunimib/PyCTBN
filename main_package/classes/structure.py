@@ -47,6 +47,19 @@ class Structure:
     def get_node_id(self, node_indx: int) -> str:
         return self._nodes_labels_list[node_indx]
 
+    def clean_structure_edges(self):
+        self._edges_list = list()
+
+    def add_edge(self,edge: tuple):
+        self._edges_list.append(tuple)
+        print(self._edges_list)
+    
+    def remove_edge(self,edge: tuple):
+        self._edges_list.remove(tuple)
+
+    def contains_edge(self,edge:tuple) -> bool:
+        return edge in self._edges_list
+
     def get_node_indx(self, node_id: str) -> int:
         pos_indx = self._nodes_labels_list.index(node_id)
         return self._nodes_indexes_arr[pos_indx]

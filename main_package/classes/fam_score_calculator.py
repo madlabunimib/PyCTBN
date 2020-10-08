@@ -71,7 +71,6 @@ class FamScoreCalculator:
         'get cim length'
         values = len(cim.state_residence_times)
 
-        print(f"transition time: {cim.state_transition_matrix}")
         'compute the marginal likelihood for the current cim'
         return np.sum([
                     self.single_cim_xu_marginal_likelihood_theta(
@@ -100,9 +99,8 @@ class FamScoreCalculator:
 
         values = list(range(len(cim.state_residence_times)))
 
+        'remove the index because of the x != x^ condition in the summation '
         values.remove(index)
-
-        print(values)
 
         return (loggamma(alpha_xu) - loggamma(alpha_xu + cim.state_transition_matrix[index, index])) \
                 + \
@@ -187,7 +185,6 @@ class FamScoreCalculator:
         Returns:
             the marginal likelihood of the node when assumes a specif value
         """
-        print(f"M[x|u]: {M_xu_suff_stats} T[x|u]: {T_xu_suff_stats}")
         return (
                 loggamma(alpha_xu + M_xu_suff_stats + 1) + 
                                                         (log(tau_xu)
