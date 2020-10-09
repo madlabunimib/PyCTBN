@@ -19,6 +19,11 @@ import structure as st
 import fam_score_calculator as fam_score
 
 
+import multiprocessing
+from multiprocessing import Pool
+
+
+
 '''
 #TODO: Insert maximum number of parents
 #TODO: Insert maximum number of iteration or other exit criterions
@@ -64,37 +69,71 @@ class StructureScoreBasedEstimator:
 
 
 
-    def estimate_structure(self):
+    def estimate_structure(self, max_parents:int = None, iterations_number:int= 40, patience:int = None ):
         """
         Compute the score-based algorithm to find the optimal structure
 
         Parameters:
-
+            max_parents: maximum number of parents for each variable. If None, disabled
+            iterations_number: maximum number of optimization algorithm's iteration
+            patience: number of iteration without any improvement before to stop the search.If None, disabled
         Returns:
             void
 
         """
+        'Save the true edges structure in tuples'
+        true_edges = copy.deepcopy(self.sample_path.structure.edges)
+        true_edges = list(map(tuple, true_edges))
+
         'Remove all the edges from the structure'   
-        print( self.sample_path.structure.edges)  
-        print( type(self.sample_path.structure.edges))
-        print( type(self.sample_path.structure.edges[0])) 
         self.sample_path.structure.clean_structure_edges()
 
         estimate_parents = self.estimate_parents
-        'Estimate the best parents for each node'
-        list_edges_partial = [estimate_parents(n) for n in self.nodes]
+
+        n_nodes= len(self.nodes)
         
+        l_max_parents= [max_parents] * n_nodes
+        l_iterations_number = [iterations_number] * n_nodes
+        l_patience = [patience] * n_nodes
+
+
+        'Estimate the best parents for each node'
+        with multiprocessing.Pool(processes=4) as pool:
+            list_edges_partial = pool.starmap(estimate_parents, zip(self.nodes,l_max_parents,l_iterations_number,l_patience))
+            #list_edges_partial = [estimate_parents(n) for n in self.nodes]
+            #list_edges_partial = p.map(estimate_parents, self.nodes)
+
         'Concatenate all the edges list'
         list_edges =  list(itertools.chain.from_iterable(list_edges_partial))
 
         print('-------------------------')
+
+        'TODO: Pensare a un modo migliore -- set difference sembra non funzionare '
+        n_missing_edges = 0
+        n_added_fake_edges = 0
+
+        for estimate_edge in list_edges:
+            if not estimate_edge in true_edges:
+                n_added_fake_edges += 1
+        
+        for true_edge in true_edges:
+            if not true_edge in list_edges:
+                n_missing_edges += 1
+
+
+        print(f"n archi reali non trovati: {n_missing_edges}")
+        print(f"n archi non reali aggiunti: {n_added_fake_edges}")
+        print(true_edges)
         print(list_edges)
     
-    def estimate_parents(self,node_id:str):
+    def estimate_parents(self,node_id:str, max_parents:int = None, iterations_number:int= 40, patience:int = 10 ):
         """
         Use the FamScore of a node in order to find the best parent nodes
         Parameters:
             node_id: current node's id
+            max_parents: maximum number of parents for each variable. If None, disabled
+            iterations_number: maximum number of optimization algorithm's iteration
+            patience: number of iteration without any improvement before to stop the search.If None, disabled
         Returns:
             A list of the best edges for the currente node
         """
@@ -105,15 +144,24 @@ class StructureScoreBasedEstimator:
         other_nodes =  [node for node in self.sample_path.structure.nodes_labels if node != node_id]
         actual_best_score = self.get_score_from_structure(graph,node_id)
 
-        for i in range(40):
+        patince_count = 0
+        for i in range(iterations_number):
             'choose a new random edge'
             current_new_parent = choice(other_nodes)
             current_edge =  (current_new_parent,node_id)
             added = False
+            parent_removed = None 
+            
 
             if graph.has_edge(current_edge):
                 graph.remove_edges([current_edge])
             else:
+                'check the max_parents constraint'
+                if max_parents is not None:
+                    parents_list = graph.get_parents_by_id(node_id)
+                    if len(parents_list) >= max_parents :
+                        parent_removed = (choice(parents_list), node_id)
+                        graph.remove_edges([parent_removed])
                 graph.add_edges([current_edge])
                 added = True
             
@@ -122,13 +170,23 @@ class StructureScoreBasedEstimator:
             if current_score > actual_best_score:
                 'update current best score' 
                 actual_best_score = current_score
+                patince_count = 0
             else:
                 'undo the last update'
                 if added:
                     graph.remove_edges([current_edge])
+                    'If a parent was removed, add it again to the graph'
+                    if parent_removed is not None:
+                        graph.add_edges([parent_removed])
                 else:
                     graph.add_edges([current_edge])
+                'update patience count'
+                patince_count += 1
 
+            if patience is not None and patince_count > patience:
+                break
+
+        print(f"finito variabile: {node_id}")
         return graph.edges
 
 

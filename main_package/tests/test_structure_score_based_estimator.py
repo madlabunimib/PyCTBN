@@ -31,7 +31,11 @@ class TestStructureScoreBasedEstimator(unittest.TestCase):
 
     def test_esecuzione(self):
         se1 = se.StructureScoreBasedEstimator(self.s1)
-        se1.estimate_structure()
+        se1.estimate_structure(
+                            max_parents = 5,
+                            iterations_number = 80,
+                            patience = None 
+                            )
 
 if __name__ == '__main__':
     unittest.main()
