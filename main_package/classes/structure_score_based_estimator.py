@@ -20,14 +20,14 @@ import fam_score_calculator as fam_score
 
 from decorators import timing
 
+#from numba import njit
+
 import multiprocessing
 from multiprocessing import Pool
 
 
 
 '''
-#TODO: Insert maximum number of parents
-#TODO: Insert maximum number of iteration or other exit criterions
 #TODO: Create a parent class StructureEstimator and Two Subclasses (Score-Based and Constraint-Based)
 #TODO: Evaluate if it could be better to change list_edges to set for improve the performance
 '''
@@ -131,6 +131,7 @@ class StructureScoreBasedEstimator:
         print(true_edges)
         print(list_edges)
     
+
     def estimate_parents(self,node_id:str, max_parents:int = None, iterations_number:int= 40, patience:int = 10 ):
         """
         Use the FamScore of a node in order to find the best parent nodes
@@ -147,7 +148,7 @@ class StructureScoreBasedEstimator:
         graph = ng.NetworkGraph(self.sample_path.structure)
 
         other_nodes =  [node for node in self.sample_path.structure.nodes_labels if node != node_id]
-        actual_best_score = self.get_score_from_structure(graph,node_id)
+        actual_best_score = self.get_score_from_graph(graph,node_id)
 
         patince_count = 0
         for i in range(iterations_number):
@@ -170,7 +171,7 @@ class StructureScoreBasedEstimator:
                 graph.add_edges([current_edge])
                 added = True
             
-            current_score =  self.get_score_from_structure(graph,node_id)
+            current_score =  self.get_score_from_graph(graph,node_id)
 
             if current_score > actual_best_score:
                 'update current best score' 
@@ -195,14 +196,14 @@ class StructureScoreBasedEstimator:
         return graph.edges
 
 
-    def get_score_from_structure(self,graph: ng.NetworkGraph,node_id:str):
+    def get_score_from_graph(self,graph: ng.NetworkGraph,node_id:str):
         """
         Use the FamScore of a node in order to find the best parent nodes
         Parameters:
            node_id: current node's id
            graph: current graph to be computed 
         Returns:
-            The FamSCore for this structure
+            The FamSCore for this graph structure
         """
 
         'inizialize the graph for a single node'
