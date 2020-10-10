@@ -18,6 +18,7 @@ import sample_path as sp
 import structure as st
 import fam_score_calculator as fam_score
 
+from decorators import timing
 
 import multiprocessing
 from multiprocessing import Pool
@@ -68,7 +69,7 @@ class StructureScoreBasedEstimator:
         return complete_graph
 
 
-
+    @timing
     def estimate_structure(self, max_parents:int = None, iterations_number:int= 40, patience:int = None ):
         """
         Compute the score-based algorithm to find the optimal structure
@@ -97,10 +98,13 @@ class StructureScoreBasedEstimator:
         l_patience = [patience] * n_nodes
 
 
+        'get the number of CPU'
+        cpu_count = multiprocessing.cpu_count()
+
         'Estimate the best parents for each node'
-        with multiprocessing.Pool(processes=4) as pool:
+        with multiprocessing.Pool(processes=cpu_count) as pool:
             list_edges_partial = pool.starmap(estimate_parents, zip(self.nodes,l_max_parents,l_iterations_number,l_patience))
-            #list_edges_partial = [estimate_parents(n) for n in self.nodes]
+            #list_edges_partial = [estimate_parents(n,max_parents,iterations_number,patience) for n in self.nodes]
             #list_edges_partial = p.map(estimate_parents, self.nodes)
 
         'Concatenate all the edges list'
@@ -119,6 +123,7 @@ class StructureScoreBasedEstimator:
         for true_edge in true_edges:
             if not true_edge in list_edges:
                 n_missing_edges += 1
+                print(true_edge)
 
 
         print(f"n archi reali non trovati: {n_missing_edges}")
@@ -190,7 +195,6 @@ class StructureScoreBasedEstimator:
         return graph.edges
 
 
-       
     def get_score_from_structure(self,graph: ng.NetworkGraph,node_id:str):
         """
         Use the FamScore of a node in order to find the best parent nodes
