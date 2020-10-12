@@ -32,7 +32,7 @@ class TestStructureScoreBasedEstimator(unittest.TestCase):
     def test_esecuzione(self):
         se1 = se.StructureScoreBasedEstimator(self.s1)
         se1.estimate_structure(
-                            max_parents = 6,
+                            max_parents = 3,
                             iterations_number = 80,
                             patience = None 
                             )

@@ -62,7 +62,7 @@ class StructureScoreBasedEstimator(se.StructureEstimator):
         """
         'Save the true edges structure in tuples'
         true_edges = copy.deepcopy(self.sample_path.structure.edges)
-        true_edges = list(map(tuple, true_edges))
+        true_edges = set(map(tuple, true_edges))
 
         'Remove all the edges from the structure'   
         self.sample_path.structure.clean_structure_edges()
@@ -91,23 +91,39 @@ class StructureScoreBasedEstimator(se.StructureEstimator):
         print('-------------------------')
 
         'TODO: Pensare a un modo migliore -- set difference sembra non funzionare '
+
         n_missing_edges = 0
         n_added_fake_edges = 0
 
-        for estimate_edge in list_edges:
-            if not estimate_edge in true_edges:
-                n_added_fake_edges += 1
+        set_list_edges = set(list_edges)
+
+        n_added_fake_edges = len(set_list_edges.difference(true_edges))
+
+        n_missing_edges = len(true_edges.difference(set_list_edges))
+
+        n_true_positive = len(true_edges) - n_missing_edges
+
+        precision = n_true_positive / (n_true_positive + n_added_fake_edges)
+
+        recall = n_true_positive / (n_true_positive + n_missing_edges)
+
+
+        # for estimate_edge in list_edges:
+        #     if not estimate_edge in true_edges:
+        #         n_added_fake_edges += 1
         
-        for true_edge in true_edges:
-            if not true_edge in list_edges:
-                n_missing_edges += 1
-                print(true_edge)
+        # for true_edge in true_edges:
+        #     if not true_edge in list_edges:
+        #         n_missing_edges += 1
+        #         print(true_edge)
 
 
         print(f"n archi reali non trovati: {n_missing_edges}")
         print(f"n archi non reali aggiunti: {n_added_fake_edges}")
         print(true_edges)
         print(list_edges)
+        print(f"precision: {precision} ")
+        print(f"recall: {recall} ")
     
 
     def estimate_parents(self,node_id:str, max_parents:int = None, iterations_number:int= 40, patience:int = 10 ):
