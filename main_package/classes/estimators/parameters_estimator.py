@@ -1,10 +1,11 @@
-
+import sys
+sys.path.append('../')
 import numpy as np
 
-import network_graph as ng
-import sample_path as sp
-import set_of_cims as sofc
-import sets_of_cims_container as acims
+import structure_graph.network_graph as ng
+import structure_graph.sample_path as sp
+import structure_graph.set_of_cims as sofc
+import structure_graph.sets_of_cims_container as acims
 
 
 class ParametersEstimator:

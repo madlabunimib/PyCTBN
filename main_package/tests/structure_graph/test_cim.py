@@ -1,9 +1,9 @@
 import sys
-sys.path.append("../classes/")
+sys.path.append("../../classes/")
 import unittest
 import numpy as np
 
-import conditional_intensity_matrix as cim
+import structure_graph.conditional_intensity_matrix as cim
 
 
 class TestConditionalIntensityMatrix(unittest.TestCase):

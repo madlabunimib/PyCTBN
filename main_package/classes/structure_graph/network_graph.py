@@ -4,6 +4,8 @@ import typing
 import networkx as nx
 import numpy as np
 
+import sys
+sys.path.append('../')
 
 class NetworkGraph:
     """

@@ -1,8 +1,8 @@
 import sys
-sys.path.append("../classes/")
+sys.path.append("../../classes/")
 import unittest
-import set_of_cims as sc
-import sets_of_cims_container as scc
+import structure_graph.set_of_cims as sc
+import structure_graph.sets_of_cims_container as scc
 
 
 class TestSetsOfCimsContainer(unittest.TestCase):

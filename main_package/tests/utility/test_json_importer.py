@@ -1,11 +1,11 @@
 import sys
-sys.path.append("../classes/")
+sys.path.append("../../classes/")
 import unittest
 import os
 import glob
 import numpy as np
 import pandas as pd
-import json_importer as ji
+import utility.json_importer as ji
 
 import json
 
@@ -15,7 +15,7 @@ class TestJsonImporter(unittest.TestCase):
 
     @classmethod
     def setUpClass(cls) -> None:
-        cls.read_files = glob.glob(os.path.join('../data', "*.json"))
+        cls.read_files = glob.glob(os.path.join('../../data', "*.json"))
 
     def test_init(self):
         j1 = ji.JsonImporter(self.read_files[0], 'samples', 'dyn.str', 'variables', 'Time', 'Name')

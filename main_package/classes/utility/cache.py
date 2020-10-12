@@ -1,6 +1,9 @@
+import sys
+sys.path.append('../')
+
 import typing
 
-import set_of_cims as sofc
+import structure_graph.set_of_cims as sofc
 
 
 class Cache:

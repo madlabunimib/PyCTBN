@@ -1,3 +1,6 @@
+import sys
+sys.path.append('../')
+
 import typing as ty
 
 import numpy as np

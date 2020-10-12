@@ -1,4 +1,7 @@
-import set_of_cims as socim
+import sys
+sys.path.append('../')
+
+import structure_graph.set_of_cims as socim
 
 
 class SetsOfCimsContainer:

@@ -1,8 +1,11 @@
+import sys
+sys.path.append('../')
+
 import typing
 
 import numpy as np
 
-import conditional_intensity_matrix as cim
+import structure_graph.conditional_intensity_matrix as cim
 
 
 class SetOfCims:

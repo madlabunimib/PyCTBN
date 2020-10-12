@@ -1,9 +1,9 @@
 import sys
-sys.path.append("../classes/")
+sys.path.append("../../classes/")
 import unittest
 import numpy as np
 
-import trajectory as tr
+import structure_graph.trajectory as tr
 
 
 class TestTrajectory(unittest.TestCase):

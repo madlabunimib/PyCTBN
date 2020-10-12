@@ -1,19 +1,19 @@
 import sys
-sys.path.append("../classes/")
+sys.path.append("../../classes/")
 import unittest
 import glob
 import os
-import json_importer as ji
-import sample_path as sp
-import trajectory as tr
-import structure as st
+import utility.json_importer as ji
+import structure_graph.sample_path as sp
+import structure_graph.trajectory as tr
+import structure_graph.structure as st
 
 
 class TestSamplePath(unittest.TestCase):
 
     @classmethod
     def setUpClass(cls) -> None:
-        cls.read_files = glob.glob(os.path.join('../data', "*.json"))
+        cls.read_files = glob.glob(os.path.join('../../data', "*.json"))
         cls.importer = ji.JsonImporter(cls.read_files[0], 'samples', 'dyn.str', 'variables', 'Time', 'Name')
 
     def test_init(self):

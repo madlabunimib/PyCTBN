@@ -4,11 +4,11 @@ import os
 import sys
 sys.path.append("./classes/")
 
-import network_graph as ng
-import sample_path as sp
-import set_of_cims as sofc
-import parameters_estimator as pe
-import json_importer as ji
+import structure_graph.network_graph as ng
+import structure_graph.sample_path as sp
+import structure_graph.set_of_cims as sofc
+import estimators.parameters_estimator as pe
+import utility.json_importer as ji
 
 
 def main():

@@ -1,8 +1,8 @@
 import sys
-sys.path.append("../classes/")
+sys.path.append("../../classes/")
 import unittest
 import numpy as np
-import structure as st
+import structure_graph.structure as st
 
 
 class TestStructure(unittest.TestCase):

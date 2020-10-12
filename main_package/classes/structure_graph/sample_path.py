@@ -1,7 +1,11 @@
-import abstract_sample_path as asam
-import json_importer as imp
-import structure as st
-import trajectory as tr
+import sys
+sys.path.append('../')
+
+import structure_graph.abstract_sample_path as asam
+import utility.json_importer as imp
+import structure_graph.structure as st
+import structure_graph.trajectory as tr
+
 
 
 class SamplePath(asam.AbstractSamplePath):

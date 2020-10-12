@@ -1,22 +1,22 @@
 import sys
-sys.path.append("../classes/")
+sys.path.append("../../classes/")
 import unittest
 import numpy as np
 import glob
 import os
 
-import network_graph as ng
-import sample_path as sp
-import set_of_cims as sofc
-import parameters_estimator as pe
-import json_importer as ji
+import structure_graph.network_graph as ng
+import structure_graph.sample_path as sp
+import structure_graph.set_of_cims as sofc
+import estimators.parameters_estimator as pe
+import utility.json_importer as ji
 
 
 class TestParametersEstimatior(unittest.TestCase):
 
     @classmethod
     def setUpClass(cls) -> None:
-        cls.read_files = glob.glob(os.path.join('../data', "*.json"))
+        cls.read_files = glob.glob(os.path.join('../../data', "*.json"))
         cls.importer = ji.JsonImporter(cls.read_files[0], 'samples', 'dyn.str', 'variables', 'Time', 'Name')
         cls.s1 = sp.SamplePath(cls.importer)
         cls.s1.build_trajectories()

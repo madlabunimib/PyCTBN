@@ -1,10 +1,12 @@
+import sys
+sys.path.append('../')
 
 import json
 import typing
 
 import pandas as pd
 
-import abstract_importer as ai
+import utility.abstract_importer as ai
 
 
 class JsonImporter(ai.AbstractImporter):

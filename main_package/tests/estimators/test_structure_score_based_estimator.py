@@ -1,5 +1,5 @@
 import sys
-sys.path.append("../classes/")
+sys.path.append("../../classes/")
 import glob
 import math
 import os
@@ -10,10 +10,10 @@ import numpy as np
 import psutil
 from line_profiler import LineProfiler
 
-import cache as ch
-import sample_path as sp
-import structure_score_based_estimator as se
-import json_importer as ji
+import utility.cache as ch
+import structure_graph.sample_path as sp
+import estimators.structure_score_based_estimator as se
+import utility.json_importer as ji
 
 
 
@@ -21,7 +21,7 @@ class TestStructureScoreBasedEstimator(unittest.TestCase):
 
     @classmethod
     def setUpClass(cls):
-        cls.read_files = glob.glob(os.path.join('../data', "*.json"))
+        cls.read_files = glob.glob(os.path.join('../../data', "*.json"))
         cls.importer = ji.JsonImporter(cls.read_files[0], 'samples', 'dyn.str', 'variables', 'Time', 'Name')
         cls.s1 = sp.SamplePath(cls.importer)
         cls.s1.build_trajectories()

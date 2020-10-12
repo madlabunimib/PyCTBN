@@ -1,3 +1,6 @@
+import sys
+sys.path.append('../')
+
 
 import itertools
 import json
@@ -12,9 +15,9 @@ from math import log
 from scipy.special import loggamma
 from random import choice
 
-import set_of_cims as soCims
-import network_graph as net_graph
-import conditional_intensity_matrix as cim_class
+import structure_graph.set_of_cims as soCims
+import structure_graph.network_graph as net_graph
+import structure_graph.conditional_intensity_matrix as cim_class
 
 
 '''
