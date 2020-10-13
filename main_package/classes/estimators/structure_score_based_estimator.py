@@ -47,7 +47,7 @@ class StructureScoreBasedEstimator(se.StructureEstimator):
         super().__init__(sample_path)
 
 
-    @timing
+    
     def estimate_structure(self, max_parents:int = None, iterations_number:int= 40, patience:int = None ):
         """
         Compute the score-based algorithm to find the optimal structure
@@ -86,7 +86,7 @@ class StructureScoreBasedEstimator(se.StructureEstimator):
             #list_edges_partial = p.map(estimate_parents, self.nodes)
 
         'Concatenate all the edges list'
-        list_edges =  list(itertools.chain.from_iterable(list_edges_partial))
+        set_list_edges =  set(itertools.chain.from_iterable(list_edges_partial))
 
         print('-------------------------')
 
@@ -95,7 +95,6 @@ class StructureScoreBasedEstimator(se.StructureEstimator):
         n_missing_edges = 0
         n_added_fake_edges = 0
 
-        set_list_edges = set(list_edges)
 
         n_added_fake_edges = len(set_list_edges.difference(true_edges))
 
@@ -121,7 +120,7 @@ class StructureScoreBasedEstimator(se.StructureEstimator):
         print(f"n archi reali non trovati: {n_missing_edges}")
         print(f"n archi non reali aggiunti: {n_added_fake_edges}")
         print(true_edges)
-        print(list_edges)
+        print(set_list_edges)
         print(f"precision: {precision} ")
         print(f"recall: {recall} ")
     
@@ -166,7 +165,7 @@ class StructureScoreBasedEstimator(se.StructureEstimator):
                 added = True
             
             current_score =  self.get_score_from_graph(graph,node_id)
-
+            
             if current_score > actual_best_score:
                 'update current best score' 
                 actual_best_score = current_score
@@ -189,7 +188,7 @@ class StructureScoreBasedEstimator(se.StructureEstimator):
         print(f"finito variabile: {node_id}")
         return graph.edges
 
-
+    
     def get_score_from_graph(self,graph: ng.NetworkGraph,node_id:str):
         """
         Use the FamScore of a node in order to find the best parent nodes
@@ -218,21 +217,5 @@ class StructureScoreBasedEstimator(se.StructureEstimator):
         return score 
 
 
-    def generate_possible_sub_sets_of_size(self, u: typing.List, size: int, parent_label: str):
-        """
-        Creates a list containing all possible subsets of the list u of size size,
-        that do not contains a the node identified by parent_label.
-
-        Parameters:
-            u: the list of nodes
-            size: the size of the subsets
-            parent_label: the nodes to exclude in the subsets generation
-        Returns:
-            a Map Object containing a list of lists
-
-        """
-        list_without_test_parent = u[:]
-        list_without_test_parent.remove(parent_label)
-        return map(list, itertools.combinations(list_without_test_parent, size))
 
 

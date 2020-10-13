@@ -17,7 +17,7 @@ class TestParametersEstimatior(unittest.TestCase):
     @classmethod
     def setUpClass(cls) -> None:
         cls.read_files = glob.glob(os.path.join('../../data', "*.json"))
-        cls.importer = ji.JsonImporter(cls.read_files[0], 'samples', 'dyn.str', 'variables', 'Time', 'Name')
+        cls.importer = ji.JsonImporter("../../data/networks_and_trajectories_binary_data_01_3.json", 'samples', 'dyn.str', 'variables', 'Time', 'Name')
         cls.s1 = sp.SamplePath(cls.importer)
         cls.s1.build_trajectories()
         cls.s1.build_structure()
