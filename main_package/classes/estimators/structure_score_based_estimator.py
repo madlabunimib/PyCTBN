@@ -47,7 +47,7 @@ class StructureScoreBasedEstimator(se.StructureEstimator):
         super().__init__(sample_path)
 
 
-    
+    @timing
     def estimate_structure(self, max_parents:int = None, iterations_number:int= 40, patience:int = None ):
         """
         Compute the score-based algorithm to find the optimal structure
@@ -79,19 +79,22 @@ class StructureScoreBasedEstimator(se.StructureEstimator):
         'get the number of CPU'
         cpu_count = multiprocessing.cpu_count()
 
+        #cpu_count = 1
+
         'Estimate the best parents for each node'
         with multiprocessing.Pool(processes=cpu_count) as pool:
             list_edges_partial = pool.starmap(estimate_parents, zip(self.nodes,l_max_parents,l_iterations_number,l_patience))
             #list_edges_partial = [estimate_parents(n,max_parents,iterations_number,patience) for n in self.nodes]
             #list_edges_partial = p.map(estimate_parents, self.nodes)
+            #list_edges_partial= estimate_parents('Y',max_parents,iterations_number,patience) 
 
         'Concatenate all the edges list'
         set_list_edges =  set(itertools.chain.from_iterable(list_edges_partial))
 
-        print('-------------------------')
+        #print('-------------------------')
 
-        'TODO: Pensare a un modo migliore -- set difference sembra non funzionare '
 
+        'calculate precision and recall'
         n_missing_edges = 0
         n_added_fake_edges = 0
 
@@ -117,12 +120,14 @@ class StructureScoreBasedEstimator(se.StructureEstimator):
         #         print(true_edge)
 
 
-        print(f"n archi reali non trovati: {n_missing_edges}")
-        print(f"n archi non reali aggiunti: {n_added_fake_edges}")
+        # print(f"n archi reali non trovati: {n_missing_edges}")
+        # print(f"n archi non reali aggiunti: {n_added_fake_edges}")
         print(true_edges)
         print(set_list_edges)
         print(f"precision: {precision} ")
         print(f"recall: {recall} ")
+
+        return set_list_edges
     
 
     def estimate_parents(self,node_id:str, max_parents:int = None, iterations_number:int= 40, patience:int = 10 ):
@@ -163,9 +168,10 @@ class StructureScoreBasedEstimator(se.StructureEstimator):
                         graph.remove_edges([parent_removed])
                 graph.add_edges([current_edge])
                 added = True
-            
+            #print('**************************')
             current_score =  self.get_score_from_graph(graph,node_id)
-            
+
+
             if current_score > actual_best_score:
                 'update current best score' 
                 actual_best_score = current_score

@@ -143,6 +143,7 @@ class FamScoreCalculator:
         Returns:
             the value of the marginal likelihood over q
         """
+
         return np.sum([self.variable_cim_xu_marginal_likelihood_q(cim, tau_xu, alpha_xu) for cim in cims])
 
     def variable_cim_xu_marginal_likelihood_q(self,
@@ -206,18 +207,27 @@ class FamScoreCalculator:
     def get_fam_score(self,
                 cims: np.array,
                 tau_xu: float=1,
-                alpha_xu: float=1,
-                alpha_xxu: float=1):
+                alpha_xu: float=1):
         """
         calculate the FamScore value of the node identified by the label node_id
         Parameters:
             cims: np.array with all the node's cims,
             tau_xu: hyperparameter over the CTBN’s q parameters
             alpha_xu: hyperparameter over the CTBN’s q parameters
-            alpha_xxu: hyperparameter over the CTBN’s theta parameters
         Returns:
             the FamScore value of the node
         """
+        #print("------")
+        #print(self.marginal_likelihood_q(cims,
+                                    # tau_xu,
+                                    # alpha_xu))
+
+        #print(self.marginal_likelihood_theta(cims, 
+                                        # alpha_xu,
+                                        # alpha_xxu))
+        'calculate alpha_xxu as a uniform distribution'                                
+        alpha_xxu = alpha_xu /(len(cims[0].state_residence_times) - 1)
+
         return self.marginal_likelihood_q(cims,
                                     tau_xu,
                                     alpha_xu) \

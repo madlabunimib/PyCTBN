@@ -17,7 +17,7 @@ class TestParametersEstimatior(unittest.TestCase):
     @classmethod
     def setUpClass(cls) -> None:
         cls.read_files = glob.glob(os.path.join('../../data', "*.json"))
-        cls.importer = ji.JsonImporter("../../data/networks_and_trajectories_binary_data_01_3.json", 'samples', 'dyn.str', 'variables', 'Time', 'Name')
+        cls.importer = ji.JsonImporter("../../data/networks_and_trajectories_ternary_data_01_3.json", 'samples', 'dyn.str', 'variables', 'Time', 'Name')
         cls.s1 = sp.SamplePath(cls.importer)
         cls.s1.build_trajectories()
         cls.s1.build_structure()
@@ -45,6 +45,7 @@ class TestParametersEstimatior(unittest.TestCase):
             sofc1 = p1.compute_parameters_for_node(node)
             sampled_cims = self.aux_import_sampled_cims('dyn.cims')
             sc = list(sampled_cims.values())
+            print(sampled_cims.values())
             #print(sc[indx])
             self.equality_of_cims_of_node(sc[indx], sofc1.actual_cims)
 
