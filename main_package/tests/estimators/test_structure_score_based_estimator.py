@@ -23,7 +23,7 @@ class TestStructureScoreBasedEstimator(unittest.TestCase):
     @classmethod
     def setUpClass(cls):
         #cls.read_files = glob.glob(os.path.join('../../data', "*.json"))
-        cls.importer = ji.JsonImporter("../../data/networks_and_trajectories_quaternary_data_01_3.json", 'samples', 'dyn.str', 'variables', 'Time', 'Name')
+        cls.importer = ji.JsonImporter("../../data/networks_and_trajectories_binary_data_01_3.json", 'samples', 'dyn.str', 'variables', 'Time', 'Name')
         cls.s1 = sp.SamplePath(cls.importer)
         cls.s1.build_trajectories()
         cls.s1.build_structure()
@@ -38,7 +38,7 @@ class TestStructureScoreBasedEstimator(unittest.TestCase):
         edges = se1.estimate_structure(
                             max_parents = None,
                             iterations_number = 100,
-                            patience = None 
+                            patience = None
                             )
         
 

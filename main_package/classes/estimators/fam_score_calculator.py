@@ -22,8 +22,6 @@ import structure_graph.conditional_intensity_matrix as cim_class
 
 '''
 TODO: Parlare dell'idea di ciclare sulle cim senza filtrare
-TODO: Parlare del problema con gamma in scipy e math(overflow)
-TODO: Problema warning overflow durante l'esecuzione
 '''
 
 
@@ -104,6 +102,9 @@ class FamScoreCalculator:
 
         'remove the index because of the x != x^ condition in the summation '
         values.remove(index)
+
+        'uncomment for alpha xx not uniform'
+        #alpha_xxu = alpha_xu * cim.state_transition_matrix[index,index_x_first] / cim.state_transition_matrix[index, index])
 
         return (loggamma(alpha_xu) - loggamma(alpha_xu + cim.state_transition_matrix[index, index])) \
                 + \
