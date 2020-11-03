@@ -17,6 +17,7 @@ import estimators.parameters_estimator as pe
 import estimators.structure_estimator as se
 import structure_graph.sample_path as sp
 import structure_graph.structure as st
+import optimizers.constraint_based_optimizer as optimizer
 
 
 class StructureConstraintBasedEstimator(se.StructureEstimator):
@@ -202,40 +203,11 @@ class StructureConstraintBasedEstimator(se.StructureEstimator):
         Returns:
             void
         """
-        print("##################TESTING VAR################", var_id)
-        u = list(self.complete_graph.predecessors(var_id))
-        #tests_parents_numb = len(u)
-        #complete_frame = self.complete_graph_frame
-        #test_frame = complete_frame.loc[complete_frame['To'].isin([var_id])]
-        child_states_numb = self.sample_path.structure.get_states_number(var_id)
-        b = 0
-        while b < len(u):
-            #for parent_id in u:
-            parent_indx = 0
-            while parent_indx < len(u):
-                removed = False
-                #if not list(self.generate_possible_sub_sets_of_size(u, b, u[parent_indx])):
-                    #break
-                S = self.generate_possible_sub_sets_of_size(u, b, u[parent_indx])
-                #print("U Set", u)
-                #print("S", S)
-                test_parent = u[parent_indx]
-                #print("Test Parent", test_parent)
-                for parents_set in S:
-                    #print("Parent Set", parents_set)
-                    #print("Test Parent", test_parent)
-                    if self.complete_test(test_parent, var_id, parents_set, child_states_numb, tot_vars_count):
-                        #print("Removing EDGE:", test_parent, var_id)
-                        self.complete_graph.remove_edge(test_parent, var_id)
-                        u.remove(test_parent)
-                        removed = True
-                        break
-                    #else:
-                        #parent_indx += 1
-                if not removed:
-                    parent_indx += 1
-            b += 1
-        self.cache.clear()
+        optimizer_obj = optimizer.ConstraintBasedOptimizer(
+                                                            node_id = var_id,
+                                                            structure_estimator = self,
+                                                            tot_vars_count = tot_vars_count)
+        optimizer_obj.optimize_structure()
 
     def ctpc_algorithm(self):
         """
