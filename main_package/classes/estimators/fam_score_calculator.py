@@ -110,7 +110,7 @@ class FamScoreCalculator:
                 + \
                 np.sum([self.single_internal_cim_xxu_marginal_likelihood_theta(
                                                                         cim.state_transition_matrix[index,index_x_first],
-                                                                        alpha_xxu)
+                                                                        alpha_xu * cim.state_transition_matrix[index,index_x_first] / cim.state_transition_matrix[index, index])
                 for index_x_first in values])
 
 

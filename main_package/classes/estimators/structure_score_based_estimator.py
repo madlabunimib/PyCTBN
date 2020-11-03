@@ -19,6 +19,8 @@ import estimators.structure_estimator as se
 import structure_graph.sample_path as sp
 import structure_graph.structure as st
 import estimators.fam_score_calculator as fam_score
+import optimizers.hill_climbing_search as hill
+import optimizers.tabu_search as tabu
 
 from utility.decorators import timing
 
@@ -48,7 +50,9 @@ class StructureScoreBasedEstimator(se.StructureEstimator):
 
 
     @timing
-    def estimate_structure(self, max_parents:int = None, iterations_number:int= 40, patience:int = None ):
+    def estimate_structure(self, max_parents:int = None, iterations_number:int= 40,
+                         patience:int = None, tabu_length:int = None, tabu_rules_duration:int = 5,
+                         optimizer: str = 'hill' ):
         """
         Compute the score-based algorithm to find the optimal structure
 
@@ -74,6 +78,9 @@ class StructureScoreBasedEstimator(se.StructureEstimator):
         l_max_parents= [max_parents] * n_nodes
         l_iterations_number = [iterations_number] * n_nodes
         l_patience = [patience] * n_nodes
+        l_tabu_length = [tabu_length] * n_nodes
+        l_tabu_rules_duration = [tabu_rules_duration] * n_nodes
+        l_optimizer = [optimizer] * n_nodes
 
 
         'get the number of CPU'
@@ -83,10 +90,17 @@ class StructureScoreBasedEstimator(se.StructureEstimator):
 
         'Estimate the best parents for each node'
         with multiprocessing.Pool(processes=cpu_count) as pool:
-            list_edges_partial = pool.starmap(estimate_parents, zip(self.nodes,l_max_parents,l_iterations_number,l_patience))
-            #list_edges_partial = [estimate_parents(n,max_parents,iterations_number,patience) for n in self.nodes]
+            list_edges_partial = pool.starmap(estimate_parents, zip(
+                                                                self.nodes,
+                                                                l_max_parents,
+                                                                l_iterations_number,
+                                                                l_patience,
+                                                                l_tabu_length,
+                                                                l_tabu_rules_duration,
+                                                                l_optimizer))
+            # list_edges_partial = [estimate_parents(n,max_parents,iterations_number,patience,tabu_length,tabu_rules_duration,optimizer) for n in self.nodes]
             #list_edges_partial = p.map(estimate_parents, self.nodes)
-            #list_edges_partial= estimate_parents('Y',max_parents,iterations_number,patience) 
+            #list_edges_partial= estimate_parents('Q',max_parents,iterations_number,patience,tabu_length,tabu_rules_duration,optimizer) 
 
         'Concatenate all the edges list'
         set_list_edges =  set(itertools.chain.from_iterable(list_edges_partial))
@@ -98,39 +112,33 @@ class StructureScoreBasedEstimator(se.StructureEstimator):
         n_missing_edges = 0
         n_added_fake_edges = 0
 
+        try:
+            n_added_fake_edges = len(set_list_edges.difference(true_edges))
 
-        n_added_fake_edges = len(set_list_edges.difference(true_edges))
+            n_missing_edges = len(true_edges.difference(set_list_edges))
 
-        n_missing_edges = len(true_edges.difference(set_list_edges))
+            n_true_positive = len(true_edges) - n_missing_edges
 
-        n_true_positive = len(true_edges) - n_missing_edges
+            precision = n_true_positive / (n_true_positive + n_added_fake_edges)
 
-        precision = n_true_positive / (n_true_positive + n_added_fake_edges)
-
-        recall = n_true_positive / (n_true_positive + n_missing_edges)
-
-
-        # for estimate_edge in list_edges:
-        #     if not estimate_edge in true_edges:
-        #         n_added_fake_edges += 1
-        
-        # for true_edge in true_edges:
-        #     if not true_edge in list_edges:
-        #         n_missing_edges += 1
-        #         print(true_edge)
+            recall = n_true_positive / (n_true_positive + n_missing_edges)
 
 
-        # print(f"n archi reali non trovati: {n_missing_edges}")
-        # print(f"n archi non reali aggiunti: {n_added_fake_edges}")
-        print(true_edges)
-        print(set_list_edges)
-        print(f"precision: {precision} ")
-        print(f"recall: {recall} ")
+            # print(f"n archi reali non trovati: {n_missing_edges}")
+            # print(f"n archi non reali aggiunti: {n_added_fake_edges}")
+            print(true_edges)
+            print(set_list_edges)
+            print(f"precision: {precision} ")
+            print(f"recall: {recall} ")
+        except Exception as e: 
+            print(f"errore: {e}")
 
         return set_list_edges
     
 
-    def estimate_parents(self,node_id:str, max_parents:int = None, iterations_number:int= 40, patience:int = 10 ):
+    def estimate_parents(self,node_id:str, max_parents:int = None, iterations_number:int= 40,
+                            patience:int = 10, tabu_length:int = None, tabu_rules_duration:int=5, 
+                            optimizer:str = 'hill' ):
         """
         Use the FamScore of a node in order to find the best parent nodes
         Parameters:
@@ -138,61 +146,33 @@ class StructureScoreBasedEstimator(se.StructureEstimator):
             max_parents: maximum number of parents for each variable. If None, disabled
             iterations_number: maximum number of optimization algorithm's iteration
             patience: number of iteration without any improvement before to stop the search.If None, disabled
+            tabu_length: maximum lenght of the data structures used in the optimization process
+            tabu_rules_duration: number of iterations in which each rule keeps its value 
+            optimzer: name of the optimizer algorithm. Possible values: 'hill' (Hill climbing),'tabu' (tabu search)
         Returns:
             A list of the best edges for the currente node
         """
-        
-        'Create the graph for the single node'
-        graph = ng.NetworkGraph(self.sample_path.structure)
 
-        other_nodes =  [node for node in self.sample_path.structure.nodes_labels if node != node_id]
-        actual_best_score = self.get_score_from_graph(graph,node_id)
+        "choose the optimizer algotithm"
+        if optimizer == 'tabu':
+            optimizer = tabu.TabuSearch(
+                        node_id = node_id,
+                        structure_estimator = self,
+                        max_parents = max_parents,
+                        iterations_number = iterations_number,
+                        patience = patience,
+                        tabu_length = tabu_length,
+                        tabu_rules_duration = tabu_rules_duration)
+        else: #if optimizer == 'hill':
+            optimizer = hill.HillClimbing(
+                                    node_id = node_id,
+                                    structure_estimator = self,
+                                    max_parents = max_parents,
+                                    iterations_number = iterations_number,
+                                    patience = patience)
 
-        patince_count = 0
-        for i in range(iterations_number):
-            'choose a new random edge'
-            current_new_parent = choice(other_nodes)
-            current_edge =  (current_new_parent,node_id)
-            added = False
-            parent_removed = None 
-            
-
-            if graph.has_edge(current_edge):
-                graph.remove_edges([current_edge])
-            else:
-                'check the max_parents constraint'
-                if max_parents is not None:
-                    parents_list = graph.get_parents_by_id(node_id)
-                    if len(parents_list) >= max_parents :
-                        parent_removed = (choice(parents_list), node_id)
-                        graph.remove_edges([parent_removed])
-                graph.add_edges([current_edge])
-                added = True
-            #print('**************************')
-            current_score =  self.get_score_from_graph(graph,node_id)
-
-
-            if current_score > actual_best_score:
-                'update current best score' 
-                actual_best_score = current_score
-                patince_count = 0
-            else:
-                'undo the last update'
-                if added:
-                    graph.remove_edges([current_edge])
-                    'If a parent was removed, add it again to the graph'
-                    if parent_removed is not None:
-                        graph.add_edges([parent_removed])
-                else:
-                    graph.add_edges([current_edge])
-                'update patience count'
-                patince_count += 1
-
-            if patience is not None and patince_count > patience:
-                break
-
-        print(f"finito variabile: {node_id}")
-        return graph.edges
+        "call the optmizer's function that calculates the current node's parents"
+        return optimizer.optimize_structure()
 
     
     def get_score_from_graph(self,graph: ng.NetworkGraph,node_id:str):
