@@ -31,8 +31,8 @@ class TabuSearch(Optimizer):
                 max_parents:int = None,
                 iterations_number:int= 40,
                 patience:int = None,
-                tabu_length:int = 0,
-                tabu_rules_duration = 5
+                tabu_length:int = None,
+                tabu_rules_duration = None
                 ):
         """
         Compute Optimization process for a structure_estimator
@@ -70,6 +70,14 @@ class TabuSearch(Optimizer):
 
         other_nodes =  set([node for node in self.structure_estimator.sample_path.structure.nodes_labels if node != self.node_id])
         actual_best_score = self.structure_estimator.get_score_from_graph(graph,self.node_id)
+
+
+        'initialize tabu_length and tabu_rules_duration if None'
+        if self.tabu_length is None:
+            self.tabu_length = len(other_nodes)
+
+        if self.tabu_rules_duration is None:
+            self.tabu_tabu_rules_durationength = len(other_nodes)
 
         tabu_set = set()
         tabu_queue = queue.Queue()

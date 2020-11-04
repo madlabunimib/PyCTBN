@@ -37,7 +37,7 @@ class TestTabuSearch(unittest.TestCase):
         se1 = se.StructureScoreBasedEstimator(self.s1)
         edges = se1.estimate_structure(
                             max_parents = None,
-                            iterations_number = 100,
+                            iterations_number = 40,
                             patience = None,
                             tabu_length = 15,
                             tabu_rules_duration = 15,

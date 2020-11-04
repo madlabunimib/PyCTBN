@@ -51,7 +51,7 @@ class StructureScoreBasedEstimator(se.StructureEstimator):
 
     @timing
     def estimate_structure(self, max_parents:int = None, iterations_number:int= 40,
-                         patience:int = None, tabu_length:int = None, tabu_rules_duration:int = 5,
+                         patience:int = None, tabu_length:int = None, tabu_rules_duration:int = None,
                          optimizer: str = 'hill' ):
         """
         Compute the score-based algorithm to find the optimal structure
