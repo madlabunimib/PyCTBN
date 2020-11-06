@@ -23,7 +23,7 @@ class TestTabuSearch(unittest.TestCase):
     @classmethod
     def setUpClass(cls):
         #cls.read_files = glob.glob(os.path.join('../../data', "*.json"))
-        cls.importer = ji.JsonImporter("../../data/networks_and_trajectories_ternary_data_04_10.json", 'samples', 'dyn.str', 'variables', 'Time', 'Name')
+        cls.importer = ji.JsonImporter("../../data/networks_and_trajectories_binary_data_20.json", 'samples', 'dyn.str', 'variables', 'Time', 'Name')
         cls.s1 = sp.SamplePath(cls.importer)
         cls.s1.build_trajectories()
         cls.s1.build_structure()
@@ -37,10 +37,10 @@ class TestTabuSearch(unittest.TestCase):
         se1 = se.StructureScoreBasedEstimator(self.s1)
         edges = se1.estimate_structure(
                             max_parents = None,
-                            iterations_number = 40,
+                            iterations_number = 30,
                             patience = None,
-                            tabu_length = 15,
-                            tabu_rules_duration = 15,
+                            tabu_length = 17,
+                            tabu_rules_duration = 20,
                             optimizer = 'tabu'
                             )
         

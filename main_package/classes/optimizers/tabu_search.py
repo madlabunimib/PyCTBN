@@ -64,11 +64,14 @@ class TabuSearch(Optimizer):
 
         """
         print(f"tabu search is processing the structure of {self.node_id}")
-        #'Create the graph for the single node'
+
+        'Create the graph for the single node'
         graph = ng.NetworkGraph(self.structure_estimator.sample_path.structure)
 
-
+        'get all the possible parents'
         other_nodes =  set([node for node in self.structure_estimator.sample_path.structure.nodes_labels if node != self.node_id])
+
+        'calculate the score for the node without parents'
         actual_best_score = self.structure_estimator.get_score_from_graph(graph,self.node_id)
 
 
@@ -79,6 +82,7 @@ class TabuSearch(Optimizer):
         if self.tabu_rules_duration is None:
             self.tabu_tabu_rules_durationength = len(other_nodes)
 
+        'inizialize the data structures'
         tabu_set = set()
         tabu_queue = queue.Queue()
 
@@ -144,7 +148,7 @@ class TabuSearch(Optimizer):
                     graph.add_edges([current_edge])
                 'update patience count'
                 patince_count += 1
-                tabu_count += 1
+                
             
             if tabu_queue.qsize() >= self.tabu_length:
                     current_removed = tabu_queue.get()
@@ -153,7 +157,9 @@ class TabuSearch(Optimizer):
             tabu_queue.put(current_new_parent)
             tabu_set.add(current_new_parent)
 
+            tabu_count += 1
 
+            'Every tabu_rules_duration step remove an item from the tabu list '
             if tabu_count % self.tabu_rules_duration == 0:
                 if tabu_queue.qsize() > 0:
                     current_removed = tabu_queue.get()
