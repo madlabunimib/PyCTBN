@@ -6,9 +6,7 @@ import glob
 import numpy as np
 import pandas as pd
 import json_importer as ji
-
 import json
-
 
 
 class TestJsonImporter(unittest.TestCase):
@@ -26,10 +24,10 @@ class TestJsonImporter(unittest.TestCase):
         self.assertEqual(j1.variables_key, 'Name')
         self.assertEqual(j1.file_path, self.read_files[0])
         self.assertFalse(j1.df_samples_list)
-        self.assertTrue(j1.variables.empty)
-        self.assertTrue(j1.structure.empty)
-        self.assertFalse(j1.concatenated_samples)
-        self.assertFalse(j1.sorter)
+        self.assertIsNone(j1.variables)
+        self.assertIsNone(j1.structure)
+        self.assertIsNone(j1.concatenated_samples)
+        self.assertIsNone(j1.sorter)
 
     def test_read_json_file_found(self):
         data_set = {"key1": [1, 2, 3], "key2": [4, 5, 6]}
@@ -73,7 +71,7 @@ class TestJsonImporter(unittest.TestCase):
         sample_frame = j1.df_samples_list[0]
         columns_header = list(sample_frame.columns.values)
         shifted_cols_header = [s + "S" for s in columns_header[1:]]
-        new_sample_frame = j1.compute_row_delta_sigle_samples_frame(sample_frame, j1.time_key, columns_header[1:],
+        new_sample_frame = j1.compute_row_delta_sigle_samples_frame(sample_frame, columns_header[1:],
                                                                     shifted_cols_header)
         self.assertEqual(len(list(sample_frame.columns.values)) + len(shifted_cols_header),
                          len(list(new_sample_frame.columns.values)))
@@ -83,15 +81,16 @@ class TestJsonImporter(unittest.TestCase):
         j1 = ji.JsonImporter(self.read_files[0], 'samples', 'dyn.str', 'variables', 'Time', 'Name')
         raw_data = j1.read_json_file()
         j1.import_trajectories(raw_data)
-        j1.compute_row_delta_in_all_samples_frames(j1.time_key)
-        self.assertEqual(list(j1.df_samples_list[0].columns.values), list(j1.concatenated_samples.columns.values))
+        j1.compute_row_delta_in_all_samples_frames(j1.df_samples_list)
+        self.assertEqual(list(j1.df_samples_list[0].columns.values),
+                         list(j1.concatenated_samples.columns.values)[:len(list(j1.df_samples_list[0].columns.values))])
         self.assertEqual(list(j1.concatenated_samples.columns.values)[0], j1.time_key)
 
     def test_clear_data_frame_list(self):
         j1 = ji.JsonImporter(self.read_files[0], 'samples', 'dyn.str', 'variables', 'Time', 'Name')
         raw_data = j1.read_json_file()
         j1.import_trajectories(raw_data)
-        j1.compute_row_delta_in_all_samples_frames(j1.time_key)
+        j1.compute_row_delta_in_all_samples_frames(j1.df_samples_list)
         j1.clear_data_frame_list()
         for df in j1.df_samples_list:
             self.assertTrue(df.empty)
@@ -137,7 +136,7 @@ class TestJsonImporter(unittest.TestCase):
         j1 = ji.JsonImporter(self.read_files[0], 'samples', 'dyn.str', 'variables', 'Time', 'Name')
         raw_data = j1.read_json_file()
         cims = j1.import_sampled_cims(raw_data, 0, 'dyn.cims')
-        j1.import_variables(raw_data, ['X','Y','Z'])
+        j1.import_variables(raw_data, ['X','Y','Z']) #TODO NON PUò dipendere direttamente da questo sorter
         self.assertEqual(list(cims.keys()), j1.variables['Name'].tolist())
 
     def test_import_data(self):

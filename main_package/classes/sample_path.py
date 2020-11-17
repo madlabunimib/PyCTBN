@@ -1,29 +1,28 @@
-import abstract_sample_path as asam
-import json_importer as imp
+
+import abstract_importer as imp
 import structure as st
 import trajectory as tr
 
 
-class SamplePath(asam.AbstractSamplePath):
+class SamplePath:
     """
     Aggregates all the informations about the trajectories, the real structure of the sampled net and variables
     cardinalites.
     Has the task of creating the objects that will contain the mentioned data.
-    :importer: the Importer objects that will import ad process data
+
 
     :trajectories: the Trajectory object that will contain all the concatenated trajectories
     :structure: the Structure Object that will contain all the structurral infos about the net
     :total_variables_count: the number of variables in the net
 
     """
-
-    #def __init__(self, files_path: str, samples_label: str, structure_label: str, variables_label: str, time_key: str,
-                 #variables_key: str):
-    def __init__(self, importer: imp.JsonImporter):
-        #self.importer =importer
-        super().__init__(importer)
-        #self._trajectories = None
-        #self._structure = None
+    def __init__(self, importer: imp.AbstractImporter):
+        """
+        :importer: the Importer objects that will import ad process data
+        """
+        self.importer = importer
+        self._trajectories = None
+        self._structure = None
         self.total_variables_count = None
 
     def build_trajectories(self):
@@ -51,11 +50,15 @@ class SamplePath(asam.AbstractSamplePath):
         Returns:
             void
         """
+        if self.importer.sorter != self.importer.variables.iloc[:, 0].to_list():
+            raise RuntimeError("The Dataset columns order have to match the order of labels in the variables Frame!")
         self.total_variables_count = len(self.importer.sorter)
-        labels = self.importer.variables[self.importer.variables_key].to_list()
+        #labels = self.importer.variables[self.importer.variables_key].to_list()
         #print("SAMPLE PATH LABELS",labels)
+        #print(self.importer.variables)
+        labels = self.importer.variables.iloc[:, 0].to_list()
         indxs = self.importer.variables.index.to_numpy()
-        vals = self.importer.variables['Value'].to_numpy()
+        vals = self.importer.variables.iloc[:, 1].to_numpy()
         edges = list(self.importer.structure.to_records(index=False))
         self._structure = st.Structure(labels, indxs, vals, edges,
                                        self.total_variables_count)

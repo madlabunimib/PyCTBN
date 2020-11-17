@@ -79,8 +79,8 @@ class SetOfCims:
         if mask_arr.size <= 1:
             return self.actual_cims
         else:
-            tmp_parents_comb_from_ids = np.argwhere(np.all(self.p_combs[:, mask_arr] == comb, axis=1)).ravel()
-            return self.actual_cims[tmp_parents_comb_from_ids]
+            flat_indxs = np.argwhere(np.all(self.p_combs[:, mask_arr] == comb, axis=1)).ravel()
+            return self.actual_cims[flat_indxs]
 
     @property
     def get_cims(self):
