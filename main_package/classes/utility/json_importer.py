@@ -32,7 +32,7 @@ class JsonImporter(ai.AbstractImporter):
     """
 
     def __init__(self, file_path: str, samples_label: str, structure_label: str, variables_label: str, time_key: str,
-                 variables_key: str):
+                 variables_key: str, network_number:int=0):
         self.samples_label = samples_label
         self.structure_label = structure_label
         self.variables_label = variables_label
@@ -43,6 +43,7 @@ class JsonImporter(ai.AbstractImporter):
         self._df_variables = pd.DataFrame()
         self._concatenated_samples = None
         self.sorter = None
+        self.network_number= network_number
         super(JsonImporter, self).__init__(file_path)
 
     def import_data(self):
@@ -68,7 +69,7 @@ class JsonImporter(ai.AbstractImporter):
         Returns:
             void
         """
-        self.normalize_trajectories(raw_data, 0, self.samples_label)
+        self.normalize_trajectories(raw_data, self.network_number, self.samples_label)
 
     def import_structure(self, raw_data: typing.List):
         """
@@ -79,7 +80,7 @@ class JsonImporter(ai.AbstractImporter):
         Returns:
             void
         """
-        self._df_structure = self.one_level_normalizing(raw_data, 0, self.structure_label)
+        self._df_structure = self.one_level_normalizing(raw_data, self.network_number, self.structure_label)
 
 
     def import_variables(self, raw_data: typing.List, sorter: typing.List):
@@ -93,7 +94,7 @@ class JsonImporter(ai.AbstractImporter):
         Returns:
             void
         """
-        self._df_variables = self.one_level_normalizing(raw_data, 0, self.variables_label)
+        self._df_variables = self.one_level_normalizing(raw_data, self.network_number, self.variables_label)
         #self.sorter = self._df_variables[self.variables_key].to_list()
         #self.sorter.sort()
         #print("Sorter:", self.sorter)
