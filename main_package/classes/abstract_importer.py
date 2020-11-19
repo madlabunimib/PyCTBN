@@ -5,17 +5,22 @@ import typing
 
 class AbstractImporter(ABC):
     """
-    Interface that exposes all the necessary methods to import the trajectories and the net structure.
+    Abstract class that exposes all the necessary methods to process the trajectories and the net structure.
 
     :file_path: the file path
     :_concatenated_samples: the concatenation of all the processed trajectories
     :df_structure: Dataframe containing the structure of the network (edges)
     :df_variables: Dataframe containing the nodes cardinalities
-    :df_concatenated_samples: the concatenation and processing of all the trajectories present in the list df_samples list
+    :df_concatenated_samples: the concatenation and processing of all the trajectories present
+    in the list df_samples list
     :sorter: the columns header(excluding the time column) of the Dataframe concatenated_samples
     """
 
     def __init__(self, file_path: str):
+        """
+        Parameters:
+            :file_path: the path to the file containing the data
+        """
         self.file_path = file_path
         self._df_variables = None
         self._df_structure = None
@@ -23,26 +28,30 @@ class AbstractImporter(ABC):
         self._sorter = None
         super().__init__()
 
-    """
-    @abstractmethod
-    def import_trajectories(self, raw_data):
-        pass
-
-    @abstractmethod
-    def import_structure(self, raw_data):
-        pass
-    """
-
     @abstractmethod
     def import_data(self):
         """
         Imports and prepares all data present needed for susequent computation.
         Parameters:
-            void
+            :void
         Returns:
-            void
-        POSTCONDITION: the class members self._df_variables and self._df_structure HAVE to be properly constructed
-        as Pandas Dataframes
+            :void
+        post[self]: the class members self._df_variables and self._df_structure HAVE to be properly constructed
+        as Pandas Dataframes with the following structure:
+        Header of self._df_structure = [From_Node | To_Node]
+        Header of self.df_variables = [Variable_Label | Variable_Cardinality]
+        """
+        pass
+
+    @abstractmethod
+    def build_sorter(self, sample_frame: pd.DataFrame) -> typing.List:
+        """
+        Initializes the self._sorter class member from a trajectory dataframe, exctracting the header of the frame
+        and keeping ONLY the variables symbolic labels, cutting out the time label in the header.
+        Parameters:
+            :sample_frame: The dataframe from which extract the header
+        Returns:
+            :a list containing the processed header.
         """
         pass
 
@@ -52,16 +61,15 @@ class AbstractImporter(ABC):
         """
         Computes the difference between each value present in th time column.
         Copies and shift by one position up all the values present in the remaining columns.
-        PREREQUISITE: the Dataframe in input has to follow the column structure of this header:
-        [Time|Variable values], so it is assumed TIME is ALWAYS the FIRST column.
         Parameters:
-            sample_frame: the traj to be processed
-            time_header_label: the label for the times
-            columns_header: the original header of sample_frame
-            shifted_cols_header: a copy of columns_header with changed names of the contents
+            :sample_frame: the traj to be processed
+            :time_header_label: the label for the times
+            :columns_header: the original header of sample_frame
+            :shifted_cols_header: a copy of columns_header with changed names of the contents
         Returns:
-            sample_frame: the processed dataframe
-
+            :sample_frame: the processed dataframe
+        pre: the Dataframe sample_frame has to follow the column structure of this header:
+            Header of sample_frame = [Time | Variable values]
         """
         #sample_frame[time_header_label] = sample_frame[time_header_label].diff().shift(-1)
         sample_frame.iloc[:, 0] = sample_frame.iloc[:, 0].diff().shift(-1)
@@ -75,16 +83,18 @@ class AbstractImporter(ABC):
         """
         Calls the method compute_row_delta_sigle_samples_frame on every dataframe present in the list df_samples_list.
         Concatenates the result in the dataframe concatanated_samples
-        PREREQUISITE: the Dataframe in input has to follow the column structure of this header:
-        [Time|Variable values], so it is assumed TIME is ALWAYS the FIRST column.
-        The class member self._sorter HAS to be properly INITIALIZED
         Parameters:
             time_header_label: the label of the time column
             df_samples_list: the datframe's list to be processed and concatenated
 
         Returns:
             void
+        pre: the Dataframe sample_frame has to follow the column structure of this header:
+            Header of sample_frame = [Time | Variable values]
+            The class member self._sorter HAS to be properly INITIALIZED (See class members definition doc)
         """
+        if not self.sorter:
+            raise RuntimeError("The class member self._sorter has to be INITIALIZED!")
         shifted_cols_header = [s + "S" for s in self._sorter]
         compute_row_delta = self.compute_row_delta_sigle_samples_frame
         proc_samples_list = [compute_row_delta(sample, self._sorter, shifted_cols_header)
@@ -112,9 +122,9 @@ class AbstractImporter(ABC):
         """
         Removes all values in the dataframe concatenated_samples
         Parameters:
-            void
+            :void
         Returns:
-            void
+            :void
          """
         self._concatenated_samples = self._concatenated_samples.iloc[0:0]
 
@@ -131,5 +141,5 @@ class AbstractImporter(ABC):
         return self._df_structure
 
     @property
-    def sorter(self):
+    def sorter(self) -> typing.List:
         return self._sorter

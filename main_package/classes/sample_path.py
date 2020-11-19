@@ -10,7 +10,7 @@ class SamplePath:
     cardinalites.
     Has the task of creating the objects that will contain the mentioned data.
 
-
+    :importer: the Importer objects that will import ad process data
     :trajectories: the Trajectory object that will contain all the concatenated trajectories
     :structure: the Structure Object that will contain all the structurral infos about the net
     :total_variables_count: the number of variables in the net
@@ -18,12 +18,14 @@ class SamplePath:
     """
     def __init__(self, importer: imp.AbstractImporter):
         """
-        :importer: the Importer objects that will import ad process data
+        Parameters:
+            :importer: the Importer objects that will import ad process data
         """
         self.importer = importer
         self._trajectories = None
         self._structure = None
         self.total_variables_count = None
+        self.importer.import_data()
 
     def build_trajectories(self):
         """
@@ -31,11 +33,11 @@ class SamplePath:
         Clears all the unused dataframes in Importer Object
 
         Parameters:
-            void
+            :void
         Returns:
-            void
+            :void
         """
-        self.importer.import_data()
+        #self.importer.import_data()
         self._trajectories = \
             tr.Trajectory(self.importer.build_list_of_samples_array(self.importer.concatenated_samples),
                           len(self.importer.sorter) + 1)
@@ -46,12 +48,13 @@ class SamplePath:
         """
         Builds the Structure object that aggregates all the infos about the net.
         Parameters:
-            void
+            :void
         Returns:
-            void
+            :void
         """
         if self.importer.sorter != self.importer.variables.iloc[:, 0].to_list():
             raise RuntimeError("The Dataset columns order have to match the order of labels in the variables Frame!")
+
         self.total_variables_count = len(self.importer.sorter)
         #labels = self.importer.variables[self.importer.variables_key].to_list()
         #print("SAMPLE PATH LABELS",labels)
@@ -64,11 +67,11 @@ class SamplePath:
                                        self.total_variables_count)
 
     @property
-    def trajectories(self):
+    def trajectories(self) -> tr.Trajectory:
         return self._trajectories
 
     @property
-    def structure(self):
+    def structure(self) -> st.Structure:
         return self._structure
 
     def total_variables_count(self):
