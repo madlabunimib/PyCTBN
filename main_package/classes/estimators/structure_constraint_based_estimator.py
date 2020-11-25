@@ -19,6 +19,8 @@ import structure_graph.sample_path as sp
 import structure_graph.structure as st
 import optimizers.constraint_based_optimizer as optimizer
 
+from utility.decorators import timing,timing_write
+
 
 class StructureConstraintBasedEstimator(se.StructureEstimator):
     """
@@ -209,6 +211,7 @@ class StructureConstraintBasedEstimator(se.StructureEstimator):
                                                             tot_vars_count = tot_vars_count)
         optimizer_obj.optimize_structure()
 
+    @timing_write
     def ctpc_algorithm(self):
         """
         Compute the CTPC algorithm.

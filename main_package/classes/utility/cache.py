@@ -32,7 +32,7 @@ class Cache:
             #print("Cache State:", self.list_of_sets_of_indxs)
             #print("Look For:", parents_comb)
             result = self.actual_cache[self.list_of_sets_of_parents.index(parents_comb)]
-            print("CACHE HIT!!!!", parents_comb)
+            #print("CACHE HIT!!!!", parents_comb)
             return result
         except ValueError:
             return None

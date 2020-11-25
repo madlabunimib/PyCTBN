@@ -22,7 +22,7 @@ import estimators.fam_score_calculator as fam_score
 import optimizers.hill_climbing_search as hill
 import optimizers.tabu_search as tabu
 
-from utility.decorators import timing
+from utility.decorators import timing,timing_write
 
 
 
@@ -33,10 +33,6 @@ from multiprocessing import Pool
 
 
 
-'''
-#TODO: Create a parent class StructureEstimator and Two Subclasses (Score-Based and Constraint-Based)
-#TODO: Evaluate if it could be better to change list_edges to set for improve the performance
-'''
 
 class StructureScoreBasedEstimator(se.StructureEstimator):
     """
@@ -49,10 +45,10 @@ class StructureScoreBasedEstimator(se.StructureEstimator):
         super().__init__(sample_path)
 
 
-    @timing
+    @timing_write
     def estimate_structure(self, max_parents:int = None, iterations_number:int= 40,
                          patience:int = None, tabu_length:int = None, tabu_rules_duration:int = None,
-                         optimizer: str = 'hill' ):
+                         optimizer: str = 'hill',disable_multiprocessing:bool= False ):
         """
         Compute the score-based algorithm to find the optimal structure
 
@@ -60,6 +56,10 @@ class StructureScoreBasedEstimator(se.StructureEstimator):
             max_parents: maximum number of parents for each variable. If None, disabled
             iterations_number: maximum number of optimization algorithm's iteration
             patience: number of iteration without any improvement before to stop the search.If None, disabled
+            tabu_length: maximum lenght of the data structures used in the optimization process
+            tabu_rules_duration: number of iterations in which each rule keeps its value 
+            optimzer: name of the optimizer algorithm. Possible values: 'hill' (Hill climbing),'tabu' (tabu search)
+            disable_multiprocessing: true if you desire to disable the multiprocessing operations
         Returns:
             void
 
@@ -86,7 +86,8 @@ class StructureScoreBasedEstimator(se.StructureEstimator):
         'get the number of CPU'
         cpu_count = multiprocessing.cpu_count()
 
-        #cpu_count = 1
+        if disable_multiprocessing:
+            cpu_count = 1
 
         'Estimate the best parents for each node'
         with multiprocessing.Pool(processes=cpu_count) as pool:

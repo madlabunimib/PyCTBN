@@ -31,7 +31,7 @@ class FamScoreCalculator:
     """
 
     def __init__(self):
-        np.seterr('raise')
+        #np.seterr('raise')
         pass
 
     # region theta
