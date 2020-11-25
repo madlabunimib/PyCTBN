@@ -11,6 +11,11 @@ class ConditionalIntensityMatrix:
     :_cim: the actual cim of the node
     """
     def __init__(self, state_residence_times: np.array, state_transition_matrix: np.array):
+        """
+        Parameters:
+            :_state_residence_times: state residence times vector
+            :_state_transition_matrix: the transitions count matrix
+        """
         self._state_residence_times = state_residence_times
         self._state_transition_matrix = state_transition_matrix
         self._cim = self.state_transition_matrix.astype(np.float64)
@@ -28,15 +33,15 @@ class ConditionalIntensityMatrix:
         self._cim = ((self._cim.T + 1) / (self._state_residence_times + 1)).T
 
     @property
-    def state_residence_times(self):
+    def state_residence_times(self) -> np.ndarray:
         return self._state_residence_times
 
     @property
-    def state_transition_matrix(self):
+    def state_transition_matrix(self) -> np.ndarray:
         return self._state_transition_matrix
 
     @property
-    def cim(self):
+    def cim(self) -> np.ndarray:
         return self._cim
 
     def __repr__(self):

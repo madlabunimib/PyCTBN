@@ -7,21 +7,21 @@ class AbstractImporter(ABC):
     """
     Abstract class that exposes all the necessary methods to process the trajectories and the net structure.
 
-    :file_path: the file path
+    :_file_path: the file path
     :_concatenated_samples: the concatenation of all the processed trajectories
-    :df_structure: Dataframe containing the structure of the network (edges)
-    :df_variables: Dataframe containing the nodes cardinalities
-    :df_concatenated_samples: the concatenation and processing of all the trajectories present
+    :_df_structure: Dataframe containing the structure of the network (edges)
+    :_df_variables: Dataframe containing the nodes cardinalities
+    :_df_concatenated_samples: the concatenation and processing of all the trajectories present
     in the list df_samples list
-    :sorter: the columns header(excluding the time column) of the Dataframe concatenated_samples
+    :_sorter: the columns header(excluding the time column) of the Dataframe concatenated_samples
     """
 
     def __init__(self, file_path: str):
         """
         Parameters:
-            :file_path: the path to the file containing the data
+            :_file_path: the path to the file containing the data
         """
-        self.file_path = file_path
+        self._file_path = file_path
         self._df_variables = None
         self._df_structure = None
         self._concatenated_samples = None
@@ -71,7 +71,6 @@ class AbstractImporter(ABC):
         pre: the Dataframe sample_frame has to follow the column structure of this header:
             Header of sample_frame = [Time | Variable values]
         """
-        #sample_frame[time_header_label] = sample_frame[time_header_label].diff().shift(-1)
         sample_frame.iloc[:, 0] = sample_frame.iloc[:, 0].diff().shift(-1)
         shifted_cols = sample_frame[columns_header].shift(-1).fillna(0).astype('int32')
         shifted_cols.columns = shifted_cols_header
@@ -81,7 +80,7 @@ class AbstractImporter(ABC):
 
     def compute_row_delta_in_all_samples_frames(self, df_samples_list: typing.List):
         """
-        Calls the method compute_row_delta_sigle_samples_frame on every dataframe present in the list df_samples_list.
+        Calls the method compute_row_delta_sigle_samples_frame on every dataframe present in the list _df_samples_list.
         Concatenates the result in the dataframe concatanated_samples
         Parameters:
             time_header_label: the label of the time column
@@ -103,9 +102,7 @@ class AbstractImporter(ABC):
         complete_header = self._sorter[:]
         complete_header.insert(0,'Time')
         complete_header.extend(shifted_cols_header)
-        #print("Complete Header", complete_header)
         self._concatenated_samples = self._concatenated_samples[complete_header]
-        #print("Concat Samples",self._concatenated_samples)
 
     def build_list_of_samples_array(self, data_frame: pd.DataFrame) -> typing.List:
         """
@@ -143,3 +140,7 @@ class AbstractImporter(ABC):
     @property
     def sorter(self) -> typing.List:
         return self._sorter
+
+    @property
+    def file_path(self) -> str:
+        return self._file_path

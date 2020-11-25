@@ -12,20 +12,19 @@ import network_graph as ng
 import json_importer as ji
 
 
-
 class TestNetworkGraph(unittest.TestCase):
     @classmethod
     def setUpClass(cls):
         cls.read_files = glob.glob(os.path.join('../data', "*.json"))
-        cls.importer = ji.JsonImporter(cls.read_files[0], 'samples', 'dyn.str', 'variables', 'Time', 'Name')
+        cls.importer = ji.JsonImporter(cls.read_files[0], 'samples', 'dyn.str', 'variables', 'Time', 'Name', 0)
         cls.s1 = sp.SamplePath(cls.importer)
         cls.s1.build_trajectories()
         cls.s1.build_structure()
 
     def test_init(self):
         g1 = ng.NetworkGraph(self.s1.structure)
-        self.assertEqual(self.s1.structure, g1.graph_struct)
-        self.assertIsInstance(g1.graph, nx.DiGraph)
+        self.assertEqual(self.s1.structure, g1._graph_struct)
+        self.assertIsInstance(g1._graph, nx.DiGraph)
         self.assertTrue(np.array_equal(g1._nodes_indexes, self.s1.structure.nodes_indexes))
         self.assertListEqual(g1._nodes_labels, self.s1.structure.nodes_labels)
         self.assertTrue(np.array_equal(g1._nodes_values, self.s1.structure.nodes_values))
@@ -59,7 +58,7 @@ class TestNetworkGraph(unittest.TestCase):
                     self.assertEqual(graph.get_node_indx(node), node_indx)
             else:
                 for node, node_val in zip(sorted_par_list_aggregated_info[0], sorted_par_list_aggregated_info[2]):
-                    self.assertEqual(graph.graph_struct.get_states_number(node), node_val)
+                    self.assertEqual(graph._graph_struct.get_states_number(node), node_val)
 
     def test_get_ord_set_of_par_of_all_nodes(self):
         g1 = ng.NetworkGraph(self.s1.structure)
@@ -68,36 +67,7 @@ class TestNetworkGraph(unittest.TestCase):
         sorted_list_of_par_lists = g1.get_ord_set_of_par_of_all_nodes()
         for node, par_list in zip(g1.nodes, sorted_list_of_par_lists):
             self.aux_aggregated_par_list_data(g1, node, par_list)
-    """
-    def test_get_ordered_by_indx_parents_values_for_all_nodes(self):
-        g1 = ng.NetworkGraph(self.s1.structure)
-        g1.add_nodes(self.s1.structure.list_of_nodes_labels())
-        g1.add_edges(self.s1.structure.list_of_edges())
-        g1.aggregated_info_about_nodes_parents = g1.get_ord_set_of_par_of_all_nodes()
-        #print(g1.get_ordered_by_indx_parents_values_for_all_nodes())
-        parents_values_list = g1.get_ordered_by_indx_parents_values_for_all_nodes()
-        for pv1, aggr in zip(parents_values_list, g1.aggregated_info_about_nodes_parents):
-            self.assertEqual(pv1, aggr[2])
 
-    def test_get_states_number_of_all_nodes_sorted(self):
-        g1 = ng.NetworkGraph(self.s1.structure)
-        g1.add_nodes(self.s1.structure.list_of_nodes_labels())
-        g1.add_edges(self.s1.structure.list_of_edges())
-        nodes_cardinality_list = g1.get_states_number_of_all_nodes_sorted()
-        for val, node in zip(nodes_cardinality_list, g1.get_nodes_sorted_by_indx()):
-            self.assertEqual(val, g1.get_states_number(node))
-
-    def test_build_fancy_indexing_structure_no_offset(self):
-        g1 = ng.NetworkGraph(self.s1.structure)
-        g1.add_nodes(self.s1.structure.list_of_nodes_labels())
-        g1.add_edges(self.s1.structure.list_of_edges())
-        g1.aggregated_info_about_nodes_parents = g1.get_ord_set_of_par_of_all_nodes()
-        fancy_indx = g1.build_fancy_indexing_structure(0)
-        for par_indxs, aggr in zip(fancy_indx, g1.aggregated_info_about_nodes_parents):
-            self.assertEqual(par_indxs, aggr[1])
-
-    def test_build_fancy_indexing_structure_offset(self):
-        pass #TODO il codice di netgraph deve gestire questo caso"""
 
     def aux_build_time_scalar_indexing_structure_for_a_node(self, graph, node_id, parents_indxs, parents_labels, parents_vals):
         time_scalar_indexing = graph.build_time_scalar_indexing_structure_for_a_node(node_id, parents_vals)
@@ -130,30 +100,30 @@ class TestNetworkGraph(unittest.TestCase):
         g1 = ng.NetworkGraph(self.s1.structure)
         g1.add_nodes(self.s1.structure.nodes_labels)
         g1.add_edges(self.s1.structure.edges)
-        g1.aggregated_info_about_nodes_parents = g1.get_ord_set_of_par_of_all_nodes()
-        p_labels = [i[0] for i in g1.aggregated_info_about_nodes_parents]
+        g1._aggregated_info_about_nodes_parents = g1.get_ord_set_of_par_of_all_nodes()
+        p_labels = [i[0] for i in g1._aggregated_info_about_nodes_parents]
         p_vals = g1.get_ordered_by_indx_parents_values_for_all_nodes()
         fancy_indx = g1.build_fancy_indexing_structure(0)
-        for node_id, p_i ,p_l, p_v in zip(g1.graph_struct.nodes_labels, fancy_indx, p_labels, p_vals):
+        for node_id, p_i ,p_l, p_v in zip(g1._graph_struct.nodes_labels, fancy_indx, p_labels, p_vals):
             self.aux_build_transition_scalar_indexing_structure_for_a_node(g1, node_id, p_i ,p_l, p_v)
 
     def test_build_time_scalar_indexing_structure(self):
         g1 = ng.NetworkGraph(self.s1.structure)
         g1.add_nodes(self.s1.structure.nodes_labels)
         g1.add_edges(self.s1.structure.edges)
-        g1.aggregated_info_about_nodes_parents = g1.get_ord_set_of_par_of_all_nodes()
+        g1._aggregated_info_about_nodes_parents = g1.get_ord_set_of_par_of_all_nodes()
         fancy_indx = g1.build_fancy_indexing_structure(0)
-        p_labels = [i[0] for i in g1.aggregated_info_about_nodes_parents]
+        p_labels = [i[0] for i in g1._aggregated_info_about_nodes_parents]
         p_vals = g1.get_ordered_by_indx_parents_values_for_all_nodes()
         #print(fancy_indx)
-        for node_id, p_indxs, p_labels, p_v in zip(g1.graph_struct.nodes_labels, fancy_indx, p_labels, p_vals):
+        for node_id, p_indxs, p_labels, p_v in zip(g1._graph_struct.nodes_labels, fancy_indx, p_labels, p_vals):
             self.aux_build_time_scalar_indexing_structure_for_a_node(g1, node_id, p_indxs, p_labels, p_v)
 
     def test_build_time_columns_filtering_structure(self):
         g1 = ng.NetworkGraph(self.s1.structure)
         g1.add_nodes(self.s1.structure.nodes_labels)
         g1.add_edges(self.s1.structure.edges)
-        g1.aggregated_info_about_nodes_parents = g1.get_ord_set_of_par_of_all_nodes()
+        g1._aggregated_info_about_nodes_parents = g1.get_ord_set_of_par_of_all_nodes()
         g1._fancy_indexing = g1.build_fancy_indexing_structure(0)
         g1.build_time_columns_filtering_structure()
         t_filter = []
@@ -170,13 +140,13 @@ class TestNetworkGraph(unittest.TestCase):
         g1 = ng.NetworkGraph(self.s1.structure)
         g1.add_nodes(self.s1.structure.nodes_labels)
         g1.add_edges(self.s1.structure.edges)
-        g1.aggregated_info_about_nodes_parents = g1.get_ord_set_of_par_of_all_nodes()
+        g1._aggregated_info_about_nodes_parents = g1.get_ord_set_of_par_of_all_nodes()
         g1._fancy_indexing = g1.build_fancy_indexing_structure(0)
         g1.build_transition_columns_filtering_structure()
         m_filter = []
         for node_id, p_indxs in zip(g1.nodes, g1._fancy_indexing):
             single_filter = []
-            single_filter.append(g1.get_node_indx(node_id) + g1.graph_struct.total_variables_number)
+            single_filter.append(g1.get_node_indx(node_id) + g1._graph_struct.total_variables_number)
             single_filter.append(g1.get_node_indx(node_id))
             single_filter.extend(p_indxs)
             m_filter.append(np.array(single_filter))
@@ -187,7 +157,7 @@ class TestNetworkGraph(unittest.TestCase):
         g1 = ng.NetworkGraph(self.s1.structure)
         g1.add_nodes(self.s1.structure.nodes_labels)
         g1.add_edges(self.s1.structure.edges)
-        g1.aggregated_info_about_nodes_parents = g1.get_ord_set_of_par_of_all_nodes()
+        g1._aggregated_info_about_nodes_parents = g1.get_ord_set_of_par_of_all_nodes()
         p_vals = g1.get_ordered_by_indx_parents_values_for_all_nodes()
         p_combs = g1.build_p_combs_structure()
 
@@ -219,7 +189,7 @@ class TestNetworkGraph(unittest.TestCase):
         g1.add_nodes(self.s1.structure.nodes_labels)
         g1.add_edges(self.s1.structure.edges)
         for node in g1.nodes:
-            self.assertListEqual(g1.get_parents_by_id(node), list(g1.graph.predecessors(node)))
+            self.assertListEqual(g1.get_parents_by_id(node), list(g1._graph.predecessors(node)))
 
     def test_get_states_number(self):
         g1 = ng.NetworkGraph(self.s1.structure)

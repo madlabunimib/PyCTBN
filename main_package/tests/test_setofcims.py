@@ -59,17 +59,17 @@ class TestSetOfCims(unittest.TestCase):
             state_transition_matrix = np.random.randint(1, 10000, (3, 3))
             state_res_times_list.append(state_res_times)
             transition_matrices_list.append(state_transition_matrix)
-        sofc1.build_cims(state_res_times_list, transition_matrices_list)
+        sofc1.build_cims(np.array(state_res_times_list), np.array(transition_matrices_list))
         for length_of_mask in range(3):
             for mask in list(itertools.permutations([True, False],r=length_of_mask)):
                 m = np.array(mask)
                 for parent_value in range(self.possible_cardinalities[0]):
                     cims = sofc1.filter_cims_with_mask(m, [parent_value])
                     if length_of_mask == 0 or length_of_mask == 1:
-                        self.assertTrue(np.array_equal(sofc1.actual_cims, cims))
+                        self.assertTrue(np.array_equal(sofc1._actual_cims, cims))
                     else:
                         indxs = self.another_filtering_method(p_combs, m, [parent_value])
-                        self.assertTrue(np.array_equal(cims, sofc1.actual_cims[indxs]))
+                        self.assertTrue(np.array_equal(cims, sofc1._actual_cims[indxs]))
 
     def aux_test_build_cims(self, node_id, p_values, node_states, p_combs):
         state_res_times_list = []
@@ -81,23 +81,23 @@ class TestSetOfCims(unittest.TestCase):
             state_transition_matrix = np.random.randint(1, 10000, (node_states, node_states))
             state_res_times_list.append(state_res_times)
             transition_matrices_list.append(state_transition_matrix)
-        so1.build_cims(state_res_times_list, transition_matrices_list)
+        so1.build_cims(np.array(state_res_times_list), np.array(transition_matrices_list))
         self.assertEqual(len(state_res_times_list), so1.get_cims_number())
-        self.assertIsInstance(so1.actual_cims, np.ndarray)
-        self.assertIsNone(so1.transition_matrices)
-        self.assertIsNone(so1.state_residence_times)
+        self.assertIsInstance(so1._actual_cims, np.ndarray)
+        self.assertIsNone(so1._transition_matrices)
+        self.assertIsNone(so1._state_residence_times)
 
     def aux_test_init(self, node_id, parents_states_number, node_states_number, p_combs):
         sofcims = soci.SetOfCims(node_id, parents_states_number, node_states_number, p_combs)
-        self.assertEqual(sofcims.node_id, node_id)
-        self.assertTrue(np.array_equal(sofcims.p_combs, p_combs))
-        self.assertTrue(np.array_equal(sofcims.parents_states_number, parents_states_number))
-        self.assertEqual(sofcims.node_states_number, node_states_number)
-        self.assertFalse(sofcims.actual_cims)
-        self.assertEqual(sofcims.state_residence_times.shape[0], np.prod(np.array(parents_states_number)))
-        self.assertEqual(len(sofcims.state_residence_times[0]),node_states_number)
-        self.assertEqual(sofcims.transition_matrices.shape[0], np.prod(np.array(parents_states_number)))
-        self.assertEqual(len(sofcims.transition_matrices[0][0]), node_states_number)
+        self.assertEqual(sofcims._node_id, node_id)
+        self.assertTrue(np.array_equal(sofcims._p_combs, p_combs))
+        self.assertTrue(np.array_equal(sofcims._parents_states_number, parents_states_number))
+        self.assertEqual(sofcims._node_states_number, node_states_number)
+        self.assertFalse(sofcims._actual_cims)
+        self.assertEqual(sofcims._state_residence_times.shape[0], np.prod(np.array(parents_states_number)))
+        self.assertEqual(len(sofcims._state_residence_times[0]), node_states_number)
+        self.assertEqual(sofcims._transition_matrices.shape[0], np.prod(np.array(parents_states_number)))
+        self.assertEqual(len(sofcims._transition_matrices[0][0]), node_states_number)
 
     def aux_test_indexes_converter(self, node_id, parents_states_number, node_states_number):
         sofcims = soci.SetOfCims(node_id, parents_states_number, node_states_number)

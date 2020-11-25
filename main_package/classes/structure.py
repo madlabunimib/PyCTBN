@@ -16,6 +16,15 @@ class Structure:
 
     def __init__(self, nodes_label_list: ty.List, node_indexes_arr: np.ndarray, nodes_vals_arr: np.ndarray,
                  edges_list: ty.List, total_variables_number: int):
+        """
+        Parameters:
+            :nodes_labels_list: the symbolic names of the variables
+            :nodes_indexes_arr: the indexes of the nodes
+            :nodes_vals_arr: the cardinalites of the nodes
+            :edges_list: the edges of the network
+            :total_variables_number: the total number of variables in the net
+
+        """
         self._nodes_labels_list = nodes_label_list
         self._nodes_indexes_arr = node_indexes_arr
         self._nodes_vals_arr = nodes_vals_arr
@@ -23,13 +32,11 @@ class Structure:
         self._total_variables_number = total_variables_number
 
     @property
-    def edges(self):
-        #records = self.structure_frame.to_records(index=False)
-        #edges_list = list(records)
+    def edges(self) -> ty.List:
         return self._edges_list
 
     @property
-    def nodes_labels(self):
+    def nodes_labels(self) -> ty.List:
         return self._nodes_labels_list
 
     @property
@@ -41,7 +48,7 @@ class Structure:
         return self._nodes_vals_arr
 
     @property
-    def total_variables_number(self):
+    def total_variables_number(self) -> int:
         return self._total_variables_number
 
     def get_node_id(self, node_indx: int) -> str:

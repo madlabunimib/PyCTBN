@@ -19,7 +19,7 @@ class CSVImporter(ai.AbstractImporter):
         self.compute_row_delta_in_all_samples_frames(self._df_samples_list)
 
     def read_csv_file(self):
-        df = pd.read_csv(self.file_path)
+        df = pd.read_csv(self._file_path)
         df.drop(df.columns[[0]], axis=1, inplace=True)
         self._df_samples_list = [df]
 

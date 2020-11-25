@@ -1,53 +1,48 @@
 
 import typing
-
+import structure as st
 import networkx as nx
 import numpy as np
 
 
 class NetworkGraph:
     """
-    Abstracts the infos contained in the Structure class in the form of a directed graph.
+    Abstracts the infos contained in the Structure class in the form of a directed _graph.
     Has the task of creating all the necessary filtering structures for parameters estimation
 
-    :graph_struct: the Structure object from which infos about the net will be extracted
-    :graph: directed graph
+    :_graph_struct: the Structure object from which infos about the net will be extracted
+    :_graph: directed _graph
     :nodes_labels: the symbolic names of the variables
     :nodes_indexes: the indexes of the nodes
     :nodes_values: the cardinalites of the nodes
-    :aggregated_info_about_nodes_parents: a structure that contains all the necessary infos about every parents of every
+    :_aggregated_info_about_nodes_parents: a structure that contains all the necessary infos about every parents of every
     node in the net
     :_fancy_indexing: the indexes of every parent of every node in the net
     :_time_scalar_indexing_structure: the indexing structure for state res time estimation
     :_transition_scalar_indexing_structure: the indexing structure for transition computation
     :_time_filtering: the columns filtering structure used in the computation of the state res times
-    :_transition_filtering: the columns filtering structure used in the computation of the transition from one state to another
+    :_transition_filtering: the columns filtering structure used in the computation of the transition
+        from one state to another
     :self._p_combs_structure: all the possible parents states combination for every node in the net
     """
 
-    def __init__(self, graph_struct):
-        self.graph_struct = graph_struct
-        self.graph = nx.DiGraph()
-        self._nodes_indexes = self.graph_struct.nodes_indexes
-        self._nodes_labels = self.graph_struct.nodes_labels
-        self._nodes_values = self.graph_struct.nodes_values
-        self.aggregated_info_about_nodes_parents = None
+    def __init__(self, graph_struct: st.Structure):
+        """
+        Parameters:
+            :graph_struct:the Structure object from which infos about the net will be extracted
+        """
+        self._graph_struct = graph_struct
+        self._graph = nx.DiGraph()
+        self._nodes_indexes = self._graph_struct.nodes_indexes
+        self._nodes_labels = self._graph_struct.nodes_labels
+        self._nodes_values = self._graph_struct.nodes_values
+        self._aggregated_info_about_nodes_parents = None
         self._fancy_indexing = None
         self._time_scalar_indexing_structure = None
         self._transition_scalar_indexing_structure = None
         self._time_filtering = None
         self._transition_filtering = None
         self._p_combs_structure = None
-
-    def init_graph(self):
-        self.add_nodes(self._nodes_labels)
-        self.add_edges(self.graph_struct.edges)
-        self.aggregated_info_about_nodes_parents = self.get_ord_set_of_par_of_all_nodes()
-        self._fancy_indexing = self.build_fancy_indexing_structure(0)
-        self.build_scalar_indexing_structures()
-        self.build_time_columns_filtering_structure()
-        self.build_transition_columns_filtering_structure()
-        self._p_combs_structure = self.build_p_combs_structure()
 
     def fast_init(self, node_id: str):
         """
@@ -58,11 +53,11 @@ class NetworkGraph:
             void
         """
         self.add_nodes(self._nodes_labels)
-        self.add_edges(self.graph_struct.edges)
-        self.aggregated_info_about_nodes_parents = self.get_ordered_by_indx_set_of_parents(node_id)
-        self._fancy_indexing = self.aggregated_info_about_nodes_parents[1]
+        self.add_edges(self._graph_struct.edges)
+        self._aggregated_info_about_nodes_parents = self.get_ordered_by_indx_set_of_parents(node_id)
+        self._fancy_indexing = self._aggregated_info_about_nodes_parents[1]
         p_indxs = self._fancy_indexing
-        p_vals = self.aggregated_info_about_nodes_parents[2]
+        p_vals = self._aggregated_info_about_nodes_parents[2]
         self._time_scalar_indexing_structure = self.build_time_scalar_indexing_structure_for_a_node(node_id,
                                                                                                     p_vals)
         self._transition_scalar_indexing_structure = self.build_transition_scalar_indexing_structure_for_a_node(node_id,
@@ -74,33 +69,33 @@ class NetworkGraph:
 
     def add_nodes(self, list_of_nodes: typing.List):
         """
-        Adds the nodes to the graph contained in the list of nodes list_of_nodes.
+        Adds the nodes to the _graph contained in the list of nodes list_of_nodes.
         Sets all the properties that identify a nodes (index, positional index, cardinality)
 
         Parameters:
-            list_of_nodes: the nodes to add to graph
+            list_of_nodes: the nodes to add to _graph
         Returns:
             void
         """
         nodes_indxs = self._nodes_indexes
-        nodes_vals = self.graph_struct.nodes_values
+        nodes_vals = self._graph_struct.nodes_values
         pos = 0
         for id, node_indx, node_val in zip(list_of_nodes, nodes_indxs, nodes_vals):
-            self.graph.add_node(id, indx=node_indx, val=node_val, pos_indx=pos)
+            self._graph.add_node(id, indx=node_indx, val=node_val, pos_indx=pos)
             pos += 1
 
     def add_edges(self, list_of_edges: typing.List):
         """
-        Add the edges to the graph contained in the list list_of_edges.
+        Add the edges to the _graph contained in the list list_of_edges.
 
         Parameters:
             list_of_edges
         Returns:
             void
         """
-        self.graph.add_edges_from(list_of_edges)
+        self._graph.add_edges_from(list_of_edges)
 
-    def get_ordered_by_indx_set_of_parents(self, node: str):
+    def get_ordered_by_indx_set_of_parents(self, node: str) -> typing.Tuple:
         """
         Builds the aggregated structure that holds all the infos relative to the parent set of the node, namely
         (parents_labels, parents_indexes, parents_cardinalities).
@@ -121,22 +116,6 @@ class NetworkGraph:
         p_values = [self.get_states_number(node) for node in sorted_parents]
         return (sorted_parents, p_indxes, p_values)
 
-    def get_ord_set_of_par_of_all_nodes(self):
-        get_ordered_by_indx_set_of_parents = self.get_ordered_by_indx_set_of_parents
-        result = [get_ordered_by_indx_set_of_parents(node) for node in self._nodes_labels]
-        return result
-
-    def get_ordered_by_indx_parents_values_for_all_nodes(self):
-        pars_values = [i[2] for i in self.aggregated_info_about_nodes_parents]
-        return pars_values
-
-    def build_fancy_indexing_structure(self, start_indx):
-        if start_indx > 0:
-            pass
-        else:
-            fancy_indx = [i[1] for i in self.aggregated_info_about_nodes_parents]
-            return fancy_indx
-
     def build_time_scalar_indexing_structure_for_a_node(self, node_id: str, parents_vals: typing.List) -> np.ndarray:
         """
         Builds an indexing structure for the computation of state residence times values.
@@ -153,8 +132,8 @@ class NetworkGraph:
         T_vector = T_vector.cumprod().astype(np.int)
         return T_vector
 
-
-    def build_transition_scalar_indexing_structure_for_a_node(self, node_id: str, parents_vals: typing.List) -> np.ndarray:
+    def build_transition_scalar_indexing_structure_for_a_node(self, node_id: str, parents_vals: typing.List) \
+            -> np.ndarray:
         """
         Builds an indexing structure for the computation of state transitions values.
 
@@ -194,7 +173,7 @@ class NetworkGraph:
         Returns:
             a numpy array
         """
-        nodes_number = self.graph_struct.total_variables_number
+        nodes_number = self._graph_struct.total_variables_number
         return np.array([node_indx + nodes_number, node_indx, *p_indxs], dtype=np.int)
 
     def build_p_comb_structure_for_a_node(self, parents_values: typing.List) -> np.ndarray:
@@ -219,13 +198,73 @@ class NetworkGraph:
             parents_comb = np.array([[]], dtype=np.int)
         return parents_comb
 
+    def get_parents_by_id(self, node_id):
+        return list(self._graph.predecessors(node_id))
+
+    def get_states_number(self, node_id):
+        return self._graph.nodes[node_id]['val']
+
+    def get_node_indx(self, node_id):
+        return nx.get_node_attributes(self._graph, 'indx')[node_id]
+
+    def get_positional_node_indx(self, node_id):
+        return self._graph.nodes[node_id]['pos_indx']
+
+    @property
+    def nodes(self) -> typing.List:
+        return self._nodes_labels
+
+    @property
+    def edges(self) -> typing.List:
+        return list(self._graph.edges)
+
+    @property
+    def nodes_indexes(self) -> np.ndarray:
+        return self._nodes_indexes
+
+    @property
+    def nodes_values(self) -> np.ndarray:
+        return self._nodes_values
+
+    @property
+    def time_scalar_indexing_strucure(self) -> np.ndarray:
+        return self._time_scalar_indexing_structure
+
+    @property
+    def time_filtering(self) -> np.ndarray:
+        return self._time_filtering
+
+    @property
+    def transition_scalar_indexing_structure(self) -> np.ndarray:
+        return self._transition_scalar_indexing_structure
+
+    @property
+    def transition_filtering(self) -> np.ndarray:
+        return self._transition_filtering
+
+    @property
+    def p_combs(self) -> np.ndarray:
+        return self._p_combs_structure
+
+    """##############These Methods are actually unused but could become useful in the near future################"""
+
+    def init_graph(self):
+        self.add_nodes(self._nodes_labels)
+        self.add_edges(self._graph_struct.edges)
+        self._aggregated_info_about_nodes_parents = self.get_ord_set_of_par_of_all_nodes()
+        self._fancy_indexing = self.build_fancy_indexing_structure(0)
+        self.build_scalar_indexing_structures()
+        self.build_time_columns_filtering_structure()
+        self.build_transition_columns_filtering_structure()
+        self._p_combs_structure = self.build_p_combs_structure()
+
     def build_time_columns_filtering_structure(self):
         nodes_indxs = self._nodes_indexes
         self._time_filtering = [np.append(np.array([node_indx], dtype=np.int), p_indxs).astype(np.int)
             for node_indx, p_indxs in zip(nodes_indxs, self._fancy_indexing)]
 
     def build_transition_columns_filtering_structure(self):
-        nodes_number = self.graph_struct.total_variables_number
+        nodes_number = self._graph_struct.total_variables_number
         nodes_indxs = self._nodes_indexes
         self._transition_filtering = [np.array([node_indx + nodes_number, node_indx, *p_indxs], dtype=np.int)
                                       for node_indx, p_indxs in zip(nodes_indxs,
@@ -233,7 +272,8 @@ class NetworkGraph:
 
     def build_scalar_indexing_structures(self):
         parents_values_for_all_nodes = self.get_ordered_by_indx_parents_values_for_all_nodes()
-        build_transition_scalar_indexing_structure_for_a_node = self.build_transition_scalar_indexing_structure_for_a_node
+        build_transition_scalar_indexing_structure_for_a_node = \
+            self.build_transition_scalar_indexing_structure_for_a_node
         build_time_scalar_indexing_structure_for_a_node = self.build_time_scalar_indexing_structure_for_a_node
         aggr = [(build_transition_scalar_indexing_structure_for_a_node(node_id, p_vals),
                  build_time_scalar_indexing_structure_for_a_node(node_id, p_vals))
@@ -248,52 +288,18 @@ class NetworkGraph:
         p_combs_struct = [self.build_p_comb_structure_for_a_node(p_vals) for p_vals in parents_values_for_all_nodes]
         return p_combs_struct
 
-    def get_parents_by_id(self, node_id):
-        return list(self.graph.predecessors(node_id))
+    def get_ord_set_of_par_of_all_nodes(self):
+        get_ordered_by_indx_set_of_parents = self.get_ordered_by_indx_set_of_parents
+        result = [get_ordered_by_indx_set_of_parents(node) for node in self._nodes_labels]
+        return result
 
-    def get_states_number(self, node_id):
-        return self.graph.nodes[node_id]['val']
+    def get_ordered_by_indx_parents_values_for_all_nodes(self):
+        pars_values = [i[2] for i in self._aggregated_info_about_nodes_parents]
+        return pars_values
 
-    def get_node_indx(self, node_id):
-        return nx.get_node_attributes(self.graph, 'indx')[node_id]
-
-    def get_positional_node_indx(self, node_id):
-        return self.graph.nodes[node_id]['pos_indx']
-
-    @property
-    def nodes(self):
-        return self._nodes_labels
-
-    @property
-    def edges(self):
-        return list(self.graph.edges)
-
-    @property
-    def nodes_indexes(self):
-        return self._nodes_indexes
-
-    @property
-    def nodes_values(self):
-        return self._nodes_values
-
-    @property
-    def time_scalar_indexing_strucure(self):
-        return self._time_scalar_indexing_structure
-
-    @property
-    def time_filtering(self):
-        return self._time_filtering
-
-    @property
-    def transition_scalar_indexing_structure(self):
-        return self._transition_scalar_indexing_structure
-
-    @property
-    def transition_filtering(self):
-        return self._transition_filtering
-
-    @property
-    def p_combs(self):
-        return self._p_combs_structure
-
-
+    def build_fancy_indexing_structure(self, start_indx):
+        if start_indx > 0:
+            pass
+        else:
+            fancy_indx = [i[1] for i in self._aggregated_info_about_nodes_parents]
+            return fancy_indx

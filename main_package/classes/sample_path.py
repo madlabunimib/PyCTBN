@@ -10,10 +10,10 @@ class SamplePath:
     cardinalites.
     Has the task of creating the objects that will contain the mentioned data.
 
-    :importer: the Importer objects that will import ad process data
+    :_importer: the Importer objects that will import ad process data
     :trajectories: the Trajectory object that will contain all the concatenated trajectories
     :structure: the Structure Object that will contain all the structurral infos about the net
-    :total_variables_count: the number of variables in the net
+    :_total_variables_count: the number of variables in the net
 
     """
     def __init__(self, importer: imp.AbstractImporter):
@@ -21,11 +21,11 @@ class SamplePath:
         Parameters:
             :importer: the Importer objects that will import ad process data
         """
-        self.importer = importer
+        self._importer = importer
         self._trajectories = None
         self._structure = None
-        self.total_variables_count = None
-        self.importer.import_data()
+        self._total_variables_count = None
+        self._importer.import_data()
 
     def build_trajectories(self):
         """
@@ -37,12 +37,12 @@ class SamplePath:
         Returns:
             :void
         """
-        #self.importer.import_data()
+        #self._importer.import_data()
         self._trajectories = \
-            tr.Trajectory(self.importer.build_list_of_samples_array(self.importer.concatenated_samples),
-                          len(self.importer.sorter) + 1)
+            tr.Trajectory(self._importer.build_list_of_samples_array(self._importer.concatenated_samples),
+                          len(self._importer.sorter) + 1)
         #self.trajectories.append(trajectory)
-        self.importer.clear_concatenated_frame()
+        self._importer.clear_concatenated_frame()
 
     def build_structure(self):
         """
@@ -52,19 +52,16 @@ class SamplePath:
         Returns:
             :void
         """
-        if self.importer.sorter != self.importer.variables.iloc[:, 0].to_list():
+        if self._importer.sorter != self._importer.variables.iloc[:, 0].to_list():
             raise RuntimeError("The Dataset columns order have to match the order of labels in the variables Frame!")
 
-        self.total_variables_count = len(self.importer.sorter)
-        #labels = self.importer.variables[self.importer.variables_key].to_list()
-        #print("SAMPLE PATH LABELS",labels)
-        #print(self.importer.variables)
-        labels = self.importer.variables.iloc[:, 0].to_list()
-        indxs = self.importer.variables.index.to_numpy()
-        vals = self.importer.variables.iloc[:, 1].to_numpy()
-        edges = list(self.importer.structure.to_records(index=False))
+        self._total_variables_count = len(self._importer.sorter)
+        labels = self._importer.variables.iloc[:, 0].to_list()
+        indxs = self._importer.variables.index.to_numpy()
+        vals = self._importer.variables.iloc[:, 1].to_numpy()
+        edges = list(self._importer.structure.to_records(index=False))
         self._structure = st.Structure(labels, indxs, vals, edges,
-                                       self.total_variables_count)
+                                       self._total_variables_count)
 
     @property
     def trajectories(self) -> tr.Trajectory:
@@ -74,8 +71,9 @@ class SamplePath:
     def structure(self) -> st.Structure:
         return self._structure
 
+    @property
     def total_variables_count(self):
-        return self.total_variables_count
+        return self._total_variables_count
 
 
 

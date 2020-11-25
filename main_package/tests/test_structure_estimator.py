@@ -21,7 +21,7 @@ class TestStructureEstimator(unittest.TestCase):
     @classmethod
     def setUpClass(cls):
         cls.read_files = glob.glob(os.path.join('../data', "*.json"))
-        cls.importer = ji.JsonImporter(cls.read_files[0], 'samples', 'dyn.str', 'variables', 'Time', 'Name')
+        cls.importer = ji.JsonImporter(cls.read_files[0], 'samples', 'dyn.str', 'variables', 'Time', 'Name', 3)
         cls.s1 = sp.SamplePath(cls.importer)
         cls.s1.build_trajectories()
         cls.s1.build_structure()
@@ -30,14 +30,14 @@ class TestStructureEstimator(unittest.TestCase):
         exp_alfa = 0.1
         chi_alfa = 0.1
         se1 = se.StructureEstimator(self.s1, exp_alfa, chi_alfa)
-        self.assertEqual(self.s1, se1.sample_path)
-        self.assertTrue(np.array_equal(se1.nodes, np.array(self.s1.structure.nodes_labels)))
-        self.assertTrue(np.array_equal(se1.nodes_indxs, self.s1.structure.nodes_indexes))
-        self.assertTrue(np.array_equal(se1.nodes_vals, self.s1.structure.nodes_values))
-        self.assertEqual(se1.exp_test_sign, exp_alfa)
-        self.assertEqual(se1.chi_test_alfa, chi_alfa)
-        self.assertIsInstance(se1.complete_graph, nx.DiGraph)
-        self.assertIsInstance(se1.cache, ch.Cache)
+        self.assertEqual(self.s1, se1._sample_path)
+        self.assertTrue(np.array_equal(se1._nodes, np.array(self.s1.structure.nodes_labels)))
+        self.assertTrue(np.array_equal(se1._nodes_indxs, self.s1.structure.nodes_indexes))
+        self.assertTrue(np.array_equal(se1._nodes_vals, self.s1.structure.nodes_values))
+        self.assertEqual(se1._exp_test_sign, exp_alfa)
+        self.assertEqual(se1._chi_test_alfa, chi_alfa)
+        self.assertIsInstance(se1._complete_graph, nx.DiGraph)
+        self.assertIsInstance(se1._cache, ch.Cache)
 
     def test_build_complete_graph(self):
         exp_alfa = 0.1
@@ -76,17 +76,18 @@ class TestStructureEstimator(unittest.TestCase):
         lp_wrapper = lp(se1.ctpc_algorithm)
         lp_wrapper()
         lp.print_stats()
-        print(se1.complete_graph.edges)
+        print(se1._complete_graph.edges)
         print(self.s1.structure.edges)
         for ed in self.s1.structure.edges:
-            self.assertIn(tuple(ed), se1.complete_graph.edges)
+            self.assertIn(tuple(ed), se1._complete_graph.edges)
         tuples_edges = [tuple(rec) for rec in self.s1.structure.edges]
         spurious_edges = []
-        for ed in se1.complete_graph.edges:
+        for ed in se1._complete_graph.edges:
             if not(ed in tuples_edges):
                 spurious_edges.append(ed)
         print("Spurious Edges:",spurious_edges)
-        se1.save_results()
+        print("Adj Matrix:", nx.adj_matrix(se1._complete_graph).toarray().astype(bool))
+        #se1.save_results()
 
     def test_memory(self):
         se1 = se.StructureEstimator(self.s1, 0.1, 0.1)
@@ -94,6 +95,7 @@ class TestStructureEstimator(unittest.TestCase):
         current_process = psutil.Process(os.getpid())
         mem = current_process.memory_info().rss
         print("Average Memory Usage in MB:", mem / 10**6)
+
 
 if __name__ == '__main__':
     unittest.main()
