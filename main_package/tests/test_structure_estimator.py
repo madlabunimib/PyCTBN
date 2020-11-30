@@ -9,6 +9,7 @@ import networkx as nx
 import numpy as np
 import psutil
 from line_profiler import LineProfiler
+import timeit
 
 import cache as ch
 import sample_path as sp
@@ -21,7 +22,7 @@ class TestStructureEstimator(unittest.TestCase):
     @classmethod
     def setUpClass(cls):
         cls.read_files = glob.glob(os.path.join('../data', "*.json"))
-        cls.importer = ji.JsonImporter(cls.read_files[0], 'samples', 'dyn.str', 'variables', 'Time', 'Name', 3)
+        cls.importer = ji.JsonImporter(cls.read_files[0], 'samples', 'dyn.str', 'variables', 'Time', 'Name', 0)
         cls.s1 = sp.SamplePath(cls.importer)
         cls.s1.build_trajectories()
         cls.s1.build_structure()
@@ -70,12 +71,14 @@ class TestStructureEstimator(unittest.TestCase):
     def test_time(self):
         se1 = se.StructureEstimator(self.s1, 0.1, 0.1)
         lp = LineProfiler()
-        lp.add_function(se1.complete_test)
-        lp.add_function(se1.one_iteration_of_CTPC_algorithm)
-        lp.add_function(se1.independence_test)
+        #lp.add_function(se1.complete_test)
+        #lp.add_function(se1.one_iteration_of_CTPC_algorithm)
+        #lp.add_function(se1.independence_test)
         lp_wrapper = lp(se1.ctpc_algorithm)
         lp_wrapper()
         lp.print_stats()
+        #print("Last time", lp.dump_stats())
+        #print("Exec Time", timeit.timeit(se1.ctpc_algorithm, number=1))
         print(se1._complete_graph.edges)
         print(self.s1.structure.edges)
         for ed in self.s1.structure.edges:

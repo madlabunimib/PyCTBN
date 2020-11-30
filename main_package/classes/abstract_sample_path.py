@@ -1,7 +1,10 @@
+
 from abc import ABC, abstractmethod
 
 import abstract_importer as ai
 
+import sys
+sys.path.append('.')
 
 class AbstractSamplePath(ABC):
 

@@ -1,25 +1,22 @@
 
 import numpy as np
+import typing
 
 
 class Trajectory:
-    """ 
-    Abstracts the infos about a complete set of trajectories, represented as a numpy array of doubles and a numpy matrix
-    of ints.
+    """ Abstracts the infos about a complete set of trajectories, represented as a numpy array of doubles (the time deltas)
+    and a numpy matrix of ints (the changes of states).
 
-    :list_of_columns: the list containing the times array and values matrix
-    :original_cols_numb: total number of cols in the data
-    :actual_trajectory: the trajectory containing also the duplicated and shifted values
-    :times: the array containing the time deltas
-
+    :param list_of_columns: the list containing the times array and values matrix
+    :type list_of_columns: List
+    :param original_cols_number: total number of cols in the data
+    :type original_cols_number: int
+    :_actual_trajectory: the trajectory containing also the duplicated/shifted values
+    :_times: the array containing the time deltas
     """
 
-    def __init__(self, list_of_columns, original_cols_number):
-        """
-        Parameters:
-            :list_of_columns: the list containing the times array and values matrix
-            :original_cols_numb: total number of cols in the data
-
+    def __init__(self, list_of_columns: typing.List, original_cols_number: int):
+        """Constructor Method
         """
         if type(list_of_columns[0][0]) != np.float64:
             raise TypeError('The first array in the list has to be Times')
@@ -29,22 +26,10 @@ class Trajectory:
 
     @property
     def trajectory(self) -> np.ndarray:
-        """
-        Parameters:
-            void
-        Returns:
-            a numpy matrix containing ONLY the original columns values, not the shifted ones
-        """
         return self._actual_trajectory[:, :self._original_cols_number]
 
     @property
     def complete_trajectory(self) -> np.ndarray:
-        """
-                Parameters:
-                    void
-                Returns:
-                    a numpy matrix containing all the values
-                """
         return self._actual_trajectory
 
     @property

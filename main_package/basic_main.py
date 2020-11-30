@@ -1,8 +1,9 @@
-import glob
-import os
-
 import sys
 sys.path.append("./classes/")
+
+
+import glob
+import os
 
 import network_graph as ng
 import sample_path as sp
@@ -24,7 +25,7 @@ def main():
     #From The Structure Object build the Graph
     g = ng.NetworkGraph(s1.structure)
     #Select a node you want to estimate the parameters
-    node = g.nodes[1]
+    node = g.nodes[2]
     print("NOde", node)
     #Init the _graph specifically for THIS node
     g.fast_init(node)

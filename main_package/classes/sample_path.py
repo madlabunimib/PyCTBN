@@ -3,23 +3,23 @@ import abstract_importer as imp
 import structure as st
 import trajectory as tr
 
+import sys
+sys.path.append('./classes/')
+
 
 class SamplePath:
-    """
-    Aggregates all the informations about the trajectories, the real structure of the sampled net and variables
-    cardinalites.
-    Has the task of creating the objects that will contain the mentioned data.
+    """Aggregates all the informations about the trajectories, the real structure of the sampled net and variables
+    cardinalites. Has the task of creating the objects ``Trajectory`` and ``Structure`` that will
+    contain the mentioned data.
 
-    :_importer: the Importer objects that will import ad process data
-    :trajectories: the Trajectory object that will contain all the concatenated trajectories
-    :structure: the Structure Object that will contain all the structurral infos about the net
+    :param importer: the Importer objects that will import ad process data
+    :type importer: AbstractImporter
+    :_trajectories: the ``Trajectory`` object that will contain all the concatenated trajectories
+    :_structure: the ``Structure`` Object that will contain all the structurral infos about the net
     :_total_variables_count: the number of variables in the net
-
     """
     def __init__(self, importer: imp.AbstractImporter):
-        """
-        Parameters:
-            :importer: the Importer objects that will import ad process data
+        """Constructor Method
         """
         self._importer = importer
         self._trajectories = None
@@ -27,30 +27,18 @@ class SamplePath:
         self._total_variables_count = None
         self._importer.import_data()
 
-    def build_trajectories(self):
+    def build_trajectories(self) -> None:
+        """Builds the Trajectory object that will contain all the trajectories.
+        Clears all the unused dataframes in ``_importer`` Object
         """
-        Builds the Trajectory object that will contain all the trajectories.
-        Clears all the unused dataframes in Importer Object
-
-        Parameters:
-            :void
-        Returns:
-            :void
-        """
-        #self._importer.import_data()
         self._trajectories = \
             tr.Trajectory(self._importer.build_list_of_samples_array(self._importer.concatenated_samples),
                           len(self._importer.sorter) + 1)
-        #self.trajectories.append(trajectory)
         self._importer.clear_concatenated_frame()
 
-    def build_structure(self):
+    def build_structure(self) -> None:
         """
-        Builds the Structure object that aggregates all the infos about the net.
-        Parameters:
-            :void
-        Returns:
-            :void
+        Builds the ``Structure`` object that aggregates all the infos about the net.
         """
         if self._importer.sorter != self._importer.variables.iloc[:, 0].to_list():
             raise RuntimeError("The Dataset columns order have to match the order of labels in the variables Frame!")

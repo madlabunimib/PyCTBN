@@ -1,8 +1,11 @@
 
+import sys
+sys.path.append("./classes/")
+
+from tqdm import tqdm
 import itertools
 import json
 import typing
-
 import networkx as nx
 import numpy as np
 from networkx.readwrite import json_graph
@@ -18,27 +21,23 @@ import structure as st
 
 
 class StructureEstimator:
-    """
-    Has the task of estimating the network structure given the trajectories in samplepath.
+    """Has the task of estimating the network structure given the trajectories in ``samplepath``.
 
-    :_sample_path: the _sample_path object containing the trajectories and the real structure
-    :_exp_test_sign: the significance level for the exponential Hp test
-    :_chi_test_alfa: the significance level for the chi Hp test
-
-    :_nodes: the _nodes labels
+    :param sample_path: the _sample_path object containing the trajectories and the real structure
+    :type sample_path: SamplePath
+    :param exp_test_alfa: the significance level for the exponential Hp test
+    :type exp_test_alfa: float
+    :param chi_test_alfa: the significance level for the chi Hp test
+    :type chi_test_alfa: float
+    :_nodes: the nodes labels
     :_nodes_vals: the nodes cardinalities
     :_nodes_indxs: the nodes indexes
-    :_complete_graph: the complete directed graph built using the nodes labels in nodes
-    :_cache: the _cache object
+    :_complete_graph: the complete directed graph built using the nodes labels in ``_nodes``
+    :_cache: the Cache object
     """
 
     def __init__(self, sample_path: sp.SamplePath, exp_test_alfa: float, chi_test_alfa: float):
-        """
-        Parameters:
-            :_sample_path: the _sample_path object containing the trajectories and the real structure
-            :_exp_test_sign: the significance level for the exponential Hp test
-            :_chi_test_alfa: the significance level for the chi Hp test
-
+        """Constructor Method
         """
         self._sample_path = sample_path
         self._nodes = np.array(self._sample_path.structure.nodes_labels)
@@ -50,13 +49,12 @@ class StructureEstimator:
         self._cache = ch.Cache()
 
     def build_complete_graph(self, node_ids: typing.List) -> nx.DiGraph:
-        """
-        Builds a complete directed graph (no self loops) given the nodes labels in the list node_ids:
+        """Builds a complete directed graph (no self loops) given the nodes labels in the list ``node_ids``:
 
-        Parameters:
-            node_ids: the list of nodes labels
-        Returns:
-            a complete Digraph Object
+        :param node_ids: the list of nodes labels
+        :type node_ids: List
+        :return: a complete Digraph Object
+        :rtype: networkx.DiGraph
         """
         complete_graph = nx.DiGraph()
         complete_graph.add_nodes_from(node_ids)
@@ -65,20 +63,22 @@ class StructureEstimator:
 
     def complete_test(self, test_parent: str, test_child: str, parent_set: typing.List, child_states_numb: int,
                       tot_vars_count: int) -> bool:
-        """
-        Performs a complete independence test on the directed graphs G1 = test_child U parent_set
-        G2 = G1 U test_parent (added as an additional parent of the test_child).
+        """Performs a complete independence test on the directed graphs G1 = {test_child U parent_set}
+        G2 = {G1 U test_parent} (added as an additional parent of the test_child).
         Generates all the necessary structures and datas to perform the tests.
 
-        Parameters:
-            test_parent: the node label of the test parent
-            test_child: the node label of the child
-            parent_set: the common parent set
-            child_states_numb: the cardinality of the test_child
-            tot_vars_count: the total number of variables in the net
-        Returns:
-            True iff test_child and test_parent are independent given the sep_set parent_set
-            False otherwise
+        :param test_parent: the node label of the test parent
+        :type test_parent: string
+        :param test_child: the node label of the child
+        :type test_child: string
+        :param parent_set: the common parent set
+        :type parent_set: List
+        :param child_states_numb: the cardinality of the ``test_child``
+        :type child_states_numb: int
+        :param tot_vars_count: the total number of variables in the net
+        :type tot_vars_count: int
+        :return: True iff test_child and test_parent are independent given the sep_set parent_set. False otherwise
+        :rtype: bool
         """
         p_set = parent_set[:]
         complete_info = parent_set[:]
@@ -130,19 +130,18 @@ class StructureEstimator:
 
     def independence_test(self, child_states_numb: int, cim1: condim.ConditionalIntensityMatrix,
                           cim2: condim.ConditionalIntensityMatrix) -> bool:
-        """
-        Compute the actual independence test using two cims.
+        """Compute the actual independence test using two cims.
         It is performed first the exponential test and if the null hypothesis is not rejected,
-        it is permormed also the chi_test.
+        it is performed also the chi_test.
 
-        Parameters:
-            child_states_numb: the cardinality of the test child
-            cim1: a cim belonging to the graph without test parent
-            cim2: a cim belonging to the graph with test parent
-
-        Returns:
-            True iff both tests do NOT reject the null hypothesis of indipendence
-            False otherwise
+        :param child_states_numb: the cardinality of the test child
+        :type child_states_numb: int
+        :param cim1: a cim belonging to the graph without test parent
+        :type cim1: ConditionalIntensityMatrix
+        :param cim2: a cim belonging to the graph with test parent
+        :type cim2: ConditionalIntensityMatrix
+        :return:True iff both tests do NOT reject the null hypothesis of indipendence. False otherwise.
+        :rtype: bool
         """
         M1 = cim1.state_transition_matrix
         M2 = cim2.state_transition_matrix
@@ -155,7 +154,6 @@ class StructureEstimator:
         for val in range(0, child_states_numb):
             if F_stats[val] < f_dist.ppf(exp_alfa / 2, r1s[val], r2s[val]) or \
                     F_stats[val] > f_dist.ppf(1 - exp_alfa / 2, r1s[val], r2s[val]):
-                #print("CONDITIONALLY DEPENDENT EXP")
                 return False
         M1_no_diag = M1[~np.eye(M1.shape[0], dtype=bool)].reshape(M1.shape[0], -1)
         M2_no_diag = M2[~np.eye(M2.shape[0], dtype=bool)].reshape(
@@ -170,17 +168,15 @@ class StructureEstimator:
                 return False
         return True
 
-    def one_iteration_of_CTPC_algorithm(self, var_id: str, tot_vars_count: int):
-        """
-        Performs an iteration of the CTPC algorithm using the node var_id as test_child.
+    def one_iteration_of_CTPC_algorithm(self, var_id: str, tot_vars_count: int) -> None:
+        """Performs an iteration of the CTPC algorithm using the node ``var_id`` as ``test_child``.
 
-        Parameters:
-            var_id: the node label of the test child
-            tot_vars_count: the number of _nodes in the net
-        Returns:
-            void
+        :param var_id: the node label of the test child
+        :type var_id: string
+        :param tot_vars_count: the number of _nodes in the net
+        :type tot_vars_count: int
         """
-        print("##################TESTING VAR################", var_id)
+        #print("##################TESTING VAR################", var_id)
         u = list(self._complete_graph.predecessors(var_id))
         child_states_numb = self._sample_path.structure.get_states_number(var_id)
         b = 0
@@ -190,12 +186,8 @@ class StructureEstimator:
                 removed = False
                 S = self.generate_possible_sub_sets_of_size(u, b, u[parent_indx])
                 test_parent = u[parent_indx]
-                #print("Test Parent", test_parent)
                 for parents_set in S:
-                    print("Parent Set", parents_set)
-                    print("Test Parent", test_parent)
                     if self.complete_test(test_parent, var_id, parents_set, child_states_numb, tot_vars_count):
-                        #print("Removing EDGE:", test_parent, var_id)
                         self._complete_graph.remove_edge(test_parent, var_id)
                         u.remove(test_parent)
                         removed = True
@@ -207,46 +199,37 @@ class StructureEstimator:
 
     def generate_possible_sub_sets_of_size(self, u: typing.List, size: int, parent_label: str) -> \
             typing.Iterator:
-        """
-        Creates a list containing all possible subsets of the list u of size size,
-        that do not contains a the node identified by parent_label.
+        """Creates a list containing all possible subsets of the list ``u`` of size ``size``,
+        that do not contains a the node identified by ``parent_label``.
 
-        Parameters:
-            u: the list of _nodes
-            size: the size of the subsets
-            parent_label: the _nodes to exclude in the subsets generation
-        Returns:
-            a Map Object containing a list of lists
-
+        :param u: the list of nodes
+        :type u: List
+        :param size: the size of the subsets
+        :type size: int
+        :param parent_label: the node to exclude in the subsets generation
+        :type parent_label: string
+        :return: an Iterator Object containing a list of lists
+        :rtype: Iterator
         """
         list_without_test_parent = u[:]
         list_without_test_parent.remove(parent_label)
         return map(list, itertools.combinations(list_without_test_parent, size))
 
-    def ctpc_algorithm(self):
-        """
-        Compute the CTPC algorithm.
-        Parameters:
-            void
-        Returns:
-            void
+    def ctpc_algorithm(self) -> None:
+        """Compute the CTPC algorithm over the entire net.
         """
         ctpc_algo = self.one_iteration_of_CTPC_algorithm
         total_vars_numb = self._sample_path.total_variables_count
-        [ctpc_algo(n, total_vars_numb) for n in self._nodes]
+        [ctpc_algo(n, total_vars_numb) for n in tqdm(self._nodes)]
 
-    def save_results(self):
-        """
-        Save the estimated Structure to a .json file
+    def save_results(self) -> None:
+        """Save the estimated Structure to a .json file in the path where the data are loaded from.
+        The file is named as the input dataset but the results_ word is appendend to the results file.
 
-        Parameters:
-            void
-        Returns:
-            void
         """
         res = json_graph.node_link_data(self._complete_graph)
-        name = self._sample_path._importer.file_path.rsplit('/', 1)[-1]
-        name = 'results_' + name #TODO va aggiunto anche l'indice di array
+        name = self._sample_path._importer.file_path.rsplit('/', 1)[-1] + str(self._sample_path._importer.dataset_id())
+        name = 'results_' + name
         with open(name, 'w') as f:
             json.dump(res, f)
 

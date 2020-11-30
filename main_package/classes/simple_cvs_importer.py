@@ -2,6 +2,8 @@ import pandas as pd
 import glob
 import os
 
+import typing
+
 import abstract_importer as ai
 import sample_path as sp
 
@@ -14,6 +16,7 @@ class CSVImporter(ai.AbstractImporter):
 
     def import_data(self):
         self.read_csv_file()
+        self._sorter = self.build_sorter(self._df_samples_list[0])
         self.import_variables()
         self.import_structure()
         self.compute_row_delta_in_all_samples_frames(self._df_samples_list)
@@ -24,15 +27,14 @@ class CSVImporter(ai.AbstractImporter):
         self._df_samples_list = [df]
 
     def import_variables(self):
-        variables_list = list(self._df_samples_list[0].columns)[1:]
-        #wrong_vars_labels = ['Y','Z','X']
-        self._sorter = variables_list
-        values_list = [3 for var in variables_list]
-        # initialize list of lists
-        data = {'Name':variables_list, 'Value':values_list}
-
+        values_list = [3 for var in self._sorter]
+        # initialize dict of lists
+        data = {'Name':self._sorter, 'Value':values_list}
         # Create the pandas DataFrame
         self._df_variables = pd.DataFrame(data)
+
+    def build_sorter(self, sample_frame: pd.DataFrame) -> typing.List:
+        return list(sample_frame.columns)[1:]
 
     def import_structure(self):
         data = {'From':['X','Y','Z'], 'To':['Z','Z','Y']}
