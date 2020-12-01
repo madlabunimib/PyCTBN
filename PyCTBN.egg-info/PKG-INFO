@@ -1,0 +1,10 @@
+Metadata-Version: 1.0
+Name: PyCTBN
+Version: 1.0
+Summary: A Continuous Time Bayesian Network Library
+Home-page: https://github.com/philipMartini/CTBN_Project
+Author: Filippo Martini
+Author-email: f.martini@campus.unimib.it
+License: MIT
+Description: # CTBN_Project
+Platform: UNKNOWN

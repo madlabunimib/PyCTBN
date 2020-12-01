@@ -1,0 +1,309 @@
+
+
+
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.1//EN" "http://www.w3.org/TR/xhtml11/DTD/xhtml11.dtd">
+<html xml:lang="" lang="" version="-//W3C//DTD XHTML 1.1//EN" xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+  
+  <title>structure_estimator module &mdash; PyCTBN  documentation</title>
+  
+
+  
+
+  
+
+    <link href='https://fonts.googleapis.com/css?family=Lato:400,700,400italic,700italic|Roboto+Slab:400,700|Inconsolata:400,700' rel='stylesheet' type='text/css'/>
+    <link rel="stylesheet" href="../_static/css/pdj.css" type="text/css" />
+
+  
+
+  
+
+  
+        <link rel="index" title="Index"
+              href="../genindex.html"/>
+        <link rel="search" title="Search" href="../search.html"/>
+    <link rel="top" title="PyCTBN  documentation" href="../index.html"/>
+
+    <meta http-equiv="content-type" content="text/html; charset=utf-8" />
+    <meta http-equiv="cache-control" content="public" />
+    <meta name="robots" content="follow, all" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <!-- Add jQuery library -->
+    <script type="text/javascript" src="http://code.jquery.com/jquery-latest.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/modernizr/2.6.2/modernizr.min.js"></script>
+
+  </head>
+
+  <body class="wy-body-for-nav" role="document">
+
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-nav-search">
+        <a href="../index.html" class="fa fa-home"> PyCTBN </a>
+        <div role="search">
+	  <form id ="rtd-search-form" class="wy-form"
+		action="../search.html" method="get">
+	    <input type="text" name="q" placeholder="Search docs" />
+	    <input type="hidden" name="check_keywords" value="yes" />
+	    <input type="hidden" name="area" value="default" />
+	  </form>
+	</div>
+      </div>
+
+      <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
+	
+          
+          
+              <!-- Local TOC -->
+              <div class="local-toc"><ul>
+<li><a class="reference internal" href="#">structure_estimator module</a></li>
+</ul>
+</div>
+          
+        
+
+      </div>
+      &nbsp;
+    </nav>
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+
+      <nav class="wy-nav-top" id="barra-mobile" role="navigation" aria-label="top navigation">
+        <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+        <a href="#">Porão do Juca</a>
+      </nav>
+
+      <div class="wy-nav-content">
+	<div class="fundo-claro">
+	</div>
+	<div class="fundo-escuro">
+	</div>
+
+        <div class="rst-content">
+          <div role="navigation" aria-label="breadcrumbs navigation">
+	    
+	    <!-- <ul class="wy-breadcrumbs"> -->
+	    <!--   <li><a href="#">Docs</a> &raquo;</li> -->
+
+	    <!--   <li>Features</li> -->
+	    <!--   <li class="wy-breadcrumbs-aside"> -->
+
+	    <!-- 	<a href="_sources/index.txt" rel="nofollow"> View page source</a> -->
+
+	    <!--   </li> -->
+	    <!-- </ul> -->
+	    <!-- <hr/> -->
+	  </div>
+
+          <div role="main" class="">
+
+	    <div id="content" class="hfeed entry-container hentry">
+  <div class="section" id="module-structure_estimator">
+<span id="structure-estimator-module"></span><h1>structure_estimator module<a class="headerlink" href="#module-structure_estimator" title="Permalink to this headline">¶</a></h1>
+<dl class="py class">
+<dt id="structure_estimator.StructureEstimator">
+<em class="property">class </em><code class="sig-prename descclassname">structure_estimator.</code><code class="sig-name descname">StructureEstimator</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">sample_path</span><span class="p">:</span> <span class="n"><a class="reference internal" href="sample_path.html#sample_path.SamplePath" title="sample_path.SamplePath">sample_path.SamplePath</a></span></em>, <em class="sig-param"><span class="n">exp_test_alfa</span><span class="p">:</span> <span class="n">float</span></em>, <em class="sig-param"><span class="n">chi_test_alfa</span><span class="p">:</span> <span class="n">float</span></em><span class="sig-paren">)</span><a class="headerlink" href="#structure_estimator.StructureEstimator" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></p>
+<p>Has the task of estimating the network structure given the trajectories in <code class="docutils literal notranslate"><span class="pre">samplepath</span></code>.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>sample_path</strong> (<a class="reference internal" href="sample_path.html#sample_path.SamplePath" title="sample_path.SamplePath"><em>SamplePath</em></a>) – the _sample_path object containing the trajectories and the real structure</p></li>
+<li><p><strong>exp_test_alfa</strong> (<em>float</em>) – the significance level for the exponential Hp test</p></li>
+<li><p><strong>chi_test_alfa</strong> (<em>float</em>) – the significance level for the chi Hp test</p></li>
+</ul>
+</dd>
+<dt class="field-even">_nodes</dt>
+<dd class="field-even"><p>the nodes labels</p>
+</dd>
+<dt class="field-odd">_nodes_vals</dt>
+<dd class="field-odd"><p>the nodes cardinalities</p>
+</dd>
+<dt class="field-even">_nodes_indxs</dt>
+<dd class="field-even"><p>the nodes indexes</p>
+</dd>
+<dt class="field-odd">_complete_graph</dt>
+<dd class="field-odd"><p>the complete directed graph built using the nodes labels in <code class="docutils literal notranslate"><span class="pre">_nodes</span></code></p>
+</dd>
+<dt class="field-even">_cache</dt>
+<dd class="field-even"><p>the Cache object</p>
+</dd>
+</dl>
+<dl class="py method">
+<dt id="structure_estimator.StructureEstimator.build_complete_graph">
+<code class="sig-name descname">build_complete_graph</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">node_ids</span><span class="p">:</span> <span class="n">List</span></em><span class="sig-paren">)</span> &#x2192; networkx.classes.digraph.DiGraph<a class="headerlink" href="#structure_estimator.StructureEstimator.build_complete_graph" title="Permalink to this definition">¶</a></dt>
+<dd><p>Builds a complete directed graph (no self loops) given the nodes labels in the list <code class="docutils literal notranslate"><span class="pre">node_ids</span></code>:</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>node_ids</strong> (<em>List</em>) – the list of nodes labels</p>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>a complete Digraph Object</p>
+</dd>
+<dt class="field-odd">Return type</dt>
+<dd class="field-odd"><p>networkx.DiGraph</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt id="structure_estimator.StructureEstimator.complete_test">
+<code class="sig-name descname">complete_test</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">test_parent</span><span class="p">:</span> <span class="n">str</span></em>, <em class="sig-param"><span class="n">test_child</span><span class="p">:</span> <span class="n">str</span></em>, <em class="sig-param"><span class="n">parent_set</span><span class="p">:</span> <span class="n">List</span></em>, <em class="sig-param"><span class="n">child_states_numb</span><span class="p">:</span> <span class="n">int</span></em>, <em class="sig-param"><span class="n">tot_vars_count</span><span class="p">:</span> <span class="n">int</span></em><span class="sig-paren">)</span> &#x2192; bool<a class="headerlink" href="#structure_estimator.StructureEstimator.complete_test" title="Permalink to this definition">¶</a></dt>
+<dd><p>Performs a complete independence test on the directed graphs G1 = {test_child U parent_set}
+G2 = {G1 U test_parent} (added as an additional parent of the test_child).
+Generates all the necessary structures and datas to perform the tests.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>test_parent</strong> (<em>string</em>) – the node label of the test parent</p></li>
+<li><p><strong>test_child</strong> (<em>string</em>) – the node label of the child</p></li>
+<li><p><strong>parent_set</strong> (<em>List</em>) – the common parent set</p></li>
+<li><p><strong>child_states_numb</strong> (<em>int</em>) – the cardinality of the <code class="docutils literal notranslate"><span class="pre">test_child</span></code></p></li>
+<li><p><strong>tot_vars_count</strong> (<em>int</em>) – the total number of variables in the net</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>True iff test_child and test_parent are independent given the sep_set parent_set. False otherwise</p>
+</dd>
+<dt class="field-odd">Return type</dt>
+<dd class="field-odd"><p>bool</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt id="structure_estimator.StructureEstimator.ctpc_algorithm">
+<code class="sig-name descname">ctpc_algorithm</code><span class="sig-paren">(</span><span class="sig-paren">)</span> &#x2192; None<a class="headerlink" href="#structure_estimator.StructureEstimator.ctpc_algorithm" title="Permalink to this definition">¶</a></dt>
+<dd><p>Compute the CTPC algorithm over the entire net.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt id="structure_estimator.StructureEstimator.generate_possible_sub_sets_of_size">
+<code class="sig-name descname">generate_possible_sub_sets_of_size</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">u</span><span class="p">:</span> <span class="n">List</span></em>, <em class="sig-param"><span class="n">size</span><span class="p">:</span> <span class="n">int</span></em>, <em class="sig-param"><span class="n">parent_label</span><span class="p">:</span> <span class="n">str</span></em><span class="sig-paren">)</span> &#x2192; Iterator<a class="headerlink" href="#structure_estimator.StructureEstimator.generate_possible_sub_sets_of_size" title="Permalink to this definition">¶</a></dt>
+<dd><p>Creates a list containing all possible subsets of the list <code class="docutils literal notranslate"><span class="pre">u</span></code> of size <code class="docutils literal notranslate"><span class="pre">size</span></code>,
+that do not contains a the node identified by <code class="docutils literal notranslate"><span class="pre">parent_label</span></code>.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>u</strong> (<em>List</em>) – the list of nodes</p></li>
+<li><p><strong>size</strong> (<em>int</em>) – the size of the subsets</p></li>
+<li><p><strong>parent_label</strong> (<em>string</em>) – the node to exclude in the subsets generation</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>an Iterator Object containing a list of lists</p>
+</dd>
+<dt class="field-odd">Return type</dt>
+<dd class="field-odd"><p>Iterator</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt id="structure_estimator.StructureEstimator.independence_test">
+<code class="sig-name descname">independence_test</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">child_states_numb</span><span class="p">:</span> <span class="n">int</span></em>, <em class="sig-param"><span class="n">cim1</span><span class="p">:</span> <span class="n"><a class="reference internal" href="conditional_intensity_matrix.html#conditional_intensity_matrix.ConditionalIntensityMatrix" title="conditional_intensity_matrix.ConditionalIntensityMatrix">conditional_intensity_matrix.ConditionalIntensityMatrix</a></span></em>, <em class="sig-param"><span class="n">cim2</span><span class="p">:</span> <span class="n"><a class="reference internal" href="conditional_intensity_matrix.html#conditional_intensity_matrix.ConditionalIntensityMatrix" title="conditional_intensity_matrix.ConditionalIntensityMatrix">conditional_intensity_matrix.ConditionalIntensityMatrix</a></span></em><span class="sig-paren">)</span> &#x2192; bool<a class="headerlink" href="#structure_estimator.StructureEstimator.independence_test" title="Permalink to this definition">¶</a></dt>
+<dd><p>Compute the actual independence test using two cims.
+It is performed first the exponential test and if the null hypothesis is not rejected,
+it is performed also the chi_test.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>child_states_numb</strong> (<em>int</em>) – the cardinality of the test child</p></li>
+<li><p><strong>cim1</strong> (<a class="reference internal" href="conditional_intensity_matrix.html#conditional_intensity_matrix.ConditionalIntensityMatrix" title="conditional_intensity_matrix.ConditionalIntensityMatrix"><em>ConditionalIntensityMatrix</em></a>) – a cim belonging to the graph without test parent</p></li>
+<li><p><strong>cim2</strong> (<a class="reference internal" href="conditional_intensity_matrix.html#conditional_intensity_matrix.ConditionalIntensityMatrix" title="conditional_intensity_matrix.ConditionalIntensityMatrix"><em>ConditionalIntensityMatrix</em></a>) – a cim belonging to the graph with test parent</p></li>
+</ul>
+</dd>
+</dl>
+<p>:return:True iff both tests do NOT reject the null hypothesis of indipendence. False otherwise.
+:rtype: bool</p>
+</dd></dl>
+
+<dl class="py method">
+<dt id="structure_estimator.StructureEstimator.one_iteration_of_CTPC_algorithm">
+<code class="sig-name descname">one_iteration_of_CTPC_algorithm</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">var_id</span><span class="p">:</span> <span class="n">str</span></em>, <em class="sig-param"><span class="n">tot_vars_count</span><span class="p">:</span> <span class="n">int</span></em><span class="sig-paren">)</span> &#x2192; None<a class="headerlink" href="#structure_estimator.StructureEstimator.one_iteration_of_CTPC_algorithm" title="Permalink to this definition">¶</a></dt>
+<dd><p>Performs an iteration of the CTPC algorithm using the node <code class="docutils literal notranslate"><span class="pre">var_id</span></code> as <code class="docutils literal notranslate"><span class="pre">test_child</span></code>.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>var_id</strong> (<em>string</em>) – the node label of the test child</p></li>
+<li><p><strong>tot_vars_count</strong> (<em>int</em>) – the number of _nodes in the net</p></li>
+</ul>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt id="structure_estimator.StructureEstimator.save_results">
+<code class="sig-name descname">save_results</code><span class="sig-paren">(</span><span class="sig-paren">)</span> &#x2192; None<a class="headerlink" href="#structure_estimator.StructureEstimator.save_results" title="Permalink to this definition">¶</a></dt>
+<dd><p>Save the estimated Structure to a .json file in the path where the data are loaded from.
+The file is named as the input dataset but the <a href="#id1"><span class="problematic" id="id2">results_</span></a> word is appendend to the results file.</p>
+</dd></dl>
+
+</dd></dl>
+
+</div>
+
+
+	    </div>
+            <footer>
+  
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>
+        &copy; Copyright 2020, Filippo Martini.
+    </p>
+  </div>
+
+  Built with <a href="http://sphinx-doc.org/">Sphinx</a> using a <a href="https://github.com/jucacrispim/sphinx_pdj_theme">theme</a> provided by <a href="http://poraodojuca.net">Porão do Juca</a>.
+
+</footer>
+	</div>
+	</div>
+	  
+
+    <script type="text/javascript">
+        var DOCUMENTATION_OPTIONS = {
+            URL_ROOT:'../',
+            VERSION:'',
+            COLLAPSE_INDEX:false,
+            FILE_SUFFIX:'.html',
+            HAS_SOURCE:  true
+        };
+    </script>
+    <script type="text/javascript" src="../_static/jquery.js">
+
+    </script>
+    <script type="text/javascript" src="../_static/underscore.js">
+
+    </script>
+    <script type="text/javascript" src="../_static/doctools.js">
+
+    </script>
+    <script type="text/javascript" src="../_static/language_data.js">
+
+    </script>
+
+  
+
+   <script type="text/javascript"
+           src="../_static/js/theme.js"></script>
+
+   <script type="text/javascript"
+           src="../_static/js/pdj.js"></script>
+
+  
+  
+  <script type="text/javascript">
+      jQuery(function () {
+          SphinxRtdTheme.StickyNav.enable();
+      });
+  </script>
+   
+
+  </body>
+</html>

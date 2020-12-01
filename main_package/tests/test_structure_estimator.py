@@ -1,5 +1,4 @@
-import sys
-sys.path.append("../classes/")
+
 import glob
 import math
 import os
@@ -11,26 +10,26 @@ import psutil
 from line_profiler import LineProfiler
 import timeit
 
-import cache as ch
-import sample_path as sp
-import structure_estimator as se
-import json_importer as ji
+from ..PyCTBN.cache import Cache
+from ..PyCTBN.sample_path import SamplePath
+from ..PyCTBN.structure_estimator import StructureEstimator
+from ..PyCTBN.json_importer import JsonImporter
 
 
 class TestStructureEstimator(unittest.TestCase):
 
     @classmethod
     def setUpClass(cls):
-        cls.read_files = glob.glob(os.path.join('../data', "*.json"))
-        cls.importer = ji.JsonImporter(cls.read_files[0], 'samples', 'dyn.str', 'variables', 'Time', 'Name', 0)
-        cls.s1 = sp.SamplePath(cls.importer)
+        cls.read_files = glob.glob(os.path.join('./data', "*.json"))
+        cls.importer = JsonImporter(cls.read_files[0], 'samples', 'dyn.str', 'variables', 'Time', 'Name', 0)
+        cls.s1 = SamplePath(cls.importer)
         cls.s1.build_trajectories()
         cls.s1.build_structure()
 
     def test_init(self):
         exp_alfa = 0.1
         chi_alfa = 0.1
-        se1 = se.StructureEstimator(self.s1, exp_alfa, chi_alfa)
+        se1 = StructureEstimator(self.s1, exp_alfa, chi_alfa)
         self.assertEqual(self.s1, se1._sample_path)
         self.assertTrue(np.array_equal(se1._nodes, np.array(self.s1.structure.nodes_labels)))
         self.assertTrue(np.array_equal(se1._nodes_indxs, self.s1.structure.nodes_indexes))
@@ -38,13 +37,13 @@ class TestStructureEstimator(unittest.TestCase):
         self.assertEqual(se1._exp_test_sign, exp_alfa)
         self.assertEqual(se1._chi_test_alfa, chi_alfa)
         self.assertIsInstance(se1._complete_graph, nx.DiGraph)
-        self.assertIsInstance(se1._cache, ch.Cache)
+        self.assertIsInstance(se1._cache, Cache)
 
     def test_build_complete_graph(self):
         exp_alfa = 0.1
         chi_alfa = 0.1
         nodes_numb = len(self.s1.structure.nodes_labels)
-        se1 = se.StructureEstimator(self.s1, exp_alfa, chi_alfa)
+        se1 = StructureEstimator(self.s1, exp_alfa, chi_alfa)
         cg = se1.build_complete_graph(self.s1.structure.nodes_labels)
         self.assertEqual(len(cg.edges), nodes_numb*(nodes_numb - 1))
         for node in self.s1.structure.nodes_labels:
@@ -57,7 +56,7 @@ class TestStructureEstimator(unittest.TestCase):
         exp_alfa = 0.1
         chi_alfa = 0.1
         nodes_numb = len(self.s1.structure.nodes_labels)
-        se1 = se.StructureEstimator(self.s1, exp_alfa, chi_alfa)
+        se1 = StructureEstimator(self.s1, exp_alfa, chi_alfa)
 
         for node in self.s1.structure.nodes_labels:
             for b in range(nodes_numb):
@@ -69,7 +68,7 @@ class TestStructureEstimator(unittest.TestCase):
                     self.assertFalse(node in sset)
 
     def test_time(self):
-        se1 = se.StructureEstimator(self.s1, 0.1, 0.1)
+        se1 = StructureEstimator(self.s1, 0.1, 0.1)
         lp = LineProfiler()
         #lp.add_function(se1.complete_test)
         #lp.add_function(se1.one_iteration_of_CTPC_algorithm)
@@ -93,7 +92,7 @@ class TestStructureEstimator(unittest.TestCase):
         #se1.save_results()
 
     def test_memory(self):
-        se1 = se.StructureEstimator(self.s1, 0.1, 0.1)
+        se1 = StructureEstimator(self.s1, 0.1, 0.1)
         se1.ctpc_algorithm()
         current_process = psutil.Process(os.getpid())
         mem = current_process.memory_info().rss

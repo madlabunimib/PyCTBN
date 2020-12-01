@@ -1,0 +1,353 @@
+
+
+
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.1//EN" "http://www.w3.org/TR/xhtml11/DTD/xhtml11.dtd">
+<html xml:lang="" lang="" version="-//W3C//DTD XHTML 1.1//EN" xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+  
+  <title>json_importer module &mdash; PyCTBN  documentation</title>
+  
+
+  
+
+  
+
+    <link href='https://fonts.googleapis.com/css?family=Lato:400,700,400italic,700italic|Roboto+Slab:400,700|Inconsolata:400,700' rel='stylesheet' type='text/css'/>
+    <link rel="stylesheet" href="../_static/css/pdj.css" type="text/css" />
+
+  
+
+  
+
+  
+        <link rel="index" title="Index"
+              href="../genindex.html"/>
+        <link rel="search" title="Search" href="../search.html"/>
+    <link rel="top" title="PyCTBN  documentation" href="../index.html"/>
+
+    <meta http-equiv="content-type" content="text/html; charset=utf-8" />
+    <meta http-equiv="cache-control" content="public" />
+    <meta name="robots" content="follow, all" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <!-- Add jQuery library -->
+    <script type="text/javascript" src="http://code.jquery.com/jquery-latest.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/modernizr/2.6.2/modernizr.min.js"></script>
+
+  </head>
+
+  <body class="wy-body-for-nav" role="document">
+
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-nav-search">
+        <a href="../index.html" class="fa fa-home"> PyCTBN </a>
+        <div role="search">
+	  <form id ="rtd-search-form" class="wy-form"
+		action="../search.html" method="get">
+	    <input type="text" name="q" placeholder="Search docs" />
+	    <input type="hidden" name="check_keywords" value="yes" />
+	    <input type="hidden" name="area" value="default" />
+	  </form>
+	</div>
+      </div>
+
+      <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
+	
+          
+          
+              <!-- Local TOC -->
+              <div class="local-toc"><ul>
+<li><a class="reference internal" href="#">json_importer module</a></li>
+</ul>
+</div>
+          
+        
+
+      </div>
+      &nbsp;
+    </nav>
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+
+      <nav class="wy-nav-top" id="barra-mobile" role="navigation" aria-label="top navigation">
+        <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+        <a href="#">Porão do Juca</a>
+      </nav>
+
+      <div class="wy-nav-content">
+	<div class="fundo-claro">
+	</div>
+	<div class="fundo-escuro">
+	</div>
+
+        <div class="rst-content">
+          <div role="navigation" aria-label="breadcrumbs navigation">
+	    
+	    <!-- <ul class="wy-breadcrumbs"> -->
+	    <!--   <li><a href="#">Docs</a> &raquo;</li> -->
+
+	    <!--   <li>Features</li> -->
+	    <!--   <li class="wy-breadcrumbs-aside"> -->
+
+	    <!-- 	<a href="_sources/index.txt" rel="nofollow"> View page source</a> -->
+
+	    <!--   </li> -->
+	    <!-- </ul> -->
+	    <!-- <hr/> -->
+	  </div>
+
+          <div role="main" class="">
+
+	    <div id="content" class="hfeed entry-container hentry">
+  <div class="section" id="module-json_importer">
+<span id="json-importer-module"></span><h1>json_importer module<a class="headerlink" href="#module-json_importer" title="Permalink to this headline">¶</a></h1>
+<dl class="py class">
+<dt id="json_importer.JsonImporter">
+<em class="property">class </em><code class="sig-prename descclassname">json_importer.</code><code class="sig-name descname">JsonImporter</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">file_path</span><span class="p">:</span> <span class="n">str</span></em>, <em class="sig-param"><span class="n">samples_label</span><span class="p">:</span> <span class="n">str</span></em>, <em class="sig-param"><span class="n">structure_label</span><span class="p">:</span> <span class="n">str</span></em>, <em class="sig-param"><span class="n">variables_label</span><span class="p">:</span> <span class="n">str</span></em>, <em class="sig-param"><span class="n">time_key</span><span class="p">:</span> <span class="n">str</span></em>, <em class="sig-param"><span class="n">variables_key</span><span class="p">:</span> <span class="n">str</span></em>, <em class="sig-param"><span class="n">array_indx</span><span class="p">:</span> <span class="n">int</span></em><span class="sig-paren">)</span><a class="headerlink" href="#json_importer.JsonImporter" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <a class="reference internal" href="abstract_importer.html#abstract_importer.AbstractImporter" title="abstract_importer.AbstractImporter"><code class="xref py py-class docutils literal notranslate"><span class="pre">abstract_importer.AbstractImporter</span></code></a></p>
+<p>Implements the abstracts methods of AbstractImporter and adds all the necessary methods to process and prepare the data in json ext.
+with the following structure:
+[0]</p>
+<blockquote>
+<div><p><a href="#id1"><span class="problematic" id="id2">|</span></a>_ dyn.cims
+<a href="#id3"><span class="problematic" id="id4">|</span></a>_ dyn.str
+<a href="#id5"><span class="problematic" id="id6">|</span></a>_ samples
+<a href="#id7"><span class="problematic" id="id8">|</span></a>_ variabels</p>
+</div></blockquote>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>file_path</strong> (<em>string</em>) – the path of the file that contains tha data to be imported</p></li>
+<li><p><strong>samples_label</strong> (<em>string</em>) – the reference key for the samples in the trajectories</p></li>
+<li><p><strong>structure_label</strong> (<em>string</em>) – the reference key for the structure of the network data</p></li>
+<li><p><strong>variables_label</strong> (<em>string</em>) – the reference key for the cardinalites of the nodes data</p></li>
+<li><p><strong>time_key</strong> (<em>string</em>) – the key used to identify the timestamps in each trajectory</p></li>
+<li><p><strong>variables_key</strong> (<em>string</em>) – the key used to identify the names of the variables in the net</p></li>
+<li><p><strong>array_indx</strong> (<em>int</em>) – the index of the outer JsonArray to exctract the data from</p></li>
+</ul>
+</dd>
+<dt class="field-even">_df_samples_list</dt>
+<dd class="field-even"><p>a Dataframe list in which every dataframe contains a trajectory</p>
+</dd>
+</dl>
+<dl class="py method">
+<dt id="json_importer.JsonImporter.build_sorter">
+<code class="sig-name descname">build_sorter</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">sample_frame</span><span class="p">:</span> <span class="n">pandas.core.frame.DataFrame</span></em><span class="sig-paren">)</span> &#x2192; List<a class="headerlink" href="#json_importer.JsonImporter.build_sorter" title="Permalink to this definition">¶</a></dt>
+<dd><p>Implements the abstract method build_sorter of the <code class="xref py py-class docutils literal notranslate"><span class="pre">AbstractImporter</span></code> for this dataset</p>
+</dd></dl>
+
+<dl class="py method">
+<dt id="json_importer.JsonImporter.clear_data_frame_list">
+<code class="sig-name descname">clear_data_frame_list</code><span class="sig-paren">(</span><span class="sig-paren">)</span> &#x2192; None<a class="headerlink" href="#json_importer.JsonImporter.clear_data_frame_list" title="Permalink to this definition">¶</a></dt>
+<dd><p>Removes all values present in the dataframes in the list <code class="docutils literal notranslate"><span class="pre">_df_samples_list</span></code>.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt id="json_importer.JsonImporter.dataset_id">
+<code class="sig-name descname">dataset_id</code><span class="sig-paren">(</span><span class="sig-paren">)</span> &#x2192; object<a class="headerlink" href="#json_importer.JsonImporter.dataset_id" title="Permalink to this definition">¶</a></dt>
+<dd><p>If the original dataset contains multiple dataset, this method returns a unique id to identify the current
+dataset</p>
+</dd></dl>
+
+<dl class="py method">
+<dt id="json_importer.JsonImporter.import_data">
+<code class="sig-name descname">import_data</code><span class="sig-paren">(</span><span class="sig-paren">)</span> &#x2192; None<a class="headerlink" href="#json_importer.JsonImporter.import_data" title="Permalink to this definition">¶</a></dt>
+<dd><p>Implements the abstract method of <code class="xref py py-class docutils literal notranslate"><span class="pre">AbstractImporter</span></code></p>
+</dd></dl>
+
+<dl class="py method">
+<dt id="json_importer.JsonImporter.import_sampled_cims">
+<code class="sig-name descname">import_sampled_cims</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">raw_data</span><span class="p">:</span> <span class="n">List</span></em>, <em class="sig-param"><span class="n">indx</span><span class="p">:</span> <span class="n">int</span></em>, <em class="sig-param"><span class="n">cims_key</span><span class="p">:</span> <span class="n">str</span></em><span class="sig-paren">)</span> &#x2192; Dict<a class="headerlink" href="#json_importer.JsonImporter.import_sampled_cims" title="Permalink to this definition">¶</a></dt>
+<dd><p>Imports the synthetic CIMS in the dataset in a dictionary, using variables labels
+as keys for the set of CIMS of a particular node.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>raw_data</strong> (<em>List</em>) – List of Dicts</p></li>
+<li><p><strong>indx</strong> (<em>int</em>) – The index of the array from which the data have to be extracted</p></li>
+<li><p><strong>cims_key</strong> (<em>string</em>) – the key where the json object cims are placed</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>a dictionary containing the sampled CIMS for all the variables in the net</p>
+</dd>
+<dt class="field-odd">Return type</dt>
+<dd class="field-odd"><p>Dictionary</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt id="json_importer.JsonImporter.import_structure">
+<code class="sig-name descname">import_structure</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">raw_data</span><span class="p">:</span> <span class="n">List</span></em><span class="sig-paren">)</span> &#x2192; pandas.core.frame.DataFrame<a class="headerlink" href="#json_importer.JsonImporter.import_structure" title="Permalink to this definition">¶</a></dt>
+<dd><p>Imports in a dataframe the data in the list raw_data at the key <code class="docutils literal notranslate"><span class="pre">_structure_label</span></code></p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>raw_data</strong> (<em>List</em>) – List of Dicts</p>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>Dataframe containg the starting node a ending node of every arc of the network</p>
+</dd>
+<dt class="field-odd">Return type</dt>
+<dd class="field-odd"><p>pandas.Dataframe</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt id="json_importer.JsonImporter.import_trajectories">
+<code class="sig-name descname">import_trajectories</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">raw_data</span><span class="p">:</span> <span class="n">List</span></em><span class="sig-paren">)</span> &#x2192; List<a class="headerlink" href="#json_importer.JsonImporter.import_trajectories" title="Permalink to this definition">¶</a></dt>
+<dd><p>Imports the trajectories from the list of dicts <code class="docutils literal notranslate"><span class="pre">raw_data</span></code>.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>raw_data</strong> (<em>List</em>) – List of Dicts</p>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>List of dataframes containing all the trajectories</p>
+</dd>
+<dt class="field-odd">Return type</dt>
+<dd class="field-odd"><p>List</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt id="json_importer.JsonImporter.import_variables">
+<code class="sig-name descname">import_variables</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">raw_data</span><span class="p">:</span> <span class="n">List</span></em><span class="sig-paren">)</span> &#x2192; pandas.core.frame.DataFrame<a class="headerlink" href="#json_importer.JsonImporter.import_variables" title="Permalink to this definition">¶</a></dt>
+<dd><p>Imports the data in <code class="docutils literal notranslate"><span class="pre">raw_data</span></code> at the key <code class="docutils literal notranslate"><span class="pre">_variables_label</span></code>.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>raw_data</strong> (<em>List</em>) – List of Dicts</p>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>Datframe containg the variables simbolic labels and their cardinalities</p>
+</dd>
+<dt class="field-odd">Return type</dt>
+<dd class="field-odd"><p>pandas.Dataframe</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt id="json_importer.JsonImporter.normalize_trajectories">
+<code class="sig-name descname">normalize_trajectories</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">raw_data</span><span class="p">:</span> <span class="n">List</span></em>, <em class="sig-param"><span class="n">indx</span><span class="p">:</span> <span class="n">int</span></em>, <em class="sig-param"><span class="n">trajectories_key</span><span class="p">:</span> <span class="n">str</span></em><span class="sig-paren">)</span> &#x2192; List<a class="headerlink" href="#json_importer.JsonImporter.normalize_trajectories" title="Permalink to this definition">¶</a></dt>
+<dd><p>Extracts the trajectories in <code class="docutils literal notranslate"><span class="pre">raw_data</span></code> at the index <code class="docutils literal notranslate"><span class="pre">index</span></code> at the key <code class="docutils literal notranslate"><span class="pre">trajectories</span> <span class="pre">key</span></code>.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>raw_data</strong> (<em>List</em>) – List of Dicts</p></li>
+<li><p><strong>indx</strong> (<em>int</em>) – The index of the array from which the data have to be extracted</p></li>
+<li><p><strong>trajectories_key</strong> (<em>string</em>) – the key of the trajectories objects</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>A list of daframes containg the trajectories</p>
+</dd>
+<dt class="field-odd">Return type</dt>
+<dd class="field-odd"><p>List</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt id="json_importer.JsonImporter.one_level_normalizing">
+<code class="sig-name descname">one_level_normalizing</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">raw_data</span><span class="p">:</span> <span class="n">List</span></em>, <em class="sig-param"><span class="n">indx</span><span class="p">:</span> <span class="n">int</span></em>, <em class="sig-param"><span class="n">key</span><span class="p">:</span> <span class="n">str</span></em><span class="sig-paren">)</span> &#x2192; pandas.core.frame.DataFrame<a class="headerlink" href="#json_importer.JsonImporter.one_level_normalizing" title="Permalink to this definition">¶</a></dt>
+<dd><p>Extracts the one-level nested data in the list <code class="docutils literal notranslate"><span class="pre">raw_data</span></code> at the index <code class="docutils literal notranslate"><span class="pre">indx</span></code> at the key <code class="docutils literal notranslate"><span class="pre">key</span></code>.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>raw_data</strong> (<em>List</em>) – List of Dicts</p></li>
+<li><p><strong>indx</strong> (<em>int</em>) – The index of the array from which the data have to be extracted</p></li>
+<li><p><strong>key</strong> (<em>string</em>) – the key for the Dicts from which exctract data</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>A normalized dataframe</p>
+</dd>
+<dt class="field-odd">Return type</dt>
+<dd class="field-odd"><p>pandas.Datframe</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt id="json_importer.JsonImporter.read_json_file">
+<code class="sig-name descname">read_json_file</code><span class="sig-paren">(</span><span class="sig-paren">)</span> &#x2192; List<a class="headerlink" href="#json_importer.JsonImporter.read_json_file" title="Permalink to this definition">¶</a></dt>
+<dd><p>Reads the JSON file in the path self.filePath</p>
+<dl class="field-list simple">
+<dt class="field-odd">Returns</dt>
+<dd class="field-odd"><p>The contents of the json file</p>
+</dd>
+<dt class="field-even">Return type</dt>
+<dd class="field-even"><p>List</p>
+</dd>
+</dl>
+</dd></dl>
+
+</dd></dl>
+
+</div>
+
+
+	    </div>
+            <footer>
+  
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>
+        &copy; Copyright 2020, Filippo Martini.
+    </p>
+  </div>
+
+  Built with <a href="http://sphinx-doc.org/">Sphinx</a> using a <a href="https://github.com/jucacrispim/sphinx_pdj_theme">theme</a> provided by <a href="http://poraodojuca.net">Porão do Juca</a>.
+
+</footer>
+	</div>
+	</div>
+	  
+
+    <script type="text/javascript">
+        var DOCUMENTATION_OPTIONS = {
+            URL_ROOT:'../',
+            VERSION:'',
+            COLLAPSE_INDEX:false,
+            FILE_SUFFIX:'.html',
+            HAS_SOURCE:  true
+        };
+    </script>
+    <script type="text/javascript" src="../_static/jquery.js">
+
+    </script>
+    <script type="text/javascript" src="../_static/underscore.js">
+
+    </script>
+    <script type="text/javascript" src="../_static/doctools.js">
+
+    </script>
+    <script type="text/javascript" src="../_static/language_data.js">
+
+    </script>
+
+  
+
+   <script type="text/javascript"
+           src="../_static/js/theme.js"></script>
+
+   <script type="text/javascript"
+           src="../_static/js/pdj.js"></script>
+
+  
+  
+  <script type="text/javascript">
+      jQuery(function () {
+          SphinxRtdTheme.StickyNav.enable();
+      });
+  </script>
+   
+
+  </body>
+</html>

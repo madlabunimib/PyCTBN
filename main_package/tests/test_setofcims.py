@@ -1,10 +1,9 @@
-import sys
-sys.path.append("../classes/")
+
 import unittest
 import numpy as np
 import itertools
 
-import set_of_cims as soci
+from ..PyCTBN.set_of_cims import SetOfCims
 
 
 class TestSetOfCims(unittest.TestCase):
@@ -50,7 +49,7 @@ class TestSetOfCims(unittest.TestCase):
 
     def test_filter_cims_with_mask(self):
         p_combs = self.build_p_comb_structure_for_a_node(self.possible_cardinalities)
-        sofc1 = soci.SetOfCims('X', self.possible_cardinalities, 3, p_combs)
+        sofc1 = SetOfCims('X', self.possible_cardinalities, 3, p_combs)
         state_res_times_list = []
         transition_matrices_list = []
         for i in range(len(p_combs)):
@@ -74,7 +73,7 @@ class TestSetOfCims(unittest.TestCase):
     def aux_test_build_cims(self, node_id, p_values, node_states, p_combs):
         state_res_times_list = []
         transition_matrices_list = []
-        so1 = soci.SetOfCims(node_id, p_values, node_states, p_combs)
+        so1 = SetOfCims(node_id, p_values, node_states, p_combs)
         for i in range(len(p_combs)):
             state_res_times = np.random.rand(1, node_states)[0]
             state_res_times = state_res_times * 1000
@@ -88,7 +87,7 @@ class TestSetOfCims(unittest.TestCase):
         self.assertIsNone(so1._state_residence_times)
 
     def aux_test_init(self, node_id, parents_states_number, node_states_number, p_combs):
-        sofcims = soci.SetOfCims(node_id, parents_states_number, node_states_number, p_combs)
+        sofcims = SetOfCims(node_id, parents_states_number, node_states_number, p_combs)
         self.assertEqual(sofcims._node_id, node_id)
         self.assertTrue(np.array_equal(sofcims._p_combs, p_combs))
         self.assertTrue(np.array_equal(sofcims._parents_states_number, parents_states_number))
@@ -98,17 +97,6 @@ class TestSetOfCims(unittest.TestCase):
         self.assertEqual(len(sofcims._state_residence_times[0]), node_states_number)
         self.assertEqual(sofcims._transition_matrices.shape[0], np.prod(np.array(parents_states_number)))
         self.assertEqual(len(sofcims._transition_matrices[0][0]), node_states_number)
-
-    def aux_test_indexes_converter(self, node_id, parents_states_number, node_states_number):
-        sofcims = soci.SetOfCims(node_id, parents_states_number, node_states_number)
-        if not parents_states_number:
-            self.assertEqual(sofcims.indexes_converter([]), 0)
-        else:
-            parents_possible_values = []
-            for cardi in parents_states_number:
-                parents_possible_values.extend(range(0, cardi))
-            for p in itertools.permutations(parents_possible_values, len(parents_states_number)):
-                self.assertEqual(sofcims.indexes_converter(list(p)), np.ravel_multi_index(list(p), parents_states_number))
 
     def build_p_comb_structure_for_a_node(self, parents_values):
         """
@@ -139,6 +127,7 @@ class TestSetOfCims(unittest.TestCase):
             if val == parent_value:
                 indxs.append(indx)
         return np.array(indxs)
+
 
 if __name__ == '__main__':
     unittest.main()

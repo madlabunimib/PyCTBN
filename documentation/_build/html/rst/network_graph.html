@@ -1,0 +1,420 @@
+
+
+
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.1//EN" "http://www.w3.org/TR/xhtml11/DTD/xhtml11.dtd">
+<html xml:lang="" lang="" version="-//W3C//DTD XHTML 1.1//EN" xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+  
+  <title>network_graph module &mdash; PyCTBN  documentation</title>
+  
+
+  
+
+  
+
+    <link href='https://fonts.googleapis.com/css?family=Lato:400,700,400italic,700italic|Roboto+Slab:400,700|Inconsolata:400,700' rel='stylesheet' type='text/css'/>
+    <link rel="stylesheet" href="../_static/css/pdj.css" type="text/css" />
+
+  
+
+  
+
+  
+        <link rel="index" title="Index"
+              href="../genindex.html"/>
+        <link rel="search" title="Search" href="../search.html"/>
+    <link rel="top" title="PyCTBN  documentation" href="../index.html"/>
+
+    <meta http-equiv="content-type" content="text/html; charset=utf-8" />
+    <meta http-equiv="cache-control" content="public" />
+    <meta name="robots" content="follow, all" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <!-- Add jQuery library -->
+    <script type="text/javascript" src="http://code.jquery.com/jquery-latest.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/modernizr/2.6.2/modernizr.min.js"></script>
+
+  </head>
+
+  <body class="wy-body-for-nav" role="document">
+
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-nav-search">
+        <a href="../index.html" class="fa fa-home"> PyCTBN </a>
+        <div role="search">
+	  <form id ="rtd-search-form" class="wy-form"
+		action="../search.html" method="get">
+	    <input type="text" name="q" placeholder="Search docs" />
+	    <input type="hidden" name="check_keywords" value="yes" />
+	    <input type="hidden" name="area" value="default" />
+	  </form>
+	</div>
+      </div>
+
+      <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
+	
+          
+          
+              <!-- Local TOC -->
+              <div class="local-toc"><ul>
+<li><a class="reference internal" href="#">network_graph module</a></li>
+</ul>
+</div>
+          
+        
+
+      </div>
+      &nbsp;
+    </nav>
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+
+      <nav class="wy-nav-top" id="barra-mobile" role="navigation" aria-label="top navigation">
+        <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+        <a href="#">Porão do Juca</a>
+      </nav>
+
+      <div class="wy-nav-content">
+	<div class="fundo-claro">
+	</div>
+	<div class="fundo-escuro">
+	</div>
+
+        <div class="rst-content">
+          <div role="navigation" aria-label="breadcrumbs navigation">
+	    
+	    <!-- <ul class="wy-breadcrumbs"> -->
+	    <!--   <li><a href="#">Docs</a> &raquo;</li> -->
+
+	    <!--   <li>Features</li> -->
+	    <!--   <li class="wy-breadcrumbs-aside"> -->
+
+	    <!-- 	<a href="_sources/index.txt" rel="nofollow"> View page source</a> -->
+
+	    <!--   </li> -->
+	    <!-- </ul> -->
+	    <!-- <hr/> -->
+	  </div>
+
+          <div role="main" class="">
+
+	    <div id="content" class="hfeed entry-container hentry">
+  <div class="section" id="module-network_graph">
+<span id="network-graph-module"></span><h1>network_graph module<a class="headerlink" href="#module-network_graph" title="Permalink to this headline">¶</a></h1>
+<dl class="py class">
+<dt id="network_graph.NetworkGraph">
+<em class="property">class </em><code class="sig-prename descclassname">network_graph.</code><code class="sig-name descname">NetworkGraph</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">graph_struct</span><span class="p">:</span> <span class="n"><a class="reference internal" href="structure.html#structure.Structure" title="structure.Structure">structure.Structure</a></span></em><span class="sig-paren">)</span><a class="headerlink" href="#network_graph.NetworkGraph" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></p>
+<p>Abstracts the infos contained in the Structure class in the form of a directed graph.
+Has the task of creating all the necessary filtering and indexing structures for parameters estimation</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>graph_struct</strong> (<a class="reference internal" href="structure.html#structure.Structure" title="structure.Structure"><em>Structure</em></a>) – the <code class="docutils literal notranslate"><span class="pre">Structure</span></code> object from which infos about the net will be extracted</p>
+</dd>
+<dt class="field-even">_graph</dt>
+<dd class="field-even"><p>directed graph</p>
+</dd>
+<dt class="field-odd">_aggregated_info_about_nodes_parents</dt>
+<dd class="field-odd"><p>a structure that contains all the necessary infos
+about every parents of the node of which all the indexing and filtering structures will be constructed.</p>
+</dd>
+<dt class="field-even">_time_scalar_indexing_structure</dt>
+<dd class="field-even"><p>the indexing structure for state res time estimation</p>
+</dd>
+<dt class="field-odd">_transition_scalar_indexing_structure</dt>
+<dd class="field-odd"><p>the indexing structure for transition computation</p>
+</dd>
+<dt class="field-even">_time_filtering</dt>
+<dd class="field-even"><p>the columns filtering structure used in the computation of the state res times</p>
+</dd>
+<dt class="field-odd">_transition_filtering</dt>
+<dd class="field-odd"><p>the columns filtering structure used in the computation of the transition
+from one state to another</p>
+</dd>
+<dt class="field-even">_p_combs_structure</dt>
+<dd class="field-even"><p>all the possible parents states combination for the node of interest</p>
+</dd>
+</dl>
+<dl class="py method">
+<dt id="network_graph.NetworkGraph.add_edges">
+<code class="sig-name descname">add_edges</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">list_of_edges</span><span class="p">:</span> <span class="n">List</span></em><span class="sig-paren">)</span> &#x2192; None<a class="headerlink" href="#network_graph.NetworkGraph.add_edges" title="Permalink to this definition">¶</a></dt>
+<dd><p>Add the edges to the <code class="docutils literal notranslate"><span class="pre">_graph</span></code> contained in the list <code class="docutils literal notranslate"><span class="pre">list_of_edges</span></code>.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>list_of_edges</strong> (<em>List</em>) – the list containing of tuples containing the edges</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt id="network_graph.NetworkGraph.add_nodes">
+<code class="sig-name descname">add_nodes</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">list_of_nodes</span><span class="p">:</span> <span class="n">List</span></em><span class="sig-paren">)</span> &#x2192; None<a class="headerlink" href="#network_graph.NetworkGraph.add_nodes" title="Permalink to this definition">¶</a></dt>
+<dd><p>Adds the nodes to the <code class="docutils literal notranslate"><span class="pre">_graph</span></code> contained in the list of nodes <code class="docutils literal notranslate"><span class="pre">list_of_nodes</span></code>.
+Sets all the properties that identify a nodes (index, positional index, cardinality)</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>list_of_nodes</strong> (<em>List</em>) – the nodes to add to <code class="docutils literal notranslate"><span class="pre">_graph</span></code></p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt id="network_graph.NetworkGraph.build_p_comb_structure_for_a_node">
+<code class="sig-name descname">build_p_comb_structure_for_a_node</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">parents_values</span><span class="p">:</span> <span class="n">List</span></em><span class="sig-paren">)</span> &#x2192; numpy.ndarray<a class="headerlink" href="#network_graph.NetworkGraph.build_p_comb_structure_for_a_node" title="Permalink to this definition">¶</a></dt>
+<dd><p>Builds the combinatorial structure that contains the combinations of all the values contained in
+<code class="docutils literal notranslate"><span class="pre">parents_values</span></code>.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>parents_values</strong> (<em>List</em>) – the cardinalities of the nodes</p>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>A numpy matrix containing a grid of the combinations</p>
+</dd>
+<dt class="field-odd">Return type</dt>
+<dd class="field-odd"><p>numpy.ndArray</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt id="network_graph.NetworkGraph.build_time_columns_filtering_for_a_node">
+<code class="sig-name descname">build_time_columns_filtering_for_a_node</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">node_indx</span><span class="p">:</span> <span class="n">int</span></em>, <em class="sig-param"><span class="n">p_indxs</span><span class="p">:</span> <span class="n">List</span></em><span class="sig-paren">)</span> &#x2192; numpy.ndarray<a class="headerlink" href="#network_graph.NetworkGraph.build_time_columns_filtering_for_a_node" title="Permalink to this definition">¶</a></dt>
+<dd><p>Builds the necessary structure to filter the desired columns indicated by <code class="docutils literal notranslate"><span class="pre">node_indx</span></code> and <code class="docutils literal notranslate"><span class="pre">p_indxs</span></code>
+in the dataset.
+This structute will be used in the computation of the state res times.
+:param node_indx: the index of the node
+:type node_indx: int
+:param p_indxs: the indexes of the node’s parents
+:type p_indxs: List
+:return: The filtering structure for times estimation
+:rtype: numpy.ndArray</p>
+</dd></dl>
+
+<dl class="py method">
+<dt id="network_graph.NetworkGraph.build_time_scalar_indexing_structure_for_a_node">
+<code class="sig-name descname">build_time_scalar_indexing_structure_for_a_node</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">node_id</span><span class="p">:</span> <span class="n">str</span></em>, <em class="sig-param"><span class="n">parents_vals</span><span class="p">:</span> <span class="n">List</span></em><span class="sig-paren">)</span> &#x2192; numpy.ndarray<a class="headerlink" href="#network_graph.NetworkGraph.build_time_scalar_indexing_structure_for_a_node" title="Permalink to this definition">¶</a></dt>
+<dd><p>Builds an indexing structure for the computation of state residence times values.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>node_id</strong> (<em>string</em>) – the node label</p></li>
+<li><p><strong>parents_vals</strong> (<em>List</em>) – the caridinalites of the node’s parents</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>The time indexing structure</p>
+</dd>
+<dt class="field-odd">Return type</dt>
+<dd class="field-odd"><p>numpy.ndArray</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt id="network_graph.NetworkGraph.build_transition_filtering_for_a_node">
+<code class="sig-name descname">build_transition_filtering_for_a_node</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">node_indx</span><span class="p">:</span> <span class="n">int</span></em>, <em class="sig-param"><span class="n">p_indxs</span><span class="p">:</span> <span class="n">List</span></em><span class="sig-paren">)</span> &#x2192; numpy.ndarray<a class="headerlink" href="#network_graph.NetworkGraph.build_transition_filtering_for_a_node" title="Permalink to this definition">¶</a></dt>
+<dd><p>Builds the necessary structure to filter the desired columns indicated by <code class="docutils literal notranslate"><span class="pre">node_indx</span></code> and <code class="docutils literal notranslate"><span class="pre">p_indxs</span></code>
+in the dataset.
+This structure will be used in the computation of the state transitions values.
+:param node_indx: the index of the node
+:type node_indx: int
+:param p_indxs: the indexes of the node’s parents
+:type p_indxs: List
+:return: The filtering structure for transitions estimation
+:rtype: numpy.ndArray</p>
+</dd></dl>
+
+<dl class="py method">
+<dt id="network_graph.NetworkGraph.build_transition_scalar_indexing_structure_for_a_node">
+<code class="sig-name descname">build_transition_scalar_indexing_structure_for_a_node</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">node_id</span><span class="p">:</span> <span class="n">str</span></em>, <em class="sig-param"><span class="n">parents_vals</span><span class="p">:</span> <span class="n">List</span></em><span class="sig-paren">)</span> &#x2192; numpy.ndarray<a class="headerlink" href="#network_graph.NetworkGraph.build_transition_scalar_indexing_structure_for_a_node" title="Permalink to this definition">¶</a></dt>
+<dd><p>Builds an indexing structure for the computation of state transitions values.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>node_id</strong> (<em>string</em>) – the node label</p></li>
+<li><p><strong>parents_vals</strong> (<em>List</em>) – the caridinalites of the node’s parents</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>The transition indexing structure</p>
+</dd>
+<dt class="field-odd">Return type</dt>
+<dd class="field-odd"><p>numpy.ndArray</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt id="network_graph.NetworkGraph.edges">
+<em class="property">property </em><code class="sig-name descname">edges</code><a class="headerlink" href="#network_graph.NetworkGraph.edges" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt id="network_graph.NetworkGraph.fast_init">
+<code class="sig-name descname">fast_init</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">node_id</span><span class="p">:</span> <span class="n">str</span></em><span class="sig-paren">)</span> &#x2192; None<a class="headerlink" href="#network_graph.NetworkGraph.fast_init" title="Permalink to this definition">¶</a></dt>
+<dd><p>Initializes all the necessary structures for parameters estimation of the node identified by the label
+node_id</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>node_id</strong> (<em>string</em>) – the label of the node</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt id="network_graph.NetworkGraph.get_node_indx">
+<code class="sig-name descname">get_node_indx</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">node_id</span></em><span class="sig-paren">)</span> &#x2192; int<a class="headerlink" href="#network_graph.NetworkGraph.get_node_indx" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt id="network_graph.NetworkGraph.get_ordered_by_indx_set_of_parents">
+<code class="sig-name descname">get_ordered_by_indx_set_of_parents</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">node</span><span class="p">:</span> <span class="n">str</span></em><span class="sig-paren">)</span> &#x2192; Tuple<a class="headerlink" href="#network_graph.NetworkGraph.get_ordered_by_indx_set_of_parents" title="Permalink to this definition">¶</a></dt>
+<dd><p>Builds the aggregated structure that holds all the infos relative to the parent set of the node, namely
+(parents_labels, parents_indexes, parents_cardinalities).</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>node</strong> (<em>string</em>) – the label of the node</p>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>a tuple containing all the parent set infos</p>
+</dd>
+<dt class="field-odd">Return type</dt>
+<dd class="field-odd"><p>Tuple</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt id="network_graph.NetworkGraph.get_parents_by_id">
+<code class="sig-name descname">get_parents_by_id</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">node_id</span></em><span class="sig-paren">)</span> &#x2192; List<a class="headerlink" href="#network_graph.NetworkGraph.get_parents_by_id" title="Permalink to this definition">¶</a></dt>
+<dd><p>Returns a list of labels of the parents of the node <code class="docutils literal notranslate"><span class="pre">node_id</span></code></p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>node_id</strong> (<em>string</em>) – the node label</p>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>a List of labels of the parents</p>
+</dd>
+<dt class="field-odd">Return type</dt>
+<dd class="field-odd"><p>List</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt id="network_graph.NetworkGraph.get_positional_node_indx">
+<code class="sig-name descname">get_positional_node_indx</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">node_id</span></em><span class="sig-paren">)</span> &#x2192; int<a class="headerlink" href="#network_graph.NetworkGraph.get_positional_node_indx" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt id="network_graph.NetworkGraph.get_states_number">
+<code class="sig-name descname">get_states_number</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">node_id</span></em><span class="sig-paren">)</span> &#x2192; int<a class="headerlink" href="#network_graph.NetworkGraph.get_states_number" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt id="network_graph.NetworkGraph.nodes">
+<em class="property">property </em><code class="sig-name descname">nodes</code><a class="headerlink" href="#network_graph.NetworkGraph.nodes" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt id="network_graph.NetworkGraph.nodes_indexes">
+<em class="property">property </em><code class="sig-name descname">nodes_indexes</code><a class="headerlink" href="#network_graph.NetworkGraph.nodes_indexes" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt id="network_graph.NetworkGraph.nodes_values">
+<em class="property">property </em><code class="sig-name descname">nodes_values</code><a class="headerlink" href="#network_graph.NetworkGraph.nodes_values" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt id="network_graph.NetworkGraph.p_combs">
+<em class="property">property </em><code class="sig-name descname">p_combs</code><a class="headerlink" href="#network_graph.NetworkGraph.p_combs" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt id="network_graph.NetworkGraph.time_filtering">
+<em class="property">property </em><code class="sig-name descname">time_filtering</code><a class="headerlink" href="#network_graph.NetworkGraph.time_filtering" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt id="network_graph.NetworkGraph.time_scalar_indexing_strucure">
+<em class="property">property </em><code class="sig-name descname">time_scalar_indexing_strucure</code><a class="headerlink" href="#network_graph.NetworkGraph.time_scalar_indexing_strucure" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt id="network_graph.NetworkGraph.transition_filtering">
+<em class="property">property </em><code class="sig-name descname">transition_filtering</code><a class="headerlink" href="#network_graph.NetworkGraph.transition_filtering" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt id="network_graph.NetworkGraph.transition_scalar_indexing_structure">
+<em class="property">property </em><code class="sig-name descname">transition_scalar_indexing_structure</code><a class="headerlink" href="#network_graph.NetworkGraph.transition_scalar_indexing_structure" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+</dd></dl>
+
+</div>
+
+
+	    </div>
+            <footer>
+  
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>
+        &copy; Copyright 2020, Filippo Martini.
+    </p>
+  </div>
+
+  Built with <a href="http://sphinx-doc.org/">Sphinx</a> using a <a href="https://github.com/jucacrispim/sphinx_pdj_theme">theme</a> provided by <a href="http://poraodojuca.net">Porão do Juca</a>.
+
+</footer>
+	</div>
+	</div>
+	  
+
+    <script type="text/javascript">
+        var DOCUMENTATION_OPTIONS = {
+            URL_ROOT:'../',
+            VERSION:'',
+            COLLAPSE_INDEX:false,
+            FILE_SUFFIX:'.html',
+            HAS_SOURCE:  true
+        };
+    </script>
+    <script type="text/javascript" src="../_static/jquery.js">
+
+    </script>
+    <script type="text/javascript" src="../_static/underscore.js">
+
+    </script>
+    <script type="text/javascript" src="../_static/doctools.js">
+
+    </script>
+    <script type="text/javascript" src="../_static/language_data.js">
+
+    </script>
+
+  
+
+   <script type="text/javascript"
+           src="../_static/js/theme.js"></script>
+
+   <script type="text/javascript"
+           src="../_static/js/pdj.js"></script>
+
+  
+  
+  <script type="text/javascript">
+      jQuery(function () {
+          SphinxRtdTheme.StickyNav.enable();
+      });
+  </script>
+   
+
+  </body>
+</html>

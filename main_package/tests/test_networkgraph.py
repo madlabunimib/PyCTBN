@@ -1,5 +1,4 @@
-import sys
-sys.path.append("../classes/")
+
 import unittest
 import glob
 import os
@@ -7,47 +6,43 @@ import networkx as nx
 import numpy as np
 import itertools
 
-import sample_path as sp
-import network_graph as ng
-import json_importer as ji
+from ..PyCTBN.sample_path import SamplePath
+from ..PyCTBN.network_graph import NetworkGraph
+from ..PyCTBN.json_importer import JsonImporter
 
 
 class TestNetworkGraph(unittest.TestCase):
     @classmethod
     def setUpClass(cls):
-        cls.read_files = glob.glob(os.path.join('../data', "*.json"))
-        cls.importer = ji.JsonImporter(cls.read_files[0], 'samples', 'dyn.str', 'variables', 'Time', 'Name', 0)
-        cls.s1 = sp.SamplePath(cls.importer)
+        cls.read_files = glob.glob(os.path.join('./data', "*.json"))
+        cls.importer = JsonImporter(cls.read_files[0], 'samples', 'dyn.str', 'variables', 'Time', 'Name', 0)
+        cls.s1 = SamplePath(cls.importer)
         cls.s1.build_trajectories()
         cls.s1.build_structure()
 
     def test_init(self):
-        g1 = ng.NetworkGraph(self.s1.structure)
+        g1 = NetworkGraph(self.s1.structure)
         self.assertEqual(self.s1.structure, g1._graph_struct)
         self.assertIsInstance(g1._graph, nx.DiGraph)
-        #self.assertTrue(np.array_equal(g1._nodes_indexes, self.s1.structure.nodes_indexes))
-        #self.assertListEqual(g1._nodes_labels, self.s1.structure.nodes_labels)
-        #self.assertTrue(np.array_equal(g1._nodes_values, self.s1.structure.nodes_values))
-        #self.assertIsNone(g1._fancy_indexing)
         self.assertIsNone(g1.time_scalar_indexing_strucure)
         self.assertIsNone(g1.transition_scalar_indexing_structure)
         self.assertIsNone(g1.transition_filtering)
         self.assertIsNone(g1.p_combs)
 
     def test_add_nodes(self):
-        g1 = ng.NetworkGraph(self.s1.structure)
+        g1 = NetworkGraph(self.s1.structure)
         g1.add_nodes(self.s1.structure.nodes_labels)
         for n1, n2 in zip(g1.nodes, self.s1.structure.nodes_labels):
             self.assertEqual(n1, n2)
 
     def test_add_edges(self):
-        g1 = ng.NetworkGraph(self.s1.structure)
+        g1 = NetworkGraph(self.s1.structure)
         g1.add_edges(self.s1.structure.edges)
         for e in self.s1.structure.edges:
             self.assertIn(tuple(e), g1.edges)
 
     def test_fast_init(self):
-        g1 = ng.NetworkGraph(self.s1.structure)
+        g1 = NetworkGraph(self.s1.structure)
         for node in self.s1.structure.nodes_labels:
             g1.fast_init(node)
             self.assertIsNotNone(g1._graph.nodes)
@@ -60,7 +55,7 @@ class TestNetworkGraph(unittest.TestCase):
             self.assertIsInstance(g1._aggregated_info_about_nodes_parents, tuple)
 
     def test_get_ordered_by_indx_set_of_parents(self):
-        g1 = ng.NetworkGraph(self.s1.structure)
+        g1 = NetworkGraph(self.s1.structure)
         g1.add_nodes(self.s1.structure.nodes_labels)
         g1.add_edges(self.s1.structure.edges)
         for node in self.s1.structure.nodes_labels:
@@ -73,7 +68,7 @@ class TestNetworkGraph(unittest.TestCase):
                 self.assertEqual(g1._graph_struct.get_states_number(par), par_val)
 
     def test_build_time_scalar_indexing_structure_for_a_node(self):
-        g1 = ng.NetworkGraph(self.s1.structure)
+        g1 = NetworkGraph(self.s1.structure)
         g1.add_nodes(self.s1.structure.nodes_labels)
         g1.add_edges(self.s1.structure.edges)
         for node in self.s1.structure.nodes_labels:
@@ -94,7 +89,7 @@ class TestNetworkGraph(unittest.TestCase):
         self.assertTrue(np.array_equal(time_scalar_indexing, t_vec))
 
     def test_build_transition_scalar_indexing_structure_for_a_node(self):
-        g1 = ng.NetworkGraph(self.s1.structure)
+        g1 = NetworkGraph(self.s1.structure)
         g1.add_nodes(self.s1.structure.nodes_labels)
         g1.add_edges(self.s1.structure.edges)
         for node in self.s1.structure.nodes_labels:
@@ -118,7 +113,7 @@ class TestNetworkGraph(unittest.TestCase):
         self.assertTrue(np.array_equal(transition_scalar_indexing, m_vec))
 
     def test_build_time_columns_filtering_structure_for_a_node(self):
-        g1 = ng.NetworkGraph(self.s1.structure)
+        g1 = NetworkGraph(self.s1.structure)
         g1.add_nodes(self.s1.structure.nodes_labels)
         g1.add_edges(self.s1.structure.edges)
         for node in self.s1.structure.nodes_labels:
@@ -133,7 +128,7 @@ class TestNetworkGraph(unittest.TestCase):
         self.assertTrue(np.array_equal(graph.build_time_columns_filtering_for_a_node(graph.get_node_indx(node_id),
                                                                                      p_indxs),np.array(single_filter)))
     def test_build_transition_columns_filtering_structure(self):
-        g1 = ng.NetworkGraph(self.s1.structure)
+        g1 = NetworkGraph(self.s1.structure)
         g1.add_nodes(self.s1.structure.nodes_labels)
         g1.add_edges(self.s1.structure.edges)
         for node in self.s1.structure.nodes_labels:
@@ -149,7 +144,7 @@ class TestNetworkGraph(unittest.TestCase):
 
                                                                                      p_indxs), np.array(single_filter)))
     def test_build_p_combs_structure(self):
-        g1 = ng.NetworkGraph(self.s1.structure)
+        g1 = NetworkGraph(self.s1.structure)
         g1.add_nodes(self.s1.structure.nodes_labels)
         g1.add_edges(self.s1.structure.edges)
         for node in self.s1.structure.nodes_labels:
@@ -167,25 +162,26 @@ class TestNetworkGraph(unittest.TestCase):
                 self.assertIn(np.array(comb), p_combs)
 
     def test_get_parents_by_id(self):
-        g1 = ng.NetworkGraph(self.s1.structure)
+        g1 = NetworkGraph(self.s1.structure)
         g1.add_nodes(self.s1.structure.nodes_labels)
         g1.add_edges(self.s1.structure.edges)
         for node in g1.nodes:
             self.assertListEqual(g1.get_parents_by_id(node), list(g1._graph.predecessors(node)))
 
     def test_get_states_number(self):
-        g1 = ng.NetworkGraph(self.s1.structure)
+        g1 = NetworkGraph(self.s1.structure)
         g1.add_nodes(self.s1.structure.nodes_labels)
         g1.add_edges(self.s1.structure.edges)
         for node, val in zip(g1.nodes, g1.nodes_values):
             self.assertEqual(val, g1.get_states_number(node))
 
     def test_get_node_indx(self):
-        g1 = ng.NetworkGraph(self.s1.structure)
+        g1 = NetworkGraph(self.s1.structure)
         g1.add_nodes(self.s1.structure.nodes_labels)
         g1.add_edges(self.s1.structure.edges)
         for node, indx in zip(g1.nodes, g1.nodes_indexes):
             self.assertEqual(indx, g1.get_node_indx(node))
+
 
 if __name__ == '__main__':
     unittest.main()

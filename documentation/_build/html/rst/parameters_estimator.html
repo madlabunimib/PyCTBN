@@ -1,0 +1,250 @@
+
+
+
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.1//EN" "http://www.w3.org/TR/xhtml11/DTD/xhtml11.dtd">
+<html xml:lang="" lang="" version="-//W3C//DTD XHTML 1.1//EN" xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+  
+  <title>parameters_estimator module &mdash; PyCTBN  documentation</title>
+  
+
+  
+
+  
+
+    <link href='https://fonts.googleapis.com/css?family=Lato:400,700,400italic,700italic|Roboto+Slab:400,700|Inconsolata:400,700' rel='stylesheet' type='text/css'/>
+    <link rel="stylesheet" href="../_static/css/pdj.css" type="text/css" />
+
+  
+
+  
+
+  
+        <link rel="index" title="Index"
+              href="../genindex.html"/>
+        <link rel="search" title="Search" href="../search.html"/>
+    <link rel="top" title="PyCTBN  documentation" href="../index.html"/>
+
+    <meta http-equiv="content-type" content="text/html; charset=utf-8" />
+    <meta http-equiv="cache-control" content="public" />
+    <meta name="robots" content="follow, all" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <!-- Add jQuery library -->
+    <script type="text/javascript" src="http://code.jquery.com/jquery-latest.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/modernizr/2.6.2/modernizr.min.js"></script>
+
+  </head>
+
+  <body class="wy-body-for-nav" role="document">
+
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-nav-search">
+        <a href="../index.html" class="fa fa-home"> PyCTBN </a>
+        <div role="search">
+	  <form id ="rtd-search-form" class="wy-form"
+		action="../search.html" method="get">
+	    <input type="text" name="q" placeholder="Search docs" />
+	    <input type="hidden" name="check_keywords" value="yes" />
+	    <input type="hidden" name="area" value="default" />
+	  </form>
+	</div>
+      </div>
+
+      <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
+	
+          
+          
+              <!-- Local TOC -->
+              <div class="local-toc"><ul>
+<li><a class="reference internal" href="#">parameters_estimator module</a></li>
+</ul>
+</div>
+          
+        
+
+      </div>
+      &nbsp;
+    </nav>
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+
+      <nav class="wy-nav-top" id="barra-mobile" role="navigation" aria-label="top navigation">
+        <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+        <a href="#">Porão do Juca</a>
+      </nav>
+
+      <div class="wy-nav-content">
+	<div class="fundo-claro">
+	</div>
+	<div class="fundo-escuro">
+	</div>
+
+        <div class="rst-content">
+          <div role="navigation" aria-label="breadcrumbs navigation">
+	    
+	    <!-- <ul class="wy-breadcrumbs"> -->
+	    <!--   <li><a href="#">Docs</a> &raquo;</li> -->
+
+	    <!--   <li>Features</li> -->
+	    <!--   <li class="wy-breadcrumbs-aside"> -->
+
+	    <!-- 	<a href="_sources/index.txt" rel="nofollow"> View page source</a> -->
+
+	    <!--   </li> -->
+	    <!-- </ul> -->
+	    <!-- <hr/> -->
+	  </div>
+
+          <div role="main" class="">
+
+	    <div id="content" class="hfeed entry-container hentry">
+  <div class="section" id="module-parameters_estimator">
+<span id="parameters-estimator-module"></span><h1>parameters_estimator module<a class="headerlink" href="#module-parameters_estimator" title="Permalink to this headline">¶</a></h1>
+<dl class="py class">
+<dt id="parameters_estimator.ParametersEstimator">
+<em class="property">class </em><code class="sig-prename descclassname">parameters_estimator.</code><code class="sig-name descname">ParametersEstimator</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">trajectories</span><span class="p">:</span> <span class="n"><a class="reference internal" href="trajectory.html#trajectory.Trajectory" title="trajectory.Trajectory">trajectory.Trajectory</a></span></em>, <em class="sig-param"><span class="n">net_graph</span><span class="p">:</span> <span class="n"><a class="reference internal" href="network_graph.html#network_graph.NetworkGraph" title="network_graph.NetworkGraph">network_graph.NetworkGraph</a></span></em><span class="sig-paren">)</span><a class="headerlink" href="#parameters_estimator.ParametersEstimator" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></p>
+<p>Has the task of computing the cims of particular node given the trajectories and the net structure
+in the graph <code class="docutils literal notranslate"><span class="pre">_net_graph</span></code>.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>trajectories</strong> (<a class="reference internal" href="trajectory.html#trajectory.Trajectory" title="trajectory.Trajectory"><em>Trajectory</em></a>) – the trajectories</p></li>
+<li><p><strong>net_graph</strong> (<a class="reference internal" href="network_graph.html#network_graph.NetworkGraph" title="network_graph.NetworkGraph"><em>NetworkGraph</em></a>) – the net structure</p></li>
+</ul>
+</dd>
+<dt class="field-even">_single_set_of_cims</dt>
+<dd class="field-even"><p>the set of cims object that will hold the cims of the node</p>
+</dd>
+</dl>
+<dl class="py method">
+<dt id="parameters_estimator.ParametersEstimator.compute_parameters_for_node">
+<code class="sig-name descname">compute_parameters_for_node</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">node_id</span><span class="p">:</span> <span class="n">str</span></em><span class="sig-paren">)</span> &#x2192; <a class="reference internal" href="set_of_cims.html#set_of_cims.SetOfCims" title="set_of_cims.SetOfCims">set_of_cims.SetOfCims</a><a class="headerlink" href="#parameters_estimator.ParametersEstimator.compute_parameters_for_node" title="Permalink to this definition">¶</a></dt>
+<dd><p>Compute the CIMS of the node identified by the label <code class="docutils literal notranslate"><span class="pre">node_id</span></code>.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>node_id</strong> (<em>string</em>) – the node label</p>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>A SetOfCims object filled with the computed CIMS</p>
+</dd>
+<dt class="field-odd">Return type</dt>
+<dd class="field-odd"><p><a class="reference internal" href="set_of_cims.html#set_of_cims.SetOfCims" title="set_of_cims.SetOfCims">SetOfCims</a></p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt id="parameters_estimator.ParametersEstimator.compute_state_res_time_for_node">
+<code class="sig-name descname">compute_state_res_time_for_node</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">node_indx</span><span class="p">:</span> <span class="n">int</span></em>, <em class="sig-param"><span class="n">times</span><span class="p">:</span> <span class="n">numpy.ndarray</span></em>, <em class="sig-param"><span class="n">trajectory</span><span class="p">:</span> <span class="n">numpy.ndarray</span></em>, <em class="sig-param"><span class="n">cols_filter</span><span class="p">:</span> <span class="n">numpy.ndarray</span></em>, <em class="sig-param"><span class="n">scalar_indexes_struct</span><span class="p">:</span> <span class="n">numpy.ndarray</span></em>, <em class="sig-param"><span class="n">T</span><span class="p">:</span> <span class="n">numpy.ndarray</span></em><span class="sig-paren">)</span> &#x2192; None<a class="headerlink" href="#parameters_estimator.ParametersEstimator.compute_state_res_time_for_node" title="Permalink to this definition">¶</a></dt>
+<dd><p>Compute the state residence times for a node and fill the matrix <code class="docutils literal notranslate"><span class="pre">T</span></code> with the results</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>node_indx</strong> (<em>int</em>) – the index of the node</p></li>
+<li><p><strong>times</strong> (<em>numpy.array</em>) – the times deltas vector</p></li>
+<li><p><strong>trajectory</strong> (<em>numpy.ndArray</em>) – the trajectory</p></li>
+<li><p><strong>cols_filter</strong> (<em>numpy.array</em>) – the columns filtering structure</p></li>
+<li><p><strong>scalar_indexes_struct</strong> (<em>numpy.array</em>) – the indexing structure</p></li>
+<li><p><strong>T</strong> (<em>numpy.ndArray</em>) – the state residence times vectors</p></li>
+</ul>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt id="parameters_estimator.ParametersEstimator.compute_state_transitions_for_a_node">
+<code class="sig-name descname">compute_state_transitions_for_a_node</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">node_indx</span><span class="p">:</span> <span class="n">int</span></em>, <em class="sig-param"><span class="n">trajectory</span><span class="p">:</span> <span class="n">numpy.ndarray</span></em>, <em class="sig-param"><span class="n">cols_filter</span><span class="p">:</span> <span class="n">numpy.ndarray</span></em>, <em class="sig-param"><span class="n">scalar_indexing</span><span class="p">:</span> <span class="n">numpy.ndarray</span></em>, <em class="sig-param"><span class="n">M</span><span class="p">:</span> <span class="n">numpy.ndarray</span></em><span class="sig-paren">)</span><a class="headerlink" href="#parameters_estimator.ParametersEstimator.compute_state_transitions_for_a_node" title="Permalink to this definition">¶</a></dt>
+<dd><p>Compute the state residence times for a node and fill the matrices <code class="docutils literal notranslate"><span class="pre">M</span></code> with the results.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>node_indx</strong> (<em>int</em>) – the index of the node</p></li>
+<li><p><strong>trajectory</strong> (<em>numpy.ndArray</em>) – the trajectory</p></li>
+<li><p><strong>cols_filter</strong> (<em>numpy.array</em>) – the columns filtering structure</p></li>
+<li><p><strong>scalar_indexing</strong> (<em>numpy.array</em>) – the indexing structure</p></li>
+<li><p><strong>M</strong> (<em>numpy.ndArray</em>) – the state transitions matrices</p></li>
+</ul>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt id="parameters_estimator.ParametersEstimator.fast_init">
+<code class="sig-name descname">fast_init</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">node_id</span><span class="p">:</span> <span class="n">str</span></em><span class="sig-paren">)</span> &#x2192; None<a class="headerlink" href="#parameters_estimator.ParametersEstimator.fast_init" title="Permalink to this definition">¶</a></dt>
+<dd><p>Initializes all the necessary structures for the parameters estimation for the node <code class="docutils literal notranslate"><span class="pre">node_id</span></code>.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>node_id</strong> (<em>string</em>) – the node label</p>
+</dd>
+</dl>
+</dd></dl>
+
+</dd></dl>
+
+</div>
+
+
+	    </div>
+            <footer>
+  
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>
+        &copy; Copyright 2020, Filippo Martini.
+    </p>
+  </div>
+
+  Built with <a href="http://sphinx-doc.org/">Sphinx</a> using a <a href="https://github.com/jucacrispim/sphinx_pdj_theme">theme</a> provided by <a href="http://poraodojuca.net">Porão do Juca</a>.
+
+</footer>
+	</div>
+	</div>
+	  
+
+    <script type="text/javascript">
+        var DOCUMENTATION_OPTIONS = {
+            URL_ROOT:'../',
+            VERSION:'',
+            COLLAPSE_INDEX:false,
+            FILE_SUFFIX:'.html',
+            HAS_SOURCE:  true
+        };
+    </script>
+    <script type="text/javascript" src="../_static/jquery.js">
+
+    </script>
+    <script type="text/javascript" src="../_static/underscore.js">
+
+    </script>
+    <script type="text/javascript" src="../_static/doctools.js">
+
+    </script>
+    <script type="text/javascript" src="../_static/language_data.js">
+
+    </script>
+
+  
+
+   <script type="text/javascript"
+           src="../_static/js/theme.js"></script>
+
+   <script type="text/javascript"
+           src="../_static/js/pdj.js"></script>
+
+  
+  
+  <script type="text/javascript">
+      jQuery(function () {
+          SphinxRtdTheme.StickyNav.enable();
+      });
+  </script>
+   
+
+  </body>
+</html>
