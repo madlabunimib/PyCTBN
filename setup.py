@@ -2,11 +2,11 @@ from setuptools import setup, find_packages
 
 setup(name='PyCTBN',
       version='1.0',
-      url='https://github.com/philipMartini/CTBN_Project',
+      url='https://github.com/philipMartini/PyCTBN',
       license='MIT',
-      author='Filippo Martini',
-      author_email='f.martini@campus.unimib.it',
-      description='A Continuous Time Bayesian Network Library',
+      author=['Alessandro Bregoli', 'Filippo Martini'],
+      author_email=['a.bregoli1@campus.unimib.it', 'f.martini@campus.unimib.it'],
+      description='A Continuous Time Bayesian Networks Library',
       packages=find_packages(exclude=['tests', 'data']),
       install_requires=[
           'numpy', 'pandas', 'networkx'],

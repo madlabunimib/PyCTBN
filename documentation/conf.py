@@ -12,7 +12,7 @@
 #
 import os
 import sys
-sys.path.insert(0, os.path.abspath('../main_package/PyCTBN'))
+sys.path.insert(0, os.path.abspath('../PyCTBN/PyCTBN'))
 print(sys.path)
 
 
