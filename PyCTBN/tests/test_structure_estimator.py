@@ -21,7 +21,8 @@ class TestStructureEstimator(unittest.TestCase):
     @classmethod
     def setUpClass(cls):
         cls.read_files = glob.glob(os.path.join('./data', "*.json"))
-        cls.importer = JsonImporter(cls.read_files[0], 'samples', 'dyn.str', 'variables', 'Time', 'Name', 0)
+        cls.importer = JsonImporter(cls.read_files[0], 'samples', 'dyn.str', 'variables', 'Time', 'Name')
+        cls.importer.import_data(0)
         cls.s1 = SamplePath(cls.importer)
         cls.s1.build_trajectories()
         cls.s1.build_structure()

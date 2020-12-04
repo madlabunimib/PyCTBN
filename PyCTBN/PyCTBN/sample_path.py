@@ -12,20 +12,25 @@ class SamplePath:
     cardinalites. Has the task of creating the objects ``Trajectory`` and ``Structure`` that will
     contain the mentioned data.
 
-    :param importer: the Importer objects that will import ad process data
+    :param importer: the Importer object which contains the imported and processed data
     :type importer: AbstractImporter
     :_trajectories: the ``Trajectory`` object that will contain all the concatenated trajectories
-    :_structure: the ``Structure`` Object that will contain all the structurral infos about the net
+    :_structure: the ``Structure`` Object that will contain all the structural infos about the net
     :_total_variables_count: the number of variables in the net
     """
     def __init__(self, importer: AbstractImporter):
         """Constructor Method
         """
         self._importer = importer
+        if (self._importer._df_variables is None or self._importer._df_structure is None
+                or self._importer._concatenated_samples is None):
+            raise RuntimeError('The importer object has to contain the all processed data!')
+        if(self._importer._df_variables.empty or self._importer._df_structure.empty
+                or self._importer._concatenated_samples.empty):
+            raise RuntimeError('The importer object has to contain the all processed data!')
         self._trajectories = None
         self._structure = None
         self._total_variables_count = None
-        self._importer.import_data()
 
     def build_trajectories(self) -> None:
         """Builds the Trajectory object that will contain all the trajectories.
@@ -60,7 +65,7 @@ class SamplePath:
         return self._structure
 
     @property
-    def total_variables_count(self):
+    def total_variables_count(self) -> int:
         return self._total_variables_count
 
 

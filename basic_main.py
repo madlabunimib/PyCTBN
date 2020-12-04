@@ -12,7 +12,8 @@ from PyCTBN.parameters_estimator import ParametersEstimator
 def main():
     read_files = glob.glob(os.path.join('./data', "*.json")) #Take all json files in this dir
     #import data
-    importer = JsonImporter(read_files[0], 'samples', 'dyn.str', 'variables', 'Time', 'Name', 1)
+    importer = JsonImporter(read_files[0], 'samples', 'dyn.str', 'variables', 'Time', 'Name')
+    importer.import_data(0)
     #Create a SamplePath Obj
     s1 = SamplePath(importer)
     #Build The trajectries and the structural infos

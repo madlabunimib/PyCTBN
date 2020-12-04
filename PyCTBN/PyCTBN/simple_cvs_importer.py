@@ -4,8 +4,6 @@ import os
 
 import typing
 
-#import abstract_importer as ai
-#import sample_path as sp
 from .abstract_importer import AbstractImporter
 from .sample_path import SamplePath
 

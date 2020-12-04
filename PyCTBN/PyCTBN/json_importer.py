@@ -8,8 +8,8 @@ from .abstract_importer import AbstractImporter
 
 
 class JsonImporter(AbstractImporter):
-    """Implements the abstracts methods of AbstractImporter and adds all the necessary methods to process and prepare the data in json ext.
-    with the following structure:
+    """Implements the abstracts methods of AbstractImporter and adds all the necessary methods to process and prepare
+    the data in json extension with the following structure:
     [0]
         |_ dyn.cims
         |_ dyn.str
@@ -27,14 +27,20 @@ class JsonImporter(AbstractImporter):
     :type time_key: string
     :param variables_key: the key used to identify the names of the variables in the net
     :type variables_key: string
-    :param array_indx: the index of the outer JsonArray to exctract the data from
-    :type array_indx: int
+    :_array_indx: the index of the outer JsonArray to extract the data from
+    :type _array_indx: int
     :_df_samples_list: a Dataframe list in which every dataframe contains a trajectory
+    :_raw_data: The raw contents of the json file to import
+    :type _raw_data: List
     """
 
     def __init__(self, file_path: str, samples_label: str, structure_label: str, variables_label: str, time_key: str,
-                 variables_key: str, array_indx: int):
+                 variables_key: str):
         """Constructor method
+
+        .. note::
+            This constructor calls also the method ``read_json_file()``, so after the construction of the object
+            the class member ``_raw_data`` will contain the raw imported json data.
         """
         self._samples_label = samples_label
         self._structure_label = structure_label
@@ -42,19 +48,23 @@ class JsonImporter(AbstractImporter):
         self._time_key = time_key
         self._variables_key = variables_key
         self._df_samples_list = None
-        self._array_indx = array_indx
+        self._array_indx = None
         super(JsonImporter, self).__init__(file_path)
+        self._raw_data = self.read_json_file()
 
-    def import_data(self) -> None:
-        """Implements the abstract method of :class:`AbstractImporter`
+    def import_data(self, indx: int) -> None:
+        """Implements the abstract method of :class:`AbstractImporter`.
+
+        :param indx: the index of the outer JsonArray to extract the data from
+        :type indx: int
         """
-        raw_data = self.read_json_file()
-        self._df_samples_list = self.import_trajectories(raw_data)
+        self._array_indx = indx
+        self._df_samples_list = self.import_trajectories(self._raw_data)
         self._sorter = self.build_sorter(self._df_samples_list[0])
         self.compute_row_delta_in_all_samples_frames(self._df_samples_list)
         self.clear_data_frame_list()
-        self._df_structure = self.import_structure(raw_data)
-        self._df_variables = self.import_variables(raw_data)
+        self._df_structure = self.import_structure(self._raw_data)
+        self._df_variables = self.import_variables(self._raw_data)
 
     def import_trajectories(self, raw_data: typing.List) -> typing.List:
         """Imports the trajectories from the list of dicts ``raw_data``.
@@ -87,7 +97,7 @@ class JsonImporter(AbstractImporter):
         return self.one_level_normalizing(raw_data, self._array_indx, self._variables_label)
 
     def read_json_file(self) -> typing.List:
-        """Reads the JSON file in the path self.filePath
+        """Reads the JSON file in the path self.filePath.
 
         :return: The contents of the json file
         :rtype: List

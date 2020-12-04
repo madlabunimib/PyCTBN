@@ -1,12 +1,10 @@
-import glob
+
 import json
-import os
 from itertools import combinations
 import typing
 
 import numpy as np
 import pandas as pd
-from line_profiler import LineProfiler
 from scipy.stats import chi2 as chi2_dist
 from scipy.stats import f as f_dist
 from tqdm import tqdm
@@ -36,7 +34,7 @@ class OriginalCTPCAlgorithm(AbstractImporter):
         pass
 
     def __init__(self, file_path: str, samples_label: str, structure_label: str, variables_label: str, time_key: str,
-                 variables_key: str, array_indx: int):
+                 variables_key: str, raw_data: typing.List):
         """
         Parameters:
             file_path: the path of the file that contains tha data to be imported
@@ -53,11 +51,12 @@ class OriginalCTPCAlgorithm(AbstractImporter):
         self.variables_key = variables_key
         self.df_samples_list = None
         self.trajectories = None
-        self._array_indx  = array_indx
+        self._array_indx  = None
         self.matrix = None
         super(OriginalCTPCAlgorithm, self).__init__(file_path)
+        self._raw_data = raw_data
 
-    def import_data(self):
+    def import_data(self, indx):
         """
         Imports and prepares all data present needed for subsequent processing.
         Parameters:
@@ -65,14 +64,16 @@ class OriginalCTPCAlgorithm(AbstractImporter):
         Returns:
             _void
         """
-        raw_data = self.read_json_file()
-        self.df_samples_list = self.import_trajectories(raw_data)
+        self._array_indx = indx
+        self.df_samples_list = self.import_trajectories(self._raw_data)
         self._sorter = self.build_sorter(self.df_samples_list[0])
         #self.compute_row_delta_in_all_samples_frames(self._df_samples_list)
         #self.clear_data_frame_list()
-        self._df_structure = self.import_structure(raw_data)
-        self._df_variables = self.import_variables(raw_data, self._sorter)
+        self._df_structure = self.import_structure(self._raw_data)
+        self._df_variables = self.import_variables(self._raw_data, self._sorter)
 
+    def datasets_numb(self):
+        return len(self._raw_data)
 
     def import_trajectories(self, raw_data: typing.List):
         """
@@ -107,15 +108,7 @@ class OriginalCTPCAlgorithm(AbstractImporter):
             :Datframe containg the variables simbolic labels and their cardinalities
         """
         return self.one_level_normalizing(raw_data, self._array_indx, self.variables_label)
-        #TODO Usando come Pre-requisito l'ordinamento del frame _df_variables uguale a quello presente in
-        #TODO self _sorter questo codice risulta inutile
-        """self._df_variables[self._variables_key] = self._df_variables[self._variables_key].astype("category")
-        self._df_variables[self._variables_key] = self._df_variables[self._variables_key].cat.set_categories(sorter)
-        self._df_variables = self._df_variables.sort_values([self._variables_key])
-        self._df_variables.reset_index(inplace=True)
-        self._df_variables.drop('index', axis=1, inplace=True)
-        #print("Var Frame", self._df_variables)
-        """
+
 
     def read_json_file(self) -> typing.List:
         """
@@ -160,9 +153,6 @@ class OriginalCTPCAlgorithm(AbstractImporter):
         smps = raw_data[indx][trajectories_key]
         df_samples_list = [dataframe(sample) for sample in smps]
         return df_samples_list
-        #columns_header = list(self._df_samples_list[0].columns.values)
-        #columns_header.remove(self._time_key)
-        #self._sorter = columns_header
 
     def build_sorter(self, sample_frame: pd.DataFrame) -> typing.List:
         """

@@ -17,8 +17,8 @@ class TestParametersEstimatior(unittest.TestCase):
     def setUpClass(cls) -> None:
         cls.read_files = glob.glob(os.path.join('./data', "*.json"))
         cls.array_indx = 0
-        cls.importer = JsonImporter(cls.read_files[0], 'samples', 'dyn.str', 'variables', 'Time', 'Name',
-                                       cls.array_indx)
+        cls.importer = JsonImporter(cls.read_files[0], 'samples', 'dyn.str', 'variables', 'Time', 'Name')
+        cls.importer.import_data(cls.array_indx)
         cls.s1 = SamplePath(cls.importer)
         cls.s1.build_trajectories()
         cls.s1.build_structure()
@@ -58,7 +58,7 @@ class TestParametersEstimatior(unittest.TestCase):
             self.assertTrue(np.all(np.isclose(r1, r2, 1e-01, 1e-01) == True))
 
     def aux_import_sampled_cims(self, cims_label):
-        i1 = JsonImporter(self.read_files[0], '', '', '', '', '', self.array_indx)
+        i1 = JsonImporter(self.read_files[0], '', '', '', '', '')
         raw_data = i1.read_json_file()
         return i1.import_sampled_cims(raw_data, self.array_indx, cims_label)
 
