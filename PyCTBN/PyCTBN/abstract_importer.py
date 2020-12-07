@@ -12,15 +12,17 @@ class AbstractImporter(ABC):
     :_concatenated_samples: Dataframe containing the concatenation of all the processed trajectories
     :_df_structure: Dataframe containing the structure of the network (edges)
     :_df_variables: Dataframe containing the nodes cardinalities
-    :_sorter: A list containing the columns header (excluding the time column) of the `_concatenated_samples`
+    :_sorter: A list containing the columns header (excluding the time column) of the ``_concatenated_samples``
 
     .. warning::
-            The class members ``_df_variables`` and ``_df_structure`` HAVE to be properly constructed
-            as Pandas Dataframes with the following structure:
-            Header of _df_structure = [From_Node | To_Node]
-            Header of _df_variables = [Variable_Label | Variable_Cardinality]
-        .. note::
-            See :class:``JsonImporter`` for an example implementation
+        The class members ``_df_variables`` and ``_df_structure`` HAVE to be properly constructed
+        as Pandas Dataframes with the following structure:
+        Header of _df_structure = [From_Node | To_Node]
+        Header of _df_variables = [Variable_Label | Variable_Cardinality]
+
+    .. note::
+        See :class:``JsonImporter`` for an example implementation
+
     """
 
     def __init__(self, file_path: str):
@@ -32,7 +34,7 @@ class AbstractImporter(ABC):
         self._concatenated_samples = None
         self._sorter = None
         super().__init__()
-    
+
     @abstractmethod
     def build_sorter(self, sample_frame: pd.DataFrame) -> typing.List:
         """Initializes the ``_sorter`` class member from a trajectory dataframe, exctracting the header of the frame

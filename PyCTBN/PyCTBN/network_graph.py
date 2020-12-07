@@ -3,7 +3,6 @@ import typing
 import networkx as nx
 import numpy as np
 
-#import structure as st
 from .structure import Structure
 
 

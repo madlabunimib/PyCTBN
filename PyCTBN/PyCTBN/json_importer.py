@@ -3,18 +3,13 @@ import json
 import typing
 import pandas as pd
 
-#import abstract_importer as ai
 from .abstract_importer import AbstractImporter
 
 
 class JsonImporter(AbstractImporter):
     """Implements the abstracts methods of AbstractImporter and adds all the necessary methods to process and prepare
-    the data in json extension with the following structure:
-    [0]
-        |_ dyn.cims
-        |_ dyn.str
-        |_ samples
-        |_ variabels
+    the data in json extension.
+
     :param file_path: the path of the file that contains tha data to be imported
     :type file_path: string
     :param samples_label: the reference key for the samples in the trajectories
@@ -41,6 +36,7 @@ class JsonImporter(AbstractImporter):
         .. note::
             This constructor calls also the method ``read_json_file()``, so after the construction of the object
             the class member ``_raw_data`` will contain the raw imported json data.
+
         """
         self._samples_label = samples_label
         self._structure_label = structure_label
@@ -139,7 +135,7 @@ class JsonImporter(AbstractImporter):
         return df_samples_list
 
     def build_sorter(self, sample_frame: pd.DataFrame) -> typing.List:
-        """Implements the abstract method build_sorter of the :class:`AbstractImporter` for this dataset
+        """Implements the abstract method build_sorter of the :class:`AbstractImporter` for this dataset.
         """
         columns_header = list(sample_frame.columns.values)
         columns_header.remove(self._time_key)

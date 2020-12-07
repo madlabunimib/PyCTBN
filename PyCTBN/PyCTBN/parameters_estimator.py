@@ -1,13 +1,9 @@
 
 import numpy as np
 
-#import network_graph as ng
-#import trajectory as tr
-#import set_of_cims as sofc
 from .trajectory import Trajectory
 from .set_of_cims import SetOfCims
 from .network_graph import NetworkGraph
-
 
 
 class ParametersEstimator:

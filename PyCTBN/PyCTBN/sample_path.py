@@ -1,7 +1,4 @@
 
-#import abstract_importer as imp
-#import structure as st
-#import trajectory as tr
 from .abstract_importer import AbstractImporter
 from .structure import Structure
 from .trajectory import Trajectory

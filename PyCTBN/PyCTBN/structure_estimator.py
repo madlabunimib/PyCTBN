@@ -1,5 +1,4 @@
 
-
 from tqdm import tqdm
 import itertools
 import json
@@ -10,12 +9,6 @@ from networkx.readwrite import json_graph
 from scipy.stats import chi2 as chi2_dist
 from scipy.stats import f as f_dist
 
-#import cache as ch
-#import conditional_intensity_matrix as condim
-#import network_graph as ng
-#import parameters_estimator as pe
-#import sample_path as sp
-#import structure as st
 from .cache import Cache
 from .conditional_intensity_matrix import ConditionalIntensityMatrix
 from .network_graph import NetworkGraph
@@ -144,7 +137,7 @@ class StructureEstimator:
         :type cim1: ConditionalIntensityMatrix
         :param cim2: a cim belonging to the graph with test parent
         :type cim2: ConditionalIntensityMatrix
-        :return:True iff both tests do NOT reject the null hypothesis of indipendence. False otherwise.
+        :return: True iff both tests do NOT reject the null hypothesis of independence. False otherwise.
         :rtype: bool
         """
         M1 = cim1.state_transition_matrix
@@ -180,7 +173,6 @@ class StructureEstimator:
         :param tot_vars_count: the number of _nodes in the net
         :type tot_vars_count: int
         """
-        #print("##################TESTING VAR################", var_id)
         u = list(self._complete_graph.predecessors(var_id))
         child_states_numb = self._sample_path.structure.get_states_number(var_id)
         b = 0
@@ -228,13 +220,20 @@ class StructureEstimator:
 
     def save_results(self) -> None:
         """Save the estimated Structure to a .json file in the path where the data are loaded from.
-        The file is named as the input dataset but the results_ word is appendend to the results file.
-
+        The file is named as the input dataset but the `results_` word is appended to the results file.
         """
         res = json_graph.node_link_data(self._complete_graph)
         name = self._sample_path._importer.file_path.rsplit('/', 1)[-1] + str(self._sample_path._importer.dataset_id())
         name = 'results_' + name
         with open(name, 'w') as f:
             json.dump(res, f)
+
+    def adjacency_matrix(self) -> np.ndarray:
+        """Converts the estimated structrure ``_complete_graph`` to a boolean adjacency matrix representation.
+
+        :return: The adjacency matrix of the graph ``_complete_graph``
+        :rtype: numpy.ndArray
+        """
+        return nx.adj_matrix(self._complete_graph).toarray().astype(bool)
 
 

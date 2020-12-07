@@ -9,8 +9,9 @@ setup(name='PyCTBN',
       description='A Continuous Time Bayesian Networks Library',
       packages=find_packages(exclude=['tests', 'data']),
       install_requires=[
-          'numpy', 'pandas', 'networkx'],
+          'numpy', 'pandas', 'networkx', 'scipy', 'tqdm'],
       dependency_links=['https://github.com/numpy/numpy', 'https://github.com/pandas-dev/pandas',
-                        'https://github.com/networkx/networkx'],
+                        'https://github.com/networkx/networkx', 'https://github.com/scipy/scipy',
+                        'https://github.com/tqdm/tqdm'],
       long_description=open('README.md').read(),
       zip_safe=False)

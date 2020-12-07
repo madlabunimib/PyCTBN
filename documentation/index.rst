@@ -1,5 +1,5 @@
 .. PyCTBN documentation master file, created by
-   sphinx-quickstart on Mon Nov 30 16:37:03 2020.
+   sphinx-quickstart on Mon Dec  7 15:11:12 2020.
    You can adapt this file completely to your liking, but it should at least
    contain the root `toctree` directive.
 
@@ -10,7 +10,8 @@ Welcome to PyCTBN's documentation!
    :maxdepth: 2
    :caption: Contents:
 
-
+   PyCTBN
+   examples
 
 Indices and tables
 ==================
