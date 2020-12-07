@@ -8,7 +8,7 @@ import timeit
 from ..PyCTBN.sample_path import SamplePath
 from ..PyCTBN.structure_estimator import StructureEstimator
 from ..PyCTBN.json_importer import JsonImporter
-from PyCTBN.tests.original_ctpc_algorithm import OriginalCTPCAlgorithm
+from .original_ctpc_algorithm import OriginalCTPCAlgorithm
 
 
 class PerformanceComparisons(unittest.TestCase):
