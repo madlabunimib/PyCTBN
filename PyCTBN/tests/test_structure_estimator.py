@@ -22,7 +22,7 @@ class TestStructureEstimator(unittest.TestCase):
     def setUpClass(cls):
         cls.read_files = glob.glob(os.path.join('./data', "*.json"))
         cls.importer = JsonImporter(cls.read_files[0], 'samples', 'dyn.str', 'variables', 'Time', 'Name')
-        cls.importer.import_data(0)
+        cls.importer.import_data(2)
         cls.s1 = SamplePath(cls.importer)
         cls.s1.build_trajectories()
         cls.s1.build_structure()
@@ -53,6 +53,14 @@ class TestStructureEstimator(unittest.TestCase):
             for n2 in no_self_loops:
                 self.assertIn((node, n2), cg.edges)
 
+    def test_build_result_graph(self):
+        exp_alfa = 0.1
+        chi_alfa = 0.1
+        nodes_numb = len(self.s1.structure.nodes_labels)
+        se1 = StructureEstimator(self.s1, exp_alfa, chi_alfa)
+        t1 = se1.build_result_graph(['X','Y','Z'], [[],['X', 'Z'],['X', 'Y']])
+        print(t1.edges)
+
     def test_generate_possible_sub_sets_of_size(self):
         exp_alfa = 0.1
         chi_alfa = 0.1
@@ -79,17 +87,17 @@ class TestStructureEstimator(unittest.TestCase):
         lp.print_stats()
         #print("Last time", lp.dump_stats())
         #print("Exec Time", timeit.timeit(se1.ctpc_algorithm, number=1))
-        print(se1._complete_graph.edges)
+        print(se1._result_graph.edges)
         print(self.s1.structure.edges)
         for ed in self.s1.structure.edges:
-            self.assertIn(tuple(ed), se1._complete_graph.edges)
+            self.assertIn(tuple(ed), se1._result_graph.edges)
         tuples_edges = [tuple(rec) for rec in self.s1.structure.edges]
         spurious_edges = []
-        for ed in se1._complete_graph.edges:
+        for ed in se1._result_graph.edges:
             if not(ed in tuples_edges):
                 spurious_edges.append(ed)
         print("Spurious Edges:",spurious_edges)
-        print("Adj Matrix:", nx.adj_matrix(se1._complete_graph).toarray().astype(bool))
+        print("Adj Matrix:", nx.adj_matrix(se1._result_graph).toarray().astype(bool))
         #se1.save_results()
 
     def test_memory(self):
