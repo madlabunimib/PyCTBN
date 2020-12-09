@@ -27,6 +27,15 @@ class Structure:
         self._edges_list = edges_list
         self._total_variables_number = total_variables_number
 
+    def remove_node(self, node_id: str):
+        node_positional_indx = self._nodes_labels_list.index(node_id)
+        del self._nodes_labels_list[node_positional_indx]
+        self._nodes_indexes_arr = np.delete(self._nodes_indexes_arr, node_positional_indx)
+        self._nodes_vals_arr = np.delete(self._nodes_vals_arr, node_positional_indx)
+        self._edges_list = [(from_node, to_node) for (from_node, to_node) in self._edges_list if (from_node != node_id
+                                                                                        and to_node != node_id)]
+        #self._total_variables_number -= 1
+
     @property
     def edges(self) -> ty.List:
         return self._edges_list

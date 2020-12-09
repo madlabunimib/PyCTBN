@@ -78,6 +78,20 @@ class NetworkGraph:
         """
         self._graph.add_edges_from(list_of_edges)
 
+    def remove_node(self, node_id: str):
+        self._graph.remove_node(node_id)
+        self._graph_struct.remove_node(node_id)
+        self.clear_indexing_filtering_structures()
+
+    def clear_indexing_filtering_structures(self):
+        self._aggregated_info_about_nodes_parents = None
+        self._time_scalar_indexing_structure = None
+        self._transition_scalar_indexing_structure = None
+        self._time_filtering = None
+        self._transition_filtering = None
+        self._p_combs_structure = None
+
+
     def get_ordered_by_indx_set_of_parents(self, node: str) -> typing.Tuple:
         """Builds the aggregated structure that holds all the infos relative to the parent set of the node, namely
         (parents_labels, parents_indexes, parents_cardinalities).
@@ -235,62 +249,3 @@ class NetworkGraph:
     def p_combs(self) -> np.ndarray:
         return self._p_combs_structure
 
-    """
-    ##############These Methods are actually unused but could become useful in the near future################
-
-    def init_graph(self):
-        self.add_nodes(self._nodes_labels)
-        self.add_edges(self._graph_struct.edges)
-        self._aggregated_info_about_nodes_parents = self.get_ord_set_of_par_of_all_nodes()
-        self._fancy_indexing = self.build_fancy_indexing_structure(0)
-        self.build_scalar_indexing_structures()
-        self.build_time_columns_filtering_structure()
-        self.build_transition_columns_filtering_structure()
-        self._p_combs_structure = self.build_p_combs_structure()
-
-    def build_time_columns_filtering_structure(self):
-        nodes_indxs = self._nodes_indexes
-        self._time_filtering = [np.append(np.array([node_indx], dtype=np.int), p_indxs).astype(np.int)
-            for node_indx, p_indxs in zip(nodes_indxs, self._fancy_indexing)]
-
-    def build_transition_columns_filtering_structure(self):
-        nodes_number = self._graph_struct.total_variables_number
-        nodes_indxs = self._nodes_indexes
-        self._transition_filtering = [np.array([node_indx + nodes_number, node_indx, *p_indxs], dtype=np.int)
-                                      for node_indx, p_indxs in zip(nodes_indxs,
-                                                                    self._fancy_indexing)]
-
-    def build_scalar_indexing_structures(self):
-        parents_values_for_all_nodes = self.get_ordered_by_indx_parents_values_for_all_nodes()
-        build_transition_scalar_indexing_structure_for_a_node = \
-            self.build_transition_scalar_indexing_structure_for_a_node
-        build_time_scalar_indexing_structure_for_a_node = self.build_time_scalar_indexing_structure_for_a_node
-        aggr = [(build_transition_scalar_indexing_structure_for_a_node(node_id, p_vals),
-                 build_time_scalar_indexing_structure_for_a_node(node_id, p_vals))
-                                                      for node_id, p_vals in
-                                                      zip(self._nodes_labels,
-                                                          parents_values_for_all_nodes)]
-        self._transition_scalar_indexing_structure = [i[0] for i in aggr]
-        self._time_scalar_indexing_structure = [i[1] for i in aggr]
-
-    def build_p_combs_structure(self):
-        parents_values_for_all_nodes = self.get_ordered_by_indx_parents_values_for_all_nodes()
-        p_combs_struct = [self.build_p_comb_structure_for_a_node(p_vals) for p_vals in parents_values_for_all_nodes]
-        return p_combs_struct
-
-    def get_ord_set_of_par_of_all_nodes(self):
-        get_ordered_by_indx_set_of_parents = self.get_ordered_by_indx_set_of_parents
-        result = [get_ordered_by_indx_set_of_parents(node) for node in self._nodes_labels]
-        return result
-
-    def get_ordered_by_indx_parents_values_for_all_nodes(self):
-        pars_values = [i[2] for i in self._aggregated_info_about_nodes_parents]
-        return pars_values
-
-    def build_fancy_indexing_structure(self, start_indx):
-        if start_indx > 0:
-            pass
-        else:
-            fancy_indx = [i[1] for i in self._aggregated_info_about_nodes_parents]
-            return fancy_indx
-    """

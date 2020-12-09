@@ -54,6 +54,8 @@ class TestNetworkGraph(unittest.TestCase):
             self.assertIsInstance(g1._transition_filtering, np.ndarray)
             self.assertIsInstance(g1._p_combs_structure, np.ndarray)
             self.assertIsInstance(g1._aggregated_info_about_nodes_parents, tuple)
+            g1.remove_node(node)
+            print(self.s1.structure.nodes_labels)
 
     def test_get_ordered_by_indx_set_of_parents(self):
         g1 = NetworkGraph(self.s1.structure)
