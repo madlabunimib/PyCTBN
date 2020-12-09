@@ -17,9 +17,10 @@ class ParametersEstimator:
     :_single_set_of_cims: the set of cims object that will hold the cims of the node
     """
 
-    def __init__(self, trajectories: Trajectory, net_graph: NetworkGraph):
+    def __init__(self, times, trajectories, net_graph: NetworkGraph):
         """Constructor Method
         """
+        self._times = times
         self._trajectories = trajectories
         self._net_graph = net_graph
         self._single_set_of_cims = None
@@ -45,13 +46,13 @@ class ParametersEstimator:
         node_indx = self._net_graph.get_node_indx(node_id)
         state_res_times = self._single_set_of_cims._state_residence_times
         transition_matrices = self._single_set_of_cims._transition_matrices
-        self.compute_state_res_time_for_node(node_indx, self._trajectories.times,
-                                             self._trajectories.trajectory,
+        self.compute_state_res_time_for_node(node_indx, self._times,
+                                             self._trajectories,
                                              self._net_graph.time_filtering,
                                              self._net_graph.time_scalar_indexing_strucure,
                                              state_res_times)
         self.compute_state_transitions_for_a_node(node_indx,
-                                                  self._trajectories.complete_trajectory,
+                                                  self._trajectories,
                                                   self._net_graph.transition_filtering,
                                                   self._net_graph.transition_scalar_indexing_structure,
                                                   transition_matrices)
