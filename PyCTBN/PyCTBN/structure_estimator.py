@@ -39,20 +39,22 @@ class StructureEstimator:
     def __init__(self, sample_path: SamplePath, exp_test_alfa: float, chi_test_alfa: float):
         """Constructor Method
         """
-        self._sample_path = sample_path
-        self._nodes = np.array(self._sample_path.structure.nodes_labels)
+        #self._sample_path = sample_path
+        self._nodes = np.array(sample_path.structure.nodes_labels)
+        self._tot_vars_number = sample_path.total_variables_count
         self._shm_times = multiprocessing.shared_memory.SharedMemory(create=True,
-                                                                     size=self._sample_path.trajectories.times.nbytes)
+                                                                     size=sample_path.trajectories.times.nbytes)
         self._shm_trajectories = multiprocessing.shared_memory.SharedMemory(create=True,
-                                                                            size=self._sample_path.trajectories.complete_trajectory.nbytes)
-        self._times = np.ndarray(self._sample_path.trajectories.times.shape, self._sample_path.trajectories.times.dtype, self._shm_times.buf)
-        self._times[:] = self._sample_path.trajectories.times[:]
+                                                                            size=sample_path.trajectories.complete_trajectory.nbytes)
+        self._times = np.ndarray(sample_path.trajectories.times.shape, sample_path.trajectories.times.dtype, self._shm_times.buf)
+        self._times[:] = sample_path.trajectories.times[:]
 
-        self._trajectories = np.ndarray(self._sample_path.trajectories.complete_trajectory.shape, self._sample_path.trajectories.complete_trajectory.dtype, self._shm_trajectories.buf)
-        self._trajectories[:] = self._sample_path.trajectories.complete_trajectory[:]
-        self._nodes_vals = self._sample_path.structure.nodes_values
-        self._nodes_indxs = self._sample_path.structure.nodes_indexes
-        self._complete_graph = self.build_complete_graph(self._sample_path.structure.nodes_labels)
+        self._trajectories = np.ndarray(sample_path.trajectories.complete_trajectory.shape,
+                                        sample_path.trajectories.complete_trajectory.dtype, self._shm_trajectories.buf)
+        self._trajectories[:] = sample_path.trajectories.complete_trajectory[:]
+        self._nodes_vals = sample_path.structure.nodes_values
+        self._nodes_indxs = sample_path.structure.nodes_indexes
+        self._complete_graph = self.build_complete_graph(sample_path.structure.nodes_labels)
         self._exp_test_sign = exp_test_alfa
         self._chi_test_alfa = chi_test_alfa
         self._caches = [Cache() for _ in range(len(self._nodes))]
@@ -200,7 +202,9 @@ class StructureEstimator:
         :type tot_vars_count: int
         """
         u = list(self._complete_graph.predecessors(var_id))
-        child_states_numb = self._sample_path.structure.get_states_number(var_id)
+        #child_states_numb = self._sample_path.structure.get_states_number(var_id)
+        child_states_numb = self._nodes_vals[np.where(self._nodes == var_id)][0]
+        print("Child States Numb", child_states_numb)
         b = 0
         while b < len(u):
             parent_indx = 0
@@ -243,8 +247,8 @@ class StructureEstimator:
         """Compute the CTPC algorithm over the entire net.
         """
         ctpc_algo = self.one_iteration_of_CTPC_algorithm
-        total_vars_numb = self._sample_path.total_variables_count
-        total_vars_numb_list = [total_vars_numb for _ in range(total_vars_numb)]
+        #total_vars_numb = self._sample_path.total_variables_count
+        total_vars_numb_list = [self._tot_vars_number] * len(self._nodes)
         cpu_count = multiprocessing.cpu_count()
         print("CPU COUNT", cpu_count)
         with multiprocessing.Pool(processes=cpu_count) as pool:
