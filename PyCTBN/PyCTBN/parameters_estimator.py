@@ -17,11 +17,11 @@ class ParametersEstimator:
     :_single_set_of_cims: the set of cims object that will hold the cims of the node
     """
 
-    def __init__(self, times, trajectories, net_graph: NetworkGraph):
+    def __init__(self, net_graph: NetworkGraph):
         """Constructor Method
         """
-        self._times = times
-        self._trajectories = trajectories
+        #self._times = times
+        #self._trajectories = trajectories
         self._net_graph = net_graph
         self._single_set_of_cims = None
 
@@ -35,7 +35,7 @@ class ParametersEstimator:
         node_states_number = self._net_graph.get_states_number(node_id)
         self._single_set_of_cims = SetOfCims(node_id, p_vals, node_states_number, self._net_graph.p_combs)
 
-    def compute_parameters_for_node(self, node_id: str) -> SetOfCims:
+    def compute_parameters_for_node(self, node_id: str, times, trajectories) -> SetOfCims:
         """Compute the CIMS of the node identified by the label ``node_id``.
 
         :param node_id: the node label
@@ -46,20 +46,21 @@ class ParametersEstimator:
         node_indx = self._net_graph.get_node_indx(node_id)
         state_res_times = self._single_set_of_cims._state_residence_times
         transition_matrices = self._single_set_of_cims._transition_matrices
-        self.compute_state_res_time_for_node(node_indx, self._times,
-                                             self._trajectories,
+        self.compute_state_res_time_for_node(node_indx, times,
+                                             trajectories,
                                              self._net_graph.time_filtering,
                                              self._net_graph.time_scalar_indexing_strucure,
                                              state_res_times)
         self.compute_state_transitions_for_a_node(node_indx,
-                                                  self._trajectories,
+                                                  trajectories,
                                                   self._net_graph.transition_filtering,
                                                   self._net_graph.transition_scalar_indexing_structure,
                                                   transition_matrices)
         self._single_set_of_cims.build_cims(state_res_times, transition_matrices)
         return self._single_set_of_cims
 
-    def compute_state_res_time_for_node(self, node_indx: int, times: np.ndarray, trajectory: np.ndarray,
+    @staticmethod
+    def compute_state_res_time_for_node(node_indx: int, times: np.ndarray, trajectory: np.ndarray,
                                         cols_filter: np.ndarray, scalar_indexes_struct: np.ndarray,
                                         T: np.ndarray) -> None:
         """Compute the state residence times for a node and fill the matrix ``T`` with the results
@@ -82,7 +83,8 @@ class ParametersEstimator:
                            times,
                            minlength=scalar_indexes_struct[-1]).reshape(-1, T.shape[1])
 
-    def compute_state_transitions_for_a_node(self, node_indx: int, trajectory: np.ndarray, cols_filter: np.ndarray,
+    @staticmethod
+    def compute_state_transitions_for_a_node(node_indx: int, trajectory: np.ndarray, cols_filter: np.ndarray,
                                              scalar_indexing: np.ndarray, M: np.ndarray):
         """Compute the state residence times for a node and fill the matrices ``M`` with the results.
 

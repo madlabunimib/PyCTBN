@@ -124,9 +124,9 @@ class StructureEstimator:
             s1 = Structure(l1, indxs1, vals1, eds1, tot_vars_count)
             g1 = NetworkGraph(s1)
             g1.fast_init(test_child)
-            p1 = ParametersEstimator(self._times, self._trajectories, g1)
+            p1 = ParametersEstimator(g1)
             p1.fast_init(test_child)
-            sofc1 = p1.compute_parameters_for_node(test_child)
+            sofc1 = p1.compute_parameters_for_node(test_child, self._times, self._trajectories)
             cache.put(set(p_set), sofc1)
         sofc2 = None
         p_set.insert(0, test_parent)
@@ -142,9 +142,9 @@ class StructureEstimator:
             s2 = Structure(l2, indxs2, vals2, eds2, tot_vars_count)
             g2 = NetworkGraph(s2)
             g2.fast_init(test_child)
-            p2 = ParametersEstimator(self._times, self._trajectories, g2)
+            p2 = ParametersEstimator(g2)
             p2.fast_init(test_child)
-            sofc2 = p2.compute_parameters_for_node(test_child)
+            sofc2 = p2.compute_parameters_for_node(test_child, self._times, self._trajectories)
             cache.put(set(p_set), sofc2)
         for cim1, p_comb in zip(sofc1.actual_cims, sofc1.p_combs):
             cond_cims = sofc2.filter_cims_with_mask(cims_filter, p_comb)
@@ -204,7 +204,7 @@ class StructureEstimator:
         u = list(self._complete_graph.predecessors(var_id))
         #child_states_numb = self._sample_path.structure.get_states_number(var_id)
         child_states_numb = self._nodes_vals[np.where(self._nodes == var_id)][0]
-        print("Child States Numb", child_states_numb)
+        #print("Child States Numb", child_states_numb)
         b = 0
         while b < len(u):
             parent_indx = 0
@@ -221,7 +221,7 @@ class StructureEstimator:
                 if not removed:
                     parent_indx += 1
             b += 1
-        print("Parent set for node ", var_id, " : ", u)
+        #print("Parent set for node ", var_id, " : ", u)
         cache.clear()
         return u
 
@@ -251,7 +251,7 @@ class StructureEstimator:
         total_vars_numb_list = [self._tot_vars_number] * len(self._nodes)
         cpu_count = multiprocessing.cpu_count()
         print("CPU COUNT", cpu_count)
-        with multiprocessing.Pool(processes=cpu_count) as pool:
+        with multiprocessing.Pool(processes=1) as pool:
             parent_sets = pool.starmap(ctpc_algo, zip(self._nodes, self._caches, total_vars_numb_list))
         #parent_sets = [ctpc_algo(n, c, total_vars_numb) for n, c in tqdm(zip(self._nodes, self._caches))]
         print(parent_sets)
