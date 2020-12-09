@@ -13,7 +13,7 @@ class Structure:
     :type nodes_vals_arr: numpy.ndArray
     :param edges_list: the edges of the network
     :type edges_list: List
-    :param total_variables_number: the total number of variables in the net
+    :param total_variables_number: the total number of variables in the dataset
     :type total_variables_number: int
     """
 
@@ -26,6 +26,17 @@ class Structure:
         self._nodes_vals_arr = nodes_vals_arr
         self._edges_list = edges_list
         self._total_variables_number = total_variables_number
+
+    def remove_node(self, node_id: str) -> None:
+        """Remove the node ``node_id`` from all the class members.
+        The class member ``_total_variables_number`` since it refers to the total number of variables in the dataset.
+        """
+        node_positional_indx = self._nodes_labels_list.index(node_id)
+        del self._nodes_labels_list[node_positional_indx]
+        self._nodes_indexes_arr = np.delete(self._nodes_indexes_arr, node_positional_indx)
+        self._nodes_vals_arr = np.delete(self._nodes_vals_arr, node_positional_indx)
+        self._edges_list = [(from_node, to_node) for (from_node, to_node) in self._edges_list if (from_node != node_id
+                                                                                        and to_node != node_id)]
 
     @property
     def edges(self) -> ty.List:

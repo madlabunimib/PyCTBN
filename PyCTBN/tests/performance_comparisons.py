@@ -59,11 +59,16 @@ class PerformanceComparisons(unittest.TestCase):
         self.original_algo.prepare_trajectories(self.original_algo.df_samples_list, self.original_algo.variables)
 
     def save_datas(self, original_list, opt_list):
+        if not os.path.exists('results'):
+            os.makedirs('results')
         df_results = pd.DataFrame({'orginal_execution_time': original_list, 'optimized_execution_time': opt_list})
         name = self.importer.file_path.rsplit('/', 1)[-1]
         name = name.split('.', 1)[0]
         name = 'execution_times_' + name + '.csv'
-        df_results.to_csv(name, index=False)
+        path = os.path.abspath('./results/')
+        print(path)
+        file_dest = path + '/' + name
+        df_results.to_csv(file_dest, index=False)
 
 
 if __name__ == '__main__':

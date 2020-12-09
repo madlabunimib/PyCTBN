@@ -85,25 +85,10 @@ class StructureEstimator:
         parents = np.append(parents, test_parent)
         sorted_parents = self._nodes[np.isin(self._nodes, parents)]
         cims_filter = sorted_parents != test_parent
-        sofc1 = self._cache.find(set(p_set))
 
-        if not sofc1:
-            bool_mask1 = np.isin(self._nodes, complete_info)
-            l1 = list(self._nodes[bool_mask1])
-            indxs1 = self._nodes_indxs[bool_mask1]
-            vals1 = self._nodes_vals[bool_mask1]
-            eds1 = list(itertools.product(parent_set,test_child))
-            s1 = Structure(l1, indxs1, vals1, eds1, tot_vars_count)
-            g1 = NetworkGraph(s1)
-            g1.fast_init(test_child)
-            p1 = ParametersEstimator(self._sample_path.trajectories, g1)
-            p1.fast_init(test_child)
-            sofc1 = p1.compute_parameters_for_node(test_child)
-            self._cache.put(set(p_set), sofc1)
-        sofc2 = None
         p_set.insert(0, test_parent)
-        if p_set:
-            sofc2 = self._cache.find(set(p_set))
+        sofc2 = self._cache.find(set(p_set))
+
         if not sofc2:
             complete_info.append(test_parent)
             bool_mask2 = np.isin(self._nodes, complete_info)
@@ -118,6 +103,17 @@ class StructureEstimator:
             p2.fast_init(test_child)
             sofc2 = p2.compute_parameters_for_node(test_child)
             self._cache.put(set(p_set), sofc2)
+
+        del p_set[0]
+        sofc1 = self._cache.find(set(p_set))
+        if not sofc1:
+            g2.remove_node(test_parent)
+            g2.fast_init(test_child)
+            p2 = ParametersEstimator(self._sample_path.trajectories, g2)
+            p2.fast_init(test_child)
+            sofc1 = p2.compute_parameters_for_node(test_child)
+            self._cache.put(set(p_set), sofc1)
+
         for cim1, p_comb in zip(sofc1.actual_cims, sofc1.p_combs):
             cond_cims = sofc2.filter_cims_with_mask(cims_filter, p_comb)
             for cim2 in cond_cims:

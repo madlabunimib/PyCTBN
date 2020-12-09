@@ -45,20 +45,20 @@ class ParametersEstimator:
         node_indx = self._net_graph.get_node_indx(node_id)
         state_res_times = self._single_set_of_cims._state_residence_times
         transition_matrices = self._single_set_of_cims._transition_matrices
-        self.compute_state_res_time_for_node(node_indx, self._trajectories.times,
+        ParametersEstimator.compute_state_res_time_for_node(node_indx, self._trajectories.times,
                                              self._trajectories.trajectory,
                                              self._net_graph.time_filtering,
                                              self._net_graph.time_scalar_indexing_strucure,
                                              state_res_times)
-        self.compute_state_transitions_for_a_node(node_indx,
-                                                  self._trajectories.complete_trajectory,
-                                                  self._net_graph.transition_filtering,
-                                                  self._net_graph.transition_scalar_indexing_structure,
-                                                  transition_matrices)
+        ParametersEstimator.compute_state_transitions_for_a_node(node_indx, self._trajectories.complete_trajectory,
+                                                                 self._net_graph.transition_filtering,
+                                                                 self._net_graph.transition_scalar_indexing_structure,
+                                                                 transition_matrices)
         self._single_set_of_cims.build_cims(state_res_times, transition_matrices)
         return self._single_set_of_cims
 
-    def compute_state_res_time_for_node(self, node_indx: int, times: np.ndarray, trajectory: np.ndarray,
+    @staticmethod
+    def compute_state_res_time_for_node(node_indx: int, times: np.ndarray, trajectory: np.ndarray,
                                         cols_filter: np.ndarray, scalar_indexes_struct: np.ndarray,
                                         T: np.ndarray) -> None:
         """Compute the state residence times for a node and fill the matrix ``T`` with the results
@@ -81,8 +81,9 @@ class ParametersEstimator:
                            times,
                            minlength=scalar_indexes_struct[-1]).reshape(-1, T.shape[1])
 
-    def compute_state_transitions_for_a_node(self, node_indx: int, trajectory: np.ndarray, cols_filter: np.ndarray,
-                                             scalar_indexing: np.ndarray, M: np.ndarray):
+    @staticmethod
+    def compute_state_transitions_for_a_node(node_indx: int, trajectory: np.ndarray, cols_filter: np.ndarray,
+                                             scalar_indexing: np.ndarray, M: np.ndarray) -> None:
         """Compute the state residence times for a node and fill the matrices ``M`` with the results.
 
         :param node_indx: the index of the node
@@ -105,30 +106,6 @@ class ParametersEstimator:
         M_raveled[diag_indices] = 0
         M_raveled[diag_indices] = np.sum(M, axis=2).ravel()
 
-    """
-    ##############These Methods are actually unused but could become useful in the near future################
-
-    def init_sets_cims_container(self):
-        self.sets_of_cims_struct = acims.SetsOfCimsContainer(self._net_graph.nodes,
-                                                             self._net_graph.nodes_values,
-                                                             self._net_graph.
-                                                             get_ordered_by_indx_parents_values_for_all_nodes(),
-                                                             self._net_graph.p_combs)
-
-    def compute_parameters(self):
-        for indx, aggr in enumerate(zip(self._net_graph.nodes, self.sets_of_cims_struct.sets_of_cims)):
-            self.compute_state_res_time_for_node(self._net_graph.get_node_indx(aggr[0]), self.sample_path.trajectories.times,
-                                                 self.sample_path.trajectories.trajectory,
-                                                 self._net_graph.time_filtering[indx],
-                                                 self._net_graph.time_scalar_indexing_strucure[indx],
-                                                 aggr[1]._state_residence_times)
-            self.compute_state_transitions_for_a_node(self._net_graph.get_node_indx(aggr[0]),
-                                                      self.sample_path.trajectories.complete_trajectory,
-                                                      self._net_graph.transition_filtering[indx],
-                                                      self._net_graph.transition_scalar_indexing_structure[indx],
-                                                      aggr[1]._transition_matrices)
-            aggr[1].build_cims(aggr[1]._state_residence_times, aggr[1]._transition_matrices)
-    """
 
 
 
