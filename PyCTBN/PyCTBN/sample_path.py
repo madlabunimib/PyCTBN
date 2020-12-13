@@ -4,7 +4,7 @@ from .structure import Structure
 from .trajectory import Trajectory
 
 
-class SamplePath:
+class SamplePath(object):
     """Aggregates all the informations about the trajectories, the real structure of the sampled net and variables
     cardinalites. Has the task of creating the objects ``Trajectory`` and ``Structure`` that will
     contain the mentioned data.

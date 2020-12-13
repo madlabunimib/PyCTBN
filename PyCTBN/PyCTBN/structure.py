@@ -2,7 +2,7 @@ import typing as ty
 import numpy as np
 
 
-class Structure:
+class Structure(object):
     """Contains all the infos about the network structure(nodes labels, nodes caridinalites, edges, indexes)
 
     :param nodes_labels_list: the symbolic names of the variables
@@ -105,5 +105,5 @@ class Structure:
                    np.array_equal(self._nodes_indexes_arr, other._nodes_indexes_arr) and \
                    self._edges_list == other._edges_list
 
-        return NotImplemented
+        return False
 

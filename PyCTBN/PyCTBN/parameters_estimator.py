@@ -6,7 +6,7 @@ from .set_of_cims import SetOfCims
 from .network_graph import NetworkGraph
 
 
-class ParametersEstimator:
+class ParametersEstimator(object):
     """Has the task of computing the cims of particular node given the trajectories and the net structure
     in the graph ``_net_graph``.
 
@@ -45,7 +45,7 @@ class ParametersEstimator:
         node_indx = self._net_graph.get_node_indx(node_id)
         state_res_times = self._single_set_of_cims._state_residence_times
         transition_matrices = self._single_set_of_cims._transition_matrices
-        ParametersEstimator.compute_state_res_time_for_node(node_indx, self._trajectories.times,
+        ParametersEstimator.compute_state_res_time_for_node(self._trajectories.times,
                                              self._trajectories.trajectory,
                                              self._net_graph.time_filtering,
                                              self._net_graph.time_scalar_indexing_strucure,
@@ -58,7 +58,7 @@ class ParametersEstimator:
         return self._single_set_of_cims
 
     @staticmethod
-    def compute_state_res_time_for_node(node_indx: int, times: np.ndarray, trajectory: np.ndarray,
+    def compute_state_res_time_for_node(times: np.ndarray, trajectory: np.ndarray,
                                         cols_filter: np.ndarray, scalar_indexes_struct: np.ndarray,
                                         T: np.ndarray) -> None:
         """Compute the state residence times for a node and fill the matrix ``T`` with the results
@@ -100,8 +100,8 @@ class ParametersEstimator:
         diag_indices = np.array([x * M.shape[1] + x % M.shape[1] for x in range(M.shape[0] * M.shape[1])],
                                 dtype=np.int64)
         trj_tmp = trajectory[trajectory[:, int(trajectory.shape[1] / 2) + node_indx].astype(np.int) >= 0]
-        M[:] = np.bincount(np.sum(trj_tmp[:, cols_filter] * scalar_indexing / scalar_indexing[0], axis=1).astype(np.int),
-                           minlength=scalar_indexing[-1]).reshape(-1, M.shape[1], M.shape[2])
+        M[:] = np.bincount(np.sum(trj_tmp[:, cols_filter] * scalar_indexing / scalar_indexing[0], axis=1).astype(np.int)
+                           , minlength=scalar_indexing[-1]).reshape(-1, M.shape[1], M.shape[2])
         M_raveled = M.ravel()
         M_raveled[diag_indices] = 0
         M_raveled[diag_indices] = np.sum(M, axis=2).ravel()

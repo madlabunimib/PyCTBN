@@ -6,7 +6,7 @@ import numpy as np
 from .structure import Structure
 
 
-class NetworkGraph:
+class NetworkGraph(object):
     """Abstracts the infos contained in the Structure class in the form of a directed graph.
     Has the task of creating all the necessary filtering and indexing structures for parameters estimation
 
@@ -47,14 +47,16 @@ class NetworkGraph:
         self._aggregated_info_about_nodes_parents = self.get_ordered_by_indx_set_of_parents(node_id)
         p_indxs = self._aggregated_info_about_nodes_parents[1]
         p_vals = self._aggregated_info_about_nodes_parents[2]
-        self._time_scalar_indexing_structure = self.build_time_scalar_indexing_structure_for_a_node(node_id,
-                                                                                                    p_vals)
-        self._transition_scalar_indexing_structure = self.build_transition_scalar_indexing_structure_for_a_node(node_id,
-                                                                                                                p_vals)
+        node_states = self.get_states_number(node_id)
         node_indx = self.get_node_indx(node_id)
-        self._time_filtering = self.build_time_columns_filtering_for_a_node(node_indx, p_indxs)
-        self._transition_filtering = self.build_transition_filtering_for_a_node(node_indx, p_indxs)
-        self._p_combs_structure = self.build_p_comb_structure_for_a_node(p_vals)
+        cols_number = self._graph_struct.total_variables_number
+        self._time_scalar_indexing_structure = NetworkGraph.\
+            build_time_scalar_indexing_structure_for_a_node(node_states, p_vals)
+        self._transition_scalar_indexing_structure = NetworkGraph.\
+            build_transition_scalar_indexing_structure_for_a_node(node_states, p_vals)
+        self._time_filtering = NetworkGraph.build_time_columns_filtering_for_a_node(node_indx, p_indxs)
+        self._transition_filtering = NetworkGraph.build_transition_filtering_for_a_node(node_indx, p_indxs, cols_number)
+        self._p_combs_structure = NetworkGraph.build_p_comb_structure_for_a_node(p_vals)
 
     def add_nodes(self, list_of_nodes: typing.List) -> None:
         """Adds the nodes to the ``_graph`` contained in the list of nodes ``list_of_nodes``.
@@ -112,42 +114,45 @@ class NetworkGraph:
         get_node_indx = self.get_node_indx
         p_indxes = [get_node_indx(node) for node in sorted_parents]
         p_values = [self.get_states_number(node) for node in sorted_parents]
-        return (sorted_parents, p_indxes, p_values)
+        return sorted_parents, p_indxes, p_values
 
-    def build_time_scalar_indexing_structure_for_a_node(self, node_id: str, parents_vals: typing.List) -> np.ndarray:
+    @staticmethod
+    def build_time_scalar_indexing_structure_for_a_node(node_states: int,
+                                                        parents_vals: typing.List) -> np.ndarray:
         """Builds an indexing structure for the computation of state residence times values.
 
-        :param node_id: the node label
-        :type node_id: string
+        :param node_states: the node cardinality
+        :type node_states: int
         :param parents_vals: the caridinalites of the node's parents
         :type parents_vals: List
         :return: The time indexing structure
         :rtype: numpy.ndArray
         """
-        T_vector = np.array([self.get_states_number(node_id)])
+        T_vector = np.array([node_states])
         T_vector = np.append(T_vector, parents_vals)
         T_vector = T_vector.cumprod().astype(np.int)
         return T_vector
 
-    def build_transition_scalar_indexing_structure_for_a_node(self, node_id: str, parents_vals: typing.List) \
+    @staticmethod
+    def build_transition_scalar_indexing_structure_for_a_node(node_states_number: int, parents_vals: typing.List) \
             -> np.ndarray:
         """Builds an indexing structure for the computation of state transitions values.
 
-        :param node_id: the node label
-        :type node_id: string
+        :param node_states_number: the node cardinality
+        :type node_states_number: int
         :param parents_vals: the caridinalites of the node's parents
         :type parents_vals: List
         :return: The transition indexing structure
         :rtype: numpy.ndArray
         """
-        node_states_number = self.get_states_number(node_id)
         M_vector = np.array([node_states_number,
                              node_states_number])
         M_vector = np.append(M_vector, parents_vals)
         M_vector = M_vector.cumprod().astype(np.int)
         return M_vector
 
-    def build_time_columns_filtering_for_a_node(self, node_indx: int, p_indxs: typing.List) -> np.ndarray:
+    @staticmethod
+    def build_time_columns_filtering_for_a_node(node_indx: int, p_indxs: typing.List) -> np.ndarray:
         """
         Builds the necessary structure to filter the desired columns indicated by ``node_indx`` and ``p_indxs``
         in the dataset.
@@ -161,7 +166,9 @@ class NetworkGraph:
         """
         return np.append(np.array([node_indx], dtype=np.int), p_indxs).astype(np.int)
 
-    def build_transition_filtering_for_a_node(self, node_indx: int, p_indxs: typing.List) -> np.ndarray:
+    @staticmethod
+    def build_transition_filtering_for_a_node(node_indx: int, p_indxs: typing.List, nodes_number: int) \
+            -> np.ndarray:
         """Builds the necessary structure to filter the desired columns indicated by ``node_indx`` and ``p_indxs``
         in the dataset.
         This structure will be used in the computation of the state transitions values.
@@ -169,13 +176,15 @@ class NetworkGraph:
         :type node_indx: int
         :param p_indxs: the indexes of the node's parents
         :type p_indxs: List
+        :param nodes_number: the total number of nodes in the dataset
+        :type nodes_number: int
         :return: The filtering structure for transitions estimation
         :rtype: numpy.ndArray
         """
-        nodes_number = self._graph_struct.total_variables_number
         return np.array([node_indx + nodes_number, node_indx, *p_indxs], dtype=np.int)
 
-    def build_p_comb_structure_for_a_node(self, parents_values: typing.List) -> np.ndarray:
+    @staticmethod
+    def build_p_comb_structure_for_a_node(parents_values: typing.List) -> np.ndarray:
         """
         Builds the combinatorial structure that contains the combinations of all the values contained in
         ``parents_values``.

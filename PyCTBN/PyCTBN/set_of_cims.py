@@ -4,7 +4,7 @@ import numpy as np
 from .conditional_intensity_matrix import ConditionalIntensityMatrix
 
 
-class SetOfCims:
+class SetOfCims(object):
     """Aggregates all the CIMS of the node identified by the label _node_id.
 
     :param node_id: the node label

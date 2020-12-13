@@ -78,7 +78,8 @@ class TestNetworkGraph(unittest.TestCase):
                                                                      aggr_info[0], aggr_info[2])
 
     def aux_build_time_scalar_indexing_structure_for_a_node(self, graph, node_id, parents_indxs, parents_labels, parents_vals):
-        time_scalar_indexing = graph.build_time_scalar_indexing_structure_for_a_node(node_id, parents_vals)
+        node_states = graph.get_states_number(node_id)
+        time_scalar_indexing = NetworkGraph.build_time_scalar_indexing_structure_for_a_node(node_states, parents_vals)
         self.assertEqual(len(time_scalar_indexing), len(parents_indxs) + 1)
         merged_list = parents_labels[:]
         merged_list.insert(0, node_id)
@@ -100,7 +101,8 @@ class TestNetworkGraph(unittest.TestCase):
 
     def aux_build_transition_scalar_indexing_structure_for_a_node(self, graph, node_id, parents_indxs, parents_labels,
                                                                   parents_values):
-        transition_scalar_indexing = graph.build_transition_scalar_indexing_structure_for_a_node(node_id,
+        node_states = graph.get_states_number(node_id)
+        transition_scalar_indexing = graph.build_transition_scalar_indexing_structure_for_a_node(node_states,
                                                                                                  parents_values)
         self.assertEqual(len(transition_scalar_indexing), len(parents_indxs) + 2)
         merged_list = parents_labels[:]

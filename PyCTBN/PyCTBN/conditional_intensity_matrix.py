@@ -1,7 +1,7 @@
 import numpy as np
 
 
-class ConditionalIntensityMatrix:
+class ConditionalIntensityMatrix(object):
     """Abstracts the Conditional Intesity matrix of a node as aggregation of the state residence times vector
     and state transition matrix and the actual CIM matrix.
 

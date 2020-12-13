@@ -55,7 +55,7 @@ class TestParametersEstimatior(unittest.TestCase):
 
     def cim_equality_test(self, cim1, cim2):
         for r1, r2 in zip(cim1, cim2):
-            self.assertTrue(np.all(np.isclose(r1, r2, 1e-01, 1e-01) == True))
+            self.assertTrue(np.all(np.isclose(r1, r2, 1e-01, 1e-01) is True))
 
     def aux_import_sampled_cims(self, cims_label):
         i1 = JsonImporter(self.read_files[0], '', '', '', '', '')

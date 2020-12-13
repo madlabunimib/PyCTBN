@@ -3,11 +3,9 @@ import glob
 import math
 import os
 import unittest
-
+import json
 import networkx as nx
 import numpy as np
-import psutil
-from line_profiler import LineProfiler
 import timeit
 
 from ..PyCTBN.cache import Cache
@@ -61,8 +59,8 @@ class TestStructureEstimator(unittest.TestCase):
 
         for node in self.s1.structure.nodes_labels:
             for b in range(nodes_numb):
-                sets = se1.generate_possible_sub_sets_of_size(self.s1.structure.nodes_labels, b, node)
-                sets2 = se1.generate_possible_sub_sets_of_size(self.s1.structure.nodes_labels, b, node)
+                sets = StructureEstimator.generate_possible_sub_sets_of_size(self.s1.structure.nodes_labels, b, node)
+                sets2 = StructureEstimator.generate_possible_sub_sets_of_size(self.s1.structure.nodes_labels, b, node)
                 self.assertEqual(len(list(sets)), math.floor(math.factorial(nodes_numb - 1) /
                                                              (math.factorial(b)*math.factorial(nodes_numb -1 - b))))
                 for sset in sets2:
@@ -70,17 +68,8 @@ class TestStructureEstimator(unittest.TestCase):
 
     def test_time(self):
         se1 = StructureEstimator(self.s1, 0.1, 0.1)
-        lp = LineProfiler()
-        #lp.add_function(se1.complete_test)
-        #lp.add_function(se1.one_iteration_of_CTPC_algorithm)
-        #lp.add_function(se1.independence_test)
-        lp_wrapper = lp(se1.ctpc_algorithm)
-        lp_wrapper()
-        lp.print_stats()
-        #print("Last time", lp.dump_stats())
-        #print("Exec Time", timeit.timeit(se1.ctpc_algorithm, number=1))
-        print(se1._complete_graph.edges)
-        print(self.s1.structure.edges)
+        exec_time = timeit.timeit(se1.ctpc_algorithm, number=1)
+        print("Execution Time: ", exec_time)
         for ed in self.s1.structure.edges:
             self.assertIn(tuple(ed), se1._complete_graph.edges)
         tuples_edges = [tuple(rec) for rec in self.s1.structure.edges]
@@ -89,15 +78,27 @@ class TestStructureEstimator(unittest.TestCase):
             if not(ed in tuples_edges):
                 spurious_edges.append(ed)
         print("Spurious Edges:",spurious_edges)
-        print("Adj Matrix:", nx.adj_matrix(se1._complete_graph).toarray().astype(bool))
-        #se1.save_results()
 
-    def test_memory(self):
+    def test_save_results(self):
         se1 = StructureEstimator(self.s1, 0.1, 0.1)
         se1.ctpc_algorithm()
-        current_process = psutil.Process(os.getpid())
-        mem = current_process.memory_info().rss
-        print("Average Memory Usage in MB:", mem / 10**6)
+        se1.save_results()
+        name = self.s1._importer.file_path.rsplit('/', 1)[-1]
+        name = name.split('.', 1)[0]
+        name += '_' + str(self.s1._importer.dataset_id())
+        name += '.json'
+        file_name = 'results_' + name
+        with open(file_name) as f:
+            js_graph = json.load(f)
+            result_graph = nx.json_graph.node_link_graph(js_graph)
+            self.assertFalse(nx.difference(se1._complete_graph, result_graph).edges)
+            os.remove(file_name)
+
+    def test_adjacency_matrix(self):
+        se1 = StructureEstimator(self.s1, 0.1, 0.1)
+        se1.ctpc_algorithm()
+        adj_matrix = nx.adj_matrix(se1._complete_graph).toarray().astype(bool)
+        self.assertTrue(np.array_equal(adj_matrix, se1.adjacency_matrix()))
 
 
 if __name__ == '__main__':

@@ -3,9 +3,9 @@ import numpy as np
 import typing
 
 
-class Trajectory:
-    """ Abstracts the infos about a complete set of trajectories, represented as a numpy array of doubles (the time deltas)
-    and a numpy matrix of ints (the changes of states).
+class Trajectory(object):
+    """ Abstracts the infos about a complete set of trajectories, represented as a numpy array of doubles
+    (the time deltas) and a numpy matrix of ints (the changes of states).
 
     :param list_of_columns: the list containing the times array and values matrix
     :type list_of_columns: List

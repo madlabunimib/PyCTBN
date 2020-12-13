@@ -2,6 +2,7 @@
 import unittest
 import glob
 import os
+import random
 
 from ..PyCTBN.json_importer import JsonImporter
 from ..PyCTBN.sample_path import SamplePath
@@ -17,6 +18,12 @@ class TestSamplePath(unittest.TestCase):
 
     def test_init_not_initialized_importer(self):
         importer = JsonImporter(self.read_files[0], 'samples', 'dyn.str', 'variables', 'Time', 'Name')
+        self.assertRaises(RuntimeError, SamplePath, importer)
+
+    def test_init_not_filled_dataframse(self):
+        importer = JsonImporter(self.read_files[0], 'samples', 'dyn.str', 'variables', 'Time', 'Name')
+        importer.import_data(0)
+        importer.clear_concatenated_frame()
         self.assertRaises(RuntimeError, SamplePath, importer)
 
     def test_init(self):
@@ -42,6 +49,13 @@ class TestSamplePath(unittest.TestCase):
         s1.build_structure()
         self.assertIsInstance(s1.structure, Structure)
         self.assertEqual(s1._total_variables_count, len(s1._importer.sorter))
+
+    def test_build_structure_bad_sorter(self):
+        importer = JsonImporter(self.read_files[0], 'samples', 'dyn.str', 'variables', 'Time', 'Name')
+        importer.import_data(0)
+        s1 = SamplePath(importer)
+        random.shuffle(importer._sorter)
+        self.assertRaises(RuntimeError, s1.build_structure)
 
 
 if __name__ == '__main__':

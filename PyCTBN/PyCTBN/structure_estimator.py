@@ -17,7 +17,7 @@ from .sample_path import SamplePath
 from .structure import Structure
 
 
-class StructureEstimator:
+class StructureEstimator(object):
     """Has the task of estimating the network structure given the trajectories in ``samplepath``.
 
     :param sample_path: the _sample_path object containing the trajectories and the real structure
@@ -40,12 +40,13 @@ class StructureEstimator:
         self._nodes = np.array(self._sample_path.structure.nodes_labels)
         self._nodes_vals = self._sample_path.structure.nodes_values
         self._nodes_indxs = self._sample_path.structure.nodes_indexes
-        self._complete_graph = self.build_complete_graph(self._sample_path.structure.nodes_labels)
+        self._complete_graph = StructureEstimator.build_complete_graph(self._sample_path.structure.nodes_labels)
         self._exp_test_sign = exp_test_alfa
         self._chi_test_alfa = chi_test_alfa
         self._cache = Cache()
 
-    def build_complete_graph(self, node_ids: typing.List) -> nx.DiGraph:
+    @staticmethod
+    def build_complete_graph(node_ids: typing.List) -> nx.DiGraph:
         """Builds a complete directed graph (no self loops) given the nodes labels in the list ``node_ids``:
 
         :param node_ids: the list of nodes labels
@@ -176,7 +177,7 @@ class StructureEstimator:
             parent_indx = 0
             while parent_indx < len(u):
                 removed = False
-                S = self.generate_possible_sub_sets_of_size(u, b, u[parent_indx])
+                S = StructureEstimator.generate_possible_sub_sets_of_size(u, b, u[parent_indx])
                 test_parent = u[parent_indx]
                 for parents_set in S:
                     if self.complete_test(test_parent, var_id, parents_set, child_states_numb, tot_vars_count):
@@ -189,7 +190,8 @@ class StructureEstimator:
             b += 1
         self._cache.clear()
 
-    def generate_possible_sub_sets_of_size(self, u: typing.List, size: int, parent_label: str) -> \
+    @staticmethod
+    def generate_possible_sub_sets_of_size(u: typing.List, size: int, parent_label: str) -> \
             typing.Iterator:
         """Creates a list containing all possible subsets of the list ``u`` of size ``size``,
         that do not contains a the node identified by ``parent_label``.
@@ -219,9 +221,12 @@ class StructureEstimator:
         The file is named as the input dataset but the `results_` word is appended to the results file.
         """
         res = json_graph.node_link_data(self._complete_graph)
-        name = self._sample_path._importer.file_path.rsplit('/', 1)[-1] + str(self._sample_path._importer.dataset_id())
-        name = 'results_' + name
-        with open(name, 'w') as f:
+        name = self._sample_path._importer.file_path.rsplit('/', 1)[-1]
+        name = name.split('.', 1)[0]
+        name += '_' + str(self._sample_path._importer.dataset_id())
+        name += '.json'
+        file_name = 'results_' + name
+        with open(file_name, 'w') as f:
             json.dump(res, f)
 
     def adjacency_matrix(self) -> np.ndarray:

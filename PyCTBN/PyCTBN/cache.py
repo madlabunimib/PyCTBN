@@ -4,7 +4,7 @@ import typing
 from .set_of_cims import SetOfCims
 
 
-class Cache:
+class Cache(object):
     """This class acts as a cache of ``SetOfCims`` objects for a node.
 
     :_list_of_sets_of_parents: a list of ``Sets`` objects of the parents to which the cim in cache at SAME

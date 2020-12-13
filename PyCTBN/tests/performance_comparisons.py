@@ -4,6 +4,7 @@ import glob
 import numpy as np
 import pandas as pd
 import timeit
+import psutil
 
 from ..PyCTBN.sample_path import SamplePath
 from ..PyCTBN.structure_estimator import StructureEstimator
@@ -23,6 +24,7 @@ class PerformanceComparisons(unittest.TestCase):
         cls.original_times = []
         cls.optimized_times = []
         cls.results = []
+        cls.memory_usages = []
 
     def test_time_comparisons(self):
         for file_path in self.read_files:
@@ -48,6 +50,17 @@ class PerformanceComparisons(unittest.TestCase):
             self.original_times[:] = []
             self.optimized_times[:] = []
 
+    def test_memory_usage(self):
+        for file_path in self.read_files:
+            self.importer = JsonImporter(file_path, 'samples', 'dyn.str', 'variables', 'Time', 'Name')
+            self.aux_build_importer(0)
+            se1 = StructureEstimator(self.s1, 0.1, 0.1)
+            se1.ctpc_algorithm()
+            current_process = psutil.Process(os.getpid())
+            mem = current_process.memory_info().rss
+            self.memory_usages.append((mem / 10 ** 6))
+        self.save_memory_usage_data(self.memory_usages)
+
     def aux_build_importer(self, indx):
         self.importer.import_data(indx)
         self.s1 = SamplePath(self.importer)
@@ -66,7 +79,17 @@ class PerformanceComparisons(unittest.TestCase):
         name = name.split('.', 1)[0]
         name = 'execution_times_' + name + '.csv'
         path = os.path.abspath('./results/')
-        print(path)
+        file_dest = path + '/' + name
+        df_results.to_csv(file_dest, index=False)
+
+    def save_memory_usage_data(self, data):
+        if not os.path.exists('memory_results'):
+            os.makedirs('memory_results')
+        df_results = pd.DataFrame({'memory_usage': data})
+        name = self.importer.file_path.rsplit('/', 1)[-1]
+        name = name.split('.', 1)[0]
+        name = 'memory_usage_' + name + '.csv'
+        path = os.path.abspath('./memory_results/')
         file_dest = path + '/' + name
         df_results.to_csv(file_dest, index=False)
 
