@@ -7,7 +7,7 @@ import pandas as pd
 import json
 
 
-from ..PyCTBN.json_importer import JsonImporter
+from ..classes.json_importer import JsonImporter
 
 
 class TestJsonImporter(unittest.TestCase):

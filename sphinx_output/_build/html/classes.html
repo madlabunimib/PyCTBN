@@ -1,0 +1,1474 @@
+
+
+
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.1//EN" "http://www.w3.org/TR/xhtml11/DTD/xhtml11.dtd">
+<html xml:lang="" lang="" version="-//W3C//DTD XHTML 1.1//EN" xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+  
+  <title>classes package &mdash; PyCTBN 1.0 documentation</title>
+  
+
+  
+
+  
+
+    <link href='https://fonts.googleapis.com/css?family=Lato:400,700,400italic,700italic|Roboto+Slab:400,700|Inconsolata:400,700' rel='stylesheet' type='text/css'/>
+    <link rel="stylesheet" href="_static/css/pdj.css" type="text/css" />
+
+  
+
+  
+
+  
+        <link rel="index" title="Index"
+              href="genindex.html"/>
+        <link rel="search" title="Search" href="search.html"/>
+    <link rel="top" title="PyCTBN 1.0 documentation" href="index.html"/>
+        <link rel="next" title="Examples" href="examples.html"/>
+        <link rel="prev" title="Welcome to PyCTBN’s documentation!" href="index.html"/>
+
+    <meta http-equiv="content-type" content="text/html; charset=utf-8" />
+    <meta http-equiv="cache-control" content="public" />
+    <meta name="robots" content="follow, all" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <!-- Add jQuery library -->
+    <script type="text/javascript" src="http://code.jquery.com/jquery-latest.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/modernizr/2.6.2/modernizr.min.js"></script>
+
+  </head>
+
+  <body class="wy-body-for-nav" role="document">
+
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-nav-search">
+        <a href="index.html" class="fa fa-home"> PyCTBN </a>
+        <div role="search">
+	  <form id ="rtd-search-form" class="wy-form"
+		action="search.html" method="get">
+	    <input type="text" name="q" placeholder="Search docs" />
+	    <input type="hidden" name="check_keywords" value="yes" />
+	    <input type="hidden" name="area" value="default" />
+	  </form>
+	</div>
+      </div>
+
+      <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
+	
+          
+          
+              <p class="caption"><span class="caption-text">Contents:</span></p>
+<ul class="current">
+<li class="toctree-l1 current"><a class="current reference internal" href="#">classes package</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="#submodules">Submodules</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#module-classes.abstract_importer">classes.abstract_importer module</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#module-classes.cache">classes.cache module</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#module-classes.conditional_intensity_matrix">classes.conditional_intensity_matrix module</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#module-classes.json_importer">classes.json_importer module</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#module-classes.network_graph">classes.network_graph module</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#module-classes.parameters_estimator">classes.parameters_estimator module</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#module-classes.sample_path">classes.sample_path module</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#module-classes.set_of_cims">classes.set_of_cims module</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#module-classes.structure">classes.structure module</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#module-classes.structure_estimator">classes.structure_estimator module</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#module-classes.trajectory">classes.trajectory module</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#module-classes">Module contents</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="examples.html">Examples</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="examples.html#installation-usage">Installation/Usage:</a></li>
+<li class="toctree-l2"><a class="reference internal" href="examples.html#implementing-your-own-data-importer">Implementing your own data importer</a></li>
+<li class="toctree-l2"><a class="reference internal" href="examples.html#parameters-estimation-example">Parameters Estimation Example</a></li>
+<li class="toctree-l2"><a class="reference internal" href="examples.html#structure-estimation-example">Structure Estimation Example</a></li>
+</ul>
+</li>
+</ul>
+
+          
+        
+
+      </div>
+      &nbsp;
+    </nav>
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+
+      <nav class="wy-nav-top" id="barra-mobile" role="navigation" aria-label="top navigation">
+        <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+        <a href="#">Porão do Juca</a>
+      </nav>
+
+      <div class="wy-nav-content">
+	<div class="fundo-claro">
+	</div>
+	<div class="fundo-escuro">
+	</div>
+
+        <div class="rst-content">
+          <div role="navigation" aria-label="breadcrumbs navigation">
+	    
+	    <!-- <ul class="wy-breadcrumbs"> -->
+	    <!--   <li><a href="#">Docs</a> &raquo;</li> -->
+
+	    <!--   <li>Features</li> -->
+	    <!--   <li class="wy-breadcrumbs-aside"> -->
+
+	    <!-- 	<a href="_sources/index.txt" rel="nofollow"> View page source</a> -->
+
+	    <!--   </li> -->
+	    <!-- </ul> -->
+	    <!-- <hr/> -->
+	  </div>
+
+          <div role="main" class="">
+
+	    <div id="content" class="hfeed entry-container hentry">
+  <div class="section" id="classes-package">
+<h1>classes package<a class="headerlink" href="#classes-package" title="Permalink to this headline">¶</a></h1>
+<div class="section" id="submodules">
+<h2>Submodules<a class="headerlink" href="#submodules" title="Permalink to this headline">¶</a></h2>
+</div>
+<div class="section" id="module-classes.abstract_importer">
+<span id="classes-abstract-importer-module"></span><h2>classes.abstract_importer module<a class="headerlink" href="#module-classes.abstract_importer" title="Permalink to this headline">¶</a></h2>
+<dl class="py class">
+<dt id="classes.abstract_importer.AbstractImporter">
+<em class="property">class </em><code class="sig-prename descclassname">classes.abstract_importer.</code><code class="sig-name descname">AbstractImporter</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">file_path</span><span class="p">:</span> <span class="n">str</span></em><span class="sig-paren">)</span><a class="headerlink" href="#classes.abstract_importer.AbstractImporter" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">abc.ABC</span></code></p>
+<p>Abstract class that exposes all the necessary methods to process the trajectories and the net structure.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>file_path</strong> (<em>str</em>) – the file path</p>
+</dd>
+<dt class="field-even">_concatenated_samples</dt>
+<dd class="field-even"><p>Dataframe containing the concatenation of all the processed trajectories</p>
+</dd>
+<dt class="field-odd">_df_structure</dt>
+<dd class="field-odd"><p>Dataframe containing the structure of the network (edges)</p>
+</dd>
+<dt class="field-even">_df_variables</dt>
+<dd class="field-even"><p>Dataframe containing the nodes cardinalities</p>
+</dd>
+<dt class="field-odd">_sorter</dt>
+<dd class="field-odd"><p>A list containing the columns header (excluding the time column) of the <code class="docutils literal notranslate"><span class="pre">_concatenated_samples</span></code></p>
+</dd>
+</dl>
+<div class="admonition warning">
+<p class="admonition-title">Warning</p>
+<p>The class members <code class="docutils literal notranslate"><span class="pre">_df_variables</span></code> and <code class="docutils literal notranslate"><span class="pre">_df_structure</span></code> HAVE to be properly constructed
+as Pandas Dataframes with the following structure:
+Header of _df_structure = [From_Node | To_Node]
+Header of _df_variables = [Variable_Label | Variable_Cardinality]</p>
+</div>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>See :class:<code class="docutils literal notranslate"><span class="pre">JsonImporter</span></code> for an example implementation</p>
+</div>
+<dl class="py method">
+<dt id="classes.abstract_importer.AbstractImporter.build_list_of_samples_array">
+<code class="sig-name descname">build_list_of_samples_array</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">data_frame</span><span class="p">:</span> <span class="n">pandas.core.frame.DataFrame</span></em><span class="sig-paren">)</span> &#x2192; List<a class="headerlink" href="#classes.abstract_importer.AbstractImporter.build_list_of_samples_array" title="Permalink to this definition">¶</a></dt>
+<dd><p>Builds a List containing the columns of data_frame and converts them to a numpy array.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>data_frame</strong> (<em>pandas.Dataframe</em>) – the dataframe from which the columns have to be extracted and converted</p>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>the resulting list of numpy arrays</p>
+</dd>
+<dt class="field-odd">Return type</dt>
+<dd class="field-odd"><p>List</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt id="classes.abstract_importer.AbstractImporter.build_sorter">
+<em class="property">abstract </em><code class="sig-name descname">build_sorter</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">sample_frame</span><span class="p">:</span> <span class="n">pandas.core.frame.DataFrame</span></em><span class="sig-paren">)</span> &#x2192; List<a class="headerlink" href="#classes.abstract_importer.AbstractImporter.build_sorter" title="Permalink to this definition">¶</a></dt>
+<dd><p>Initializes the <code class="docutils literal notranslate"><span class="pre">_sorter</span></code> class member from a trajectory dataframe, exctracting the header of the frame
+and keeping ONLY the variables symbolic labels, cutting out the time label in the header.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>sample_frame</strong> (<em>pandas.DataFrame</em>) – The dataframe from which extract the header</p>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>A list containing the processed header.</p>
+</dd>
+<dt class="field-odd">Return type</dt>
+<dd class="field-odd"><p>List</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt id="classes.abstract_importer.AbstractImporter.clear_concatenated_frame">
+<code class="sig-name descname">clear_concatenated_frame</code><span class="sig-paren">(</span><span class="sig-paren">)</span> &#x2192; None<a class="headerlink" href="#classes.abstract_importer.AbstractImporter.clear_concatenated_frame" title="Permalink to this definition">¶</a></dt>
+<dd><p>Removes all values in the dataframe concatenated_samples.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt id="classes.abstract_importer.AbstractImporter.compute_row_delta_in_all_samples_frames">
+<code class="sig-name descname">compute_row_delta_in_all_samples_frames</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">df_samples_list</span><span class="p">:</span> <span class="n">List</span></em><span class="sig-paren">)</span> &#x2192; None<a class="headerlink" href="#classes.abstract_importer.AbstractImporter.compute_row_delta_in_all_samples_frames" title="Permalink to this definition">¶</a></dt>
+<dd><p>Calls the method <code class="docutils literal notranslate"><span class="pre">compute_row_delta_sigle_samples_frame</span></code> on every dataframe present in the list
+<code class="docutils literal notranslate"><span class="pre">df_samples_list</span></code>.
+Concatenates the result in the dataframe <code class="docutils literal notranslate"><span class="pre">concatanated_samples</span></code></p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>df_samples_list</strong> (<em>List</em>) – the datframe’s list to be processed and concatenated</p>
+</dd>
+</dl>
+<div class="admonition warning">
+<p class="admonition-title">Warning</p>
+<p>The Dataframe sample_frame has to follow the column structure of this header:
+Header of sample_frame = [Time | Variable values]
+The class member self._sorter HAS to be properly INITIALIZED (See class members definition doc)</p>
+</div>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>After the call of this method the class member <code class="docutils literal notranslate"><span class="pre">concatanated_samples</span></code> will contain all processed
+and merged trajectories</p>
+</div>
+</dd></dl>
+
+<dl class="py method">
+<dt id="classes.abstract_importer.AbstractImporter.compute_row_delta_sigle_samples_frame">
+<code class="sig-name descname">compute_row_delta_sigle_samples_frame</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">sample_frame</span><span class="p">:</span> <span class="n">pandas.core.frame.DataFrame</span></em>, <em class="sig-param"><span class="n">columns_header</span><span class="p">:</span> <span class="n">List</span></em>, <em class="sig-param"><span class="n">shifted_cols_header</span><span class="p">:</span> <span class="n">List</span></em><span class="sig-paren">)</span> &#x2192; pandas.core.frame.DataFrame<a class="headerlink" href="#classes.abstract_importer.AbstractImporter.compute_row_delta_sigle_samples_frame" title="Permalink to this definition">¶</a></dt>
+<dd><p>Computes the difference between each value present in th time column.
+Copies and shift by one position up all the values present in the remaining columns.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>sample_frame</strong> (<em>pandas.Dataframe</em>) – the traj to be processed</p></li>
+<li><p><strong>columns_header</strong> (<em>List</em>) – the original header of sample_frame</p></li>
+<li><p><strong>shifted_cols_header</strong> (<em>List</em>) – a copy of columns_header with changed names of the contents</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>The processed dataframe</p>
+</dd>
+<dt class="field-odd">Return type</dt>
+<dd class="field-odd"><p>pandas.Dataframe</p>
+</dd>
+</dl>
+<div class="admonition warning">
+<p class="admonition-title">Warning</p>
+<p>the Dataframe <code class="docutils literal notranslate"><span class="pre">sample_frame</span></code> has to follow the column structure of this header:
+Header of sample_frame = [Time | Variable values]</p>
+</div>
+</dd></dl>
+
+<dl class="py method">
+<dt id="classes.abstract_importer.AbstractImporter.concatenated_samples">
+<em class="property">property </em><code class="sig-name descname">concatenated_samples</code><a class="headerlink" href="#classes.abstract_importer.AbstractImporter.concatenated_samples" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt id="classes.abstract_importer.AbstractImporter.dataset_id">
+<em class="property">abstract </em><code class="sig-name descname">dataset_id</code><span class="sig-paren">(</span><span class="sig-paren">)</span> &#x2192; object<a class="headerlink" href="#classes.abstract_importer.AbstractImporter.dataset_id" title="Permalink to this definition">¶</a></dt>
+<dd><p>If the original dataset contains multiple dataset, this method returns a unique id to identify the current
+dataset</p>
+</dd></dl>
+
+<dl class="py method">
+<dt id="classes.abstract_importer.AbstractImporter.file_path">
+<em class="property">property </em><code class="sig-name descname">file_path</code><a class="headerlink" href="#classes.abstract_importer.AbstractImporter.file_path" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt id="classes.abstract_importer.AbstractImporter.sorter">
+<em class="property">property </em><code class="sig-name descname">sorter</code><a class="headerlink" href="#classes.abstract_importer.AbstractImporter.sorter" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt id="classes.abstract_importer.AbstractImporter.structure">
+<em class="property">property </em><code class="sig-name descname">structure</code><a class="headerlink" href="#classes.abstract_importer.AbstractImporter.structure" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt id="classes.abstract_importer.AbstractImporter.variables">
+<em class="property">property </em><code class="sig-name descname">variables</code><a class="headerlink" href="#classes.abstract_importer.AbstractImporter.variables" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+</dd></dl>
+
+</div>
+<div class="section" id="module-classes.cache">
+<span id="classes-cache-module"></span><h2>classes.cache module<a class="headerlink" href="#module-classes.cache" title="Permalink to this headline">¶</a></h2>
+<dl class="py class">
+<dt id="classes.cache.Cache">
+<em class="property">class </em><code class="sig-prename descclassname">classes.cache.</code><code class="sig-name descname">Cache</code><a class="headerlink" href="#classes.cache.Cache" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></p>
+<p>This class acts as a cache of <code class="docutils literal notranslate"><span class="pre">SetOfCims</span></code> objects for a node.</p>
+<dl class="field-list simple">
+<dt class="field-odd">_list_of_sets_of_parents</dt>
+<dd class="field-odd"><p>a list of <code class="docutils literal notranslate"><span class="pre">Sets</span></code> objects of the parents to which the cim in cache at SAME
+index is related</p>
+</dd>
+<dt class="field-even">_actual_cache</dt>
+<dd class="field-even"><p>a list of setOfCims objects</p>
+</dd>
+</dl>
+<dl class="py method">
+<dt id="classes.cache.Cache.clear">
+<code class="sig-name descname">clear</code><span class="sig-paren">(</span><span class="sig-paren">)</span> &#x2192; None<a class="headerlink" href="#classes.cache.Cache.clear" title="Permalink to this definition">¶</a></dt>
+<dd><p>Clear the contents both of <code class="docutils literal notranslate"><span class="pre">_actual_cache</span></code> and <code class="docutils literal notranslate"><span class="pre">_list_of_sets_of_parents</span></code>.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt id="classes.cache.Cache.find">
+<code class="sig-name descname">find</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">parents_comb</span><span class="p">:</span> <span class="n">Set</span></em><span class="sig-paren">)</span> &#x2192; <a class="reference internal" href="#classes.set_of_cims.SetOfCims" title="classes.set_of_cims.SetOfCims">classes.set_of_cims.SetOfCims</a><a class="headerlink" href="#classes.cache.Cache.find" title="Permalink to this definition">¶</a></dt>
+<dd><p>Tries to find in cache given the symbolic parents combination <code class="docutils literal notranslate"><span class="pre">parents_comb</span></code> the <code class="docutils literal notranslate"><span class="pre">SetOfCims</span></code>
+related to that <code class="docutils literal notranslate"><span class="pre">parents_comb</span></code>.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>parents_comb</strong> (<em>Set</em>) – the parents related to that <code class="docutils literal notranslate"><span class="pre">SetOfCims</span></code></p>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>A <code class="docutils literal notranslate"><span class="pre">SetOfCims</span></code> object if the <code class="docutils literal notranslate"><span class="pre">parents_comb</span></code> index is found in <code class="docutils literal notranslate"><span class="pre">_list_of_sets_of_parents</span></code>.
+None otherwise.</p>
+</dd>
+<dt class="field-odd">Return type</dt>
+<dd class="field-odd"><p><a class="reference internal" href="#classes.set_of_cims.SetOfCims" title="classes.set_of_cims.SetOfCims">SetOfCims</a></p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt id="classes.cache.Cache.put">
+<code class="sig-name descname">put</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">parents_comb</span><span class="p">:</span> <span class="n">Set</span></em>, <em class="sig-param"><span class="n">socim</span><span class="p">:</span> <span class="n"><a class="reference internal" href="#classes.set_of_cims.SetOfCims" title="classes.set_of_cims.SetOfCims">classes.set_of_cims.SetOfCims</a></span></em><span class="sig-paren">)</span> &#x2192; None<a class="headerlink" href="#classes.cache.Cache.put" title="Permalink to this definition">¶</a></dt>
+<dd><p>Place in cache the <code class="docutils literal notranslate"><span class="pre">SetOfCims</span></code> object, and the related symbolic index <code class="docutils literal notranslate"><span class="pre">parents_comb</span></code> in
+<code class="docutils literal notranslate"><span class="pre">_list_of_sets_of_parents</span></code>.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>parents_comb</strong> (<em>Set</em>) – the symbolic set index</p></li>
+<li><p><strong>socim</strong> (<a class="reference internal" href="#classes.set_of_cims.SetOfCims" title="classes.set_of_cims.SetOfCims"><em>SetOfCims</em></a>) – the related SetOfCims object</p></li>
+</ul>
+</dd>
+</dl>
+</dd></dl>
+
+</dd></dl>
+
+</div>
+<div class="section" id="module-classes.conditional_intensity_matrix">
+<span id="classes-conditional-intensity-matrix-module"></span><h2>classes.conditional_intensity_matrix module<a class="headerlink" href="#module-classes.conditional_intensity_matrix" title="Permalink to this headline">¶</a></h2>
+<dl class="py class">
+<dt id="classes.conditional_intensity_matrix.ConditionalIntensityMatrix">
+<em class="property">class </em><code class="sig-prename descclassname">classes.conditional_intensity_matrix.</code><code class="sig-name descname">ConditionalIntensityMatrix</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">state_residence_times</span><span class="p">:</span> <span class="n">numpy.array</span></em>, <em class="sig-param"><span class="n">state_transition_matrix</span><span class="p">:</span> <span class="n">numpy.array</span></em><span class="sig-paren">)</span><a class="headerlink" href="#classes.conditional_intensity_matrix.ConditionalIntensityMatrix" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></p>
+<p>Abstracts the Conditional Intesity matrix of a node as aggregation of the state residence times vector
+and state transition matrix and the actual CIM matrix.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>state_residence_times</strong> (<em>numpy.array</em>) – state residence times vector</p></li>
+<li><p><strong>state_transition_matrix</strong> (<em>numpy.ndArray</em>) – the transitions count matrix</p></li>
+</ul>
+</dd>
+<dt class="field-even">_cim</dt>
+<dd class="field-even"><p>the actual cim of the node</p>
+</dd>
+</dl>
+<dl class="py method">
+<dt id="classes.conditional_intensity_matrix.ConditionalIntensityMatrix.cim">
+<em class="property">property </em><code class="sig-name descname">cim</code><a class="headerlink" href="#classes.conditional_intensity_matrix.ConditionalIntensityMatrix.cim" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt id="classes.conditional_intensity_matrix.ConditionalIntensityMatrix.compute_cim_coefficients">
+<code class="sig-name descname">compute_cim_coefficients</code><span class="sig-paren">(</span><span class="sig-paren">)</span> &#x2192; None<a class="headerlink" href="#classes.conditional_intensity_matrix.ConditionalIntensityMatrix.compute_cim_coefficients" title="Permalink to this definition">¶</a></dt>
+<dd><p>Compute the coefficients of the matrix _cim by using the following equality q_xx’ = M[x, x’] / T[x].
+The class member <code class="docutils literal notranslate"><span class="pre">_cim</span></code> will contain the computed cim</p>
+</dd></dl>
+
+<dl class="py method">
+<dt id="classes.conditional_intensity_matrix.ConditionalIntensityMatrix.state_residence_times">
+<em class="property">property </em><code class="sig-name descname">state_residence_times</code><a class="headerlink" href="#classes.conditional_intensity_matrix.ConditionalIntensityMatrix.state_residence_times" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt id="classes.conditional_intensity_matrix.ConditionalIntensityMatrix.state_transition_matrix">
+<em class="property">property </em><code class="sig-name descname">state_transition_matrix</code><a class="headerlink" href="#classes.conditional_intensity_matrix.ConditionalIntensityMatrix.state_transition_matrix" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+</dd></dl>
+
+</div>
+<div class="section" id="module-classes.json_importer">
+<span id="classes-json-importer-module"></span><h2>classes.json_importer module<a class="headerlink" href="#module-classes.json_importer" title="Permalink to this headline">¶</a></h2>
+<dl class="py class">
+<dt id="classes.json_importer.JsonImporter">
+<em class="property">class </em><code class="sig-prename descclassname">classes.json_importer.</code><code class="sig-name descname">JsonImporter</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">file_path</span><span class="p">:</span> <span class="n">str</span></em>, <em class="sig-param"><span class="n">samples_label</span><span class="p">:</span> <span class="n">str</span></em>, <em class="sig-param"><span class="n">structure_label</span><span class="p">:</span> <span class="n">str</span></em>, <em class="sig-param"><span class="n">variables_label</span><span class="p">:</span> <span class="n">str</span></em>, <em class="sig-param"><span class="n">time_key</span><span class="p">:</span> <span class="n">str</span></em>, <em class="sig-param"><span class="n">variables_key</span><span class="p">:</span> <span class="n">str</span></em><span class="sig-paren">)</span><a class="headerlink" href="#classes.json_importer.JsonImporter" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <a class="reference internal" href="#classes.abstract_importer.AbstractImporter" title="classes.abstract_importer.AbstractImporter"><code class="xref py py-class docutils literal notranslate"><span class="pre">classes.abstract_importer.AbstractImporter</span></code></a></p>
+<p>Implements the abstracts methods of AbstractImporter and adds all the necessary methods to process and prepare
+the data in json extension.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>file_path</strong> (<em>string</em>) – the path of the file that contains tha data to be imported</p></li>
+<li><p><strong>samples_label</strong> (<em>string</em>) – the reference key for the samples in the trajectories</p></li>
+<li><p><strong>structure_label</strong> (<em>string</em>) – the reference key for the structure of the network data</p></li>
+<li><p><strong>variables_label</strong> (<em>string</em>) – the reference key for the cardinalites of the nodes data</p></li>
+<li><p><strong>time_key</strong> (<em>string</em>) – the key used to identify the timestamps in each trajectory</p></li>
+<li><p><strong>variables_key</strong> (<em>string</em>) – the key used to identify the names of the variables in the net</p></li>
+</ul>
+</dd>
+<dt class="field-even">_array_indx</dt>
+<dd class="field-even"><p>the index of the outer JsonArray to extract the data from</p>
+</dd>
+<dt class="field-odd">_df_samples_list</dt>
+<dd class="field-odd"><p>a Dataframe list in which every dataframe contains a trajectory</p>
+</dd>
+<dt class="field-even">_raw_data</dt>
+<dd class="field-even"><p>The raw contents of the json file to import</p>
+</dd>
+</dl>
+<dl class="py method">
+<dt id="classes.json_importer.JsonImporter.build_sorter">
+<code class="sig-name descname">build_sorter</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">sample_frame</span><span class="p">:</span> <span class="n">pandas.core.frame.DataFrame</span></em><span class="sig-paren">)</span> &#x2192; List<a class="headerlink" href="#classes.json_importer.JsonImporter.build_sorter" title="Permalink to this definition">¶</a></dt>
+<dd><p>Implements the abstract method build_sorter of the <code class="xref py py-class docutils literal notranslate"><span class="pre">AbstractImporter</span></code> for this dataset.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt id="classes.json_importer.JsonImporter.clear_data_frame_list">
+<code class="sig-name descname">clear_data_frame_list</code><span class="sig-paren">(</span><span class="sig-paren">)</span> &#x2192; None<a class="headerlink" href="#classes.json_importer.JsonImporter.clear_data_frame_list" title="Permalink to this definition">¶</a></dt>
+<dd><p>Removes all values present in the dataframes in the list <code class="docutils literal notranslate"><span class="pre">_df_samples_list</span></code>.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt id="classes.json_importer.JsonImporter.dataset_id">
+<code class="sig-name descname">dataset_id</code><span class="sig-paren">(</span><span class="sig-paren">)</span> &#x2192; object<a class="headerlink" href="#classes.json_importer.JsonImporter.dataset_id" title="Permalink to this definition">¶</a></dt>
+<dd><p>If the original dataset contains multiple dataset, this method returns a unique id to identify the current
+dataset</p>
+</dd></dl>
+
+<dl class="py method">
+<dt id="classes.json_importer.JsonImporter.import_data">
+<code class="sig-name descname">import_data</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">indx</span><span class="p">:</span> <span class="n">int</span></em><span class="sig-paren">)</span> &#x2192; None<a class="headerlink" href="#classes.json_importer.JsonImporter.import_data" title="Permalink to this definition">¶</a></dt>
+<dd><p>Implements the abstract method of <code class="xref py py-class docutils literal notranslate"><span class="pre">AbstractImporter</span></code>.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>indx</strong> (<em>int</em>) – the index of the outer JsonArray to extract the data from</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt id="classes.json_importer.JsonImporter.import_sampled_cims">
+<code class="sig-name descname">import_sampled_cims</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">raw_data</span><span class="p">:</span> <span class="n">List</span></em>, <em class="sig-param"><span class="n">indx</span><span class="p">:</span> <span class="n">int</span></em>, <em class="sig-param"><span class="n">cims_key</span><span class="p">:</span> <span class="n">str</span></em><span class="sig-paren">)</span> &#x2192; Dict<a class="headerlink" href="#classes.json_importer.JsonImporter.import_sampled_cims" title="Permalink to this definition">¶</a></dt>
+<dd><p>Imports the synthetic CIMS in the dataset in a dictionary, using variables labels
+as keys for the set of CIMS of a particular node.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>raw_data</strong> (<em>List</em>) – List of Dicts</p></li>
+<li><p><strong>indx</strong> (<em>int</em>) – The index of the array from which the data have to be extracted</p></li>
+<li><p><strong>cims_key</strong> (<em>string</em>) – the key where the json object cims are placed</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>a dictionary containing the sampled CIMS for all the variables in the net</p>
+</dd>
+<dt class="field-odd">Return type</dt>
+<dd class="field-odd"><p>Dictionary</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt id="classes.json_importer.JsonImporter.import_structure">
+<code class="sig-name descname">import_structure</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">raw_data</span><span class="p">:</span> <span class="n">List</span></em><span class="sig-paren">)</span> &#x2192; pandas.core.frame.DataFrame<a class="headerlink" href="#classes.json_importer.JsonImporter.import_structure" title="Permalink to this definition">¶</a></dt>
+<dd><p>Imports in a dataframe the data in the list raw_data at the key <code class="docutils literal notranslate"><span class="pre">_structure_label</span></code></p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>raw_data</strong> (<em>List</em>) – List of Dicts</p>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>Dataframe containg the starting node a ending node of every arc of the network</p>
+</dd>
+<dt class="field-odd">Return type</dt>
+<dd class="field-odd"><p>pandas.Dataframe</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt id="classes.json_importer.JsonImporter.import_trajectories">
+<code class="sig-name descname">import_trajectories</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">raw_data</span><span class="p">:</span> <span class="n">List</span></em><span class="sig-paren">)</span> &#x2192; List<a class="headerlink" href="#classes.json_importer.JsonImporter.import_trajectories" title="Permalink to this definition">¶</a></dt>
+<dd><p>Imports the trajectories from the list of dicts <code class="docutils literal notranslate"><span class="pre">raw_data</span></code>.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>raw_data</strong> (<em>List</em>) – List of Dicts</p>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>List of dataframes containing all the trajectories</p>
+</dd>
+<dt class="field-odd">Return type</dt>
+<dd class="field-odd"><p>List</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt id="classes.json_importer.JsonImporter.import_variables">
+<code class="sig-name descname">import_variables</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">raw_data</span><span class="p">:</span> <span class="n">List</span></em><span class="sig-paren">)</span> &#x2192; pandas.core.frame.DataFrame<a class="headerlink" href="#classes.json_importer.JsonImporter.import_variables" title="Permalink to this definition">¶</a></dt>
+<dd><p>Imports the data in <code class="docutils literal notranslate"><span class="pre">raw_data</span></code> at the key <code class="docutils literal notranslate"><span class="pre">_variables_label</span></code>.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>raw_data</strong> (<em>List</em>) – List of Dicts</p>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>Datframe containg the variables simbolic labels and their cardinalities</p>
+</dd>
+<dt class="field-odd">Return type</dt>
+<dd class="field-odd"><p>pandas.Dataframe</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt id="classes.json_importer.JsonImporter.normalize_trajectories">
+<code class="sig-name descname">normalize_trajectories</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">raw_data</span><span class="p">:</span> <span class="n">List</span></em>, <em class="sig-param"><span class="n">indx</span><span class="p">:</span> <span class="n">int</span></em>, <em class="sig-param"><span class="n">trajectories_key</span><span class="p">:</span> <span class="n">str</span></em><span class="sig-paren">)</span> &#x2192; List<a class="headerlink" href="#classes.json_importer.JsonImporter.normalize_trajectories" title="Permalink to this definition">¶</a></dt>
+<dd><p>Extracts the trajectories in <code class="docutils literal notranslate"><span class="pre">raw_data</span></code> at the index <code class="docutils literal notranslate"><span class="pre">index</span></code> at the key <code class="docutils literal notranslate"><span class="pre">trajectories</span> <span class="pre">key</span></code>.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>raw_data</strong> (<em>List</em>) – List of Dicts</p></li>
+<li><p><strong>indx</strong> (<em>int</em>) – The index of the array from which the data have to be extracted</p></li>
+<li><p><strong>trajectories_key</strong> (<em>string</em>) – the key of the trajectories objects</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>A list of daframes containg the trajectories</p>
+</dd>
+<dt class="field-odd">Return type</dt>
+<dd class="field-odd"><p>List</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt id="classes.json_importer.JsonImporter.one_level_normalizing">
+<code class="sig-name descname">one_level_normalizing</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">raw_data</span><span class="p">:</span> <span class="n">List</span></em>, <em class="sig-param"><span class="n">indx</span><span class="p">:</span> <span class="n">int</span></em>, <em class="sig-param"><span class="n">key</span><span class="p">:</span> <span class="n">str</span></em><span class="sig-paren">)</span> &#x2192; pandas.core.frame.DataFrame<a class="headerlink" href="#classes.json_importer.JsonImporter.one_level_normalizing" title="Permalink to this definition">¶</a></dt>
+<dd><p>Extracts the one-level nested data in the list <code class="docutils literal notranslate"><span class="pre">raw_data</span></code> at the index <code class="docutils literal notranslate"><span class="pre">indx</span></code> at the key <code class="docutils literal notranslate"><span class="pre">key</span></code>.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>raw_data</strong> (<em>List</em>) – List of Dicts</p></li>
+<li><p><strong>indx</strong> (<em>int</em>) – The index of the array from which the data have to be extracted</p></li>
+<li><p><strong>key</strong> (<em>string</em>) – the key for the Dicts from which exctract data</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>A normalized dataframe</p>
+</dd>
+<dt class="field-odd">Return type</dt>
+<dd class="field-odd"><p>pandas.Datframe</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt id="classes.json_importer.JsonImporter.read_json_file">
+<code class="sig-name descname">read_json_file</code><span class="sig-paren">(</span><span class="sig-paren">)</span> &#x2192; List<a class="headerlink" href="#classes.json_importer.JsonImporter.read_json_file" title="Permalink to this definition">¶</a></dt>
+<dd><p>Reads the JSON file in the path self.filePath.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Returns</dt>
+<dd class="field-odd"><p>The contents of the json file</p>
+</dd>
+<dt class="field-even">Return type</dt>
+<dd class="field-even"><p>List</p>
+</dd>
+</dl>
+</dd></dl>
+
+</dd></dl>
+
+</div>
+<div class="section" id="module-classes.network_graph">
+<span id="classes-network-graph-module"></span><h2>classes.network_graph module<a class="headerlink" href="#module-classes.network_graph" title="Permalink to this headline">¶</a></h2>
+<dl class="py class">
+<dt id="classes.network_graph.NetworkGraph">
+<em class="property">class </em><code class="sig-prename descclassname">classes.network_graph.</code><code class="sig-name descname">NetworkGraph</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">graph_struct</span><span class="p">:</span> <span class="n"><a class="reference internal" href="#classes.structure.Structure" title="classes.structure.Structure">classes.structure.Structure</a></span></em><span class="sig-paren">)</span><a class="headerlink" href="#classes.network_graph.NetworkGraph" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></p>
+<p>Abstracts the infos contained in the Structure class in the form of a directed graph.
+Has the task of creating all the necessary filtering and indexing structures for parameters estimation</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>graph_struct</strong> (<a class="reference internal" href="#classes.structure.Structure" title="classes.structure.Structure"><em>Structure</em></a>) – the <code class="docutils literal notranslate"><span class="pre">Structure</span></code> object from which infos about the net will be extracted</p>
+</dd>
+<dt class="field-even">_graph</dt>
+<dd class="field-even"><p>directed graph</p>
+</dd>
+<dt class="field-odd">_aggregated_info_about_nodes_parents</dt>
+<dd class="field-odd"><p>a structure that contains all the necessary infos
+about every parents of the node of which all the indexing and filtering structures will be constructed.</p>
+</dd>
+<dt class="field-even">_time_scalar_indexing_structure</dt>
+<dd class="field-even"><p>the indexing structure for state res time estimation</p>
+</dd>
+<dt class="field-odd">_transition_scalar_indexing_structure</dt>
+<dd class="field-odd"><p>the indexing structure for transition computation</p>
+</dd>
+<dt class="field-even">_time_filtering</dt>
+<dd class="field-even"><p>the columns filtering structure used in the computation of the state res times</p>
+</dd>
+<dt class="field-odd">_transition_filtering</dt>
+<dd class="field-odd"><p>the columns filtering structure used in the computation of the transition
+from one state to another</p>
+</dd>
+<dt class="field-even">_p_combs_structure</dt>
+<dd class="field-even"><p>all the possible parents states combination for the node of interest</p>
+</dd>
+</dl>
+<dl class="py method">
+<dt id="classes.network_graph.NetworkGraph.add_edges">
+<code class="sig-name descname">add_edges</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">list_of_edges</span><span class="p">:</span> <span class="n">List</span></em><span class="sig-paren">)</span> &#x2192; None<a class="headerlink" href="#classes.network_graph.NetworkGraph.add_edges" title="Permalink to this definition">¶</a></dt>
+<dd><p>Add the edges to the <code class="docutils literal notranslate"><span class="pre">_graph</span></code> contained in the list <code class="docutils literal notranslate"><span class="pre">list_of_edges</span></code>.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>list_of_edges</strong> (<em>List</em>) – the list containing of tuples containing the edges</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt id="classes.network_graph.NetworkGraph.add_nodes">
+<code class="sig-name descname">add_nodes</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">list_of_nodes</span><span class="p">:</span> <span class="n">List</span></em><span class="sig-paren">)</span> &#x2192; None<a class="headerlink" href="#classes.network_graph.NetworkGraph.add_nodes" title="Permalink to this definition">¶</a></dt>
+<dd><p>Adds the nodes to the <code class="docutils literal notranslate"><span class="pre">_graph</span></code> contained in the list of nodes <code class="docutils literal notranslate"><span class="pre">list_of_nodes</span></code>.
+Sets all the properties that identify a nodes (index, positional index, cardinality)</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>list_of_nodes</strong> (<em>List</em>) – the nodes to add to <code class="docutils literal notranslate"><span class="pre">_graph</span></code></p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt id="classes.network_graph.NetworkGraph.build_p_comb_structure_for_a_node">
+<em class="property">static </em><code class="sig-name descname">build_p_comb_structure_for_a_node</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">parents_values</span><span class="p">:</span> <span class="n">List</span></em><span class="sig-paren">)</span> &#x2192; numpy.ndarray<a class="headerlink" href="#classes.network_graph.NetworkGraph.build_p_comb_structure_for_a_node" title="Permalink to this definition">¶</a></dt>
+<dd><p>Builds the combinatorial structure that contains the combinations of all the values contained in
+<code class="docutils literal notranslate"><span class="pre">parents_values</span></code>.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>parents_values</strong> (<em>List</em>) – the cardinalities of the nodes</p>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>A numpy matrix containing a grid of the combinations</p>
+</dd>
+<dt class="field-odd">Return type</dt>
+<dd class="field-odd"><p>numpy.ndArray</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt id="classes.network_graph.NetworkGraph.build_time_columns_filtering_for_a_node">
+<em class="property">static </em><code class="sig-name descname">build_time_columns_filtering_for_a_node</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">node_indx</span><span class="p">:</span> <span class="n">int</span></em>, <em class="sig-param"><span class="n">p_indxs</span><span class="p">:</span> <span class="n">List</span></em><span class="sig-paren">)</span> &#x2192; numpy.ndarray<a class="headerlink" href="#classes.network_graph.NetworkGraph.build_time_columns_filtering_for_a_node" title="Permalink to this definition">¶</a></dt>
+<dd><p>Builds the necessary structure to filter the desired columns indicated by <code class="docutils literal notranslate"><span class="pre">node_indx</span></code> and <code class="docutils literal notranslate"><span class="pre">p_indxs</span></code>
+in the dataset.
+This structute will be used in the computation of the state res times.
+:param node_indx: the index of the node
+:type node_indx: int
+:param p_indxs: the indexes of the node’s parents
+:type p_indxs: List
+:return: The filtering structure for times estimation
+:rtype: numpy.ndArray</p>
+</dd></dl>
+
+<dl class="py method">
+<dt id="classes.network_graph.NetworkGraph.build_time_scalar_indexing_structure_for_a_node">
+<em class="property">static </em><code class="sig-name descname">build_time_scalar_indexing_structure_for_a_node</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">node_states</span><span class="p">:</span> <span class="n">int</span></em>, <em class="sig-param"><span class="n">parents_vals</span><span class="p">:</span> <span class="n">List</span></em><span class="sig-paren">)</span> &#x2192; numpy.ndarray<a class="headerlink" href="#classes.network_graph.NetworkGraph.build_time_scalar_indexing_structure_for_a_node" title="Permalink to this definition">¶</a></dt>
+<dd><p>Builds an indexing structure for the computation of state residence times values.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>node_states</strong> (<em>int</em>) – the node cardinality</p></li>
+<li><p><strong>parents_vals</strong> (<em>List</em>) – the caridinalites of the node’s parents</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>The time indexing structure</p>
+</dd>
+<dt class="field-odd">Return type</dt>
+<dd class="field-odd"><p>numpy.ndArray</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt id="classes.network_graph.NetworkGraph.build_transition_filtering_for_a_node">
+<em class="property">static </em><code class="sig-name descname">build_transition_filtering_for_a_node</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">node_indx</span><span class="p">:</span> <span class="n">int</span></em>, <em class="sig-param"><span class="n">p_indxs</span><span class="p">:</span> <span class="n">List</span></em>, <em class="sig-param"><span class="n">nodes_number</span><span class="p">:</span> <span class="n">int</span></em><span class="sig-paren">)</span> &#x2192; numpy.ndarray<a class="headerlink" href="#classes.network_graph.NetworkGraph.build_transition_filtering_for_a_node" title="Permalink to this definition">¶</a></dt>
+<dd><p>Builds the necessary structure to filter the desired columns indicated by <code class="docutils literal notranslate"><span class="pre">node_indx</span></code> and <code class="docutils literal notranslate"><span class="pre">p_indxs</span></code>
+in the dataset.
+This structure will be used in the computation of the state transitions values.
+:param node_indx: the index of the node
+:type node_indx: int
+:param p_indxs: the indexes of the node’s parents
+:type p_indxs: List
+:param nodes_number: the total number of nodes in the dataset
+:type nodes_number: int
+:return: The filtering structure for transitions estimation
+:rtype: numpy.ndArray</p>
+</dd></dl>
+
+<dl class="py method">
+<dt id="classes.network_graph.NetworkGraph.build_transition_scalar_indexing_structure_for_a_node">
+<em class="property">static </em><code class="sig-name descname">build_transition_scalar_indexing_structure_for_a_node</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">node_states_number</span><span class="p">:</span> <span class="n">int</span></em>, <em class="sig-param"><span class="n">parents_vals</span><span class="p">:</span> <span class="n">List</span></em><span class="sig-paren">)</span> &#x2192; numpy.ndarray<a class="headerlink" href="#classes.network_graph.NetworkGraph.build_transition_scalar_indexing_structure_for_a_node" title="Permalink to this definition">¶</a></dt>
+<dd><p>Builds an indexing structure for the computation of state transitions values.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>node_states_number</strong> (<em>int</em>) – the node cardinality</p></li>
+<li><p><strong>parents_vals</strong> (<em>List</em>) – the caridinalites of the node’s parents</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>The transition indexing structure</p>
+</dd>
+<dt class="field-odd">Return type</dt>
+<dd class="field-odd"><p>numpy.ndArray</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt id="classes.network_graph.NetworkGraph.clear_indexing_filtering_structures">
+<code class="sig-name descname">clear_indexing_filtering_structures</code><span class="sig-paren">(</span><span class="sig-paren">)</span> &#x2192; None<a class="headerlink" href="#classes.network_graph.NetworkGraph.clear_indexing_filtering_structures" title="Permalink to this definition">¶</a></dt>
+<dd><p>Initialize all the filtering/indexing structures.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt id="classes.network_graph.NetworkGraph.edges">
+<em class="property">property </em><code class="sig-name descname">edges</code><a class="headerlink" href="#classes.network_graph.NetworkGraph.edges" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt id="classes.network_graph.NetworkGraph.fast_init">
+<code class="sig-name descname">fast_init</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">node_id</span><span class="p">:</span> <span class="n">str</span></em><span class="sig-paren">)</span> &#x2192; None<a class="headerlink" href="#classes.network_graph.NetworkGraph.fast_init" title="Permalink to this definition">¶</a></dt>
+<dd><p>Initializes all the necessary structures for parameters estimation of the node identified by the label
+node_id</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>node_id</strong> (<em>string</em>) – the label of the node</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt id="classes.network_graph.NetworkGraph.get_node_indx">
+<code class="sig-name descname">get_node_indx</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">node_id</span></em><span class="sig-paren">)</span> &#x2192; int<a class="headerlink" href="#classes.network_graph.NetworkGraph.get_node_indx" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt id="classes.network_graph.NetworkGraph.get_ordered_by_indx_set_of_parents">
+<code class="sig-name descname">get_ordered_by_indx_set_of_parents</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">node</span><span class="p">:</span> <span class="n">str</span></em><span class="sig-paren">)</span> &#x2192; Tuple<a class="headerlink" href="#classes.network_graph.NetworkGraph.get_ordered_by_indx_set_of_parents" title="Permalink to this definition">¶</a></dt>
+<dd><p>Builds the aggregated structure that holds all the infos relative to the parent set of the node, namely
+(parents_labels, parents_indexes, parents_cardinalities).</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>node</strong> (<em>string</em>) – the label of the node</p>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>a tuple containing all the parent set infos</p>
+</dd>
+<dt class="field-odd">Return type</dt>
+<dd class="field-odd"><p>Tuple</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt id="classes.network_graph.NetworkGraph.get_parents_by_id">
+<code class="sig-name descname">get_parents_by_id</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">node_id</span></em><span class="sig-paren">)</span> &#x2192; List<a class="headerlink" href="#classes.network_graph.NetworkGraph.get_parents_by_id" title="Permalink to this definition">¶</a></dt>
+<dd><p>Returns a list of labels of the parents of the node <code class="docutils literal notranslate"><span class="pre">node_id</span></code></p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>node_id</strong> (<em>string</em>) – the node label</p>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>a List of labels of the parents</p>
+</dd>
+<dt class="field-odd">Return type</dt>
+<dd class="field-odd"><p>List</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt id="classes.network_graph.NetworkGraph.get_positional_node_indx">
+<code class="sig-name descname">get_positional_node_indx</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">node_id</span></em><span class="sig-paren">)</span> &#x2192; int<a class="headerlink" href="#classes.network_graph.NetworkGraph.get_positional_node_indx" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt id="classes.network_graph.NetworkGraph.get_states_number">
+<code class="sig-name descname">get_states_number</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">node_id</span></em><span class="sig-paren">)</span> &#x2192; int<a class="headerlink" href="#classes.network_graph.NetworkGraph.get_states_number" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt id="classes.network_graph.NetworkGraph.nodes">
+<em class="property">property </em><code class="sig-name descname">nodes</code><a class="headerlink" href="#classes.network_graph.NetworkGraph.nodes" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt id="classes.network_graph.NetworkGraph.nodes_indexes">
+<em class="property">property </em><code class="sig-name descname">nodes_indexes</code><a class="headerlink" href="#classes.network_graph.NetworkGraph.nodes_indexes" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt id="classes.network_graph.NetworkGraph.nodes_values">
+<em class="property">property </em><code class="sig-name descname">nodes_values</code><a class="headerlink" href="#classes.network_graph.NetworkGraph.nodes_values" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt id="classes.network_graph.NetworkGraph.p_combs">
+<em class="property">property </em><code class="sig-name descname">p_combs</code><a class="headerlink" href="#classes.network_graph.NetworkGraph.p_combs" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt id="classes.network_graph.NetworkGraph.remove_node">
+<code class="sig-name descname">remove_node</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">node_id</span><span class="p">:</span> <span class="n">str</span></em><span class="sig-paren">)</span> &#x2192; None<a class="headerlink" href="#classes.network_graph.NetworkGraph.remove_node" title="Permalink to this definition">¶</a></dt>
+<dd><p>Remove the node <code class="docutils literal notranslate"><span class="pre">node_id</span></code> from all the class members.
+Initialize all the filtering/indexing structures.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt id="classes.network_graph.NetworkGraph.time_filtering">
+<em class="property">property </em><code class="sig-name descname">time_filtering</code><a class="headerlink" href="#classes.network_graph.NetworkGraph.time_filtering" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt id="classes.network_graph.NetworkGraph.time_scalar_indexing_strucure">
+<em class="property">property </em><code class="sig-name descname">time_scalar_indexing_strucure</code><a class="headerlink" href="#classes.network_graph.NetworkGraph.time_scalar_indexing_strucure" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt id="classes.network_graph.NetworkGraph.transition_filtering">
+<em class="property">property </em><code class="sig-name descname">transition_filtering</code><a class="headerlink" href="#classes.network_graph.NetworkGraph.transition_filtering" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt id="classes.network_graph.NetworkGraph.transition_scalar_indexing_structure">
+<em class="property">property </em><code class="sig-name descname">transition_scalar_indexing_structure</code><a class="headerlink" href="#classes.network_graph.NetworkGraph.transition_scalar_indexing_structure" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+</dd></dl>
+
+</div>
+<div class="section" id="module-classes.parameters_estimator">
+<span id="classes-parameters-estimator-module"></span><h2>classes.parameters_estimator module<a class="headerlink" href="#module-classes.parameters_estimator" title="Permalink to this headline">¶</a></h2>
+<dl class="py class">
+<dt id="classes.parameters_estimator.ParametersEstimator">
+<em class="property">class </em><code class="sig-prename descclassname">classes.parameters_estimator.</code><code class="sig-name descname">ParametersEstimator</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">trajectories</span><span class="p">:</span> <span class="n"><a class="reference internal" href="#classes.trajectory.Trajectory" title="classes.trajectory.Trajectory">classes.trajectory.Trajectory</a></span></em>, <em class="sig-param"><span class="n">net_graph</span><span class="p">:</span> <span class="n"><a class="reference internal" href="#classes.network_graph.NetworkGraph" title="classes.network_graph.NetworkGraph">classes.network_graph.NetworkGraph</a></span></em><span class="sig-paren">)</span><a class="headerlink" href="#classes.parameters_estimator.ParametersEstimator" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></p>
+<p>Has the task of computing the cims of particular node given the trajectories and the net structure
+in the graph <code class="docutils literal notranslate"><span class="pre">_net_graph</span></code>.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>trajectories</strong> (<a class="reference internal" href="#classes.trajectory.Trajectory" title="classes.trajectory.Trajectory"><em>Trajectory</em></a>) – the trajectories</p></li>
+<li><p><strong>net_graph</strong> (<a class="reference internal" href="#classes.network_graph.NetworkGraph" title="classes.network_graph.NetworkGraph"><em>NetworkGraph</em></a>) – the net structure</p></li>
+</ul>
+</dd>
+<dt class="field-even">_single_set_of_cims</dt>
+<dd class="field-even"><p>the set of cims object that will hold the cims of the node</p>
+</dd>
+</dl>
+<dl class="py method">
+<dt id="classes.parameters_estimator.ParametersEstimator.compute_parameters_for_node">
+<code class="sig-name descname">compute_parameters_for_node</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">node_id</span><span class="p">:</span> <span class="n">str</span></em><span class="sig-paren">)</span> &#x2192; <a class="reference internal" href="#classes.set_of_cims.SetOfCims" title="classes.set_of_cims.SetOfCims">classes.set_of_cims.SetOfCims</a><a class="headerlink" href="#classes.parameters_estimator.ParametersEstimator.compute_parameters_for_node" title="Permalink to this definition">¶</a></dt>
+<dd><p>Compute the CIMS of the node identified by the label <code class="docutils literal notranslate"><span class="pre">node_id</span></code>.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>node_id</strong> (<em>string</em>) – the node label</p>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>A SetOfCims object filled with the computed CIMS</p>
+</dd>
+<dt class="field-odd">Return type</dt>
+<dd class="field-odd"><p><a class="reference internal" href="#classes.set_of_cims.SetOfCims" title="classes.set_of_cims.SetOfCims">SetOfCims</a></p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt id="classes.parameters_estimator.ParametersEstimator.compute_state_res_time_for_node">
+<em class="property">static </em><code class="sig-name descname">compute_state_res_time_for_node</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">times</span><span class="p">:</span> <span class="n">numpy.ndarray</span></em>, <em class="sig-param"><span class="n">trajectory</span><span class="p">:</span> <span class="n">numpy.ndarray</span></em>, <em class="sig-param"><span class="n">cols_filter</span><span class="p">:</span> <span class="n">numpy.ndarray</span></em>, <em class="sig-param"><span class="n">scalar_indexes_struct</span><span class="p">:</span> <span class="n">numpy.ndarray</span></em>, <em class="sig-param"><span class="n">T</span><span class="p">:</span> <span class="n">numpy.ndarray</span></em><span class="sig-paren">)</span> &#x2192; None<a class="headerlink" href="#classes.parameters_estimator.ParametersEstimator.compute_state_res_time_for_node" title="Permalink to this definition">¶</a></dt>
+<dd><p>Compute the state residence times for a node and fill the matrix <code class="docutils literal notranslate"><span class="pre">T</span></code> with the results</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>node_indx</strong> (<em>int</em>) – the index of the node</p></li>
+<li><p><strong>times</strong> (<em>numpy.array</em>) – the times deltas vector</p></li>
+<li><p><strong>trajectory</strong> (<em>numpy.ndArray</em>) – the trajectory</p></li>
+<li><p><strong>cols_filter</strong> (<em>numpy.array</em>) – the columns filtering structure</p></li>
+<li><p><strong>scalar_indexes_struct</strong> (<em>numpy.array</em>) – the indexing structure</p></li>
+<li><p><strong>T</strong> (<em>numpy.ndArray</em>) – the state residence times vectors</p></li>
+</ul>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt id="classes.parameters_estimator.ParametersEstimator.compute_state_transitions_for_a_node">
+<em class="property">static </em><code class="sig-name descname">compute_state_transitions_for_a_node</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">node_indx</span><span class="p">:</span> <span class="n">int</span></em>, <em class="sig-param"><span class="n">trajectory</span><span class="p">:</span> <span class="n">numpy.ndarray</span></em>, <em class="sig-param"><span class="n">cols_filter</span><span class="p">:</span> <span class="n">numpy.ndarray</span></em>, <em class="sig-param"><span class="n">scalar_indexing</span><span class="p">:</span> <span class="n">numpy.ndarray</span></em>, <em class="sig-param"><span class="n">M</span><span class="p">:</span> <span class="n">numpy.ndarray</span></em><span class="sig-paren">)</span> &#x2192; None<a class="headerlink" href="#classes.parameters_estimator.ParametersEstimator.compute_state_transitions_for_a_node" title="Permalink to this definition">¶</a></dt>
+<dd><p>Compute the state residence times for a node and fill the matrices <code class="docutils literal notranslate"><span class="pre">M</span></code> with the results.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>node_indx</strong> (<em>int</em>) – the index of the node</p></li>
+<li><p><strong>trajectory</strong> (<em>numpy.ndArray</em>) – the trajectory</p></li>
+<li><p><strong>cols_filter</strong> (<em>numpy.array</em>) – the columns filtering structure</p></li>
+<li><p><strong>scalar_indexing</strong> (<em>numpy.array</em>) – the indexing structure</p></li>
+<li><p><strong>M</strong> (<em>numpy.ndArray</em>) – the state transitions matrices</p></li>
+</ul>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt id="classes.parameters_estimator.ParametersEstimator.fast_init">
+<code class="sig-name descname">fast_init</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">node_id</span><span class="p">:</span> <span class="n">str</span></em><span class="sig-paren">)</span> &#x2192; None<a class="headerlink" href="#classes.parameters_estimator.ParametersEstimator.fast_init" title="Permalink to this definition">¶</a></dt>
+<dd><p>Initializes all the necessary structures for the parameters estimation for the node <code class="docutils literal notranslate"><span class="pre">node_id</span></code>.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>node_id</strong> (<em>string</em>) – the node label</p>
+</dd>
+</dl>
+</dd></dl>
+
+</dd></dl>
+
+</div>
+<div class="section" id="module-classes.sample_path">
+<span id="classes-sample-path-module"></span><h2>classes.sample_path module<a class="headerlink" href="#module-classes.sample_path" title="Permalink to this headline">¶</a></h2>
+<dl class="py class">
+<dt id="classes.sample_path.SamplePath">
+<em class="property">class </em><code class="sig-prename descclassname">classes.sample_path.</code><code class="sig-name descname">SamplePath</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">importer</span><span class="p">:</span> <span class="n"><a class="reference internal" href="#classes.abstract_importer.AbstractImporter" title="classes.abstract_importer.AbstractImporter">classes.abstract_importer.AbstractImporter</a></span></em><span class="sig-paren">)</span><a class="headerlink" href="#classes.sample_path.SamplePath" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></p>
+<p>Aggregates all the informations about the trajectories, the real structure of the sampled net and variables
+cardinalites. Has the task of creating the objects <code class="docutils literal notranslate"><span class="pre">Trajectory</span></code> and <code class="docutils literal notranslate"><span class="pre">Structure</span></code> that will
+contain the mentioned data.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>importer</strong> (<a class="reference internal" href="#classes.abstract_importer.AbstractImporter" title="classes.abstract_importer.AbstractImporter"><em>AbstractImporter</em></a>) – the Importer object which contains the imported and processed data</p>
+</dd>
+<dt class="field-even">_trajectories</dt>
+<dd class="field-even"><p>the <code class="docutils literal notranslate"><span class="pre">Trajectory</span></code> object that will contain all the concatenated trajectories</p>
+</dd>
+<dt class="field-odd">_structure</dt>
+<dd class="field-odd"><p>the <code class="docutils literal notranslate"><span class="pre">Structure</span></code> Object that will contain all the structural infos about the net</p>
+</dd>
+<dt class="field-even">_total_variables_count</dt>
+<dd class="field-even"><p>the number of variables in the net</p>
+</dd>
+</dl>
+<dl class="py method">
+<dt id="classes.sample_path.SamplePath.build_structure">
+<code class="sig-name descname">build_structure</code><span class="sig-paren">(</span><span class="sig-paren">)</span> &#x2192; None<a class="headerlink" href="#classes.sample_path.SamplePath.build_structure" title="Permalink to this definition">¶</a></dt>
+<dd><p>Builds the <code class="docutils literal notranslate"><span class="pre">Structure</span></code> object that aggregates all the infos about the net.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt id="classes.sample_path.SamplePath.build_trajectories">
+<code class="sig-name descname">build_trajectories</code><span class="sig-paren">(</span><span class="sig-paren">)</span> &#x2192; None<a class="headerlink" href="#classes.sample_path.SamplePath.build_trajectories" title="Permalink to this definition">¶</a></dt>
+<dd><p>Builds the Trajectory object that will contain all the trajectories.
+Clears all the unused dataframes in <code class="docutils literal notranslate"><span class="pre">_importer</span></code> Object</p>
+</dd></dl>
+
+<dl class="py method">
+<dt id="classes.sample_path.SamplePath.structure">
+<em class="property">property </em><code class="sig-name descname">structure</code><a class="headerlink" href="#classes.sample_path.SamplePath.structure" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt id="classes.sample_path.SamplePath.total_variables_count">
+<em class="property">property </em><code class="sig-name descname">total_variables_count</code><a class="headerlink" href="#classes.sample_path.SamplePath.total_variables_count" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt id="classes.sample_path.SamplePath.trajectories">
+<em class="property">property </em><code class="sig-name descname">trajectories</code><a class="headerlink" href="#classes.sample_path.SamplePath.trajectories" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+</dd></dl>
+
+</div>
+<div class="section" id="module-classes.set_of_cims">
+<span id="classes-set-of-cims-module"></span><h2>classes.set_of_cims module<a class="headerlink" href="#module-classes.set_of_cims" title="Permalink to this headline">¶</a></h2>
+<dl class="py class">
+<dt id="classes.set_of_cims.SetOfCims">
+<em class="property">class </em><code class="sig-prename descclassname">classes.set_of_cims.</code><code class="sig-name descname">SetOfCims</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">node_id</span><span class="p">:</span> <span class="n">str</span></em>, <em class="sig-param"><span class="n">parents_states_number</span><span class="p">:</span> <span class="n">List</span></em>, <em class="sig-param"><span class="n">node_states_number</span><span class="p">:</span> <span class="n">int</span></em>, <em class="sig-param"><span class="n">p_combs</span><span class="p">:</span> <span class="n">numpy.ndarray</span></em><span class="sig-paren">)</span><a class="headerlink" href="#classes.set_of_cims.SetOfCims" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></p>
+<p>Aggregates all the CIMS of the node identified by the label _node_id.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>node_id</strong> – the node label</p></li>
+<li><p><strong>parents_states_number</strong> (<em>List</em>) – the cardinalities of the parents</p></li>
+<li><p><strong>node_states_number</strong> (<em>int</em>) – the caridinality of the node</p></li>
+<li><p><strong>p_combs</strong> (<em>numpy.ndArray</em>) – the p_comb structure bound to this node</p></li>
+</ul>
+</dd>
+<dt class="field-even">_state_residence_time</dt>
+<dd class="field-even"><p>matrix containing all the state residence time vectors for the node</p>
+</dd>
+<dt class="field-odd">_transition_matrices</dt>
+<dd class="field-odd"><p>matrix containing all the transition matrices for the node</p>
+</dd>
+<dt class="field-even">_actual_cims</dt>
+<dd class="field-even"><p>the cims of the node</p>
+</dd>
+</dl>
+<dl class="py method">
+<dt id="classes.set_of_cims.SetOfCims.actual_cims">
+<em class="property">property </em><code class="sig-name descname">actual_cims</code><a class="headerlink" href="#classes.set_of_cims.SetOfCims.actual_cims" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt id="classes.set_of_cims.SetOfCims.build_cims">
+<code class="sig-name descname">build_cims</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">state_res_times</span><span class="p">:</span> <span class="n">numpy.ndarray</span></em>, <em class="sig-param"><span class="n">transition_matrices</span><span class="p">:</span> <span class="n">numpy.ndarray</span></em><span class="sig-paren">)</span> &#x2192; None<a class="headerlink" href="#classes.set_of_cims.SetOfCims.build_cims" title="Permalink to this definition">¶</a></dt>
+<dd><p>Build the <code class="docutils literal notranslate"><span class="pre">ConditionalIntensityMatrix</span></code> objects given the state residence times and transitions matrices.
+Compute the cim coefficients.The class member <code class="docutils literal notranslate"><span class="pre">_actual_cims</span></code> will contain the computed cims.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>state_res_times</strong> (<em>numpy.ndArray</em>) – the state residence times matrix</p></li>
+<li><p><strong>transition_matrices</strong> (<em>numpy.ndArray</em>) – the transition matrices</p></li>
+</ul>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt id="classes.set_of_cims.SetOfCims.build_times_and_transitions_structures">
+<code class="sig-name descname">build_times_and_transitions_structures</code><span class="sig-paren">(</span><span class="sig-paren">)</span> &#x2192; None<a class="headerlink" href="#classes.set_of_cims.SetOfCims.build_times_and_transitions_structures" title="Permalink to this definition">¶</a></dt>
+<dd><p>Initializes at the correct dimensions the state residence times matrix and the state transition matrices.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt id="classes.set_of_cims.SetOfCims.filter_cims_with_mask">
+<code class="sig-name descname">filter_cims_with_mask</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">mask_arr</span><span class="p">:</span> <span class="n">numpy.ndarray</span></em>, <em class="sig-param"><span class="n">comb</span><span class="p">:</span> <span class="n">List</span></em><span class="sig-paren">)</span> &#x2192; numpy.ndarray<a class="headerlink" href="#classes.set_of_cims.SetOfCims.filter_cims_with_mask" title="Permalink to this definition">¶</a></dt>
+<dd><p>Filter the cims contained in the array <code class="docutils literal notranslate"><span class="pre">_actual_cims</span></code> given the boolean mask <code class="docutils literal notranslate"><span class="pre">mask_arr</span></code> and the index
+<code class="docutils literal notranslate"><span class="pre">comb</span></code>.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>mask_arr</strong> (<em>numpy.array</em>) – the boolean mask that indicates which parent to consider</p></li>
+<li><p><strong>comb</strong> (<em>numpy.array</em>) – the state/s of the filtered parents</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>Array of <code class="docutils literal notranslate"><span class="pre">ConditionalIntensityMatrix</span></code> objects</p>
+</dd>
+<dt class="field-odd">Return type</dt>
+<dd class="field-odd"><p>numpy.array</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt id="classes.set_of_cims.SetOfCims.get_cims_number">
+<code class="sig-name descname">get_cims_number</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#classes.set_of_cims.SetOfCims.get_cims_number" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt id="classes.set_of_cims.SetOfCims.p_combs">
+<em class="property">property </em><code class="sig-name descname">p_combs</code><a class="headerlink" href="#classes.set_of_cims.SetOfCims.p_combs" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+</dd></dl>
+
+</div>
+<div class="section" id="module-classes.structure">
+<span id="classes-structure-module"></span><h2>classes.structure module<a class="headerlink" href="#module-classes.structure" title="Permalink to this headline">¶</a></h2>
+<dl class="py class">
+<dt id="classes.structure.Structure">
+<em class="property">class </em><code class="sig-prename descclassname">classes.structure.</code><code class="sig-name descname">Structure</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">nodes_labels_list</span><span class="p">:</span> <span class="n">List</span></em>, <em class="sig-param"><span class="n">nodes_indexes_arr</span><span class="p">:</span> <span class="n">numpy.ndarray</span></em>, <em class="sig-param"><span class="n">nodes_vals_arr</span><span class="p">:</span> <span class="n">numpy.ndarray</span></em>, <em class="sig-param"><span class="n">edges_list</span><span class="p">:</span> <span class="n">List</span></em>, <em class="sig-param"><span class="n">total_variables_number</span><span class="p">:</span> <span class="n">int</span></em><span class="sig-paren">)</span><a class="headerlink" href="#classes.structure.Structure" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></p>
+<p>Contains all the infos about the network structure(nodes labels, nodes caridinalites, edges, indexes)</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>nodes_labels_list</strong> (<em>List</em>) – the symbolic names of the variables</p></li>
+<li><p><strong>nodes_indexes_arr</strong> (<em>numpy.ndArray</em>) – the indexes of the nodes</p></li>
+<li><p><strong>nodes_vals_arr</strong> (<em>numpy.ndArray</em>) – the cardinalites of the nodes</p></li>
+<li><p><strong>edges_list</strong> (<em>List</em>) – the edges of the network</p></li>
+<li><p><strong>total_variables_number</strong> (<em>int</em>) – the total number of variables in the dataset</p></li>
+</ul>
+</dd>
+</dl>
+<dl class="py method">
+<dt id="classes.structure.Structure.edges">
+<em class="property">property </em><code class="sig-name descname">edges</code><a class="headerlink" href="#classes.structure.Structure.edges" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt id="classes.structure.Structure.get_node_id">
+<code class="sig-name descname">get_node_id</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">node_indx</span><span class="p">:</span> <span class="n">int</span></em><span class="sig-paren">)</span> &#x2192; str<a class="headerlink" href="#classes.structure.Structure.get_node_id" title="Permalink to this definition">¶</a></dt>
+<dd><p>Given the <code class="docutils literal notranslate"><span class="pre">node_index</span></code> returns the node label.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>node_indx</strong> (<em>int</em>) – the node index</p>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>the node label</p>
+</dd>
+<dt class="field-odd">Return type</dt>
+<dd class="field-odd"><p>string</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt id="classes.structure.Structure.get_node_indx">
+<code class="sig-name descname">get_node_indx</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">node_id</span><span class="p">:</span> <span class="n">str</span></em><span class="sig-paren">)</span> &#x2192; int<a class="headerlink" href="#classes.structure.Structure.get_node_indx" title="Permalink to this definition">¶</a></dt>
+<dd><p>Given the <code class="docutils literal notranslate"><span class="pre">node_index</span></code> returns the node label.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>node_id</strong> (<em>string</em>) – the node label</p>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>the node index</p>
+</dd>
+<dt class="field-odd">Return type</dt>
+<dd class="field-odd"><p>int</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt id="classes.structure.Structure.get_positional_node_indx">
+<code class="sig-name descname">get_positional_node_indx</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">node_id</span><span class="p">:</span> <span class="n">str</span></em><span class="sig-paren">)</span> &#x2192; int<a class="headerlink" href="#classes.structure.Structure.get_positional_node_indx" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt id="classes.structure.Structure.get_states_number">
+<code class="sig-name descname">get_states_number</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">node</span><span class="p">:</span> <span class="n">str</span></em><span class="sig-paren">)</span> &#x2192; int<a class="headerlink" href="#classes.structure.Structure.get_states_number" title="Permalink to this definition">¶</a></dt>
+<dd><p>Given the node label <code class="docutils literal notranslate"><span class="pre">node</span></code> returns the cardinality of the node.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>node</strong> (<em>string</em>) – the node label</p>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>the node cardinality</p>
+</dd>
+<dt class="field-odd">Return type</dt>
+<dd class="field-odd"><p>int</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt id="classes.structure.Structure.nodes_indexes">
+<em class="property">property </em><code class="sig-name descname">nodes_indexes</code><a class="headerlink" href="#classes.structure.Structure.nodes_indexes" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt id="classes.structure.Structure.nodes_labels">
+<em class="property">property </em><code class="sig-name descname">nodes_labels</code><a class="headerlink" href="#classes.structure.Structure.nodes_labels" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt id="classes.structure.Structure.nodes_values">
+<em class="property">property </em><code class="sig-name descname">nodes_values</code><a class="headerlink" href="#classes.structure.Structure.nodes_values" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt id="classes.structure.Structure.remove_node">
+<code class="sig-name descname">remove_node</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">node_id</span><span class="p">:</span> <span class="n">str</span></em><span class="sig-paren">)</span> &#x2192; None<a class="headerlink" href="#classes.structure.Structure.remove_node" title="Permalink to this definition">¶</a></dt>
+<dd><p>Remove the node <code class="docutils literal notranslate"><span class="pre">node_id</span></code> from all the class members.
+The class member <code class="docutils literal notranslate"><span class="pre">_total_variables_number</span></code> since it refers to the total number of variables in the dataset.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt id="classes.structure.Structure.total_variables_number">
+<em class="property">property </em><code class="sig-name descname">total_variables_number</code><a class="headerlink" href="#classes.structure.Structure.total_variables_number" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+</dd></dl>
+
+</div>
+<div class="section" id="module-classes.structure_estimator">
+<span id="classes-structure-estimator-module"></span><h2>classes.structure_estimator module<a class="headerlink" href="#module-classes.structure_estimator" title="Permalink to this headline">¶</a></h2>
+<dl class="py class">
+<dt id="classes.structure_estimator.StructureEstimator">
+<em class="property">class </em><code class="sig-prename descclassname">classes.structure_estimator.</code><code class="sig-name descname">StructureEstimator</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">sample_path</span><span class="p">:</span> <span class="n"><a class="reference internal" href="#classes.sample_path.SamplePath" title="classes.sample_path.SamplePath">classes.sample_path.SamplePath</a></span></em>, <em class="sig-param"><span class="n">exp_test_alfa</span><span class="p">:</span> <span class="n">float</span></em>, <em class="sig-param"><span class="n">chi_test_alfa</span><span class="p">:</span> <span class="n">float</span></em><span class="sig-paren">)</span><a class="headerlink" href="#classes.structure_estimator.StructureEstimator" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></p>
+<p>Has the task of estimating the network structure given the trajectories in <code class="docutils literal notranslate"><span class="pre">samplepath</span></code>.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>sample_path</strong> (<a class="reference internal" href="#classes.sample_path.SamplePath" title="classes.sample_path.SamplePath"><em>SamplePath</em></a>) – the _sample_path object containing the trajectories and the real structure</p></li>
+<li><p><strong>exp_test_alfa</strong> (<em>float</em>) – the significance level for the exponential Hp test</p></li>
+<li><p><strong>chi_test_alfa</strong> (<em>float</em>) – the significance level for the chi Hp test</p></li>
+</ul>
+</dd>
+<dt class="field-even">_nodes</dt>
+<dd class="field-even"><p>the nodes labels</p>
+</dd>
+<dt class="field-odd">_nodes_vals</dt>
+<dd class="field-odd"><p>the nodes cardinalities</p>
+</dd>
+<dt class="field-even">_nodes_indxs</dt>
+<dd class="field-even"><p>the nodes indexes</p>
+</dd>
+<dt class="field-odd">_complete_graph</dt>
+<dd class="field-odd"><p>the complete directed graph built using the nodes labels in <code class="docutils literal notranslate"><span class="pre">_nodes</span></code></p>
+</dd>
+<dt class="field-even">_cache</dt>
+<dd class="field-even"><p>the Cache object</p>
+</dd>
+</dl>
+<dl class="py method">
+<dt id="classes.structure_estimator.StructureEstimator.adjacency_matrix">
+<code class="sig-name descname">adjacency_matrix</code><span class="sig-paren">(</span><span class="sig-paren">)</span> &#x2192; numpy.ndarray<a class="headerlink" href="#classes.structure_estimator.StructureEstimator.adjacency_matrix" title="Permalink to this definition">¶</a></dt>
+<dd><p>Converts the estimated structrure <code class="docutils literal notranslate"><span class="pre">_complete_graph</span></code> to a boolean adjacency matrix representation.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Returns</dt>
+<dd class="field-odd"><p>The adjacency matrix of the graph <code class="docutils literal notranslate"><span class="pre">_complete_graph</span></code></p>
+</dd>
+<dt class="field-even">Return type</dt>
+<dd class="field-even"><p>numpy.ndArray</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt id="classes.structure_estimator.StructureEstimator.build_complete_graph">
+<em class="property">static </em><code class="sig-name descname">build_complete_graph</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">node_ids</span><span class="p">:</span> <span class="n">List</span></em><span class="sig-paren">)</span> &#x2192; networkx.classes.digraph.DiGraph<a class="headerlink" href="#classes.structure_estimator.StructureEstimator.build_complete_graph" title="Permalink to this definition">¶</a></dt>
+<dd><p>Builds a complete directed graph (no self loops) given the nodes labels in the list <code class="docutils literal notranslate"><span class="pre">node_ids</span></code>:</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>node_ids</strong> (<em>List</em>) – the list of nodes labels</p>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>a complete Digraph Object</p>
+</dd>
+<dt class="field-odd">Return type</dt>
+<dd class="field-odd"><p>networkx.DiGraph</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt id="classes.structure_estimator.StructureEstimator.complete_test">
+<code class="sig-name descname">complete_test</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">test_parent</span><span class="p">:</span> <span class="n">str</span></em>, <em class="sig-param"><span class="n">test_child</span><span class="p">:</span> <span class="n">str</span></em>, <em class="sig-param"><span class="n">parent_set</span><span class="p">:</span> <span class="n">List</span></em>, <em class="sig-param"><span class="n">child_states_numb</span><span class="p">:</span> <span class="n">int</span></em>, <em class="sig-param"><span class="n">tot_vars_count</span><span class="p">:</span> <span class="n">int</span></em><span class="sig-paren">)</span> &#x2192; bool<a class="headerlink" href="#classes.structure_estimator.StructureEstimator.complete_test" title="Permalink to this definition">¶</a></dt>
+<dd><p>Performs a complete independence test on the directed graphs G1 = {test_child U parent_set}
+G2 = {G1 U test_parent} (added as an additional parent of the test_child).
+Generates all the necessary structures and datas to perform the tests.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>test_parent</strong> (<em>string</em>) – the node label of the test parent</p></li>
+<li><p><strong>test_child</strong> (<em>string</em>) – the node label of the child</p></li>
+<li><p><strong>parent_set</strong> (<em>List</em>) – the common parent set</p></li>
+<li><p><strong>child_states_numb</strong> (<em>int</em>) – the cardinality of the <code class="docutils literal notranslate"><span class="pre">test_child</span></code></p></li>
+<li><p><strong>tot_vars_count</strong> (<em>int</em>) – the total number of variables in the net</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>True iff test_child and test_parent are independent given the sep_set parent_set. False otherwise</p>
+</dd>
+<dt class="field-odd">Return type</dt>
+<dd class="field-odd"><p>bool</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt id="classes.structure_estimator.StructureEstimator.ctpc_algorithm">
+<code class="sig-name descname">ctpc_algorithm</code><span class="sig-paren">(</span><span class="sig-paren">)</span> &#x2192; None<a class="headerlink" href="#classes.structure_estimator.StructureEstimator.ctpc_algorithm" title="Permalink to this definition">¶</a></dt>
+<dd><p>Compute the CTPC algorithm over the entire net.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt id="classes.structure_estimator.StructureEstimator.generate_possible_sub_sets_of_size">
+<em class="property">static </em><code class="sig-name descname">generate_possible_sub_sets_of_size</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">u</span><span class="p">:</span> <span class="n">List</span></em>, <em class="sig-param"><span class="n">size</span><span class="p">:</span> <span class="n">int</span></em>, <em class="sig-param"><span class="n">parent_label</span><span class="p">:</span> <span class="n">str</span></em><span class="sig-paren">)</span> &#x2192; Iterator<a class="headerlink" href="#classes.structure_estimator.StructureEstimator.generate_possible_sub_sets_of_size" title="Permalink to this definition">¶</a></dt>
+<dd><p>Creates a list containing all possible subsets of the list <code class="docutils literal notranslate"><span class="pre">u</span></code> of size <code class="docutils literal notranslate"><span class="pre">size</span></code>,
+that do not contains a the node identified by <code class="docutils literal notranslate"><span class="pre">parent_label</span></code>.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>u</strong> (<em>List</em>) – the list of nodes</p></li>
+<li><p><strong>size</strong> (<em>int</em>) – the size of the subsets</p></li>
+<li><p><strong>parent_label</strong> (<em>string</em>) – the node to exclude in the subsets generation</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>an Iterator Object containing a list of lists</p>
+</dd>
+<dt class="field-odd">Return type</dt>
+<dd class="field-odd"><p>Iterator</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt id="classes.structure_estimator.StructureEstimator.independence_test">
+<code class="sig-name descname">independence_test</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">child_states_numb</span><span class="p">:</span> <span class="n">int</span></em>, <em class="sig-param"><span class="n">cim1</span><span class="p">:</span> <span class="n"><a class="reference internal" href="#classes.conditional_intensity_matrix.ConditionalIntensityMatrix" title="classes.conditional_intensity_matrix.ConditionalIntensityMatrix">classes.conditional_intensity_matrix.ConditionalIntensityMatrix</a></span></em>, <em class="sig-param"><span class="n">cim2</span><span class="p">:</span> <span class="n"><a class="reference internal" href="#classes.conditional_intensity_matrix.ConditionalIntensityMatrix" title="classes.conditional_intensity_matrix.ConditionalIntensityMatrix">classes.conditional_intensity_matrix.ConditionalIntensityMatrix</a></span></em><span class="sig-paren">)</span> &#x2192; bool<a class="headerlink" href="#classes.structure_estimator.StructureEstimator.independence_test" title="Permalink to this definition">¶</a></dt>
+<dd><p>Compute the actual independence test using two cims.
+It is performed first the exponential test and if the null hypothesis is not rejected,
+it is performed also the chi_test.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>child_states_numb</strong> (<em>int</em>) – the cardinality of the test child</p></li>
+<li><p><strong>cim1</strong> (<a class="reference internal" href="#classes.conditional_intensity_matrix.ConditionalIntensityMatrix" title="classes.conditional_intensity_matrix.ConditionalIntensityMatrix"><em>ConditionalIntensityMatrix</em></a>) – a cim belonging to the graph without test parent</p></li>
+<li><p><strong>cim2</strong> (<a class="reference internal" href="#classes.conditional_intensity_matrix.ConditionalIntensityMatrix" title="classes.conditional_intensity_matrix.ConditionalIntensityMatrix"><em>ConditionalIntensityMatrix</em></a>) – a cim belonging to the graph with test parent</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>True iff both tests do NOT reject the null hypothesis of independence. False otherwise.</p>
+</dd>
+<dt class="field-odd">Return type</dt>
+<dd class="field-odd"><p>bool</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt id="classes.structure_estimator.StructureEstimator.one_iteration_of_CTPC_algorithm">
+<code class="sig-name descname">one_iteration_of_CTPC_algorithm</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">var_id</span><span class="p">:</span> <span class="n">str</span></em>, <em class="sig-param"><span class="n">tot_vars_count</span><span class="p">:</span> <span class="n">int</span></em><span class="sig-paren">)</span> &#x2192; None<a class="headerlink" href="#classes.structure_estimator.StructureEstimator.one_iteration_of_CTPC_algorithm" title="Permalink to this definition">¶</a></dt>
+<dd><p>Performs an iteration of the CTPC algorithm using the node <code class="docutils literal notranslate"><span class="pre">var_id</span></code> as <code class="docutils literal notranslate"><span class="pre">test_child</span></code>.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>var_id</strong> (<em>string</em>) – the node label of the test child</p></li>
+<li><p><strong>tot_vars_count</strong> (<em>int</em>) – the number of _nodes in the net</p></li>
+</ul>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt id="classes.structure_estimator.StructureEstimator.save_results">
+<code class="sig-name descname">save_results</code><span class="sig-paren">(</span><span class="sig-paren">)</span> &#x2192; None<a class="headerlink" href="#classes.structure_estimator.StructureEstimator.save_results" title="Permalink to this definition">¶</a></dt>
+<dd><p>Save the estimated Structure to a .json file in the path where the data are loaded from.
+The file is named as the input dataset but the <cite>results_</cite> word is appended to the results file.</p>
+</dd></dl>
+
+</dd></dl>
+
+</div>
+<div class="section" id="module-classes.trajectory">
+<span id="classes-trajectory-module"></span><h2>classes.trajectory module<a class="headerlink" href="#module-classes.trajectory" title="Permalink to this headline">¶</a></h2>
+<dl class="py class">
+<dt id="classes.trajectory.Trajectory">
+<em class="property">class </em><code class="sig-prename descclassname">classes.trajectory.</code><code class="sig-name descname">Trajectory</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">list_of_columns</span><span class="p">:</span> <span class="n">List</span></em>, <em class="sig-param"><span class="n">original_cols_number</span><span class="p">:</span> <span class="n">int</span></em><span class="sig-paren">)</span><a class="headerlink" href="#classes.trajectory.Trajectory" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></p>
+<p>Abstracts the infos about a complete set of trajectories, represented as a numpy array of doubles
+(the time deltas) and a numpy matrix of ints (the changes of states).</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>list_of_columns</strong> (<em>List</em>) – the list containing the times array and values matrix</p></li>
+<li><p><strong>original_cols_number</strong> (<em>int</em>) – total number of cols in the data</p></li>
+</ul>
+</dd>
+<dt class="field-even">_actual_trajectory</dt>
+<dd class="field-even"><p>the trajectory containing also the duplicated/shifted values</p>
+</dd>
+<dt class="field-odd">_times</dt>
+<dd class="field-odd"><p>the array containing the time deltas</p>
+</dd>
+</dl>
+<dl class="py method">
+<dt id="classes.trajectory.Trajectory.complete_trajectory">
+<em class="property">property </em><code class="sig-name descname">complete_trajectory</code><a class="headerlink" href="#classes.trajectory.Trajectory.complete_trajectory" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt id="classes.trajectory.Trajectory.size">
+<code class="sig-name descname">size</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#classes.trajectory.Trajectory.size" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt id="classes.trajectory.Trajectory.times">
+<em class="property">property </em><code class="sig-name descname">times</code><a class="headerlink" href="#classes.trajectory.Trajectory.times" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt id="classes.trajectory.Trajectory.trajectory">
+<em class="property">property </em><code class="sig-name descname">trajectory</code><a class="headerlink" href="#classes.trajectory.Trajectory.trajectory" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+</dd></dl>
+
+</div>
+<div class="section" id="module-classes">
+<span id="module-contents"></span><h2>Module contents<a class="headerlink" href="#module-classes" title="Permalink to this headline">¶</a></h2>
+</div>
+</div>
+
+
+	    </div>
+            <footer>
+  
+    <div class="rst-footer-buttons" role="navigation" aria-label="footer navigation">
+      
+        <a href="examples.html" class="btn btn-neutral float-right" title="Examples">Next <span class="fa fa-arrow-circle-right"></span></a>
+      
+      
+        <a href="index.html" class="btn btn-neutral" title="Welcome to PyCTBN’s documentation!"><span class="fa fa-arrow-circle-left"></span> Previous</a>
+      
+    </div>
+  
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>
+        &copy; Copyright 2020, Alessandro Bregoli, Filippo Martini.
+    </p>
+  </div>
+
+  Built with <a href="http://sphinx-doc.org/">Sphinx</a> using a <a href="https://github.com/jucacrispim/sphinx_pdj_theme">theme</a> provided by <a href="http://poraodojuca.net">Porão do Juca</a>.
+
+</footer>
+	</div>
+	</div>
+	  
+
+    <script type="text/javascript">
+        var DOCUMENTATION_OPTIONS = {
+            URL_ROOT:'./',
+            VERSION:'1.0',
+            COLLAPSE_INDEX:false,
+            FILE_SUFFIX:'.html',
+            HAS_SOURCE:  true
+        };
+    </script>
+    <script type="text/javascript" src="_static/jquery.js">
+
+    </script>
+    <script type="text/javascript" src="_static/underscore.js">
+
+    </script>
+    <script type="text/javascript" src="_static/doctools.js">
+
+    </script>
+    <script type="text/javascript" src="_static/language_data.js">
+
+    </script>
+
+  
+
+   <script type="text/javascript"
+           src="_static/js/theme.js"></script>
+
+   <script type="text/javascript"
+           src="_static/js/pdj.js"></script>
+
+  
+  
+  <script type="text/javascript">
+      jQuery(function () {
+          SphinxRtdTheme.StickyNav.enable();
+      });
+  </script>
+   
+
+  </body>
+</html>

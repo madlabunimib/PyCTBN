@@ -4,11 +4,11 @@ import numpy as np
 import glob
 import os
 
-from ..PyCTBN.network_graph import NetworkGraph
-from ..PyCTBN.sample_path import SamplePath
-from ..PyCTBN.set_of_cims import SetOfCims
-from ..PyCTBN.parameters_estimator import ParametersEstimator
-from ..PyCTBN.json_importer import JsonImporter
+from ..classes.network_graph import NetworkGraph
+from ..classes.sample_path import SamplePath
+from ..classes.set_of_cims import SetOfCims
+from ..classes.parameters_estimator import ParametersEstimator
+from ..classes.json_importer import JsonImporter
 
 
 class TestParametersEstimatior(unittest.TestCase):

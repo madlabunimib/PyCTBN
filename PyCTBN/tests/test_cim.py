@@ -2,7 +2,7 @@
 import unittest
 import numpy as np
 
-from ..PyCTBN.conditional_intensity_matrix import ConditionalIntensityMatrix
+from ..classes.conditional_intensity_matrix import ConditionalIntensityMatrix
 
 
 class TestConditionalIntensityMatrix(unittest.TestCase):

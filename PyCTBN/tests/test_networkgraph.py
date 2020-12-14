@@ -6,9 +6,9 @@ import networkx as nx
 import numpy as np
 import itertools
 
-from ..PyCTBN.sample_path import SamplePath
-from ..PyCTBN.network_graph import NetworkGraph
-from ..PyCTBN.json_importer import JsonImporter
+from ..classes.sample_path import SamplePath
+from ..classes.network_graph import NetworkGraph
+from ..classes.json_importer import JsonImporter
 
 
 class TestNetworkGraph(unittest.TestCase):

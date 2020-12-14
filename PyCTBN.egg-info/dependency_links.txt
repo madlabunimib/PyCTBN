@@ -1,3 +1,0 @@
-https://github.com/numpy/numpy
-https://github.com/pandas-dev/pandas
-https://github.com/networkx/networkx

@@ -2,7 +2,7 @@
 import unittest
 import numpy as np
 
-from ..PyCTBN.trajectory import Trajectory
+from ..classes.trajectory import Trajectory
 
 
 class TestTrajectory(unittest.TestCase):

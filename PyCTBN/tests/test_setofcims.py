@@ -3,7 +3,7 @@ import unittest
 import numpy as np
 import itertools
 
-from ..PyCTBN.set_of_cims import SetOfCims
+from ..classes.set_of_cims import SetOfCims
 
 
 class TestSetOfCims(unittest.TestCase):

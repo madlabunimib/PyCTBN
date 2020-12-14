@@ -7,9 +7,9 @@ import networkx as nx
 import timeit
 import psutil
 
-from ..PyCTBN.sample_path import SamplePath
-from ..PyCTBN.structure_estimator import StructureEstimator
-from ..PyCTBN.json_importer import JsonImporter
+from ..classes.sample_path import SamplePath
+from ..classes.structure_estimator import StructureEstimator
+from ..classes.json_importer import JsonImporter
 from .original_ctpc_algorithm import OriginalCTPCAlgorithm
 
 

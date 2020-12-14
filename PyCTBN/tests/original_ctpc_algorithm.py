@@ -9,7 +9,7 @@ from scipy.stats import chi2 as chi2_dist
 from scipy.stats import f as f_dist
 from tqdm import tqdm
 
-from PyCTBN.PyCTBN.abstract_importer import AbstractImporter
+from PyCTBN.classes.abstract_importer import AbstractImporter
 
 
 class OriginalCTPCAlgorithm(AbstractImporter):

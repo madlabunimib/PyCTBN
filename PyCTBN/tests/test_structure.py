@@ -1,7 +1,7 @@
 
 import unittest
 import numpy as np
-from ..PyCTBN.structure import Structure
+from ..classes.structure import Structure
 
 
 class TestStructure(unittest.TestCase):

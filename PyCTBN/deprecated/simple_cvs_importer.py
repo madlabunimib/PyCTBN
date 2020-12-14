@@ -3,8 +3,8 @@ import glob
 import os
 import typing
 
-from PyCTBN.PyCTBN.abstract_importer import AbstractImporter
-from PyCTBN.PyCTBN.sample_path import SamplePath
+from PyCTBN.classes.abstract_importer import AbstractImporter
+from PyCTBN.classes.sample_path import SamplePath
 
 
 class CSVImporter(AbstractImporter):

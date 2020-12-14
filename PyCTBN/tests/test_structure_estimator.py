@@ -8,10 +8,10 @@ import networkx as nx
 import numpy as np
 import timeit
 
-from ..PyCTBN.cache import Cache
-from ..PyCTBN.sample_path import SamplePath
-from ..PyCTBN.structure_estimator import StructureEstimator
-from ..PyCTBN.json_importer import JsonImporter
+from ..classes.cache import Cache
+from ..classes.sample_path import SamplePath
+from ..classes.structure_estimator import StructureEstimator
+from ..classes.json_importer import JsonImporter
 
 
 class TestStructureEstimator(unittest.TestCase):

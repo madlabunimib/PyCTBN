@@ -2,8 +2,8 @@
 import unittest
 import numpy as np
 
-from ..PyCTBN.cache import Cache
-from ..PyCTBN.set_of_cims import SetOfCims
+from ..classes.cache import Cache
+from ..classes.set_of_cims import SetOfCims
 
 
 class TestCache(unittest.TestCase):

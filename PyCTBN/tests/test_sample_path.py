@@ -4,10 +4,10 @@ import glob
 import os
 import random
 
-from ..PyCTBN.json_importer import JsonImporter
-from ..PyCTBN.sample_path import SamplePath
-from ..PyCTBN.trajectory import Trajectory
-from ..PyCTBN.structure import Structure
+from ..classes.json_importer import JsonImporter
+from ..classes.sample_path import SamplePath
+from ..classes.trajectory import Trajectory
+from ..classes.structure import Structure
 
 
 class TestSamplePath(unittest.TestCase):
@@ -56,6 +56,16 @@ class TestSamplePath(unittest.TestCase):
         s1 = SamplePath(importer)
         random.shuffle(importer._sorter)
         self.assertRaises(RuntimeError, s1.build_structure)
+
+    def test_build_saplepath_no_prior_net_structure(self):
+        importer = JsonImporter(self.read_files[0], 'samples', 'dyn.str', 'variables', 'Time', 'Name')
+        importer.import_data(0)
+        importer._df_structure = None
+        s1 = SamplePath(importer)
+        s1.build_trajectories()
+        s1.build_structure()
+        self.assertFalse(s1.structure.edges)
+
 
 
 if __name__ == '__main__':
