@@ -10,6 +10,8 @@ from networkx.readwrite import json_graph
 
 from abc import ABC
 
+import abc
+
 import utility.cache as ch
 import structure_graph.conditional_intensity_matrix as condim
 import structure_graph.network_graph as ng
@@ -93,4 +95,18 @@ class StructureEstimator(ABC):
         strided = np.lib.stride_tricks.as_strided
         s0, s1 = matrix.strides
         return strided(matrix.ravel()[1:], shape=(m - 1, m), strides=(s0 + s1, s1)).reshape(m, -1)
+
+
+    @abc.abstractmethod
+    def estimate_structure(self) -> typing.List:
+        """
+        Compute Optimization process for a structure_estimator
+
+        Parameters:
+
+        Returns:
+            the estimated structure for the node
+
+        """
+        pass
 

@@ -38,6 +38,8 @@ class TabuSearch(Optimizer):
         Compute Optimization process for a structure_estimator
 
         Parameters:
+            node_id: the node label
+            structure_estimator: a structure estimator object with the information about the net
             max_parents: maximum number of parents for each variable. If None, disabled
             iterations_number: maximum number of optimization algorithm's iteration
             patience: number of iteration without any improvement before to stop the search.If None, disabled

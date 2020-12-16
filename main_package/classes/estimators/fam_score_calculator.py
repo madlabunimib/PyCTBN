@@ -207,7 +207,7 @@ class FamScoreCalculator:
 
     def get_fam_score(self,
                 cims: np.array,
-                tau_xu: float=1,
+                tau_xu: float=0.1,
                 alpha_xu: float=1):
         """
         calculate the FamScore value of the node identified by the label node_id

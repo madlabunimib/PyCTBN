@@ -61,6 +61,7 @@ class TestTabuSearch(unittest.TestCase):
                 if var_number > 9:
                     num_networks=3
 
+
                 while index < num_networks:
                     #cls.read_files = glob.glob(os.path.join('../../data', "*.json"))
                     self.importer = ji.JsonImporter(f"../../data/networks_and_trajectories_{cardinality_string}_data{density_string}_{var_number}.json", 
@@ -80,7 +81,7 @@ class TestTabuSearch(unittest.TestCase):
                                         patience = patience,
                                         tabu_length = var_number,
                                         tabu_rules_duration = var_number,
-                                        optimizer = 'tabu'
+                                        optimizer = 'hill'
                                         )
 
                                     

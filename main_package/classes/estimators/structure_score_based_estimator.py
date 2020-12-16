@@ -41,11 +41,13 @@ class StructureScoreBasedEstimator(se.StructureEstimator):
 
     """
 
-    def __init__(self, sample_path: sp.SamplePath):
+    def __init__(self, sample_path: sp.SamplePath, tau_xu:int=0.1, alpha_xu:int = 1):
         super().__init__(sample_path)
+        self.tau_xu=tau_xu
+        self.alpha_xu=alpha_xu
 
 
-    @timing_write
+    @timing
     def estimate_structure(self, max_parents:int = None, iterations_number:int= 40,
                          patience:int = None, tabu_length:int = None, tabu_rules_duration:int = None,
                          optimizer: str = 'hill',disable_multiprocessing:bool= False ):
@@ -176,7 +178,8 @@ class StructureScoreBasedEstimator(se.StructureEstimator):
         return optimizer.optimize_structure()
 
     
-    def get_score_from_graph(self,graph: ng.NetworkGraph,node_id:str):
+    def get_score_from_graph(self,
+                            graph: ng.NetworkGraph,node_id:str):
         """
         Use the FamScore of a node in order to find the best parent nodes
         Parameters:
@@ -198,7 +201,7 @@ class StructureScoreBasedEstimator(se.StructureEstimator):
         'calculate the FamScore for the node'
         fam_score_obj = fam_score.FamScoreCalculator()
 
-        score = fam_score_obj.get_fam_score(SoCims.actual_cims)
+        score = fam_score_obj.get_fam_score(SoCims.actual_cims,tau_xu = self.tau_xu,alpha_xu=self.alpha_xu)
         
         #print(f" lo score per {node_id} risulta: {score} ")
         return score 

@@ -211,7 +211,7 @@ class StructureConstraintBasedEstimator(se.StructureEstimator):
                                                             tot_vars_count = tot_vars_count)
         optimizer_obj.optimize_structure()
 
-    @timing_write
+    @timing
     def ctpc_algorithm(self):
         """
         Compute the CTPC algorithm.
@@ -223,5 +223,12 @@ class StructureConstraintBasedEstimator(se.StructureEstimator):
         ctpc_algo = self.one_iteration_of_CTPC_algorithm
         total_vars_numb = self.sample_path.total_variables_count
         [ctpc_algo(n, total_vars_numb) for n in self.nodes]
+
+    @timing 
+    def estimate_structure(self):
+        self.ctpc_algorithm()
+        return set(self.complete_graph.edges)
+
+    
 
 
