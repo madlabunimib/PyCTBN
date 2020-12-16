@@ -47,6 +47,7 @@ def main():
     read_files = glob.glob(os.path.join('../../data', "*.csv"))
     print(read_files[0])
     csvimp = CSVImporter(read_files[0])
+    csvimp.import_data()
     s1 = SamplePath(csvimp)
     s1.build_trajectories()
     s1.build_structure()

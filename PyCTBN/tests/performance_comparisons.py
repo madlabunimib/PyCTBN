@@ -81,6 +81,8 @@ class PerformanceComparisons(unittest.TestCase):
     def aux_build_original_algo(self, indx):
         self.original_algo.import_data(indx)
         self.original_algo.prepare_trajectories(self.original_algo.df_samples_list, self.original_algo.variables)
+        self.original_algo.clear_data_frame_list()
+
 
     def save_datas(self, original_list, opt_list):
         if not os.path.exists('results'):

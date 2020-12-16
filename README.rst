@@ -1,11 +1,13 @@
-Examples
-========
+PyCTBN
+======
+
+A Continuous Time Bayesian Networks Library
 
 Installation/Usage:
 *******************
 Download the release in .tar.gz or .whl format and simply use pip install to install it::
 
-    $pip install PyCTBN-1.0.tar.gz
+    $ pip install PyCTBN-1.0.tar.gz
 
 
 Implementing your own data importer
@@ -118,4 +120,3 @@ Structure Estimation Example
         print(se1.adjacency_matrix())
         # save results to a json file
         se1.save_results()
-
