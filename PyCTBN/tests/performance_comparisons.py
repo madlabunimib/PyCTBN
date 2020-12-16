@@ -59,7 +59,7 @@ class PerformanceComparisons(unittest.TestCase):
             self.save_datas(self.original_times, self.optimized_times)
             self.original_times[:] = []
             self.optimized_times[:] = []
-    """
+
     def test_memory_usage(self):
         for file_path in self.read_files:
             self.importer = JsonImporter(file_path, 'samples', 'dyn.str', 'variables', 'Time', 'Name')
@@ -70,7 +70,6 @@ class PerformanceComparisons(unittest.TestCase):
             mem = current_process.memory_info().rss
             self.memory_usages.append((mem / 10 ** 6))
         self.save_memory_usage_data(self.memory_usages)
-    """
 
     def aux_build_importer(self, indx):
         self.importer.import_data(indx)

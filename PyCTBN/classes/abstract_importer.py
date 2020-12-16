@@ -21,6 +21,8 @@ class AbstractImporter(ABC):
         Header of _df_variables = [Variable_Label | Variable_Cardinality]
 
     .. note::
+        If you don't have prior network structure just leave ``_df_structure`` set to None.
+    .. note::
         See :class:``JsonImporter`` for an example implementation
 
     """
