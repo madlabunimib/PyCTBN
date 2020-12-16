@@ -96,7 +96,7 @@ Structure Estimation Example
 
     from PyCTBN import JsonImporter
     from PyCTBN import SamplePath
-    from PyCTBNimport StructureEstimator
+    from PyCTBN import StructureEstimator
     
     def structure_estimation_example():
 
