@@ -1,9 +1,9 @@
 
 import numpy as np
 
-from .trajectory import Trajectory
-from .set_of_cims import SetOfCims
 from .network_graph import NetworkGraph
+from .set_of_cims import SetOfCims
+from .trajectory import Trajectory
 
 
 class ParametersEstimator(object):

@@ -1,7 +1,8 @@
 
-from abc import ABC, abstractmethod
-import pandas as pd
 import typing
+from abc import ABC, abstractmethod
+
+import pandas as pd
 
 
 class AbstractImporter(ABC):
