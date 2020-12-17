@@ -83,6 +83,8 @@ class TestStructureEstimator(unittest.TestCase):
         lp_wrapper = lp(se1.ctpc_algorithm)
         lp_wrapper(MULTI_PROCESSING)
         lp.print_stats()
+        #paralell_time = timeit.timeit(se1.ctpc_algorithm, MULTI_PROCESSING, number=1)
+        #print("EXEC TIME:", paralell_time)
         print(se1._result_graph.edges)
         print(self.s1.structure.edges)
         for ed in self.s1.structure.edges:
