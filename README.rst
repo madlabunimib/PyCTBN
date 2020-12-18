@@ -3,12 +3,15 @@ PyCTBN
 
 A Continuous Time Bayesian Networks Library
 
-Installation/Usage:
+Installation/Usage
 *******************
 Download the release in .tar.gz or .whl format and simply use pip install to install it::
 
     $ pip install PyCTBN-1.0.tar.gz
 
+Documentation
+*************
+Please refer to https://philipmartini.github.io/PyCTBN/ for the full project documentation.
 
 Implementing your own data importer
 ***********************************

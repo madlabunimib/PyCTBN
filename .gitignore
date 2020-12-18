@@ -7,3 +7,4 @@ __pycache__
 ./data/
 ./results/
 .scannerwork
+./sphinx_output/

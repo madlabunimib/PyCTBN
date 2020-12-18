@@ -1,6 +1,7 @@
 
-import numpy as np
 import typing
+
+import numpy as np
 
 
 class Trajectory(object):

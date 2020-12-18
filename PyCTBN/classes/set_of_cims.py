@@ -1,4 +1,5 @@
 import typing
+
 import numpy as np
 
 from .conditional_intensity_matrix import ConditionalIntensityMatrix
