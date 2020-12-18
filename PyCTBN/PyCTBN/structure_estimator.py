@@ -252,7 +252,7 @@ class StructureEstimator:
         """
         ctpc_algo = StructureEstimator.one_iteration_of_CTPC_algorithm
         shm_times = multiprocessing.shared_memory.SharedMemory(name='sh_times', create=True,
-                                                                     size=self._.times.nbytes)
+                                                                     size=self._times.nbytes)
         shm_trajectories = multiprocessing.shared_memory.SharedMemory(name='sh_traj', create=True,
                                                                             size=self._trajectories.nbytes)
         times_arr = np.ndarray(self._times.shape, self._times.dtype,
