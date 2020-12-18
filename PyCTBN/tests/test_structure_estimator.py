@@ -79,14 +79,14 @@ class TestStructureEstimator(unittest.TestCase):
     def test_time(self):
         se1 = StructureEstimator(self.s1, 0.1, 0.1)
         lp = LineProfiler()
-        MULTI_PROCESSING = False ###### MODIFICARE QUI SINGLE/MULTI PROCESS
+        MULTI_PROCESSING = True ###### MODIFICARE QUI SINGLE/MULTI PROCESS
         lp_wrapper = lp(se1.ctpc_algorithm)
         lp_wrapper(MULTI_PROCESSING)
         lp.print_stats()
         #paralell_time = timeit.timeit(se1.ctpc_algorithm, MULTI_PROCESSING, number=1)
         #print("EXEC TIME:", paralell_time)
         print(se1._result_graph.edges)
-        print(self.s1.structure.edges)
+        #print(self.s1.structure.edges)
         for ed in self.s1.structure.edges:
             self.assertIn(tuple(ed), se1._result_graph.edges)
         tuples_edges = [tuple(rec) for rec in self.s1.structure.edges]

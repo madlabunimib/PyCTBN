@@ -247,7 +247,7 @@ class StructureEstimator:
         list_without_test_parent.remove(parent_label)
         return map(list, itertools.combinations(list_without_test_parent, size))
 
-    def ctpc_algorithm(self) -> None:
+    def ctpc_algorithm(self, multi_processing: bool) -> None:
         """Compute the CTPC algorithm over the entire net.
         """
         ctpc_algo = StructureEstimator.one_iteration_of_CTPC_algorithm
@@ -269,10 +269,10 @@ class StructureEstimator:
         nodes_vals_array_list = [self._nodes_vals] * len(self._nodes)
         tests_alfa_dims_list = [(self._exp_test_sign, self._chi_test_alfa)] * len(self._nodes)
         datas_dims_list = [[self._times.shape, self._trajectories.shape]] * len(self._nodes)
-        #if multi_processing:
-        cpu_count = multiprocessing.cpu_count()
-        #else:
-            #cpu_count = 1
+        if multi_processing:
+            cpu_count = multiprocessing.cpu_count()
+        else:
+            cpu_count = 1
         print("CPU COUNT", cpu_count)
         with multiprocessing.Pool(processes=cpu_count) as pool:
             parent_sets = pool.starmap(ctpc_algo, zip(self._nodes, self._nodes_vals, parents_list,
