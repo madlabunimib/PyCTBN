@@ -163,16 +163,15 @@ class StructureEstimator(object):
                 return False
         return True
 
-    def one_iteration_of_CTPC_algorithm(self, var_id: str, tot_vars_count: int) -> None:
+    def one_iteration_of_CTPC_algorithm(self, var_id: str) -> None:
         """Performs an iteration of the CTPC algorithm using the node ``var_id`` as ``test_child``.
 
         :param var_id: the node label of the test child
         :type var_id: string
-        :param tot_vars_count: the number of _nodes in the net
-        :type tot_vars_count: int
         """
         u = list(self._complete_graph.predecessors(var_id))
         child_states_numb = self._sample_path.structure.get_states_number(var_id)
+        tot_vars_count = self._sample_path.total_variables_count
         b = 0
         while b < len(u):
             parent_indx = 0
@@ -214,8 +213,7 @@ class StructureEstimator(object):
         """Compute the CTPC algorithm over the entire net.
         """
         ctpc_algo = self.one_iteration_of_CTPC_algorithm
-        total_vars_numb = self._sample_path.total_variables_count
-        [ctpc_algo(n, total_vars_numb) for n in tqdm(self._nodes)]
+        [ctpc_algo(n) for n in tqdm(self._nodes)]
 
     def save_results(self) -> None:
         """Save the estimated Structure to a .json file in the path where the data are loaded from.
