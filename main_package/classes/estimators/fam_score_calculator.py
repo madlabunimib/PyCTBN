@@ -21,7 +21,7 @@ import structure_graph.conditional_intensity_matrix as cim_class
 
 
 '''
-TODO: Parlare dell'idea di ciclare sulle cim senza filtrare
+
 '''
 
 
@@ -110,7 +110,7 @@ class FamScoreCalculator:
                 + \
                 np.sum([self.single_internal_cim_xxu_marginal_likelihood_theta(
                                                                         cim.state_transition_matrix[index,index_x_first],
-                                                                        alpha_xu * cim.state_transition_matrix[index,index_x_first] / cim.state_transition_matrix[index, index])
+                                                                        alpha_xxu)
                 for index_x_first in values])
 
 

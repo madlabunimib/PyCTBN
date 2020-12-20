@@ -6,6 +6,8 @@ import utility.json_importer as imp
 import structure_graph.structure as st
 import structure_graph.trajectory as tr
 
+import pandas as pd
+
 
 
 class SamplePath(asam.AbstractSamplePath):
@@ -41,8 +43,13 @@ class SamplePath(asam.AbstractSamplePath):
             void
         """
         self.importer.import_data()
+
+        #TODO: VALUTARE PARAMETRO PER DATA AUGMENTATION
+        trajects_samples =  pd.concat([self.importer.concatenated_samples,
+                                    self.importer.concatenated_samples])
+
         self._trajectories = \
-            tr.Trajectory(self.importer.build_list_of_samples_array(self.importer.concatenated_samples),
+            tr.Trajectory(self.importer.build_list_of_samples_array(trajects_samples),
                           len(self.importer.sorter) + 1)
         #self.trajectories.append(trajectory)
         self.importer.clear_concatenated_frame()
