@@ -12,6 +12,8 @@ from random import choice
 
 from abc import ABC
 
+import copy
+
 
 from optimizers.optimizer import Optimizer
 from estimators import structure_estimator as se
@@ -48,7 +50,16 @@ class ConstraintBasedOptimizer(Optimizer):
 
         """
         print("##################TESTING VAR################", self.node_id)
-        u = list(self.structure_estimator.complete_graph.predecessors(self.node_id))
+
+        graph = ng.NetworkGraph(self.structure_estimator.sample_path.structure)
+
+        other_nodes =  [node for node in self.structure_estimator.sample_path.structure.nodes_labels if node != self.node_id]
+        
+        for possible_parent in other_nodes:
+            graph.add_edges([(possible_parent,self.node_id)])
+
+        
+        u = other_nodes
         #tests_parents_numb = len(u)
         #complete_frame = self.complete_graph_frame
         #test_frame = complete_frame.loc[complete_frame['To'].isin([self.node_id])]
@@ -57,22 +68,26 @@ class ConstraintBasedOptimizer(Optimizer):
         while b < len(u):
             #for parent_id in u:
             parent_indx = 0
-            while parent_indx < len(u):
+            list_parent= copy.deepcopy(u)
+            for possible_parent in list_parent:
                 removed = False
                 #if not list(self.structure_estimator.generate_possible_sub_sets_of_size(u, b, u[parent_indx])):
                     #break
-                S = self.structure_estimator.generate_possible_sub_sets_of_size(u, b, u[parent_indx])
+                S = self.structure_estimator.generate_possible_sub_sets_of_size(u, b, possible_parent)
                 #print("U Set", u)
                 #print("S", S)
-                test_parent = u[parent_indx]
+                test_parent = possible_parent
                 #print("Test Parent", test_parent)
                 for parents_set in S:
                     #print("Parent Set", parents_set)
                     #print("Test Parent", test_parent)
                     if self.structure_estimator.complete_test(test_parent, self.node_id, parents_set, child_states_numb, self.tot_vars_count):
                         #print("Removing EDGE:", test_parent, self.node_id)
-                        self.structure_estimator.complete_graph.remove_edge(test_parent, self.node_id)
-                        u.remove(test_parent)
+                        graph.remove_edges([(test_parent, self.node_id)])
+                        other_nodes.remove(test_parent)
+                        print(f"TEST PARENT: {test_parent}")
+                        if u.__contains__(test_parent):
+                            u.remove(test_parent)
                         removed = True
                         break
                     #else:
@@ -81,3 +96,4 @@ class ConstraintBasedOptimizer(Optimizer):
                     parent_indx += 1
             b += 1
         self.structure_estimator.cache.clear()
+        return graph.edges

@@ -21,6 +21,9 @@ import optimizers.constraint_based_optimizer as optimizer
 
 from utility.decorators import timing,timing_write
 
+import multiprocessing
+from multiprocessing import Pool
+
 
 class StructureConstraintBasedEstimator(se.StructureEstimator):
     """
@@ -209,7 +212,7 @@ class StructureConstraintBasedEstimator(se.StructureEstimator):
                                                             node_id = var_id,
                                                             structure_estimator = self,
                                                             tot_vars_count = tot_vars_count)
-        optimizer_obj.optimize_structure()
+        return optimizer_obj.optimize_structure()
 
     @timing
     def ctpc_algorithm(self):
@@ -222,12 +225,33 @@ class StructureConstraintBasedEstimator(se.StructureEstimator):
         """
         ctpc_algo = self.one_iteration_of_CTPC_algorithm
         total_vars_numb = self.sample_path.total_variables_count
-        [ctpc_algo(n, total_vars_numb) for n in self.nodes]
 
+        n_nodes= len(self.nodes)
+
+        total_vars_numb_array =  [total_vars_numb] *  n_nodes
+
+        'get the number of CPU'
+        cpu_count = multiprocessing.cpu_count()
+
+        #if disable_multiprocessing:
+        #cpu_count = 1
+
+        'Remove all the edges from the structure'   
+        self.sample_path.structure.clean_structure_edges()
+
+        'Estimate the best parents for each node'
+        with multiprocessing.Pool(processes=cpu_count) as pool:
+            list_edges_partial = pool.starmap(ctpc_algo, zip(
+                                                                 self.nodes,
+                                                                 total_vars_numb_array))
+            #list_edges_partial = [ctpc_algo(n,total_vars_numb) for n in self.nodes]
+
+        return set(itertools.chain.from_iterable(list_edges_partial))
+
+        
     @timing 
     def estimate_structure(self):
-        self.ctpc_algorithm()
-        return set(self.complete_graph.edges)
+        return self.ctpc_algorithm()
 
     
 
