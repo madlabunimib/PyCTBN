@@ -24,6 +24,7 @@ import optimizers.tabu_search as tabu
 
 from utility.decorators import timing,timing_write
 
+from multiprocessing import get_context
 
 
 #from numba import njit
@@ -92,7 +93,8 @@ class StructureScoreBasedEstimator(se.StructureEstimator):
             cpu_count = 1
 
         'Estimate the best parents for each node'
-        with multiprocessing.Pool(processes=cpu_count) as pool:
+        with get_context("spawn").Pool(processes=cpu_count) as pool:
+        #with multiprocessing.Pool(processes=cpu_count) as pool:
             list_edges_partial = pool.starmap(estimate_parents, zip(
                                                                 self.nodes,
                                                                 l_max_parents,

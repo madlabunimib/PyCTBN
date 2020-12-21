@@ -24,6 +24,7 @@ from utility.decorators import timing,timing_write
 import multiprocessing
 from multiprocessing import Pool
 
+from multiprocessing import get_context
 
 class StructureConstraintBasedEstimator(se.StructureEstimator):
     """
@@ -241,7 +242,9 @@ class StructureConstraintBasedEstimator(se.StructureEstimator):
         self.sample_path.structure.clean_structure_edges()
 
         'Estimate the best parents for each node'
-        with multiprocessing.Pool(processes=cpu_count) as pool:
+        #with multiprocessing.Pool(processes=cpu_count) as pool:
+        with get_context("spawn").Pool(processes=cpu_count) as pool:
+        
             list_edges_partial = pool.starmap(ctpc_algo, zip(
                                                                  self.nodes,
                                                                  total_vars_numb_array))

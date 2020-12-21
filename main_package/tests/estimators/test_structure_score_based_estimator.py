@@ -16,6 +16,9 @@ import structure_graph.sample_path as sp
 import estimators.structure_score_based_estimator as se
 import utility.json_importer as ji
 
+from multiprocessing import set_start_method
+
+
 
 
 class TestStructureScoreBasedEstimator(unittest.TestCase):
@@ -23,7 +26,7 @@ class TestStructureScoreBasedEstimator(unittest.TestCase):
     @classmethod
     def setUpClass(cls):
         #cls.read_files = glob.glob(os.path.join('../../data', "*.json"))
-        cls.importer = ji.JsonImporter("../../data/networks_and_trajectories_binary_data_01_3.json", 'samples', 'dyn.str', 'variables', 'Time', 'Name')
+        cls.importer = ji.JsonImporter("../../data/networks_and_trajectories_ternary_data_15.json", 'samples', 'dyn.str', 'variables', 'Time', 'Name')
         cls.s1 = sp.SamplePath(cls.importer)
         cls.s1.build_trajectories()
         cls.s1.build_structure()
@@ -34,12 +37,17 @@ class TestStructureScoreBasedEstimator(unittest.TestCase):
         true_edges = copy.deepcopy(self.s1.structure.edges)
         true_edges = set(map(tuple, true_edges))
 
+        set_start_method("spawn")
         se1 = se.StructureScoreBasedEstimator(self.s1)
         edges = se1.estimate_structure(
-                            max_parents = None,
-                            iterations_number = 100,
-                            patience = None
-                            )
+                                    max_parents = None,
+                                    iterations_number = 100,
+                                    patience = 35,
+                                    tabu_length = 15,
+                                    tabu_rules_duration = 15,
+                                    optimizer = 'tabu',
+                                    disable_multiprocessing=False
+                                    )
         
 
         self.assertEqual(edges, true_edges)

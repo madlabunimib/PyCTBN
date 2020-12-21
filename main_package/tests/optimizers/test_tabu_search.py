@@ -42,7 +42,8 @@ class TestTabuSearch(unittest.TestCase):
                             patience = None,
                             tabu_length = 15,
                             tabu_rules_duration = 15,
-                            optimizer = 'tabu'
+                            optimizer = 'tabu',
+                            disable_multiprocessing=True
                             )
         
 
