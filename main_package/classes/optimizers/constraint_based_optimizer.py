@@ -66,36 +66,17 @@ class ConstraintBasedOptimizer(Optimizer):
         child_states_numb = self.structure_estimator.sample_path.structure.get_states_number(self.node_id)
         b = 0
         while b < len(u):
-            #for parent_id in u:
             parent_indx = 0
-            list_parent= copy.deepcopy(u)
-            for possible_parent in list_parent:
+            while parent_indx < len(u):
                 removed = False
-                #if not list(self.structure_estimator.generate_possible_sub_sets_of_size(u, b, u[parent_indx])):
-                    #break
-                S = self.structure_estimator.generate_possible_sub_sets_of_size(u, b, possible_parent)
-                #print("U Set", u)
-                #print("S", S)
-                test_parent = possible_parent
-                #print("Test Parent", test_parent)
+                S = self.structure_estimator.generate_possible_sub_sets_of_size(u, b, u[parent_indx])
+                test_parent = u[parent_indx]
                 for parents_set in S:
-                    #print("Parent Set", parents_set)
-                    #print("Test Parent", test_parent)
                     if self.structure_estimator.complete_test(test_parent, self.node_id, parents_set, child_states_numb, self.tot_vars_count):
-                        #print("Removing EDGE:", test_parent, self.node_id)
                         graph.remove_edges([(test_parent, self.node_id)])
-                        other_nodes.remove(test_parent)
-                        print(f"TEST PARENT: {test_parent}")   
-                        try:
-                           u.remove(test_parent)
-                        except:
-                            print(f"u: {u}")  
-                            print(f"utest_parent: {test_parent}")                    
-                        
+                        u.remove(test_parent)
                         removed = True
                         break
-                    #else:
-                        #parent_indx += 1
                 if not removed:
                     parent_indx += 1
             b += 1

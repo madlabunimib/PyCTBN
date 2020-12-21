@@ -45,11 +45,11 @@ class SamplePath(asam.AbstractSamplePath):
         self.importer.import_data()
 
         #TODO: VALUTARE PARAMETRO PER DATA AUGMENTATION
-        trajects_samples =  pd.concat([self.importer.concatenated_samples,
-                                    self.importer.concatenated_samples])
+        #trajects_samples =  pd.concat([self.importer.concatenated_samples,
+        #                            self.importer.concatenated_samples])
 
         self._trajectories = \
-            tr.Trajectory(self.importer.build_list_of_samples_array(trajects_samples),
+            tr.Trajectory(self.importer.build_list_of_samples_array(self.importer.concatenated_samples),
                           len(self.importer.sorter) + 1)
         #self.trajectories.append(trajectory)
         self.importer.clear_concatenated_frame()
