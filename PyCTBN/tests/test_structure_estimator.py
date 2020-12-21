@@ -20,7 +20,7 @@ class TestStructureEstimator(unittest.TestCase):
     def setUpClass(cls):
         cls.read_files = glob.glob(os.path.join('./data', "*.json"))
         cls.importer = JsonImporter(cls.read_files[0], 'samples', 'dyn.str', 'variables', 'Time', 'Name')
-        cls.importer.import_data(0)
+        cls.importer.import_data(3)
         cls.s1 = SamplePath(cls.importer)
         cls.s1.build_trajectories()
         cls.s1.build_structure()
@@ -72,12 +72,8 @@ class TestStructureEstimator(unittest.TestCase):
         print("Execution Time: ", exec_time)
         for ed in self.s1.structure.edges:
             self.assertIn(tuple(ed), se1._complete_graph.edges)
-        tuples_edges = [tuple(rec) for rec in self.s1.structure.edges]
-        spurious_edges = []
-        for ed in se1._complete_graph.edges:
-            if not(ed in tuples_edges):
-                spurious_edges.append(ed)
-        print("Spurious Edges:",spurious_edges)
+        print("Spurious Edges:", se1.spurious_edges())
+        se1.plot_estimated_structure_graph()
 
     def test_save_results(self):
         se1 = StructureEstimator(self.s1, 0.1, 0.1)

@@ -66,6 +66,11 @@ class SamplePath(object):
     def total_variables_count(self) -> int:
         return self._total_variables_count
 
+    @property
+    def has_prior_net_structure(self) -> bool:
+        return bool(self._structure.edges)
+
+
 
 
 
