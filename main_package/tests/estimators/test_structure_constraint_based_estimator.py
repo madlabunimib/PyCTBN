@@ -22,7 +22,7 @@ class TestStructureConstraintBasedEstimator(unittest.TestCase):
     @classmethod
     def setUpClass(cls):
         #cls.read_files = glob.glob(os.path.join('../../data', "*.json"))
-        cls.importer = ji.JsonImporter("../../data/networks_and_trajectories_binary_data_01_15.json", 'samples', 'dyn.str', 'variables', 'Time', 'Name')
+        cls.importer = ji.JsonImporter("../../data/networks_and_trajectories_ternary_data_01_6.json", 'samples', 'dyn.str', 'variables', 'Time', 'Name')
         cls.s1 = sp.SamplePath(cls.importer)
         cls.s1.build_trajectories()
         cls.s1.build_structure()
@@ -32,7 +32,7 @@ class TestStructureConstraintBasedEstimator(unittest.TestCase):
         true_edges = set(map(tuple, true_edges))
 
         se1 = se.StructureConstraintBasedEstimator(self.s1,0.1,0.1)
-        edges = se1.ctpc_algorithm()
+        edges = se1.estimate_structure(disable_multiprocessing=True)
         
 
         self.assertEqual(edges, true_edges)

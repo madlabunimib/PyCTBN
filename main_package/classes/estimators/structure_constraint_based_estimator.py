@@ -215,7 +215,7 @@ class StructureConstraintBasedEstimator(se.StructureEstimator):
         return optimizer_obj.optimize_structure()
 
     @timing
-    def ctpc_algorithm(self):
+    def ctpc_algorithm(self,disable_multiprocessing:bool= False ):
         """
         Compute the CTPC algorithm.
         Parameters:
@@ -233,8 +233,9 @@ class StructureConstraintBasedEstimator(se.StructureEstimator):
         'get the number of CPU'
         cpu_count = multiprocessing.cpu_count()
 
-        #if disable_multiprocessing:
-        #cpu_count = 1
+        if disable_multiprocessing:
+            print("DISABILITATO")
+            cpu_count = 1
 
         'Remove all the edges from the structure'   
         self.sample_path.structure.clean_structure_edges()
@@ -250,8 +251,8 @@ class StructureConstraintBasedEstimator(se.StructureEstimator):
 
         
     @timing 
-    def estimate_structure(self):
-        return self.ctpc_algorithm()
+    def estimate_structure(self,disable_multiprocessing:bool=False):
+        return self.ctpc_algorithm(disable_multiprocessing=disable_multiprocessing)
 
     
 

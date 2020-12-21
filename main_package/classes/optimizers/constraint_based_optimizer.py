@@ -85,9 +85,13 @@ class ConstraintBasedOptimizer(Optimizer):
                         #print("Removing EDGE:", test_parent, self.node_id)
                         graph.remove_edges([(test_parent, self.node_id)])
                         other_nodes.remove(test_parent)
-                        print(f"TEST PARENT: {test_parent}")
-                        if u.__contains__(test_parent):
-                            u.remove(test_parent)
+                        print(f"TEST PARENT: {test_parent}")   
+                        try:
+                           u.remove(test_parent)
+                        except:
+                            print(f"u: {u}")  
+                            print(f"utest_parent: {test_parent}")                    
+                        
                         removed = True
                         break
                     #else:
