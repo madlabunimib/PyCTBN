@@ -50,7 +50,7 @@ class TestStructureConstraintBasedEstimator(unittest.TestCase):
 
         
         se1 = se.StructureConstraintBasedEstimator(self.s1,0.1,0.1)
-        dges = se1.estimate_structure(disable_multiprocessing=False)  
+        dges = se1.estimate_structure(disable_multiprocessing=True)  
         
         
 
