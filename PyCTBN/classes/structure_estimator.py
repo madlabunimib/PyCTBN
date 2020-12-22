@@ -286,6 +286,7 @@ class StructureEstimator(object):
         name += '_' + str(self._sample_path._importer.dataset_id())
         name += '.png'
         plt.savefig(name)
+        plt.clf()
         print("Estimated Structure Plot Saved At: ", os.path.abspath(name))
 
 
