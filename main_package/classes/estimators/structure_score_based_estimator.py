@@ -102,8 +102,11 @@ class StructureScoreBasedEstimator(se.StructureEstimator):
         #with multiprocessing.Pool(processes=cpu_count) as pool:
 
         'Estimate the best parents for each node'
-        with concurrent.futures.ProcessPoolExecutor(max_workers=cpu_count) as executor:
-            list_edges_partial = executor.map(estimate_parents, 
+        if disable_multiprocessing:
+            list_edges_partial = [estimate_parents(n,max_parents,iterations_number,patience,tabu_length,tabu_rules_duration,optimizer) for n in self.nodes]
+        else:
+            with concurrent.futures.ProcessPoolExecutor(max_workers=cpu_count) as executor:
+                list_edges_partial = executor.map(estimate_parents, 
                                                             self.nodes,
                                                             l_max_parents,
                                                             l_iterations_number,
@@ -114,8 +117,6 @@ class StructureScoreBasedEstimator(se.StructureEstimator):
 
 
 
-
-            # list_edges_partial = [estimate_parents(n,max_parents,iterations_number,patience,tabu_length,tabu_rules_duration,optimizer) for n in self.nodes]
             #list_edges_partial = p.map(estimate_parents, self.nodes)
             #list_edges_partial= estimate_parents('Q',max_parents,iterations_number,patience,tabu_length,tabu_rules_duration,optimizer) 
 

@@ -236,9 +236,7 @@ class StructureConstraintBasedEstimator(se.StructureEstimator):
         'get the number of CPU'
         cpu_count = multiprocessing.cpu_count()
 
-        if disable_multiprocessing:
-            print("DISABILITATO")
-            cpu_count = 1
+
 
         'Remove all the edges from the structure'   
         self.sample_path.structure.clean_structure_edges()
@@ -246,8 +244,13 @@ class StructureConstraintBasedEstimator(se.StructureEstimator):
         'Estimate the best parents for each node'
         #with multiprocessing.Pool(processes=cpu_count) as pool:
         #with get_context("spawn").Pool(processes=cpu_count) as pool:
-        with concurrent.futures.ProcessPoolExecutor(max_workers=cpu_count) as executor:
-            list_edges_partial = executor.map(ctpc_algo,
+        if disable_multiprocessing:
+            print("DISABILITATO")
+            cpu_count = 1
+            list_edges_partial = [ctpc_algo(n,total_vars_numb) for n in self.nodes]
+        else:
+            with concurrent.futures.ProcessPoolExecutor(max_workers=cpu_count) as executor:
+                list_edges_partial = executor.map(ctpc_algo,
                                                                  self.nodes,
                                                                  total_vars_numb_array)
             #list_edges_partial = [ctpc_algo(n,total_vars_numb) for n in self.nodes]
