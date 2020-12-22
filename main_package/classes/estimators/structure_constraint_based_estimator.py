@@ -19,6 +19,8 @@ import structure_graph.sample_path as sp
 import structure_graph.structure as st
 import optimizers.constraint_based_optimizer as optimizer
 
+import concurrent.futures
+
 from utility.decorators import timing,timing_write
 
 import multiprocessing
@@ -243,11 +245,11 @@ class StructureConstraintBasedEstimator(se.StructureEstimator):
 
         'Estimate the best parents for each node'
         #with multiprocessing.Pool(processes=cpu_count) as pool:
-        with get_context("spawn").Pool(processes=cpu_count) as pool:
-        
-            list_edges_partial = pool.starmap(ctpc_algo, zip(
+        #with get_context("spawn").Pool(processes=cpu_count) as pool:
+        with concurrent.futures.ProcessPoolExecutor(max_workers=cpu_count) as executor:
+            list_edges_partial = executor.map(ctpc_algo,
                                                                  self.nodes,
-                                                                 total_vars_numb_array))
+                                                                 total_vars_numb_array)
             #list_edges_partial = [ctpc_algo(n,total_vars_numb) for n in self.nodes]
 
         return set(itertools.chain.from_iterable(list_edges_partial))
