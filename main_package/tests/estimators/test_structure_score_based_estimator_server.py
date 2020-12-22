@@ -28,7 +28,7 @@ class TestStructureScoreBasedEstimator(unittest.TestCase):
 
     def test_structure(self):
         #cls.read_files = glob.glob(os.path.join('../../data', "*.json"))
-        self.importer = ji.JsonImporter("/home/alessandro/Documents/ctbn_cba/data/networks_and_trajectories_ternary_data_10.json", 'samples', 'dyn.str', 'variables', 'Time', 'Name')
+        self.importer = ji.JsonImporter("/home/alessandro/Documents/ctbn_cba/data/networks_and_trajectories_ternary_data_15.json", 'samples', 'dyn.str', 'variables', 'Time', 'Name')
         self.s1 = sp.SamplePath(self.importer)
         self.s1.build_trajectories()
         self.s1.build_structure()
@@ -49,7 +49,7 @@ class TestStructureScoreBasedEstimator(unittest.TestCase):
                                     )
 
 
-        self.importer = ji.JsonImporter("/home/alessandro/Documents/ctbn_cba/data/networks_and_trajectories_ternary_data_10.json", 'samples', 'dyn.str', 'variables', 'Time', 'Name')
+        self.importer = ji.JsonImporter("/home/alessandro/Documents/ctbn_cba/data/networks_and_trajectories_ternary_data_15.json", 'samples', 'dyn.str', 'variables', 'Time', 'Name')
         self.s1 = sp.SamplePath(self.importer)
         self.s1.build_trajectories()
         self.s1.build_structure()
