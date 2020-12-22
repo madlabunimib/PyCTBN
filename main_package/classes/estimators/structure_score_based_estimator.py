@@ -10,6 +10,8 @@ from networkx.readwrite import json_graph
 
 from random import choice
 
+import concurrent.futures
+
 import copy
 import utility.cache as ch
 import structure_graph.conditional_intensity_matrix as condim
@@ -92,17 +94,27 @@ class StructureScoreBasedEstimator(se.StructureEstimator):
         if disable_multiprocessing:
             cpu_count = 1
 
-        'Estimate the best parents for each node'
-        with get_context("spawn").Pool(processes=cpu_count) as pool:
+        
+
+
+
+        #with get_context("spawn").Pool(processes=cpu_count) as pool:
         #with multiprocessing.Pool(processes=cpu_count) as pool:
-            list_edges_partial = pool.starmap(estimate_parents, zip(
-                                                                self.nodes,
-                                                                l_max_parents,
-                                                                l_iterations_number,
-                                                                l_patience,
-                                                                l_tabu_length,
-                                                                l_tabu_rules_duration,
-                                                                l_optimizer))
+
+        'Estimate the best parents for each node'
+        with concurrent.futures.ProcessPoolExecutor(max_workers=cpu_count) as executor:
+            list_edges_partial = executor.map(estimate_parents, 
+                                                            self.nodes,
+                                                            l_max_parents,
+                                                            l_iterations_number,
+                                                            l_patience,
+                                                            l_tabu_length,
+                                                            l_tabu_rules_duration,
+                                                            l_optimizer)
+
+
+
+
             # list_edges_partial = [estimate_parents(n,max_parents,iterations_number,patience,tabu_length,tabu_rules_duration,optimizer) for n in self.nodes]
             #list_edges_partial = p.map(estimate_parents, self.nodes)
             #list_edges_partial= estimate_parents('Q',max_parents,iterations_number,patience,tabu_length,tabu_rules_duration,optimizer) 
