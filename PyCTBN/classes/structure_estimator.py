@@ -259,6 +259,7 @@ class StructureEstimator(object):
         graph_to_draw = nx.DiGraph()
         spurious_edges = self.spurious_edges()
         non_spurious_edges = list(set(self._complete_graph.edges) - set(spurious_edges))
+        print(non_spurious_edges)
         edges_colors = ['red' if edge in spurious_edges else 'black' for edge in self._complete_graph.edges]
         graph_to_draw.add_edges_from(spurious_edges)
         graph_to_draw.add_edges_from(non_spurious_edges)
@@ -270,7 +271,7 @@ class StructureEstimator(object):
             'linewidths':2,
             "with_labels":True,
             "font_size":13,
-            'connectionstyle': 'arc3, rad = 0.',
+            'connectionstyle': 'arc3, rad = 0.1',
             "arrowsize": 15,
             "arrowstyle": '<|-',
             "width": 1,

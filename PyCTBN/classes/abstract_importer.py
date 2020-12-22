@@ -2,39 +2,43 @@
 import typing
 from abc import ABC, abstractmethod
 
+import numpy as np
 import pandas as pd
 
 
 class AbstractImporter(ABC):
     """Abstract class that exposes all the necessary methods to process the trajectories and the net structure.
 
-    :param file_path: the file path
+    :param file_path: the file path, or dataset name if you import already processed data
     :type file_path: str
-    :_concatenated_samples: Dataframe containing the concatenation of all the processed trajectories
-    :_df_structure: Dataframe containing the structure of the network (edges)
-    :_df_variables: Dataframe containing the nodes cardinalities
-    :_sorter: A list containing the columns header (excluding the time column) of the ``_concatenated_samples``
+    :param concatenated_samples: Dataframe or numpy array containing the concatenation of all the processed trajectories
+    :type concatenated_samples: typing.Union[pandas.DataFrame, numpy.ndarray]
+    :param variables: Dataframe containing the nodes labels and cardinalities
+    :type variables: pandas.DataFrame
+    :prior_net_structure: Dataframe containing the structure of the network (edges)
+    :type prior_net_structure: pandas.DataFrame
+    :_sorter: A list containing the variables labels in the SAME order as the columns in ``concatenated_samples``
 
     .. warning::
-        The class members ``_df_variables`` and ``_df_structure`` HAVE to be properly constructed
+        The parameters ``variables`` and ``prior_net_structure`` HAVE to be properly constructed
         as Pandas Dataframes with the following structure:
         Header of _df_structure = [From_Node | To_Node]
         Header of _df_variables = [Variable_Label | Variable_Cardinality]
+        See the tutorial on how to construct a correct ``concatenated_samples`` Dataframe/ndarray.
 
-    .. note::
-        If you don't have prior network structure just leave ``_df_structure`` set to None.
     .. note::
         See :class:``JsonImporter`` for an example implementation
 
     """
 
-    def __init__(self, file_path: str):
+    def __init__(self, file_path: str = None, concatenated_samples: typing.Union[pd.DataFrame, np.ndarray] = None,
+                 variables: pd.DataFrame = None, prior_net_structure: pd.DataFrame = None):
         """Constructor
         """
         self._file_path = file_path
-        self._df_variables = None
-        self._df_structure = None
-        self._concatenated_samples = None
+        self._concatenated_samples = concatenated_samples
+        self._df_variables = variables
+        self._df_structure = prior_net_structure
         self._sorter = None
         super().__init__()
 
@@ -104,21 +108,27 @@ class AbstractImporter(ABC):
         complete_header.extend(shifted_cols_header)
         self._concatenated_samples = self._concatenated_samples[complete_header]
 
-    def build_list_of_samples_array(self, data_frame: pd.DataFrame) -> typing.List:
-        """Builds a List containing the columns of data_frame and converts them to a numpy array.
+    def build_list_of_samples_array(self, concatenated_sample: typing.Union[pd.DataFrame, np.ndarray]) -> typing.List:
+        """Builds a List containing the the delta times numpy array, and the complete transitions matrix
 
-        :param data_frame: the dataframe from which the columns have to be extracted and converted
-        :type data_frame: pandas.Dataframe
+        :param concatenated_sample: the dataframe/array from which the time, and transitions matrix have to be extracted
+            and converted
+        :type concatenated_sample: typing.Union[pandas.Dataframe, numpy.ndarray]
         :return: the resulting list of numpy arrays
         :rtype: List
         """
-        columns_list = [data_frame[column].to_numpy() for column in data_frame]
+        if isinstance(concatenated_sample, pd.DataFrame):
+            concatenated_array = concatenated_sample.to_numpy()
+            columns_list = [concatenated_array[:, 0], concatenated_array[:, 1:].astype(int)]
+        else:
+            columns_list = [concatenated_sample[:, 0], concatenated_sample[:, 1:].astype(int)]
         return columns_list
 
     def clear_concatenated_frame(self) -> None:
         """Removes all values in the dataframe concatenated_samples.
          """
-        self._concatenated_samples = self._concatenated_samples.iloc[0:0]
+        if isinstance(self._concatenated_samples, pd.DataFrame):
+            self._concatenated_samples = self._concatenated_samples.iloc[0:0]
 
     @abstractmethod
     def dataset_id(self) -> object:

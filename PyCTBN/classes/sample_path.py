@@ -1,4 +1,7 @@
 
+import numpy as np
+import pandas as pd
+
 from .abstract_importer import AbstractImporter
 from .structure import Structure
 from .trajectory import Trajectory
@@ -19,10 +22,16 @@ class SamplePath(object):
         """Constructor Method
         """
         self._importer = importer
-        if (self._importer._df_variables is None or self._importer._concatenated_samples is None):
+        if self._importer._df_variables is None or self._importer._concatenated_samples is None:
             raise RuntimeError('The importer object has to contain the all processed data!')
-        if(self._importer._df_variables.empty or self._importer._concatenated_samples.empty):
+        if self._importer._df_variables.empty:
             raise RuntimeError('The importer object has to contain the all processed data!')
+        if isinstance(self._importer._concatenated_samples, pd.DataFrame):
+            if self._importer._concatenated_samples.empty:
+                raise RuntimeError('The importer object has to contain the all processed data!')
+        if isinstance(self._importer._concatenated_samples, np.ndarray):
+            if self._importer._concatenated_samples.size == 0:
+                raise RuntimeError('The importer object has to contain the all processed data!')
         self._trajectories = None
         self._structure = None
         self._total_variables_count = None

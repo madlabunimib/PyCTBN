@@ -44,7 +44,7 @@ class CSVImporter(AbstractImporter):
 
 
 def main():
-    read_files = glob.glob(os.path.join('../../data', "*.csv"))
+    read_files = glob.glob(os.path.join('../data', "*.csv"))
     print(read_files[0])
     csvimp = CSVImporter(read_files[0])
     csvimp.import_data()

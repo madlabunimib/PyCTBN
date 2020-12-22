@@ -19,11 +19,9 @@ class Trajectory(object):
     def __init__(self, list_of_columns: typing.List, original_cols_number: int):
         """Constructor Method
         """
-        if type(list_of_columns[0][0]) != np.float64:
-            raise TypeError('The first array in the list has to be Times')
+        self._times = list_of_columns[0]
+        self._actual_trajectory = list_of_columns[1]
         self._original_cols_number = original_cols_number
-        self._actual_trajectory = np.array(list_of_columns[1:], dtype=np.int).T
-        self._times = np.array(list_of_columns[0], dtype=np.float)
 
     @property
     def trajectory(self) -> np.ndarray:

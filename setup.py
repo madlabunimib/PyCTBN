@@ -1,6 +1,5 @@
 from setuptools import setup, find_packages
 
-print(find_packages('.', exclude=['PyCTBN.tests']))
 
 setup(name='PyCTBN',
       version='1.0',
@@ -12,7 +11,7 @@ setup(name='PyCTBN',
       packages=find_packages('.', exclude=['PyCTBN.tests']),
       #packages=['PyCTBN.classes'],
       install_requires=[
-          'numpy', 'pandas', 'networkx', 'scipy', 'tqdm'],
+          'numpy', 'pandas', 'networkx', 'scipy', 'matplotlib', 'tqdm'],
       dependency_links=['https://github.com/numpy/numpy', 'https://github.com/pandas-dev/pandas',
                         'https://github.com/networkx/networkx', 'https://github.com/scipy/scipy',
                         'https://github.com/tqdm/tqdm'],
