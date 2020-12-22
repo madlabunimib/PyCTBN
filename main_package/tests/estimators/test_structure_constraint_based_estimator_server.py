@@ -37,15 +37,7 @@ class TestStructureConstraintBasedEstimator(unittest.TestCase):
 
         
         se1 = se.StructureConstraintBasedEstimator(self.s1,0.1,0.1)
-        edges = se1.estimate_structure(
-                                    max_parents = None,
-                                    iterations_number = 100,
-                                    patience = 35,
-                                    tabu_length = 15,
-                                    tabu_rules_duration = 15,
-                                    optimizer = 'tabu',
-                                    disable_multiprocessing=False
-                                    )
+        edges = se1.estimate_structure(disable_multiprocessing=False)       
 
 
         self.importer = ji.JsonImporter("/home/alessandro/Documents/ctbn_cba/data/networks_and_trajectories_ternary_data_15.json", 'samples', 'dyn.str', 'variables', 'Time', 'Name')
