@@ -5,14 +5,18 @@ from abc import ABC, abstractmethod
 import numpy as np
 import pandas as pd
 
+import copy
+
+from sklearn.utils import resample
+
 
 class AbstractImporter(ABC):
     """Abstract class that exposes all the necessary methods to process the trajectories and the net structure.
 
     :param file_path: the file path, or dataset name if you import already processed data
     :type file_path: str
-    :param concatenated_samples: Dataframe or numpy array containing the concatenation of all the processed trajectories
-    :type concatenated_samples: typing.Union[pandas.DataFrame, numpy.ndarray]
+    :param trajectory_list: Dataframe or numpy array containing the concatenation of all the processed trajectories
+    :type trajectory_list: typing.Union[pandas.DataFrame, numpy.ndarray]
     :param variables: Dataframe containing the nodes labels and cardinalities
     :type variables: pandas.DataFrame
     :prior_net_structure: Dataframe containing the structure of the network (edges)
@@ -31,24 +35,25 @@ class AbstractImporter(ABC):
 
     """
 
-    def __init__(self, file_path: str = None, concatenated_samples: typing.Union[pd.DataFrame, np.ndarray] = None,
+    def __init__(self, file_path: str = None, trajectory_list: typing.Union[pd.DataFrame, np.ndarray] = None,
                  variables: pd.DataFrame = None, prior_net_structure: pd.DataFrame = None):
         """Constructor
         """
         self._file_path = file_path
-        self._concatenated_samples = concatenated_samples
+        self._df_samples_list = trajectory_list
+        self._concatenated_samples = []
         self._df_variables = variables
         self._df_structure = prior_net_structure
         self._sorter = None
         super().__init__()
 
     @abstractmethod
-    def build_sorter(self, sample_frame: pd.DataFrame) -> typing.List:
+    def build_sorter(self, trajecory_header: object) -> typing.List:
         """Initializes the ``_sorter`` class member from a trajectory dataframe, exctracting the header of the frame
         and keeping ONLY the variables symbolic labels, cutting out the time label in the header.
 
-        :param sample_frame: The dataframe from which extract the header
-        :type sample_frame: pandas.DataFrame
+        :param trajecory_header: an object that will be used to define the header
+        :type trajecory_header: object
         :return: A list containing the processed header.
         :rtype: List
         """
@@ -73,6 +78,7 @@ class AbstractImporter(ABC):
             the Dataframe ``sample_frame`` has to follow the column structure of this header:
             Header of sample_frame = [Time | Variable values]
         """
+        sample_frame = copy.deepcopy(sample_frame)
         sample_frame.iloc[:, 0] = sample_frame.iloc[:, 0].diff().shift(-1)
         shifted_cols = sample_frame[columns_header].shift(-1).fillna(0).astype('int32')
         shifted_cols.columns = shifted_cols_header
@@ -103,25 +109,25 @@ class AbstractImporter(ABC):
         proc_samples_list = [compute_row_delta(sample, self._sorter, shifted_cols_header)
                                 for sample in df_samples_list]
         self._concatenated_samples = pd.concat(proc_samples_list)
+
         complete_header = self._sorter[:]
         complete_header.insert(0,'Time')
         complete_header.extend(shifted_cols_header)
         self._concatenated_samples = self._concatenated_samples[complete_header]
 
-    def build_list_of_samples_array(self, concatenated_sample: typing.Union[pd.DataFrame, np.ndarray]) -> typing.List:
+    def build_list_of_samples_array(self, concatenated_sample: pd.DataFrame) -> typing.List:
         """Builds a List containing the the delta times numpy array, and the complete transitions matrix
 
         :param concatenated_sample: the dataframe/array from which the time, and transitions matrix have to be extracted
             and converted
-        :type concatenated_sample: typing.Union[pandas.Dataframe, numpy.ndarray]
+        :type concatenated_sample: pandas.Dataframe
         :return: the resulting list of numpy arrays
         :rtype: List
         """
-        if isinstance(concatenated_sample, pd.DataFrame):
-            concatenated_array = concatenated_sample.to_numpy()
-            columns_list = [concatenated_array[:, 0], concatenated_array[:, 1:].astype(int)]
-        else:
-            columns_list = [concatenated_sample[:, 0], concatenated_sample[:, 1:].astype(int)]
+        
+        concatenated_array = concatenated_sample.to_numpy()
+        columns_list = [concatenated_array[:, 0], concatenated_array[:, 1:].astype(int)]
+
         return columns_list
 
     def clear_concatenated_frame(self) -> None:

@@ -7,14 +7,17 @@ import unittest
 
 import networkx as nx
 import numpy as np
+import pandas as pd
 import psutil
 from line_profiler import LineProfiler
 import copy
+import json
 
 import utility.cache as ch
 import structure_graph.sample_path as sp
 import estimators.structure_score_based_estimator as se
 import utility.json_importer as ji
+import utility.sample_importer as si
 
 
 
@@ -25,7 +28,24 @@ class TestTabuSearch(unittest.TestCase):
     @classmethod
     def setUpClass(cls):
         #cls.read_files = glob.glob(os.path.join('../../data', "*.json"))
-        cls.importer = ji.JsonImporter("../../data/networks_and_trajectories_ternary_data_5.json", 'samples', 'dyn.str', 'variables', 'Time', 'Name')
+
+        with open("../../data/networks_and_trajectories_binary_data_01_3.json") as f:
+            raw_data = json.load(f)
+
+            trajectory_list_raw= raw_data[0]["samples"]
+
+            trajectory_list = [pd.DataFrame(sample) for sample in trajectory_list_raw]
+
+            variables= pd.DataFrame(raw_data[0]["variables"])
+            prior_net_structure = pd.DataFrame(raw_data[0]["dyn.str"])
+
+
+        cls.importer = si.SampleImporter(
+                                        trajectory_list=trajectory_list,
+                                        variables=variables,
+                                        prior_net_structure=prior_net_structure
+                                    )
+        
         cls.importer.import_data(0)
         cls.s1 = sp.SamplePath(cls.importer)
 
