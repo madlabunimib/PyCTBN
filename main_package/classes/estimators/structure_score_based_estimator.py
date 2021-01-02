@@ -90,6 +90,7 @@ class StructureScoreBasedEstimator(se.StructureEstimator):
 
         'get the number of CPU'
         cpu_count = multiprocessing.cpu_count()
+        print(f"CPU COUNT: {cpu_count}")
 
         if disable_multiprocessing:
             cpu_count = 1

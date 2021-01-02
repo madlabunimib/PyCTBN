@@ -18,16 +18,24 @@ import utility.json_importer as ji
 
 
 
+
+
 class TestTabuSearch(unittest.TestCase):
 
     @classmethod
     def setUpClass(cls):
         #cls.read_files = glob.glob(os.path.join('../../data', "*.json"))
-        cls.importer = ji.JsonImporter("../../data/networks_and_trajectories_ternary_data_20.json", 
-                                    'samples', 'dyn.str', 'variables', 'Time', 'Name', 2 )
+        cls.importer = ji.JsonImporter("../../data/networks_and_trajectories_ternary_data_5.json", 'samples', 'dyn.str', 'variables', 'Time', 'Name')
+        cls.importer.import_data(0)
+        cls.s1 = sp.SamplePath(cls.importer)
+
+        #cls.traj = cls.s1.concatenated_samples
+
+       # print(len(cls.traj))
         cls.s1 = sp.SamplePath(cls.importer)
         cls.s1.build_trajectories()
         cls.s1.build_structure()
+        cls.s1.clear_memory() 
 
 
 
@@ -39,11 +47,11 @@ class TestTabuSearch(unittest.TestCase):
         edges = se1.estimate_structure(
                             max_parents = None,
                             iterations_number = 100,
-                            patience = None,
-                            tabu_length = 15,
-                            tabu_rules_duration = 15,
+                            patience = 20,
+                            tabu_length = 10,
+                            tabu_rules_duration = 10,
                             optimizer = 'tabu',
-                            disable_multiprocessing=True
+                            disable_multiprocessing=False
                             )
         
 
