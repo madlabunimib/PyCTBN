@@ -47,8 +47,8 @@ class ParametersEstimator:
             A setOfCims object filled with the computed CIMS
         """
         node_indx = self.net_graph.get_node_indx(node_id)
-        state_res_times = self.single_set_of_cims.state_residence_times
-        transition_matrices = self.single_set_of_cims.transition_matrices
+        state_res_times = self.single_set_of_cims._state_residence_times
+        transition_matrices = self.single_set_of_cims._transition_matrices
         trajectory = self.sample_path.trajectories.trajectory
         self.compute_state_res_time_for_node(node_indx, self.sample_path.trajectories.times,
                                              trajectory,
@@ -123,15 +123,15 @@ class ParametersEstimator:
                                                  self.sample_path.trajectories.trajectory,
                                                  self.net_graph.time_filtering[indx],
                                                  self.net_graph.time_scalar_indexing_strucure[indx],
-                                                 aggr[1].state_residence_times)
+                                                 aggr[1]._state_residence_times)
             #print(self.net_graph.transition_filtering[indx])
             #print(self.net_graph.transition_scalar_indexing_structure[indx])
             self.compute_state_transitions_for_a_node(self.net_graph.get_node_indx(aggr[0]),
                                                       self.sample_path.trajectories.complete_trajectory,
                                                       self.net_graph.transition_filtering[indx],
                                                       self.net_graph.transition_scalar_indexing_structure[indx],
-                                                      aggr[1].transition_matrices)
-            aggr[1].build_cims(aggr[1].state_residence_times, aggr[1].transition_matrices)
+                                                      aggr[1]._transition_matrices)
+            aggr[1].build_cims(aggr[1]._state_residence_times, aggr[1]._transition_matrices)
 
 
 

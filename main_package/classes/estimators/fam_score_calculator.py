@@ -70,7 +70,7 @@ class FamScoreCalculator:
         """
 
         'get cim length'
-        values = len(cim.state_residence_times)
+        values = len(cim._state_residence_times)
 
         'compute the marginal likelihood for the current cim'
         return np.sum([
@@ -98,7 +98,7 @@ class FamScoreCalculator:
             the marginal likelihood of the node when assumes a specif value
         """
 
-        values = list(range(len(cim.state_residence_times)))
+        values = list(range(len(cim._state_residence_times)))
 
         'remove the index because of the x != x^ condition in the summation '
         values.remove(index)
@@ -162,13 +162,13 @@ class FamScoreCalculator:
         """
 
         'get cim length'
-        values=len(cim.state_residence_times)
+        values=len(cim._state_residence_times)
 
         'compute the marginal likelihood for the current cim'
         return np.sum([
                     self.single_cim_xu_marginal_likelihood_q(
                                                 cim.state_transition_matrix[index, index],
-                                                cim.state_residence_times[index],
+                                                cim._state_residence_times[index],
                                                 tau_xu,
                                                 alpha_xu)
                     for index in range(values)])
@@ -227,7 +227,7 @@ class FamScoreCalculator:
                                         # alpha_xu,
                                         # alpha_xxu))
         'calculate alpha_xxu as a uniform distribution'                                
-        alpha_xxu = alpha_xu /(len(cims[0].state_residence_times) - 1)
+        alpha_xxu = alpha_xu /(len(cims[0]._state_residence_times) - 1)
 
         return self.marginal_likelihood_q(cims,
                                     tau_xu,
