@@ -13,29 +13,31 @@ import utility.abstract_importer as ai
 class SampleImporter(ai.AbstractImporter):
     #TODO: Scrivere documentazione
     """Implements the abstracts methods of AbstractImporter and adds all the necessary methods to process and prepare
-    the data in json extension.
+    the data loaded directly by using DataFrame
 
-    :param file_path: the path of the file that contains tha data to be imported
-    :type file_path: string
-    :param samples_label: the reference key for the samples in the trajectories
-    :type samples_label: string
-    :param structure_label: the reference key for the structure of the network data
-    :type structure_label: string
-    :param variables_label: the reference key for the cardinalites of the nodes data
-    :type variables_label: string
-    :param time_key: the key used to identify the timestamps in each trajectory
-    :type time_key: string
-    :param variables_key: the key used to identify the names of the variables in the net
-    :type variables_key: string
-    :_array_indx: the index of the outer JsonArray to extract the data from
-    :type _array_indx: int
+    :param trajectory_list: the data that describes the trajectories
+    :type trajectory_list: typing.Union[pd.DataFrame, np.ndarray, typing.List]
+    :param variables: the data that describes the variables with name and cardinality
+    :type variables: typing.Union[pd.DataFrame, np.ndarray, typing.List]
+    :param prior_net_structure: the data of the real structure, if it exists
+    :type prior_net_structure: typing.Union[pd.DataFrame, np.ndarray, typing.List]
+
     :_df_samples_list: a Dataframe list in which every dataframe contains a trajectory
     :_raw_data: The raw contents of the json file to import
     :type _raw_data: List
     """
 
-    def __init__(self, trajectory_list: typing.Union[pd.DataFrame, np.ndarray] = None,
-                 variables: pd.DataFrame = None, prior_net_structure: pd.DataFrame = None):
+    def __init__(self, 
+                trajectory_list: typing.Union[pd.DataFrame, np.ndarray, typing.List] = None,
+                variables: typing.Union[pd.DataFrame, np.ndarray, typing.List] = None,
+                prior_net_structure: typing.Union[pd.DataFrame, np.ndarray,typing.List] = None):
+
+        'If the data are not DataFrame, it will be converted'
+        if isinstance(variables,list) or isinstance(variables,np.ndarray):
+            variables = pd.DataFrame(variables)
+        if isinstance(variables,list) or isinstance(variables,np.ndarray):
+            prior_net_structure=pd.DataFrame(prior_net_structure)
+
         super(SampleImporter, self).__init__(trajectory_list =trajectory_list,
                                         variables= variables,
                                         prior_net_structure=prior_net_structure)
@@ -55,7 +57,7 @@ class SampleImporter(ai.AbstractImporter):
         self.compute_row_delta_in_all_samples_frames(samples_list)
 
     def build_sorter(self, sample_frame: pd.DataFrame) -> typing.List:
-        """Implements the abstract method build_sorter of the :class:`AbstractImporter` for this dataset.
+        """Implements the abstract method build_sorter of the :class:`AbstractImporter` in order to get the ordered variables list.
         """
         columns_header = list(sample_frame.columns.values)
         del columns_header[0]
