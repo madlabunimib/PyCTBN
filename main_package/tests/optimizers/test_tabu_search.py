@@ -46,7 +46,7 @@ class TestTabuSearch(unittest.TestCase):
                                         prior_net_structure=prior_net_structure
                                     )
         
-        cls.importer.import_data(0)
+        cls.importer.import_data()
         cls.s1 = sp.SamplePath(cls.importer)
 
         #cls.traj = cls.s1.concatenated_samples

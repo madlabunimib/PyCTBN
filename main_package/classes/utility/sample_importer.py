@@ -43,7 +43,7 @@ class SampleImporter(ai.AbstractImporter):
 
     def import_data(self, header_column = None):
 
-        if header_column is None:
+        if header_column is not None:
             self._sorter = header_column
         else:    
             self._sorter = self.build_sorter(self._df_samples_list[0])
