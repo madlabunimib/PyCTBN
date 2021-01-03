@@ -11,7 +11,6 @@ import utility.abstract_importer as ai
 
 
 class SampleImporter(ai.AbstractImporter):
-    #TODO: Scrivere documentazione
     """Implements the abstracts methods of AbstractImporter and adds all the necessary methods to process and prepare
     the data loaded directly by using DataFrame
 
