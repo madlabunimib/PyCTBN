@@ -70,7 +70,7 @@ class TestTabuSearch(unittest.TestCase):
                         constraint = constr
 
                         index = 1
-                        num_networks=11
+                        num_networks=10
 
 
                         while index <= num_networks:
