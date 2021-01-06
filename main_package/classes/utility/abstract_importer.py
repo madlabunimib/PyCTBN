@@ -7,7 +7,7 @@ import pandas as pd
 
 import copy
 
-from sklearn.utils import resample
+#from sklearn.utils import resample
 
 
 class AbstractImporter(ABC):
