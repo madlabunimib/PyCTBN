@@ -50,7 +50,7 @@ class StructureScoreBasedEstimator(se.StructureEstimator):
         self.alpha_xu=alpha_xu
 
 
-    @timing
+    @timing_write
     def estimate_structure(self, max_parents:int = None, iterations_number:int= 40,
                          patience:int = None, tabu_length:int = None, tabu_rules_duration:int = None,
                          optimizer: str = 'hill',disable_multiprocessing:bool= False ):

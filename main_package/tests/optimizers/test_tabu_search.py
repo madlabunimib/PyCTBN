@@ -29,15 +29,15 @@ class TestTabuSearch(unittest.TestCase):
     def setUpClass(cls):
         #cls.read_files = glob.glob(os.path.join('../../data', "*.json"))
 
-        with open("../../data/networks_and_trajectories_binary_data_01_3.json") as f:
+        with open("../../data/1.json") as f:
             raw_data = json.load(f)
 
-            trajectory_list_raw= raw_data[0]["samples"]
+            trajectory_list_raw= raw_data["samples"]
 
             trajectory_list = [pd.DataFrame(sample) for sample in trajectory_list_raw]
 
-            variables= pd.DataFrame(raw_data[0]["variables"])
-            prior_net_structure = pd.DataFrame(raw_data[0]["dyn.str"])
+            variables= pd.DataFrame(raw_data["variables"])
+            prior_net_structure = pd.DataFrame(raw_data["dyn.str"])
 
 
         cls.importer = si.SampleImporter(
@@ -47,7 +47,7 @@ class TestTabuSearch(unittest.TestCase):
                                     )
         
         cls.importer.import_data()
-        cls.s1 = sp.SamplePath(cls.importer)
+        #cls.s1 = sp.SamplePath(cls.importer)
 
         #cls.traj = cls.s1.concatenated_samples
 
@@ -55,7 +55,7 @@ class TestTabuSearch(unittest.TestCase):
         cls.s1 = sp.SamplePath(cls.importer)
         cls.s1.build_trajectories()
         cls.s1.build_structure()
-        cls.s1.clear_memory() 
+        #cls.s1.clear_memory() 
 
 
 

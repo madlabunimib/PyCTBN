@@ -217,7 +217,7 @@ class StructureConstraintBasedEstimator(se.StructureEstimator):
                                                             tot_vars_count = tot_vars_count)
         return optimizer_obj.optimize_structure()
 
-    @timing
+    
     def ctpc_algorithm(self,disable_multiprocessing:bool= False ):
         """
         Compute the CTPC algorithm.
@@ -258,7 +258,7 @@ class StructureConstraintBasedEstimator(se.StructureEstimator):
         return set(itertools.chain.from_iterable(list_edges_partial))
 
         
-    @timing 
+    @timing_write
     def estimate_structure(self,disable_multiprocessing:bool=False):
         return self.ctpc_algorithm(disable_multiprocessing=disable_multiprocessing)
 
