@@ -101,7 +101,7 @@ class TestTabuSearch(unittest.TestCase):
                             true_edges = copy.deepcopy(self.s1.structure.edges)
                             true_edges = set(map(tuple, true_edges))
 
-                            if constr == 1:
+                            if constr == 0:
                                 se1 = se_score.StructureScoreBasedEstimator(self.s1)
                                 set_list_edges = se1.estimate_structure(
                                                     max_parents = None,
