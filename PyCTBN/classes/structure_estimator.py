@@ -36,7 +36,8 @@ class StructureEstimator(object):
     :_cache: the Cache object
     """
 
-    def __init__(self, sample_path: SamplePath, exp_test_alfa: float, chi_test_alfa: float):
+    def __init__(self, sample_path: SamplePath, exp_test_alfa: float, chi_test_alfa: float,
+                 thumb_threshold:int = 25, known_edges: typing.List = None):
         """Constructor Method
         """
         self._sample_path = sample_path
@@ -46,6 +47,8 @@ class StructureEstimator(object):
         self._complete_graph = StructureEstimator.build_complete_graph(self._sample_path.structure.nodes_labels)
         self._exp_test_sign = exp_test_alfa
         self._chi_test_alfa = chi_test_alfa
+        self._thumb_threshold = thumb_threshold
+        self._removable_edges_matrix = self.build_removable_edges_matrix(known_edges)
         self._cache = Cache()
 
     @staticmethod
@@ -62,8 +65,18 @@ class StructureEstimator(object):
         complete_graph.add_edges_from(itertools.permutations(node_ids, 2))
         return complete_graph
 
+    def build_removable_edges_matrix(self, known_edges: typing.List):
+        tot_vars_count = self._sample_path.total_variables_count
+        complete_adj_matrix = np.full((tot_vars_count, tot_vars_count), True)
+        if known_edges:
+            for edge in known_edges:
+                i = self._sample_path.structure.get_node_indx(edge[0])
+                j = self._sample_path.structure.get_node_indx(edge[1])
+                complete_adj_matrix[i][j] = False
+        return complete_adj_matrix
+
     def complete_test(self, test_parent: str, test_child: str, parent_set: typing.List, child_states_numb: int,
-                      tot_vars_count: int) -> bool:
+                      tot_vars_count: int, parent_indx, child_indx) -> bool:
         """Performs a complete independence test on the directed graphs G1 = {test_child U parent_set}
         G2 = {G1 U test_parent} (added as an additional parent of the test_child).
         Generates all the necessary structures and datas to perform the tests.
@@ -117,16 +130,21 @@ class StructureEstimator(object):
             p2.fast_init(test_child)
             sofc1 = p2.compute_parameters_for_node(test_child)
             self._cache.put(set(p_set), sofc1)
-
+        thumb_value = 0.0
+        if child_states_numb > 2:
+            parent_val = self._sample_path.structure.get_states_number(test_parent)
+            bool_mask_vals = np.isin(self._nodes, parent_set)
+            parents_vals = self._nodes_vals[bool_mask_vals]
+            thumb_value = self.compute_thumb_value(parent_val, child_states_numb, parents_vals)
         for cim1, p_comb in zip(sofc1.actual_cims, sofc1.p_combs):
             cond_cims = sofc2.filter_cims_with_mask(cims_filter, p_comb)
             for cim2 in cond_cims:
-                if not self.independence_test(child_states_numb, cim1, cim2):
+                if not self.independence_test(child_states_numb, cim1, cim2, thumb_value, parent_indx, child_indx):
                     return False
         return True
 
     def independence_test(self, child_states_numb: int, cim1: ConditionalIntensityMatrix,
-                          cim2: ConditionalIntensityMatrix) -> bool:
+                          cim2: ConditionalIntensityMatrix, thumb_value: float, parent_indx, child_indx) -> bool:
         """Compute the actual independence test using two cims.
         It is performed first the exponential test and if the null hypothesis is not rejected,
         it is performed also the chi_test.
@@ -146,6 +164,10 @@ class StructureEstimator(object):
         r2s = M2.diagonal()
         C1 = cim1.cim
         C2 = cim2.cim
+        if child_states_numb > 2:
+            if (np.sum(np.diagonal(M1)) / thumb_value) < self._thumb_threshold:
+                self._removable_edges_matrix[parent_indx][child_indx] = False
+                return False
         F_stats = C2.diagonal() / C1.diagonal()
         exp_alfa = self._exp_test_sign
         for val in range(0, child_states_numb):
@@ -165,6 +187,14 @@ class StructureEstimator(object):
                 return False
         return True
 
+
+    def compute_thumb_value(self, parent_val, child_val, parent_set_vals):
+        df = (child_val - 1) ** 2
+        df = df * parent_val
+        for v in parent_set_vals:
+            df = df * v
+        return df
+
     def one_iteration_of_CTPC_algorithm(self, var_id: str) -> None:
         """Performs an iteration of the CTPC algorithm using the node ``var_id`` as ``test_child``.
 
@@ -179,14 +209,17 @@ class StructureEstimator(object):
             parent_indx = 0
             while parent_indx < len(u):
                 removed = False
-                S = StructureEstimator.generate_possible_sub_sets_of_size(u, b, u[parent_indx])
                 test_parent = u[parent_indx]
-                for parents_set in S:
-                    if self.complete_test(test_parent, var_id, parents_set, child_states_numb, tot_vars_count):
-                        self._complete_graph.remove_edge(test_parent, var_id)
-                        u.remove(test_parent)
-                        removed = True
-                        break
+                i = self._sample_path.structure.get_node_indx(test_parent)
+                j = self._sample_path.structure.get_node_indx(var_id)
+                if self._removable_edges_matrix[i][j]:
+                    S = StructureEstimator.generate_possible_sub_sets_of_size(u, b, test_parent)
+                    for parents_set in S:
+                        if self.complete_test(test_parent, var_id, parents_set, child_states_numb, tot_vars_count, i, j):
+                            self._complete_graph.remove_edge(test_parent, var_id)
+                            u.remove(test_parent)
+                            removed = True
+                            break
                 if not removed:
                     parent_indx += 1
             b += 1
@@ -263,7 +296,7 @@ class StructureEstimator(object):
         edges_colors = ['red' if edge in spurious_edges else 'black' for edge in self._complete_graph.edges]
         graph_to_draw.add_edges_from(spurious_edges)
         graph_to_draw.add_edges_from(non_spurious_edges)
-        pos = nx.spring_layout(graph_to_draw, k=5, scale=3)
+        pos = nx.spring_layout(graph_to_draw, k=0.5*1/np.sqrt(len(graph_to_draw.nodes())), iterations=50,scale=10)
         options = {
             "node_size": 2000,
             "node_color": "white",

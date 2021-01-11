@@ -242,27 +242,12 @@ class OriginalCTPCAlgorithm(AbstractImporter):
                                 dtype=np.int64)
         #print(diag_indices)
         T_filter = np.array([child_id, *parents_id], dtype=np.int) + 1
-        #print("TFilter",T_filter)
-        #print("TVector", T_vector)
-        #print("Trajectories", trajectories)
-        #print("Actual TVect",T_vector / T_vector[0])
-        #print("Masked COlumns", trajectories[:, T_filter])  # Colonne non shiftate dei values
-        #print("Masked Multiplied COlumns",trajectories[:, T_filter] * (T_vector / T_vector[0]) )
-        #print("Summing",np.sum(trajectories[:, T_filter] * (T_vector / T_vector[0]), axis=1))
-        #print("Deltas",trajectories[:, int(trajectories.shape[1] / 2)]) # i delta times
         assert np.sum(trajectories[:, T_filter] * (T_vector / T_vector[0]), axis=1).size == \
                trajectories[:, int(trajectories.shape[1] / 2)].size
         #print(T_vector[-1])
         T[:] = np.bincount(np.sum(trajectories[:, T_filter] * T_vector / T_vector[0], axis=1).astype(np.int), \
                            trajectories[:, int(trajectories.shape[1] / 2)], minlength=T_vector[-1]).reshape(-1,
                                                                                                             T.shape[1])
-        #print("Shape", T.shape[1])
-        #print(np.bincount(np.sum(trajectories[:, T_filter] * T_vector / T_vector[0], axis=1).astype(np.int), \
-                           #trajectories[:, int(trajectories.shape[1] / 2)], minlength=T_vector[-1]))
-        ###### Transitions #######
-
-        #print("Shifted Node column", trajectories[:, int(trajectories.shape[1] / 2) + 1 + child_id].astype(np.int))
-        #print("Step 2", trajectories[:, int(trajectories.shape[1] / 2) + 1 + child_id].astype(np.int) >= 0)
         trj_tmp = trajectories[trajectories[:, int(trajectories.shape[1] / 2) + 1 + child_id].astype(np.int) >= 0]
         #print("Trj Temp", trj_tmp)
 
@@ -270,13 +255,6 @@ class OriginalCTPCAlgorithm(AbstractImporter):
         M_filter = np.array([child_id, child_id, *parents_id], dtype=np.int) + 1
         #print("MFilter", M_filter)
         M_filter[0] += int(trj_tmp.shape[1] / 2)
-        #print("MFilter", M_filter)
-        #print("MVector", M_vector)
-        #print("Division", M_vector / M_vector[0])
-        #print("Masked Traj temp", (trj_tmp[:, M_filter]))
-        #print("Masked Multiplied Traj temp", trj_tmp[:, M_filter] * M_vector / M_vector[0])
-        #print("Summing", np.sum(trj_tmp[:, M_filter] * M_vector / M_vector[0], axis=1))
-        #print(M.shape[2])
 
         M[:] = np.bincount(np.sum(trj_tmp[:, M_filter] * M_vector / M_vector[0], axis=1).astype(np.int), \
                            minlength=M_vector[-1]).reshape(-1, M.shape[1], M.shape[2])
@@ -389,6 +367,7 @@ class OriginalCTPCAlgorithm(AbstractImporter):
         #print("Parents Comb From", parents_comb_from)
 
         #print("C2:", CIM_from)
+
 
         if self.variables.loc[to_var, "Value"] > 2:
             df = (self.variables.loc[to_var, "Value"] - 1) ** 2

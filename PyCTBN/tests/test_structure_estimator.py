@@ -50,6 +50,17 @@ class TestStructureEstimator(unittest.TestCase):
             no_self_loops.remove(node)
             for n2 in no_self_loops:
                 self.assertIn((node, n2), cg.edges)
+        #se1.save_plot_estimated_structure_graph()
+
+    def test_build_removable_edges_matrix(self):
+        exp_alfa = 0.1
+        chi_alfa = 0.1
+        known_edges = self.s1.structure.edges[0:2]
+        se1 = StructureEstimator(self.s1, exp_alfa, chi_alfa, known_edges)
+        for edge in known_edges:
+            i = self.s1.structure.get_node_indx(edge[0])
+            j = self.s1.structure.get_node_indx(edge[1])
+            self.assertFalse(se1._removable_edges_matrix[i][j])
 
     def test_generate_possible_sub_sets_of_size(self):
         exp_alfa = 0.1
@@ -67,7 +78,8 @@ class TestStructureEstimator(unittest.TestCase):
                     self.assertFalse(node in sset)
 
     def test_time(self):
-        se1 = StructureEstimator(self.s1, 0.1, 0.1)
+        known_edges = [self.s1.structure.edges[0]]
+        se1 = StructureEstimator(self.s1, 0.1, 0.1, 25, known_edges)
         exec_time = timeit.timeit(se1.ctpc_algorithm, number=1)
         print("Execution Time: ", exec_time)
         for ed in self.s1.structure.edges:
