@@ -31,14 +31,15 @@ class AbstractImporter(ABC):
 
     """
 
-    def __init__(self, file_path: str = None, concatenated_samples: typing.Union[pd.DataFrame, np.ndarray] = None,
+    def __init__(self, file_path: str = None, trajectories_list: typing.Union[typing.List, np.ndarray] = None,
                  variables: pd.DataFrame = None, prior_net_structure: pd.DataFrame = None):
         """Constructor
         """
         self._file_path = file_path
-        self._concatenated_samples = concatenated_samples
+        self._df_samples_list = trajectories_list
         self._df_variables = variables
         self._df_structure = prior_net_structure
+        self._concatenated_samples = None
         self._sorter = None
         super().__init__()
 
@@ -117,18 +118,16 @@ class AbstractImporter(ABC):
         :return: the resulting list of numpy arrays
         :rtype: List
         """
-        if isinstance(concatenated_sample, pd.DataFrame):
-            concatenated_array = concatenated_sample.to_numpy()
-            columns_list = [concatenated_array[:, 0], concatenated_array[:, 1:].astype(int)]
-        else:
-            columns_list = [concatenated_sample[:, 0], concatenated_sample[:, 1:].astype(int)]
+
+        concatenated_array = concatenated_sample.to_numpy()
+        columns_list = [concatenated_array[:, 0], concatenated_array[:, 1:].astype(int)]
+
         return columns_list
 
     def clear_concatenated_frame(self) -> None:
         """Removes all values in the dataframe concatenated_samples.
          """
-        if isinstance(self._concatenated_samples, pd.DataFrame):
-            self._concatenated_samples = self._concatenated_samples.iloc[0:0]
+        self._concatenated_samples = self._concatenated_samples.iloc[0:0]
 
     @abstractmethod
     def dataset_id(self) -> object:

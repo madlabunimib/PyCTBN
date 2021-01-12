@@ -121,6 +121,7 @@ class TestJsonImporter(unittest.TestCase):
         self.assertTrue(j1.concatenated_samples.empty)
 
     def test_build_list_of_samples_array(self):
+        """
         data_set = {"key1": [1, 2, 3], "key2": [4.1, 5.2, 6.3]}
         with open('data.json', 'w') as f:
             json.dump(data_set, f)
@@ -136,6 +137,15 @@ class TestJsonImporter(unittest.TestCase):
         for a1, a2 in zip(col_list, forced_list):
             self.assertTrue(np.array_equal(a1, a2))
         os.remove('data.json')
+        """
+        j1 = JsonImporter(self.read_files[0], 'samples', 'dyn.str', 'variables', 'Time', 'Name')
+        j1.import_data(0)
+        times_state_changes_list = j1.build_list_of_samples_array(j1._concatenated_samples)
+        self.assertEqual(len(times_state_changes_list), 2)
+        self.assertIsInstance(times_state_changes_list[0], np.ndarray)
+        self.assertIsInstance(times_state_changes_list[1], np.ndarray)
+        self.assertIsInstance(times_state_changes_list[0][0], float)
+        self.assertIsInstance(times_state_changes_list[1][0][0], np.int64)
 
     def test_import_variables(self):
         j1 = JsonImporter(self.read_files[0], 'samples', 'dyn.str', 'variables', 'Time', 'Name')
