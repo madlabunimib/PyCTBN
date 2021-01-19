@@ -36,28 +36,30 @@ class StructureConstraintBasedEstimator(se.StructureEstimator):
     :chi_test_alfa: the significance level for the chi Hp test
     """
 
-    def __init__(self, sample_path: sp.SamplePath, exp_test_alfa: float, chi_test_alfa: float):
-        super().__init__(sample_path)
+    def __init__(self, sample_path: sp.SamplePath, exp_test_alfa: float, chi_test_alfa: float,known_edges: typing.List= []):
+        super().__init__(sample_path,known_edges)
         self.exp_test_sign = exp_test_alfa
         self.chi_test_alfa = chi_test_alfa
 
 
     def complete_test(self, test_parent: str, test_child: str, parent_set: typing.List, child_states_numb: int,
                       tot_vars_count: int):
-        """
-        Permorms a complete independence test on the directed graphs G1 = test_child U parent_set
-        G2 = G1 U test_parent (added as an additional parent of the test_child).
+        """Performs a complete independence test on the directed graphs G1 = {test_child U parent_set}
+        G2 = {G1 U test_parent} (added as an additional parent of the test_child).
         Generates all the necessary structures and datas to perform the tests.
 
-        Parameters:
-            test_parent: the node label of the test parent
-            test_child: the node label of the child
-            parent_set: the common parent set
-            child_states_numb: the cardinality of the test_child
-            tot_vars_count_ the total number of variables in the net
-        Returns:
-            True iff test_child and test_parent are independent given the sep_set parent_set
-            False otherwise
+        :param test_parent: the node label of the test parent
+        :type test_parent: string
+        :param test_child: the node label of the child
+        :type test_child: string
+        :param parent_set: the common parent set
+        :type parent_set: List
+        :param child_states_numb: the cardinality of the ``test_child``
+        :type child_states_numb: int
+        :param tot_vars_count: the total number of variables in the net
+        :type tot_vars_count: int
+        :return: True iff test_child and test_parent are independent given the sep_set parent_set. False otherwise
+        :rtype: bool
         """
         #print("Test Parent:", test_parent)
         #print("Sep Set", parent_set)
@@ -92,7 +94,7 @@ class StructureConstraintBasedEstimator(se.StructureEstimator):
             s1 = st.Structure(l1, indxs1, vals1, eds1, tot_vars_count)
             g1 = ng.NetworkGraph(s1)
             g1.fast_init(test_child)
-            p1 = pe.ParametersEstimator(self.sample_path, g1)
+            p1 = pe.ParametersEstimator(self._sample_path, g1)
             p1.fast_init(test_child)
             sofc1 = p1.compute_parameters_for_node(test_child)
             #if not p_set:
@@ -125,7 +127,7 @@ class StructureConstraintBasedEstimator(se.StructureEstimator):
             s2 = st.Structure(l2, indxs2, vals2, eds2, tot_vars_count)
             g2 = ng.NetworkGraph(s2)
             g2.fast_init(test_child)
-            p2 = pe.ParametersEstimator(self.sample_path, g2)
+            p2 = pe.ParametersEstimator(self._sample_path, g2)
             p2.fast_init(test_child)
             sofc2 = p2.compute_parameters_for_node(test_child)
             self.cache.put(set(p_set), sofc2)
@@ -146,19 +148,18 @@ class StructureConstraintBasedEstimator(se.StructureEstimator):
 
     def independence_test(self, child_states_numb: int, cim1: condim.ConditionalIntensityMatrix,
                           cim2: condim.ConditionalIntensityMatrix):
-        """
-        Compute the actual independence test using two cims.
+        """Compute the actual independence test using two cims.
         It is performed first the exponential test and if the null hypothesis is not rejected,
-        it is permormed also the chi_test.
+        it is performed also the chi_test.
 
-        Parameters:
-            child_states_numb: the cardinality of the test child
-            cim1: a cim belonging to the graph without test parent
-            cim2: a cim belonging to the graph with test parent
-
-        Returns:
-            True iff both tests do NOT reject the null hypothesis of indipendence
-            False otherwise
+        :param child_states_numb: the cardinality of the test child
+        :type child_states_numb: int
+        :param cim1: a cim belonging to the graph without test parent
+        :type cim1: ConditionalIntensityMatrix
+        :param cim2: a cim belonging to the graph with test parent
+        :type cim2: ConditionalIntensityMatrix
+        :return: True iff both tests do NOT reject the null hypothesis of independence. False otherwise.
+        :rtype: bool
         """
         M1 = cim1.state_transition_matrix
         M2 = cim2.state_transition_matrix
@@ -202,14 +203,10 @@ class StructureConstraintBasedEstimator(se.StructureEstimator):
         return True
 
     def one_iteration_of_CTPC_algorithm(self, var_id: str, tot_vars_count: int):
-        """
-        Performs an iteration of the CTPC algorithm using the node var_id as test_child.
+        """Performs an iteration of the CTPC algorithm using the node ``var_id`` as ``test_child``.
 
-        Parameters:
-            var_id: the node label of the test child
-            tot_vars_count: the number of nodes in the net
-        Returns:
-            void
+        :param var_id: the node label of the test child
+        :type var_id: string
         """
         optimizer_obj = optimizer.ConstraintBasedOptimizer(
                                                             node_id = var_id,
@@ -227,7 +224,7 @@ class StructureConstraintBasedEstimator(se.StructureEstimator):
             void
         """
         ctpc_algo = self.one_iteration_of_CTPC_algorithm
-        total_vars_numb = self.sample_path.total_variables_count
+        total_vars_numb = self._sample_path.total_variables_count
 
         n_nodes= len(self.nodes)
 
@@ -239,7 +236,7 @@ class StructureConstraintBasedEstimator(se.StructureEstimator):
 
 
         'Remove all the edges from the structure'   
-        self.sample_path.structure.clean_structure_edges()
+        self._sample_path.structure.clean_structure_edges()
 
         'Estimate the best parents for each node'
         #with multiprocessing.Pool(processes=cpu_count) as pool:

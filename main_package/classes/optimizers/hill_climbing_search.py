@@ -61,10 +61,31 @@ class HillClimbing(Optimizer):
         """
 
         #'Create the graph for the single node'
-        graph = ng.NetworkGraph(self.structure_estimator.sample_path.structure)
+        graph = ng.NetworkGraph(self.structure_estimator._sample_path.structure)
+
+        'get the index for the current node'
+        node_index = self.structure_estimator._sample_path._structure.get_node_indx(self.node_id)
+
+        'list of prior edges'
+        prior_parents = set()
+
+        'Add the edges from prior knowledge'
+        for i in range(len(self.structure_estimator._removable_edges_matrix)):
+            if not self.structure_estimator._removable_edges_matrix[i][node_index]:
+                parent_id= self.structure_estimator._sample_path._structure.get_node_id(i)
+                prior_parents.add(parent_id)
+
+                'Add the node to the starting structure'
+                graph.add_edges([(parent_id, self.node_id)])
 
 
-        other_nodes =  [node for node in self.structure_estimator.sample_path.structure.nodes_labels if node != self.node_id]
+
+        'get all the possible parents'
+        other_nodes =  [node for node in 
+                                            self.structure_estimator._sample_path.structure.nodes_labels if
+                                                                                            node != self.node_id and
+                                                                                            not prior_parents.__contains__(node)]
+        
         actual_best_score = self.structure_estimator.get_score_from_graph(graph,self.node_id)
 
         patince_count = 0

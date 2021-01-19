@@ -44,8 +44,8 @@ class StructureScoreBasedEstimator(se.StructureEstimator):
 
     """
 
-    def __init__(self, sample_path: sp.SamplePath, tau_xu:int=0.1, alpha_xu:int = 1):
-        super().__init__(sample_path)
+    def __init__(self, sample_path: sp.SamplePath, tau_xu:int=0.1, alpha_xu:int = 1,known_edges: typing.List= []):
+        super().__init__(sample_path,known_edges)
         self.tau_xu=tau_xu
         self.alpha_xu=alpha_xu
 
@@ -70,11 +70,11 @@ class StructureScoreBasedEstimator(se.StructureEstimator):
 
         """
         'Save the true edges structure in tuples'
-        true_edges = copy.deepcopy(self.sample_path.structure.edges)
+        true_edges = copy.deepcopy(self._sample_path.structure.edges)
         true_edges = set(map(tuple, true_edges))
 
         'Remove all the edges from the structure'   
-        self.sample_path.structure.clean_structure_edges()
+        self._sample_path.structure.clean_structure_edges()
 
         estimate_parents = self.estimate_parents
 
@@ -208,7 +208,7 @@ class StructureScoreBasedEstimator(se.StructureEstimator):
         'inizialize the graph for a single node'
         graph.fast_init(node_id) 
 
-        params_estimation = pe.ParametersEstimator(self.sample_path, graph)
+        params_estimation = pe.ParametersEstimator(self._sample_path, graph)
 
         'Inizialize and compute parameters for node'
         params_estimation.fast_init(node_id)

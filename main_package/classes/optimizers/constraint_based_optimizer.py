@@ -51,9 +51,9 @@ class ConstraintBasedOptimizer(Optimizer):
         """
         print("##################TESTING VAR################", self.node_id)
 
-        graph = ng.NetworkGraph(self.structure_estimator.sample_path.structure)
+        graph = ng.NetworkGraph(self.structure_estimator._sample_path.structure)
 
-        other_nodes =  [node for node in self.structure_estimator.sample_path.structure.nodes_labels if node != self.node_id]
+        other_nodes =  [node for node in self.structure_estimator._sample_path.structure.nodes_labels if node != self.node_id]
         
         for possible_parent in other_nodes:
             graph.add_edges([(possible_parent,self.node_id)])
@@ -63,7 +63,7 @@ class ConstraintBasedOptimizer(Optimizer):
         #tests_parents_numb = len(u)
         #complete_frame = self.complete_graph_frame
         #test_frame = complete_frame.loc[complete_frame['To'].isin([self.node_id])]
-        child_states_numb = self.structure_estimator.sample_path.structure.get_states_number(self.node_id)
+        child_states_numb = self.structure_estimator._sample_path.structure.get_states_number(self.node_id)
         b = 0
         while b < len(u):
             parent_indx = 0

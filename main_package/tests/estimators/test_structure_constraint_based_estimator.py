@@ -10,12 +10,13 @@ import numpy as np
 import psutil
 from line_profiler import LineProfiler
 
+import json
+import pandas as pd
+
 import utility.cache as ch
 import structure_graph.sample_path as sp
 import estimators.structure_constraint_based_estimator as se
-import utility.json_importer as ji
-
-from multiprocessing import set_start_method
+import utility.sample_importer as si
 
 import copy
 
@@ -23,8 +24,29 @@ import copy
 class TestStructureConstraintBasedEstimator(unittest.TestCase):
     @classmethod
     def setUpClass(cls):
-        #cls.read_files = glob.glob(os.path.join('../../data', "*.json"))
-        cls.importer = ji.JsonImporter("../../data/networks_and_trajectories_ternary_data_15.json", 'samples', 'dyn.str', 'variables', 'Time', 'Name',1)
+        with open("../../data/networks_and_trajectories_ternary_data_3.json") as f:
+            raw_data = json.load(f)
+
+            trajectory_list_raw= raw_data[0]["samples"]
+
+            trajectory_list = [pd.DataFrame(sample) for sample in trajectory_list_raw]
+
+            variables= pd.DataFrame(raw_data[0]["variables"])
+            prior_net_structure = pd.DataFrame(raw_data[0]["dyn.str"])
+
+
+        cls.importer = si.SampleImporter(
+                                        trajectory_list=trajectory_list,
+                                        variables=variables,
+                                        prior_net_structure=prior_net_structure
+                                    )
+        
+        cls.importer.import_data()
+        #cls.s1 = sp.SamplePath(cls.importer)
+
+        #cls.traj = cls.s1.concatenated_samples
+
+       # print(len(cls.traj))
         cls.s1 = sp.SamplePath(cls.importer)
         cls.s1.build_trajectories()
         cls.s1.build_structure()
@@ -33,7 +55,6 @@ class TestStructureConstraintBasedEstimator(unittest.TestCase):
         true_edges = copy.deepcopy(self.s1.structure.edges)
         true_edges = set(map(tuple, true_edges))
 
-        set_start_method("spawn")
         se1 = se.StructureConstraintBasedEstimator(self.s1,0.1,0.1)
         edges = se1.estimate_structure(disable_multiprocessing=False)
         
