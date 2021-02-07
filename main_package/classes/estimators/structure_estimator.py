@@ -24,13 +24,11 @@ class StructureEstimator(ABC):
     """
     Has the task of estimating the network structure given the trajectories in samplepath.
 
-    :sample_path: the sample_path object containing the trajectories and the real structure
+    :param sample_path: the _sample_path object containing the trajectories and the real structure
+    :type sample_path: SamplePath
+    :param known_edges: List of known edges
+    :type known_edges: List
 
-    :nodes: the nodes labels
-    :nodes_vals: the nodes cardinalities
-    :nodes_indxs: the nodes indexes
-    :complete_graph: the complete directed graph built using the nodes labels in nodes
-    :cache: the cache object
     """
 
     def __init__(self, sample_path: sp.SamplePath, known_edges: typing.List = None):

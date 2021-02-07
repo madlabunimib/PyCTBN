@@ -255,7 +255,7 @@ class StructureConstraintBasedEstimator(se.StructureEstimator):
         return set(itertools.chain.from_iterable(list_edges_partial))
 
         
-    @timing_write
+    @timing
     def estimate_structure(self,disable_multiprocessing:bool=False):
         return self.ctpc_algorithm(disable_multiprocessing=disable_multiprocessing)
 

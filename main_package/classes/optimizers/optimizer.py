@@ -17,6 +17,11 @@ from estimators import structure_estimator as se
 class Optimizer(abc.ABC):
     """
     Interface class for all the optimizer's child classes
+
+    :param node_id: the node label
+    :type node_id: string
+    :param structure_estimator: A structureEstimator Object to predict the structure
+    :type structure_estimator: class:'StructureEstimator'
     
     """
 
@@ -30,10 +35,7 @@ class Optimizer(abc.ABC):
         """
         Compute Optimization process for a structure_estimator
 
-        Parameters:
-
-        Returns:
-            the estimated structure for the node
-
+        :return: the estimated structure for the node
+        :rtype: List
         """
     pass

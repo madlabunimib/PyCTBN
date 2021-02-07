@@ -27,7 +27,7 @@ import structure_graph.conditional_intensity_matrix as cim_class
 
 class FamScoreCalculator:
     """
-    Has the task of calculating the FamScore of a node
+    Has the task of calculating the FamScore of a node by using a Bayesian score function
     """
 
     def __init__(self):
@@ -38,16 +38,20 @@ class FamScoreCalculator:
 
     def marginal_likelihood_theta(self,
                         cims: cim_class.ConditionalIntensityMatrix,
-                        alpha_xu: float = 1,
-                        alpha_xxu: float = 1):
+                        alpha_xu: float,
+                        alpha_xxu: float):
         """
-        calculate the FamScore value of the node identified by the label node_id
-        Parameters:
-            cims: np.array with all the node's cims,
-            alpha_xu: hyperparameter over the CTBN’s q parameters
-            alpha_xxu: hyperparameter over the CTBN’s theta parameters
-        Returns:
-            the value of the marginal likelihood over theta
+        Calculate the FamScore value of the node identified by the label node_id
+
+        :param cims: np.array with all the node's cims
+        :type cims: np.array
+        :param alpha_xu: hyperparameter over the CTBN’s q parameters, default to 0.1
+        :type alpha_xu: float
+        :param alpha_xxu: distribuited hyperparameter over the CTBN’s theta parameters
+        :type alpha_xxu: float
+
+        :return: the value of the marginal likelihood over theta
+        :rtype: float
         """
         return np.sum(
                         [self.variable_cim_xu_marginal_likelihood_theta(cim,
@@ -57,16 +61,20 @@ class FamScoreCalculator:
 
     def variable_cim_xu_marginal_likelihood_theta(self,
                         cim: cim_class.ConditionalIntensityMatrix,
-                        alpha_xu: float = 1,
-                        alpha_xxu: float = 1):
+                        alpha_xu: float,
+                        alpha_xxu: float):
         """
-        calculate the value of the marginal likelihood over theta given a cim
-        Parameters:
-            cim: A conditional_intensity_matrix object with the sufficient statistics,
-            alpha_xu: hyperparameter over the CTBN’s q parameters
-            alpha_xxu: hyperparameter over the CTBN’s theta parameters
-        Returns:
-            the value of the marginal likelihood over theta
+        Calculate the value of the marginal likelihood over theta given a cim
+
+        :param cim: A conditional_intensity_matrix object with the sufficient statistics
+        :type cim: class:'ConditionalIntensityMatrix'
+        :param alpha_xu: hyperparameter over the CTBN’s q parameters, default to 0.1
+        :type alpha_xu: float
+        :param alpha_xxu: distribuited hyperparameter over the CTBN’s theta parameters
+        :type alpha_xxu: float
+
+        :return: the value of the marginal likelihood over theta
+        :rtype: float
         """
 
         'get cim length'
@@ -84,18 +92,21 @@ class FamScoreCalculator:
     def single_cim_xu_marginal_likelihood_theta(self,
                     index: int,
                     cim: cim_class.ConditionalIntensityMatrix,
-                    alpha_xu: float = 1,
-                    alpha_xxu: float = 1):
+                    alpha_xu: float,
+                    alpha_xxu: float):
         """
-        calculate the marginal likelihood on q of the node when assumes a specif value
+        Calculate the marginal likelihood on q of the node when assumes a specif value
         and a specif parents's assignment
-        Parameters:
-            index: current x instance's index
-            cim: A conditional_intensity_matrix object with the sufficient statistics,
-            alpha_xu: hyperparameter over the CTBN’s q parameters
-            alpha_xxu: hyperparameter over the CTBN’s theta parameters
-        Returns:
-            the marginal likelihood of the node when assumes a specif value
+
+        :param cim: A conditional_intensity_matrix object with the sufficient statistics
+        :type cim: class:'ConditionalIntensityMatrix'
+        :param alpha_xu: hyperparameter over the CTBN’s q parameters
+        :type alpha_xu: float
+        :param alpha_xxu: distribuited hyperparameter over the CTBN’s theta parameters
+        :type alpha_xxu: float
+
+        :return: the value of the marginal likelihood over theta when the node assumes a specif value
+        :rtype: float
         """
 
         values = list(range(len(cim._state_residence_times)))
@@ -118,12 +129,16 @@ class FamScoreCalculator:
                                                 M_xxu_suff_stats: float,
                                                 alpha_xxu: float=1):
         """
-        calculate the second part of the marginal likelihood over theta formula
-        Parameters:
-            M_xxu_suff_stats: value of the suffucient statistic M[xx'|u]
-            alpha_xxu: hyperparameter over the CTBN’s theta parameters
-        Returns:
-            the marginal likelihood of the node when assumes a specif value
+        Calculate the second part of the marginal likelihood over theta formula
+        
+
+        :param M_xxu_suff_stats: value of the suffucient statistic M[xx'|u]
+        :type M_xxu_suff_stats: float
+        :param alpha_xxu: distribuited hyperparameter over the CTBN’s theta parameters
+        :type alpha_xxu: float
+
+        :return: the value of the marginal likelihood over theta when the node assumes a specif value
+        :rtype: float
         """
         return loggamma(alpha_xxu+M_xxu_suff_stats) - loggamma(alpha_xxu)
 
@@ -133,32 +148,42 @@ class FamScoreCalculator:
 
     def marginal_likelihood_q(self,
                         cims: np.array,
-                        tau_xu: float=1,
+                        tau_xu: float=0.1,
                         alpha_xu: float=1):
         """
-        calculate the value of the marginal likelihood over q of the node identified by the label node_id
-        Parameters:
-            cims: np.array with all the node's cims,
-            tau_xu: hyperparameter over the CTBN’s q parameters
-            alpha_xu: hyperparameter over the CTBN’s q parameters
-        Returns:
-            the value of the marginal likelihood over q
+        Calculate the value of the marginal likelihood over q of the node identified by the label node_id
+        
+        :param cims: np.array with all the node's cims
+        :type cims: np.array
+        :param tau_xu: hyperparameter over the CTBN’s q parameters
+        :type tau_xu: float
+        :param alpha_xu: hyperparameter over the CTBN’s q parameters
+        :type alpha_xu: float
+
+
+        :return: the value of the marginal likelihood over q
+        :rtype: float
         """
 
         return np.sum([self.variable_cim_xu_marginal_likelihood_q(cim, tau_xu, alpha_xu) for cim in cims])
 
     def variable_cim_xu_marginal_likelihood_q(self,
                         cim: cim_class.ConditionalIntensityMatrix,
-                        tau_xu: float=1,
+                        tau_xu: float=0.1,
                         alpha_xu: float=1):
         """
-        calculate the value of the marginal likelihood over q given a cim
-        Parameters:
-            cim: A conditional_intensity_matrix object with the sufficient statistics,
-            tau_xu: hyperparameter over the CTBN’s q parameters
-            alpha_xu: hyperparameter over the CTBN’s q parameters
-        Returns:
-            the value of the marginal likelihood over q
+        Calculate the value of the marginal likelihood over q given a cim
+        
+        :param cim: A conditional_intensity_matrix object with the sufficient statistics
+        :type cim: class:'ConditionalIntensityMatrix'
+        :param tau_xu: hyperparameter over the CTBN’s q parameters
+        :type tau_xu: float
+        :param alpha_xu: hyperparameter over the CTBN’s q parameters
+        :type alpha_xu: float
+
+
+        :return: the value of the marginal likelihood over q
+        :rtype: float
         """
 
         'get cim length'
@@ -177,18 +202,26 @@ class FamScoreCalculator:
     def single_cim_xu_marginal_likelihood_q(self,
                         M_xu_suff_stats: float,
                         T_xu_suff_stats: float,
-                        tau_xu: float=1,
+                        tau_xu: float=0.1,
                         alpha_xu: float=1):
         """
-        calculate the marginal likelihood on q of the node when assumes a specif value
+        Calculate the marginal likelihood on q of the node when assumes a specif value
         and a specif parents's assignment
-        Parameters:
-            M_xu_suff_stats: value of the suffucient statistic M[x|u]
-            T_xu_suff_stats: value of the suffucient statistic T[x|u]
-            tau_xu: hyperparameter over the CTBN’s q parameters
-            alpha_xu: hyperparameter over the CTBN’s q parameters
-        Returns:
-            the marginal likelihood of the node when assumes a specif value
+        
+        :param M_xu_suff_stats: value of the suffucient statistic M[x|u]
+        :type M_xxu_suff_stats: float
+        :param T_xu_suff_stats: value of the suffucient statistic T[x|u]
+        :type T_xu_suff_stats: float
+        :param cim: A conditional_intensity_matrix object with the sufficient statistics
+        :type cim: class:'ConditionalIntensityMatrix'
+        :param tau_xu: hyperparameter over the CTBN’s q parameters
+        :type tau_xu: float
+        :param alpha_xu: hyperparameter over the CTBN’s q parameters
+        :type alpha_xu: float
+
+
+        :return: the value of the marginal likelihood of the node when assumes a specif value
+        :rtype: float
         """
         return (
                 loggamma(alpha_xu + M_xu_suff_stats + 1) + 
@@ -210,13 +243,19 @@ class FamScoreCalculator:
                 tau_xu: float=0.1,
                 alpha_xu: float=1):
         """
-        calculate the FamScore value of the node identified by the label node_id
-        Parameters:
-            cims: np.array with all the node's cims,
-            tau_xu: hyperparameter over the CTBN’s q parameters
-            alpha_xu: hyperparameter over the CTBN’s q parameters
-        Returns:
-            the FamScore value of the node
+        Calculate the FamScore value of the node
+        
+        
+        :param cims: np.array with all the node's cims
+        :type cims: np.array
+        :param tau_xu: hyperparameter over the CTBN’s q parameters, default to 0.1
+        :type tau_xu: float, optional
+        :param alpha_xu: hyperparameter over the CTBN’s q parameters, default to 1
+        :type alpha_xu: float, optional
+
+
+        :return: the FamScore value of the node
+        :rtype: float
         """
         #print("------")
         #print(self.marginal_likelihood_q(cims,

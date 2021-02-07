@@ -22,6 +22,20 @@ class HillClimbing(Optimizer):
     """
     Optimizer class that implement Hill Climbing Search
     
+
+    :param node_id: current node's id
+    :type node_id: string
+    :param structure_estimator: a structure estimator object with the information about the net
+    :type structure_estimator: class:'StructureEstimator' 
+    :param max_parents: maximum number of parents for each variable. If None, disabled, default to None
+    :type max_parents: int, optional
+    :param iterations_number: maximum number of optimization algorithm's iteration, default to 40
+    :type iterations_number: int, optional
+    :param patience: number of iteration without any improvement before to stop the search.If None, disabled, default to None
+    :type patience: int, optional
+
+
+    
     """
     def __init__(self,
                 node_id:str,
@@ -31,16 +45,7 @@ class HillClimbing(Optimizer):
                 patience:int = None
                 ):
         """
-        Compute Optimization process for a structure_estimator
-
-        Parameters:
-            node_id: the node label
-            structure_estimator: a structure estimator object with the information about the net
-            max_parents: maximum number of parents for each variable. If None, disabled
-            iterations_number: maximum number of optimization algorithm's iteration
-            patience: number of iteration without any improvement before to stop the search.If None, disabled
-
-
+        Constructor
         """
         super().__init__(node_id, structure_estimator)
         self.max_parents = max_parents
@@ -51,13 +56,10 @@ class HillClimbing(Optimizer):
 
     def optimize_structure(self) -> typing.List:
         """
-        Compute Optimization process for a structure_estimator
+        Compute Optimization process for a structure_estimator by using a Hill Climbing Algorithm
 
-        Parameters:
-
-        Returns:
-            the estimated structure for the node
-
+        :return: the estimated structure for the node
+        :rtype: List
         """
 
         #'Create the graph for the single node'

@@ -22,7 +22,16 @@ import structure_graph.network_graph as ng
 
 class ConstraintBasedOptimizer(Optimizer):
     """
-    Optimizer class that implement Hill Climbing Search
+    Optimizer class that implement a CTPC Algorithm
+    
+
+    :param node_id: current node's id
+    :type node_id: string
+    :param structure_estimator: a structure estimator object with the information about the net
+    :type structure_estimator: class:'StructureEstimator' 
+    :param tot_vars_count: number of variables in the dataset
+    :type tot_vars_count: int
+
     
     """
     def __init__(self,
@@ -31,8 +40,7 @@ class ConstraintBasedOptimizer(Optimizer):
                 tot_vars_count:int
                 ):
         """
-        Compute Optimization process for a structure_estimator
-
+        Constructor
         """
         super().__init__(node_id, structure_estimator)
         self.tot_vars_count = tot_vars_count
@@ -41,13 +49,10 @@ class ConstraintBasedOptimizer(Optimizer):
 
     def optimize_structure(self):
         """
-        Compute Optimization process for a structure_estimator
+        Compute Optimization process for a structure_estimator by using a CTPC Algorithm
 
-        Parameters:
-
-        Returns:
-            the estimated structure for the node
-
+        :return: the estimated structure for the node
+        :rtype: List
         """
         print("##################TESTING VAR################", self.node_id)
 

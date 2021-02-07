@@ -22,7 +22,24 @@ import queue
 
 class TabuSearch(Optimizer):
     """
-    Optimizer class that implement Hill Climbing Search
+    Optimizer class that implement Tabu Search
+
+
+    :param node_id: current node's id
+    :type node_id: string
+    :param structure_estimator: a structure estimator object with the information about the net
+    :type structure_estimator: class:'StructureEstimator' 
+    :param max_parents: maximum number of parents for each variable. If None, disabled, default to None
+    :type max_parents: int, optional
+    :param iterations_number: maximum number of optimization algorithm's iteration, default to 40
+    :type iterations_number: int, optional
+    :param patience: number of iteration without any improvement before to stop the search.If None, disabled, default to None
+    :type patience: int, optional
+    :param tabu_length: maximum lenght of the data structures used in the optimization process, default to None
+    :type tabu_length: int, optional
+    :param tabu_rules_duration: number of iterations in which each rule keeps its value, default to None
+    :type tabu_rules_duration: int, optional
+
     
     """
     def __init__(self,
@@ -35,17 +52,7 @@ class TabuSearch(Optimizer):
                 tabu_rules_duration = None
                 ):
         """
-        Compute Optimization process for a structure_estimator
-
-        Parameters:
-            node_id: the node label
-            structure_estimator: a structure estimator object with the information about the net
-            max_parents: maximum number of parents for each variable. If None, disabled
-            iterations_number: maximum number of optimization algorithm's iteration
-            patience: number of iteration without any improvement before to stop the search.If None, disabled
-            tabu_length: maximum lenght of the data structures used in the optimization process
-            tabu_rules_duration: number of iterations in which each rule keeps its value 
-
+        Constructor
         """
         super().__init__(node_id, structure_estimator)
         self.max_parents = max_parents
@@ -57,13 +64,10 @@ class TabuSearch(Optimizer):
 
     def optimize_structure(self) -> typing.List:
         """
-        Compute Optimization process for a structure_estimator
+        Compute Optimization process for a structure_estimator by using a Hill Climbing Algorithm
 
-        Parameters:
-
-        Returns:
-            the estimated structure for the node
-
+        :return: the estimated structure for the node
+        :rtype: List
         """
         print(f"tabu search is processing the structure of {self.node_id}")
 

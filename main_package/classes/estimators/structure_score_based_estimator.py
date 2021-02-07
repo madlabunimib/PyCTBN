@@ -42,6 +42,15 @@ class StructureScoreBasedEstimator(se.StructureEstimator):
     Has the task of estimating the network structure given the trajectories in samplepath by
     using a score based approach.
 
+    :param sample_path: the _sample_path object containing the trajectories and the real structure
+    :type sample_path: SamplePath
+    :param tau_xu: hyperparameter over the CTBN’s q parameters, default to 0.1
+    :type tau_xu: float, optional
+    :param alpha_xu: hyperparameter over the CTBN’s q parameters, default to 1
+    :type alpha_xu: float, optional
+    :param known_edges: List of known edges, default to []
+    :type known_edges: List, optional
+
     """
 
     def __init__(self, sample_path: sp.SamplePath, tau_xu:int=0.1, alpha_xu:int = 1,known_edges: typing.List= []):
@@ -50,24 +59,27 @@ class StructureScoreBasedEstimator(se.StructureEstimator):
         self.alpha_xu=alpha_xu
 
 
-    @timing_write
+    @timing
     def estimate_structure(self, max_parents:int = None, iterations_number:int= 40,
                          patience:int = None, tabu_length:int = None, tabu_rules_duration:int = None,
-                         optimizer: str = 'hill',disable_multiprocessing:bool= False ):
+                         optimizer: str = 'tabu',disable_multiprocessing:bool= False ):
         """
         Compute the score-based algorithm to find the optimal structure
 
-        Parameters:
-            max_parents: maximum number of parents for each variable. If None, disabled
-            iterations_number: maximum number of optimization algorithm's iteration
-            patience: number of iteration without any improvement before to stop the search.If None, disabled
-            tabu_length: maximum lenght of the data structures used in the optimization process
-            tabu_rules_duration: number of iterations in which each rule keeps its value 
-            optimzer: name of the optimizer algorithm. Possible values: 'hill' (Hill climbing),'tabu' (tabu search)
-            disable_multiprocessing: true if you desire to disable the multiprocessing operations
-        Returns:
-            void
-
+        :param max_parents: maximum number of parents for each variable. If None, disabled, default to None
+        :type max_parents: int, optional
+        :param iterations_number: maximum number of optimization algorithm's iteration, default to 40
+        :type iterations_number: int, optional
+        :param patience: number of iteration without any improvement before to stop the search.If None, disabled, default to None
+        :type patience: int, optional
+        :param tabu_length: maximum lenght of the data structures used in the optimization process, default to None
+        :type tabu_length: int, optional
+        :param tabu_rules_duration: number of iterations in which each rule keeps its value, default to None
+        :type tabu_rules_duration: int, optional
+        :param optimizer: name of the optimizer algorithm. Possible values: 'hill' (Hill climbing),'tabu' (tabu search), defualt to 'tabu'
+        :type optimizer: string, optional
+        :param disable_multiprocessing: true if you desire to disable the multiprocessing operations, default to False
+        :type disable_multiprocessing: Boolean, optional
         """
         'Save the true edges structure in tuples'
         true_edges = copy.deepcopy(self._sample_path.structure.edges)
@@ -160,16 +172,24 @@ class StructureScoreBasedEstimator(se.StructureEstimator):
                             optimizer:str = 'hill' ):
         """
         Use the FamScore of a node in order to find the best parent nodes
-        Parameters:
-            node_id: current node's id
-            max_parents: maximum number of parents for each variable. If None, disabled
-            iterations_number: maximum number of optimization algorithm's iteration
-            patience: number of iteration without any improvement before to stop the search.If None, disabled
-            tabu_length: maximum lenght of the data structures used in the optimization process
-            tabu_rules_duration: number of iterations in which each rule keeps its value 
-            optimzer: name of the optimizer algorithm. Possible values: 'hill' (Hill climbing),'tabu' (tabu search)
-        Returns:
-            A list of the best edges for the currente node
+        
+        :param node_id: current node's id
+        :type node_id: string
+        :param max_parents: maximum number of parents for each variable. If None, disabled, default to None
+        :type max_parents: int, optional
+        :param iterations_number: maximum number of optimization algorithm's iteration, default to 40
+        :type iterations_number: int, optional
+        :param patience: number of iteration without any improvement before to stop the search.If None, disabled, default to None
+        :type patience: int, optional
+        :param tabu_length: maximum lenght of the data structures used in the optimization process, default to None
+        :type tabu_length: int, optional
+        :param tabu_rules_duration: number of iterations in which each rule keeps its value, default to None
+        :type tabu_rules_duration: int, optional
+        :param optimizer: name of the optimizer algorithm. Possible values: 'hill' (Hill climbing),'tabu' (tabu search), defualt to 'tabu'
+        :type optimizer: string, optional
+
+        :return: A list of the best edges for the currente node
+        :rtype: List
         """
 
         "choose the optimizer algotithm"
@@ -195,14 +215,19 @@ class StructureScoreBasedEstimator(se.StructureEstimator):
 
     
     def get_score_from_graph(self,
-                            graph: ng.NetworkGraph,node_id:str):
+                            graph: ng.NetworkGraph,
+                            node_id:str):
         """
-        Use the FamScore of a node in order to find the best parent nodes
-        Parameters:
-           node_id: current node's id
-           graph: current graph to be computed 
-        Returns:
-            The FamSCore for this graph structure
+        Get the FamScore of a node 
+        
+        :param node_id: current node's id
+        :type node_id: string
+        :param graph: current graph to be computed
+        :type graph: class:'NetworkGraph'
+
+
+        :return: The FamSCore for this graph structure
+        :rtype: float
         """
 
         'inizialize the graph for a single node'
