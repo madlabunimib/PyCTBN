@@ -139,12 +139,10 @@ class NetworkGraph(object):
         return sorted_parents, p_indxes, p_values
 
     def remove_edges(self, list_of_edges: typing.List) -> None:
-        """
-        Remove the edges to the graph contained in the list list_of_edges.
-        Parameters:
-            list_of_edges
-        Returns:
-            void
+        """Remove the edges to the graph contained in the list list_of_edges.
+        
+        :param list_of_edges: The edges to remove from the graph
+        :type list_of_edges: List
         """
         self._graph.remove_edges_from(list_of_edges)
 

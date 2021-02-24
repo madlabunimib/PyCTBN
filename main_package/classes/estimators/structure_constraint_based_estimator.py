@@ -196,12 +196,7 @@ class StructureConstraintBasedEstimator(StructureEstimator):
 
     
     def ctpc_algorithm(self,disable_multiprocessing:bool= False ):
-        """
-        Compute the CTPC algorithm.
-        Parameters:
-            void
-        Returns:
-            void
+        """Compute the CTPC algorithm over the entire net.
         """
         ctpc_algo = self.one_iteration_of_CTPC_algorithm
         total_vars_numb = self._sample_path.total_variables_count

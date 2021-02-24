@@ -8,43 +8,18 @@ from ...classes.structure_graph.trajectory import Trajectory
 class TestTrajectory(unittest.TestCase):
 
     @classmethod
-    def setUpClass(cls):
-        print("123")
-        pass
-    
+    def setUpClass(cls) -> None:
+        cls.read_files = glob.glob(os.path.join('./data', "*.json"))
+        cls.importer = JsonImporter(cls.read_files[0], 'samples', 'dyn.str', 'variables', 'Time', 'Name')
+        cls.importer.import_data(0)
+
     def test_init(self):
-        cols_list = [np.array([1.2,1.3,.14]), np.arange(1,4), np.arange(4,7)]
-        t1 = Trajectory(cols_list, len(cols_list) - 2)
-        self.assertTrue(np.array_equal(cols_list[0], t1.times))
-        self.assertTrue(np.array_equal(np.ravel(t1.complete_trajectory[:, : 1]), cols_list[1]))
-        self.assertTrue(np.array_equal(np.ravel(t1.complete_trajectory[:, 1: 2]), cols_list[2]))
-        self.assertEqual(len(cols_list) - 1, t1.complete_trajectory.shape[1])
-        self.assertEqual(t1.size(), t1.times.size)
-
-    def test_init_first_array_not_float_type(self):
-        cols_list = [np.arange(1, 4), np.arange(4, 7), np.array([1.2, 1.3, .14])]
-        self.assertRaises(TypeError, Trajectory, cols_list, len(cols_list))
-
-    def test_complete_trajectory(self):
-        cols_list = [np.array([1.2, 1.3, .14]), np.arange(1, 4), np.arange(4, 7)]
-        t1 = Trajectory(cols_list, len(cols_list) - 2)
-        complete = np.column_stack((cols_list[1], cols_list[2]))
-        self.assertTrue(np.array_equal(t1.complete_trajectory, complete))
-
-    def test_trajectory(self):
-        cols_list = [np.array([1.2, 1.3, .14]), np.arange(1, 4), np.arange(4, 7)]
-        t1 = Trajectory(cols_list, len(cols_list) - 2)
-        self.assertTrue(np.array_equal(cols_list[1], t1.trajectory.ravel()))
-
-    def test_times(self):
-        cols_list = [np.array([1.2, 1.3, .14]), np.arange(1, 4), np.arange(4, 7)]
-        t1 = Trajectory(cols_list, len(cols_list) - 2)
-        self.assertTrue(np.array_equal(cols_list[0], t1.times))
-
-    def test_repr(self):
-        cols_list = [np.array([1.2, 1.3, .14]), np.arange(1, 4), np.arange(4, 7)]
-        t1 = Trajectory(cols_list, len(cols_list) - 2)
-        print(t1)
+        t1 = Trajectory(self.importer.build_list_of_samples_array(self.importer.concatenated_samples),
+                len(self.importer.sorter) + 1)
+        self.assertTrue(np.array_equal(self.importer.concatenated_samples.iloc[:, 0].to_numpy(), t1.times))
+        self.assertTrue(np.array_equal(self.importer.concatenated_samples.iloc[:,1:].to_numpy(), t1.complete_trajectory))
+        self.assertTrue(np.array_equal(self.importer.concatenated_samples.iloc[:, 1: len(self.importer.sorter) + 1], t1.trajectory))
+        self.assertEqual(len(self.importer.sorter) + 1, t1._original_cols_number)
 
 
 if __name__ == '__main__':

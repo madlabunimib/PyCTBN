@@ -1,0 +1,822 @@
+
+
+
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.1//EN" "http://www.w3.org/TR/xhtml11/DTD/xhtml11.dtd">
+<html xml:lang="" lang="" version="-//W3C//DTD XHTML 1.1//EN" xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+  
+  <title>classes.estimators package &mdash; PyCTBN 2.0 documentation</title>
+  
+
+  
+
+  
+
+    <link href='https://fonts.googleapis.com/css?family=Lato:400,700,400italic,700italic|Roboto+Slab:400,700|Inconsolata:400,700' rel='stylesheet' type='text/css'/>
+    <link rel="stylesheet" href="_static/css/pdj.css" type="text/css" />
+
+  
+
+  
+
+  
+        <link rel="index" title="Index"
+              href="genindex.html"/>
+        <link rel="search" title="Search" href="search.html"/>
+    <link rel="top" title="PyCTBN 2.0 documentation" href="index.html"/>
+
+    <meta http-equiv="content-type" content="text/html; charset=utf-8" />
+    <meta http-equiv="cache-control" content="public" />
+    <meta name="robots" content="follow, all" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <!-- Add jQuery library -->
+    <script type="text/javascript" src="http://code.jquery.com/jquery-latest.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/modernizr/2.6.2/modernizr.min.js"></script>
+
+  </head>
+
+  <body class="wy-body-for-nav" role="document">
+
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-nav-search">
+        <a href="index.html" class="fa fa-home"> PyCTBN </a>
+        <div role="search">
+	  <form id ="rtd-search-form" class="wy-form"
+		action="search.html" method="get">
+	    <input type="text" name="q" placeholder="Search docs" />
+	    <input type="hidden" name="check_keywords" value="yes" />
+	    <input type="hidden" name="area" value="default" />
+	  </form>
+	</div>
+      </div>
+
+      <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
+	
+          
+          
+              <p class="caption"><span class="caption-text">Contents:</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="examples.html">Examples</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="examples.html#installation-usage">Installation/Usage</a></li>
+<li class="toctree-l2"><a class="reference internal" href="examples.html#implementing-your-own-data-importer">Implementing your own data importer</a></li>
+<li class="toctree-l2"><a class="reference internal" href="examples.html#parameters-estimation-example">Parameters Estimation Example</a></li>
+<li class="toctree-l2"><a class="reference internal" href="examples.html#structure-estimation-example">Structure Estimation Example</a></li>
+</ul>
+</li>
+</ul>
+
+          
+        
+
+      </div>
+      &nbsp;
+    </nav>
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+
+      <nav class="wy-nav-top" id="barra-mobile" role="navigation" aria-label="top navigation">
+        <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+        <a href="#">Porão do Juca</a>
+      </nav>
+
+      <div class="wy-nav-content">
+	<div class="fundo-claro">
+	</div>
+	<div class="fundo-escuro">
+	</div>
+
+        <div class="rst-content">
+          <div role="navigation" aria-label="breadcrumbs navigation">
+	    
+	    <!-- <ul class="wy-breadcrumbs"> -->
+	    <!--   <li><a href="#">Docs</a> &raquo;</li> -->
+
+	    <!--   <li>Features</li> -->
+	    <!--   <li class="wy-breadcrumbs-aside"> -->
+
+	    <!-- 	<a href="_sources/index.txt" rel="nofollow"> View page source</a> -->
+
+	    <!--   </li> -->
+	    <!-- </ul> -->
+	    <!-- <hr/> -->
+	  </div>
+
+          <div role="main" class="">
+
+	    <div id="content" class="hfeed entry-container hentry">
+  <div class="section" id="classes-estimators-package">
+<h1>classes.estimators package<a class="headerlink" href="#classes-estimators-package" title="Permalink to this headline">¶</a></h1>
+<div class="section" id="submodules">
+<h2>Submodules<a class="headerlink" href="#submodules" title="Permalink to this headline">¶</a></h2>
+</div>
+<div class="section" id="module-classes.estimators.fam_score_calculator">
+<span id="classes-estimators-fam-score-calculator-module"></span><h2>classes.estimators.fam_score_calculator module<a class="headerlink" href="#module-classes.estimators.fam_score_calculator" title="Permalink to this headline">¶</a></h2>
+<dl class="py class">
+<dt id="classes.estimators.fam_score_calculator.FamScoreCalculator">
+<em class="property">class </em><code class="sig-prename descclassname">classes.estimators.fam_score_calculator.</code><code class="sig-name descname">FamScoreCalculator</code><a class="headerlink" href="#classes.estimators.fam_score_calculator.FamScoreCalculator" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></p>
+<p>Has the task of calculating the FamScore of a node by using a Bayesian score function</p>
+<dl class="py method">
+<dt id="classes.estimators.fam_score_calculator.FamScoreCalculator.get_fam_score">
+<code class="sig-name descname">get_fam_score</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">cims</span><span class="p">:</span> <span class="n">numpy.array</span></em>, <em class="sig-param"><span class="n">tau_xu</span><span class="p">:</span> <span class="n">float</span> <span class="o">=</span> <span class="default_value">0.1</span></em>, <em class="sig-param"><span class="n">alpha_xu</span><span class="p">:</span> <span class="n">float</span> <span class="o">=</span> <span class="default_value">1</span></em><span class="sig-paren">)</span><a class="headerlink" href="#classes.estimators.fam_score_calculator.FamScoreCalculator.get_fam_score" title="Permalink to this definition">¶</a></dt>
+<dd><p>Calculate the FamScore value of the node</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>cims</strong> (<em>np.array</em>) – np.array with all the node’s cims</p></li>
+<li><p><strong>tau_xu</strong> (<em>float</em><em>, </em><em>optional</em>) – hyperparameter over the CTBN’s q parameters, default to 0.1</p></li>
+<li><p><strong>alpha_xu</strong> (<em>float</em><em>, </em><em>optional</em>) – hyperparameter over the CTBN’s q parameters, default to 1</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>the FamScore value of the node</p>
+</dd>
+<dt class="field-odd">Return type</dt>
+<dd class="field-odd"><p>float</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt id="classes.estimators.fam_score_calculator.FamScoreCalculator.marginal_likelihood_q">
+<code class="sig-name descname">marginal_likelihood_q</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">cims</span><span class="p">:</span> <span class="n">numpy.array</span></em>, <em class="sig-param"><span class="n">tau_xu</span><span class="p">:</span> <span class="n">float</span> <span class="o">=</span> <span class="default_value">0.1</span></em>, <em class="sig-param"><span class="n">alpha_xu</span><span class="p">:</span> <span class="n">float</span> <span class="o">=</span> <span class="default_value">1</span></em><span class="sig-paren">)</span><a class="headerlink" href="#classes.estimators.fam_score_calculator.FamScoreCalculator.marginal_likelihood_q" title="Permalink to this definition">¶</a></dt>
+<dd><p>Calculate the value of the marginal likelihood over q of the node identified by the label node_id</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>cims</strong> (<em>np.array</em>) – np.array with all the node’s cims</p></li>
+<li><p><strong>tau_xu</strong> (<em>float</em>) – hyperparameter over the CTBN’s q parameters</p></li>
+<li><p><strong>alpha_xu</strong> (<em>float</em>) – hyperparameter over the CTBN’s q parameters</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>the value of the marginal likelihood over q</p>
+</dd>
+<dt class="field-odd">Return type</dt>
+<dd class="field-odd"><p>float</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt id="classes.estimators.fam_score_calculator.FamScoreCalculator.marginal_likelihood_theta">
+<code class="sig-name descname">marginal_likelihood_theta</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">cims</span><span class="p">:</span> <span class="n"><a class="reference internal" href="classes.structure_graph.html#classes.structure_graph.conditional_intensity_matrix.ConditionalIntensityMatrix" title="classes.structure_graph.conditional_intensity_matrix.ConditionalIntensityMatrix">classes.structure_graph.conditional_intensity_matrix.ConditionalIntensityMatrix</a></span></em>, <em class="sig-param"><span class="n">alpha_xu</span><span class="p">:</span> <span class="n">float</span></em>, <em class="sig-param"><span class="n">alpha_xxu</span><span class="p">:</span> <span class="n">float</span></em><span class="sig-paren">)</span><a class="headerlink" href="#classes.estimators.fam_score_calculator.FamScoreCalculator.marginal_likelihood_theta" title="Permalink to this definition">¶</a></dt>
+<dd><p>Calculate the FamScore value of the node identified by the label node_id</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>cims</strong> (<em>np.array</em>) – np.array with all the node’s cims</p></li>
+<li><p><strong>alpha_xu</strong> (<em>float</em>) – hyperparameter over the CTBN’s q parameters, default to 0.1</p></li>
+<li><p><strong>alpha_xxu</strong> (<em>float</em>) – distribuited hyperparameter over the CTBN’s theta parameters</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>the value of the marginal likelihood over theta</p>
+</dd>
+<dt class="field-odd">Return type</dt>
+<dd class="field-odd"><p>float</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt id="classes.estimators.fam_score_calculator.FamScoreCalculator.single_cim_xu_marginal_likelihood_q">
+<code class="sig-name descname">single_cim_xu_marginal_likelihood_q</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">M_xu_suff_stats</span><span class="p">:</span> <span class="n">float</span></em>, <em class="sig-param"><span class="n">T_xu_suff_stats</span><span class="p">:</span> <span class="n">float</span></em>, <em class="sig-param"><span class="n">tau_xu</span><span class="p">:</span> <span class="n">float</span> <span class="o">=</span> <span class="default_value">0.1</span></em>, <em class="sig-param"><span class="n">alpha_xu</span><span class="p">:</span> <span class="n">float</span> <span class="o">=</span> <span class="default_value">1</span></em><span class="sig-paren">)</span><a class="headerlink" href="#classes.estimators.fam_score_calculator.FamScoreCalculator.single_cim_xu_marginal_likelihood_q" title="Permalink to this definition">¶</a></dt>
+<dd><p>Calculate the marginal likelihood on q of the node when assumes a specif value
+and a specif parents’s assignment</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>M_xu_suff_stats</strong> – value of the suffucient statistic M[x|u]</p></li>
+<li><p><strong>T_xu_suff_stats</strong> (<em>float</em>) – value of the suffucient statistic T[x|u]</p></li>
+<li><p><strong>cim</strong> (<em>class:'ConditionalIntensityMatrix'</em>) – A conditional_intensity_matrix object with the sufficient statistics</p></li>
+<li><p><strong>tau_xu</strong> (<em>float</em>) – hyperparameter over the CTBN’s q parameters</p></li>
+<li><p><strong>alpha_xu</strong> (<em>float</em>) – hyperparameter over the CTBN’s q parameters</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>the value of the marginal likelihood of the node when assumes a specif value</p>
+</dd>
+<dt class="field-odd">Return type</dt>
+<dd class="field-odd"><p>float</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt id="classes.estimators.fam_score_calculator.FamScoreCalculator.single_cim_xu_marginal_likelihood_theta">
+<code class="sig-name descname">single_cim_xu_marginal_likelihood_theta</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">index</span><span class="p">:</span> <span class="n">int</span></em>, <em class="sig-param"><span class="n">cim</span><span class="p">:</span> <span class="n"><a class="reference internal" href="classes.structure_graph.html#classes.structure_graph.conditional_intensity_matrix.ConditionalIntensityMatrix" title="classes.structure_graph.conditional_intensity_matrix.ConditionalIntensityMatrix">classes.structure_graph.conditional_intensity_matrix.ConditionalIntensityMatrix</a></span></em>, <em class="sig-param"><span class="n">alpha_xu</span><span class="p">:</span> <span class="n">float</span></em>, <em class="sig-param"><span class="n">alpha_xxu</span><span class="p">:</span> <span class="n">float</span></em><span class="sig-paren">)</span><a class="headerlink" href="#classes.estimators.fam_score_calculator.FamScoreCalculator.single_cim_xu_marginal_likelihood_theta" title="Permalink to this definition">¶</a></dt>
+<dd><p>Calculate the marginal likelihood on q of the node when assumes a specif value
+and a specif parents’s assignment</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>cim</strong> (<em>class:'ConditionalIntensityMatrix'</em>) – A conditional_intensity_matrix object with the sufficient statistics</p></li>
+<li><p><strong>alpha_xu</strong> (<em>float</em>) – hyperparameter over the CTBN’s q parameters</p></li>
+<li><p><strong>alpha_xxu</strong> (<em>float</em>) – distribuited hyperparameter over the CTBN’s theta parameters</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>the value of the marginal likelihood over theta when the node assumes a specif value</p>
+</dd>
+<dt class="field-odd">Return type</dt>
+<dd class="field-odd"><p>float</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt id="classes.estimators.fam_score_calculator.FamScoreCalculator.single_internal_cim_xxu_marginal_likelihood_theta">
+<code class="sig-name descname">single_internal_cim_xxu_marginal_likelihood_theta</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">M_xxu_suff_stats</span><span class="p">:</span> <span class="n">float</span></em>, <em class="sig-param"><span class="n">alpha_xxu</span><span class="p">:</span> <span class="n">float</span> <span class="o">=</span> <span class="default_value">1</span></em><span class="sig-paren">)</span><a class="headerlink" href="#classes.estimators.fam_score_calculator.FamScoreCalculator.single_internal_cim_xxu_marginal_likelihood_theta" title="Permalink to this definition">¶</a></dt>
+<dd><p>Calculate the second part of the marginal likelihood over theta formula</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>M_xxu_suff_stats</strong> (<em>float</em>) – value of the suffucient statistic M[xx’<a href="#id1"><span class="problematic" id="id2">|</span></a>u]</p></li>
+<li><p><strong>alpha_xxu</strong> (<em>float</em>) – distribuited hyperparameter over the CTBN’s theta parameters</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>the value of the marginal likelihood over theta when the node assumes a specif value</p>
+</dd>
+<dt class="field-odd">Return type</dt>
+<dd class="field-odd"><p>float</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt id="classes.estimators.fam_score_calculator.FamScoreCalculator.variable_cim_xu_marginal_likelihood_q">
+<code class="sig-name descname">variable_cim_xu_marginal_likelihood_q</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">cim</span><span class="p">:</span> <span class="n"><a class="reference internal" href="classes.structure_graph.html#classes.structure_graph.conditional_intensity_matrix.ConditionalIntensityMatrix" title="classes.structure_graph.conditional_intensity_matrix.ConditionalIntensityMatrix">classes.structure_graph.conditional_intensity_matrix.ConditionalIntensityMatrix</a></span></em>, <em class="sig-param"><span class="n">tau_xu</span><span class="p">:</span> <span class="n">float</span> <span class="o">=</span> <span class="default_value">0.1</span></em>, <em class="sig-param"><span class="n">alpha_xu</span><span class="p">:</span> <span class="n">float</span> <span class="o">=</span> <span class="default_value">1</span></em><span class="sig-paren">)</span><a class="headerlink" href="#classes.estimators.fam_score_calculator.FamScoreCalculator.variable_cim_xu_marginal_likelihood_q" title="Permalink to this definition">¶</a></dt>
+<dd><p>Calculate the value of the marginal likelihood over q given a cim</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>cim</strong> (<em>class:'ConditionalIntensityMatrix'</em>) – A conditional_intensity_matrix object with the sufficient statistics</p></li>
+<li><p><strong>tau_xu</strong> (<em>float</em>) – hyperparameter over the CTBN’s q parameters</p></li>
+<li><p><strong>alpha_xu</strong> (<em>float</em>) – hyperparameter over the CTBN’s q parameters</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>the value of the marginal likelihood over q</p>
+</dd>
+<dt class="field-odd">Return type</dt>
+<dd class="field-odd"><p>float</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt id="classes.estimators.fam_score_calculator.FamScoreCalculator.variable_cim_xu_marginal_likelihood_theta">
+<code class="sig-name descname">variable_cim_xu_marginal_likelihood_theta</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">cim</span><span class="p">:</span> <span class="n"><a class="reference internal" href="classes.structure_graph.html#classes.structure_graph.conditional_intensity_matrix.ConditionalIntensityMatrix" title="classes.structure_graph.conditional_intensity_matrix.ConditionalIntensityMatrix">classes.structure_graph.conditional_intensity_matrix.ConditionalIntensityMatrix</a></span></em>, <em class="sig-param"><span class="n">alpha_xu</span><span class="p">:</span> <span class="n">float</span></em>, <em class="sig-param"><span class="n">alpha_xxu</span><span class="p">:</span> <span class="n">float</span></em><span class="sig-paren">)</span><a class="headerlink" href="#classes.estimators.fam_score_calculator.FamScoreCalculator.variable_cim_xu_marginal_likelihood_theta" title="Permalink to this definition">¶</a></dt>
+<dd><p>Calculate the value of the marginal likelihood over theta given a cim</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>cim</strong> (<em>class:'ConditionalIntensityMatrix'</em>) – A conditional_intensity_matrix object with the sufficient statistics</p></li>
+<li><p><strong>alpha_xu</strong> (<em>float</em>) – hyperparameter over the CTBN’s q parameters, default to 0.1</p></li>
+<li><p><strong>alpha_xxu</strong> (<em>float</em>) – distribuited hyperparameter over the CTBN’s theta parameters</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>the value of the marginal likelihood over theta</p>
+</dd>
+<dt class="field-odd">Return type</dt>
+<dd class="field-odd"><p>float</p>
+</dd>
+</dl>
+</dd></dl>
+
+</dd></dl>
+
+</div>
+<div class="section" id="module-classes.estimators.parameters_estimator">
+<span id="classes-estimators-parameters-estimator-module"></span><h2>classes.estimators.parameters_estimator module<a class="headerlink" href="#module-classes.estimators.parameters_estimator" title="Permalink to this headline">¶</a></h2>
+<dl class="py class">
+<dt id="classes.estimators.parameters_estimator.ParametersEstimator">
+<em class="property">class </em><code class="sig-prename descclassname">classes.estimators.parameters_estimator.</code><code class="sig-name descname">ParametersEstimator</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">trajectories</span><span class="p">:</span> <span class="n"><a class="reference internal" href="classes.structure_graph.html#classes.structure_graph.trajectory.Trajectory" title="classes.structure_graph.trajectory.Trajectory">classes.structure_graph.trajectory.Trajectory</a></span></em>, <em class="sig-param"><span class="n">net_graph</span><span class="p">:</span> <span class="n"><a class="reference internal" href="classes.structure_graph.html#classes.structure_graph.network_graph.NetworkGraph" title="classes.structure_graph.network_graph.NetworkGraph">classes.structure_graph.network_graph.NetworkGraph</a></span></em><span class="sig-paren">)</span><a class="headerlink" href="#classes.estimators.parameters_estimator.ParametersEstimator" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></p>
+<p>Has the task of computing the cims of particular node given the trajectories and the net structure
+in the graph <code class="docutils literal notranslate"><span class="pre">_net_graph</span></code>.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>trajectories</strong> (<a class="reference internal" href="classes.structure_graph.html#classes.structure_graph.trajectory.Trajectory" title="classes.structure_graph.trajectory.Trajectory"><em>Trajectory</em></a>) – the trajectories</p></li>
+<li><p><strong>net_graph</strong> (<a class="reference internal" href="classes.structure_graph.html#classes.structure_graph.network_graph.NetworkGraph" title="classes.structure_graph.network_graph.NetworkGraph"><em>NetworkGraph</em></a>) – the net structure</p></li>
+</ul>
+</dd>
+<dt class="field-even">_single_set_of_cims</dt>
+<dd class="field-even"><p>the set of cims object that will hold the cims of the node</p>
+</dd>
+</dl>
+<dl class="py method">
+<dt id="classes.estimators.parameters_estimator.ParametersEstimator.compute_parameters">
+<code class="sig-name descname">compute_parameters</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#classes.estimators.parameters_estimator.ParametersEstimator.compute_parameters" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt id="classes.estimators.parameters_estimator.ParametersEstimator.compute_parameters_for_node">
+<code class="sig-name descname">compute_parameters_for_node</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">node_id</span><span class="p">:</span> <span class="n">str</span></em><span class="sig-paren">)</span> &#x2192; <a class="reference internal" href="classes.structure_graph.html#classes.structure_graph.set_of_cims.SetOfCims" title="classes.structure_graph.set_of_cims.SetOfCims">classes.structure_graph.set_of_cims.SetOfCims</a><a class="headerlink" href="#classes.estimators.parameters_estimator.ParametersEstimator.compute_parameters_for_node" title="Permalink to this definition">¶</a></dt>
+<dd><p>Compute the CIMS of the node identified by the label <code class="docutils literal notranslate"><span class="pre">node_id</span></code>.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>node_id</strong> (<em>string</em>) – the node label</p>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>A SetOfCims object filled with the computed CIMS</p>
+</dd>
+<dt class="field-odd">Return type</dt>
+<dd class="field-odd"><p><a class="reference internal" href="classes.structure_graph.html#classes.structure_graph.set_of_cims.SetOfCims" title="classes.structure_graph.set_of_cims.SetOfCims">SetOfCims</a></p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt id="classes.estimators.parameters_estimator.ParametersEstimator.compute_state_res_time_for_node">
+<em class="property">static </em><code class="sig-name descname">compute_state_res_time_for_node</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">times</span><span class="p">:</span> <span class="n">numpy.ndarray</span></em>, <em class="sig-param"><span class="n">trajectory</span><span class="p">:</span> <span class="n">numpy.ndarray</span></em>, <em class="sig-param"><span class="n">cols_filter</span><span class="p">:</span> <span class="n">numpy.ndarray</span></em>, <em class="sig-param"><span class="n">scalar_indexes_struct</span><span class="p">:</span> <span class="n">numpy.ndarray</span></em>, <em class="sig-param"><span class="n">T</span><span class="p">:</span> <span class="n">numpy.ndarray</span></em><span class="sig-paren">)</span> &#x2192; None<a class="headerlink" href="#classes.estimators.parameters_estimator.ParametersEstimator.compute_state_res_time_for_node" title="Permalink to this definition">¶</a></dt>
+<dd><p>Compute the state residence times for a node and fill the matrix <code class="docutils literal notranslate"><span class="pre">T</span></code> with the results</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>node_indx</strong> (<em>int</em>) – the index of the node</p></li>
+<li><p><strong>times</strong> (<em>numpy.array</em>) – the times deltas vector</p></li>
+<li><p><strong>trajectory</strong> (<em>numpy.ndArray</em>) – the trajectory</p></li>
+<li><p><strong>cols_filter</strong> (<em>numpy.array</em>) – the columns filtering structure</p></li>
+<li><p><strong>scalar_indexes_struct</strong> (<em>numpy.array</em>) – the indexing structure</p></li>
+<li><p><strong>T</strong> (<em>numpy.ndArray</em>) – the state residence times vectors</p></li>
+</ul>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt id="classes.estimators.parameters_estimator.ParametersEstimator.compute_state_transitions_for_a_node">
+<em class="property">static </em><code class="sig-name descname">compute_state_transitions_for_a_node</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">node_indx</span><span class="p">:</span> <span class="n">int</span></em>, <em class="sig-param"><span class="n">trajectory</span><span class="p">:</span> <span class="n">numpy.ndarray</span></em>, <em class="sig-param"><span class="n">cols_filter</span><span class="p">:</span> <span class="n">numpy.ndarray</span></em>, <em class="sig-param"><span class="n">scalar_indexing</span><span class="p">:</span> <span class="n">numpy.ndarray</span></em>, <em class="sig-param"><span class="n">M</span><span class="p">:</span> <span class="n">numpy.ndarray</span></em><span class="sig-paren">)</span> &#x2192; None<a class="headerlink" href="#classes.estimators.parameters_estimator.ParametersEstimator.compute_state_transitions_for_a_node" title="Permalink to this definition">¶</a></dt>
+<dd><p>Compute the state residence times for a node and fill the matrices <code class="docutils literal notranslate"><span class="pre">M</span></code> with the results.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>node_indx</strong> (<em>int</em>) – the index of the node</p></li>
+<li><p><strong>trajectory</strong> (<em>numpy.ndArray</em>) – the trajectory</p></li>
+<li><p><strong>cols_filter</strong> (<em>numpy.array</em>) – the columns filtering structure</p></li>
+<li><p><strong>scalar_indexing</strong> (<em>numpy.array</em>) – the indexing structure</p></li>
+<li><p><strong>M</strong> (<em>numpy.ndArray</em>) – the state transitions matrices</p></li>
+</ul>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt id="classes.estimators.parameters_estimator.ParametersEstimator.fast_init">
+<code class="sig-name descname">fast_init</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">node_id</span><span class="p">:</span> <span class="n">str</span></em><span class="sig-paren">)</span> &#x2192; None<a class="headerlink" href="#classes.estimators.parameters_estimator.ParametersEstimator.fast_init" title="Permalink to this definition">¶</a></dt>
+<dd><p>Initializes all the necessary structures for the parameters estimation for the node <code class="docutils literal notranslate"><span class="pre">node_id</span></code>.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>node_id</strong> (<em>string</em>) – the node label</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt id="classes.estimators.parameters_estimator.ParametersEstimator.init_sets_cims_container">
+<code class="sig-name descname">init_sets_cims_container</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#classes.estimators.parameters_estimator.ParametersEstimator.init_sets_cims_container" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+</dd></dl>
+
+</div>
+<div class="section" id="module-classes.estimators.structure_constraint_based_estimator">
+<span id="classes-estimators-structure-constraint-based-estimator-module"></span><h2>classes.estimators.structure_constraint_based_estimator module<a class="headerlink" href="#module-classes.estimators.structure_constraint_based_estimator" title="Permalink to this headline">¶</a></h2>
+<dl class="py class">
+<dt id="classes.estimators.structure_constraint_based_estimator.StructureConstraintBasedEstimator">
+<em class="property">class </em><code class="sig-prename descclassname">classes.estimators.structure_constraint_based_estimator.</code><code class="sig-name descname">StructureConstraintBasedEstimator</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">sample_path</span><span class="p">:</span> <span class="n"><a class="reference internal" href="classes.structure_graph.html#classes.structure_graph.sample_path.SamplePath" title="classes.structure_graph.sample_path.SamplePath">classes.structure_graph.sample_path.SamplePath</a></span></em>, <em class="sig-param"><span class="n">exp_test_alfa</span><span class="p">:</span> <span class="n">float</span></em>, <em class="sig-param"><span class="n">chi_test_alfa</span><span class="p">:</span> <span class="n">float</span></em>, <em class="sig-param"><span class="n">known_edges</span><span class="p">:</span> <span class="n">List</span> <span class="o">=</span> <span class="default_value">[]</span></em>, <em class="sig-param"><span class="n">thumb_threshold</span><span class="p">:</span> <span class="n">int</span> <span class="o">=</span> <span class="default_value">25</span></em><span class="sig-paren">)</span><a class="headerlink" href="#classes.estimators.structure_constraint_based_estimator.StructureConstraintBasedEstimator" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <a class="reference internal" href="#classes.estimators.structure_estimator.StructureEstimator" title="classes.estimators.structure_estimator.StructureEstimator"><code class="xref py py-class docutils literal notranslate"><span class="pre">classes.estimators.structure_estimator.StructureEstimator</span></code></a></p>
+<p>Has the task of estimating the network structure given the trajectories in samplepath by using a constraint-based approach.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>sample_path</strong> (<a class="reference internal" href="classes.structure_graph.html#classes.structure_graph.sample_path.SamplePath" title="classes.structure_graph.sample_path.SamplePath"><em>SamplePath</em></a>) – the _sample_path object containing the trajectories and the real structure</p></li>
+<li><p><strong>exp_test_alfa</strong> (<em>float</em>) – the significance level for the exponential Hp test</p></li>
+<li><p><strong>chi_test_alfa</strong> (<em>float</em>) – the significance level for the chi Hp test</p></li>
+</ul>
+</dd>
+<dt class="field-even">_nodes</dt>
+<dd class="field-even"><p>the nodes labels</p>
+</dd>
+<dt class="field-odd">_nodes_vals</dt>
+<dd class="field-odd"><p>the nodes cardinalities</p>
+</dd>
+<dt class="field-even">_nodes_indxs</dt>
+<dd class="field-even"><p>the nodes indexes</p>
+</dd>
+<dt class="field-odd">_complete_graph</dt>
+<dd class="field-odd"><p>the complete directed graph built using the nodes labels in <code class="docutils literal notranslate"><span class="pre">_nodes</span></code></p>
+</dd>
+<dt class="field-even">_cache</dt>
+<dd class="field-even"><p>the Cache object</p>
+</dd>
+</dl>
+<dl class="py method">
+<dt id="classes.estimators.structure_constraint_based_estimator.StructureConstraintBasedEstimator.complete_test">
+<code class="sig-name descname">complete_test</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">test_parent</span><span class="p">:</span> <span class="n">str</span></em>, <em class="sig-param"><span class="n">test_child</span><span class="p">:</span> <span class="n">str</span></em>, <em class="sig-param"><span class="n">parent_set</span><span class="p">:</span> <span class="n">List</span></em>, <em class="sig-param"><span class="n">child_states_numb</span><span class="p">:</span> <span class="n">int</span></em>, <em class="sig-param"><span class="n">tot_vars_count</span><span class="p">:</span> <span class="n">int</span></em>, <em class="sig-param"><span class="n">parent_indx</span></em>, <em class="sig-param"><span class="n">child_indx</span></em><span class="sig-paren">)</span> &#x2192; bool<a class="headerlink" href="#classes.estimators.structure_constraint_based_estimator.StructureConstraintBasedEstimator.complete_test" title="Permalink to this definition">¶</a></dt>
+<dd><p>Performs a complete independence test on the directed graphs G1 = {test_child U parent_set}
+G2 = {G1 U test_parent} (added as an additional parent of the test_child).
+Generates all the necessary structures and datas to perform the tests.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>test_parent</strong> (<em>string</em>) – the node label of the test parent</p></li>
+<li><p><strong>test_child</strong> (<em>string</em>) – the node label of the child</p></li>
+<li><p><strong>parent_set</strong> (<em>List</em>) – the common parent set</p></li>
+<li><p><strong>child_states_numb</strong> (<em>int</em>) – the cardinality of the <code class="docutils literal notranslate"><span class="pre">test_child</span></code></p></li>
+<li><p><strong>tot_vars_count</strong> (<em>int</em>) – the total number of variables in the net</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>True iff test_child and test_parent are independent given the sep_set parent_set. False otherwise</p>
+</dd>
+<dt class="field-odd">Return type</dt>
+<dd class="field-odd"><p>bool</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt id="classes.estimators.structure_constraint_based_estimator.StructureConstraintBasedEstimator.compute_thumb_value">
+<code class="sig-name descname">compute_thumb_value</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">parent_val</span></em>, <em class="sig-param"><span class="n">child_val</span></em>, <em class="sig-param"><span class="n">parent_set_vals</span></em><span class="sig-paren">)</span><a class="headerlink" href="#classes.estimators.structure_constraint_based_estimator.StructureConstraintBasedEstimator.compute_thumb_value" title="Permalink to this definition">¶</a></dt>
+<dd><p>Compute the value to test against the thumb_threshold.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>parent_val</strong> (<em>int</em>) – test parent’s variable cardinality</p></li>
+<li><p><strong>child_val</strong> (<em>int</em>) – test child’s variable cardinality</p></li>
+<li><p><strong>parent_set_vals</strong> (<em>List</em>) – the cardinalities of the nodes in the current sep-set</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>the thumb value for the current independence test</p>
+</dd>
+<dt class="field-odd">Return type</dt>
+<dd class="field-odd"><p>int</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt id="classes.estimators.structure_constraint_based_estimator.StructureConstraintBasedEstimator.ctpc_algorithm">
+<code class="sig-name descname">ctpc_algorithm</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">disable_multiprocessing</span><span class="p">:</span> <span class="n">bool</span> <span class="o">=</span> <span class="default_value">False</span></em><span class="sig-paren">)</span><a class="headerlink" href="#classes.estimators.structure_constraint_based_estimator.StructureConstraintBasedEstimator.ctpc_algorithm" title="Permalink to this definition">¶</a></dt>
+<dd><p>Compute the CTPC algorithm over the entire net.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt id="classes.estimators.structure_constraint_based_estimator.StructureConstraintBasedEstimator.estimate_structure">
+<code class="sig-name descname">estimate_structure</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">disable_multiprocessing</span><span class="p">:</span> <span class="n">bool</span> <span class="o">=</span> <span class="default_value">False</span></em><span class="sig-paren">)</span><a class="headerlink" href="#classes.estimators.structure_constraint_based_estimator.StructureConstraintBasedEstimator.estimate_structure" title="Permalink to this definition">¶</a></dt>
+<dd><p>Abstract method to estimate the structure</p>
+<dl class="field-list simple">
+<dt class="field-odd">Returns</dt>
+<dd class="field-odd"><p>List of estimated edges</p>
+</dd>
+<dt class="field-even">Return type</dt>
+<dd class="field-even"><p>Typing.List</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt id="classes.estimators.structure_constraint_based_estimator.StructureConstraintBasedEstimator.independence_test">
+<code class="sig-name descname">independence_test</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">child_states_numb</span><span class="p">:</span> <span class="n">int</span></em>, <em class="sig-param"><span class="n">cim1</span><span class="p">:</span> <span class="n"><a class="reference internal" href="classes.structure_graph.html#classes.structure_graph.conditional_intensity_matrix.ConditionalIntensityMatrix" title="classes.structure_graph.conditional_intensity_matrix.ConditionalIntensityMatrix">classes.structure_graph.conditional_intensity_matrix.ConditionalIntensityMatrix</a></span></em>, <em class="sig-param"><span class="n">cim2</span><span class="p">:</span> <span class="n"><a class="reference internal" href="classes.structure_graph.html#classes.structure_graph.conditional_intensity_matrix.ConditionalIntensityMatrix" title="classes.structure_graph.conditional_intensity_matrix.ConditionalIntensityMatrix">classes.structure_graph.conditional_intensity_matrix.ConditionalIntensityMatrix</a></span></em>, <em class="sig-param"><span class="n">thumb_value</span><span class="p">:</span> <span class="n">float</span></em>, <em class="sig-param"><span class="n">parent_indx</span></em>, <em class="sig-param"><span class="n">child_indx</span></em><span class="sig-paren">)</span> &#x2192; bool<a class="headerlink" href="#classes.estimators.structure_constraint_based_estimator.StructureConstraintBasedEstimator.independence_test" title="Permalink to this definition">¶</a></dt>
+<dd><p>Compute the actual independence test using two cims.
+It is performed first the exponential test and if the null hypothesis is not rejected,
+it is performed also the chi_test.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>child_states_numb</strong> (<em>int</em>) – the cardinality of the test child</p></li>
+<li><p><strong>cim1</strong> (<a class="reference internal" href="classes.structure_graph.html#classes.structure_graph.conditional_intensity_matrix.ConditionalIntensityMatrix" title="classes.structure_graph.conditional_intensity_matrix.ConditionalIntensityMatrix"><em>ConditionalIntensityMatrix</em></a>) – a cim belonging to the graph without test parent</p></li>
+<li><p><strong>cim2</strong> (<a class="reference internal" href="classes.structure_graph.html#classes.structure_graph.conditional_intensity_matrix.ConditionalIntensityMatrix" title="classes.structure_graph.conditional_intensity_matrix.ConditionalIntensityMatrix"><em>ConditionalIntensityMatrix</em></a>) – a cim belonging to the graph with test parent</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>True iff both tests do NOT reject the null hypothesis of independence. False otherwise.</p>
+</dd>
+<dt class="field-odd">Return type</dt>
+<dd class="field-odd"><p>bool</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt id="classes.estimators.structure_constraint_based_estimator.StructureConstraintBasedEstimator.one_iteration_of_CTPC_algorithm">
+<code class="sig-name descname">one_iteration_of_CTPC_algorithm</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">var_id</span><span class="p">:</span> <span class="n">str</span></em>, <em class="sig-param"><span class="n">tot_vars_count</span><span class="p">:</span> <span class="n">int</span></em><span class="sig-paren">)</span> &#x2192; List<a class="headerlink" href="#classes.estimators.structure_constraint_based_estimator.StructureConstraintBasedEstimator.one_iteration_of_CTPC_algorithm" title="Permalink to this definition">¶</a></dt>
+<dd><p>Performs an iteration of the CTPC algorithm using the node <code class="docutils literal notranslate"><span class="pre">var_id</span></code> as <code class="docutils literal notranslate"><span class="pre">test_child</span></code>.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>var_id</strong> (<em>string</em>) – the node label of the test child</p>
+</dd>
+</dl>
+</dd></dl>
+
+</dd></dl>
+
+</div>
+<div class="section" id="module-classes.estimators.structure_estimator">
+<span id="classes-estimators-structure-estimator-module"></span><h2>classes.estimators.structure_estimator module<a class="headerlink" href="#module-classes.estimators.structure_estimator" title="Permalink to this headline">¶</a></h2>
+<dl class="py class">
+<dt id="classes.estimators.structure_estimator.StructureEstimator">
+<em class="property">class </em><code class="sig-prename descclassname">classes.estimators.structure_estimator.</code><code class="sig-name descname">StructureEstimator</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">sample_path</span><span class="p">:</span> <span class="n"><a class="reference internal" href="classes.structure_graph.html#classes.structure_graph.sample_path.SamplePath" title="classes.structure_graph.sample_path.SamplePath">classes.structure_graph.sample_path.SamplePath</a></span></em>, <em class="sig-param"><span class="n">known_edges</span><span class="p">:</span> <span class="n">List</span> <span class="o">=</span> <span class="default_value">None</span></em><span class="sig-paren">)</span><a class="headerlink" href="#classes.estimators.structure_estimator.StructureEstimator" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></p>
+<p>Has the task of estimating the network structure given the trajectories in <code class="docutils literal notranslate"><span class="pre">samplepath</span></code>.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>sample_path</strong> (<a class="reference internal" href="classes.structure_graph.html#classes.structure_graph.sample_path.SamplePath" title="classes.structure_graph.sample_path.SamplePath"><em>SamplePath</em></a>) – the _sample_path object containing the trajectories and the real structure</p>
+</dd>
+<dt class="field-even">_nodes</dt>
+<dd class="field-even"><p>the nodes labels</p>
+</dd>
+<dt class="field-odd">_nodes_vals</dt>
+<dd class="field-odd"><p>the nodes cardinalities</p>
+</dd>
+<dt class="field-even">_nodes_indxs</dt>
+<dd class="field-even"><p>the nodes indexes</p>
+</dd>
+<dt class="field-odd">_complete_graph</dt>
+<dd class="field-odd"><p>the complete directed graph built using the nodes labels in <code class="docutils literal notranslate"><span class="pre">_nodes</span></code></p>
+</dd>
+</dl>
+<dl class="py method">
+<dt id="classes.estimators.structure_estimator.StructureEstimator.adjacency_matrix">
+<code class="sig-name descname">adjacency_matrix</code><span class="sig-paren">(</span><span class="sig-paren">)</span> &#x2192; numpy.ndarray<a class="headerlink" href="#classes.estimators.structure_estimator.StructureEstimator.adjacency_matrix" title="Permalink to this definition">¶</a></dt>
+<dd><p>Converts the estimated structure <code class="docutils literal notranslate"><span class="pre">_complete_graph</span></code> to a boolean adjacency matrix representation.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Returns</dt>
+<dd class="field-odd"><p>The adjacency matrix of the graph <code class="docutils literal notranslate"><span class="pre">_complete_graph</span></code></p>
+</dd>
+<dt class="field-even">Return type</dt>
+<dd class="field-even"><p>numpy.ndArray</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt id="classes.estimators.structure_estimator.StructureEstimator.build_complete_graph">
+<em class="property">static </em><code class="sig-name descname">build_complete_graph</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">node_ids</span><span class="p">:</span> <span class="n">List</span></em><span class="sig-paren">)</span> &#x2192; networkx.classes.digraph.DiGraph<a class="headerlink" href="#classes.estimators.structure_estimator.StructureEstimator.build_complete_graph" title="Permalink to this definition">¶</a></dt>
+<dd><p>Builds a complete directed graph (no self loops) given the nodes labels in the list <code class="docutils literal notranslate"><span class="pre">node_ids</span></code>:</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>node_ids</strong> (<em>List</em>) – the list of nodes labels</p>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>a complete Digraph Object</p>
+</dd>
+<dt class="field-odd">Return type</dt>
+<dd class="field-odd"><p>networkx.DiGraph</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt id="classes.estimators.structure_estimator.StructureEstimator.build_removable_edges_matrix">
+<code class="sig-name descname">build_removable_edges_matrix</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">known_edges</span><span class="p">:</span> <span class="n">List</span></em><span class="sig-paren">)</span><a class="headerlink" href="#classes.estimators.structure_estimator.StructureEstimator.build_removable_edges_matrix" title="Permalink to this definition">¶</a></dt>
+<dd><p>Builds a boolean matrix who shows if a edge could be removed or not, based on prior knowledge given:</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>known_edges</strong> (<em>List</em>) – the list of nodes labels</p>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>a boolean matrix</p>
+</dd>
+<dt class="field-odd">Return type</dt>
+<dd class="field-odd"><p>np.ndarray</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt id="classes.estimators.structure_estimator.StructureEstimator.estimate_structure">
+<em class="property">abstract </em><code class="sig-name descname">estimate_structure</code><span class="sig-paren">(</span><span class="sig-paren">)</span> &#x2192; List<a class="headerlink" href="#classes.estimators.structure_estimator.StructureEstimator.estimate_structure" title="Permalink to this definition">¶</a></dt>
+<dd><p>Abstract method to estimate the structure</p>
+<dl class="field-list simple">
+<dt class="field-odd">Returns</dt>
+<dd class="field-odd"><p>List of estimated edges</p>
+</dd>
+<dt class="field-even">Return type</dt>
+<dd class="field-even"><p>Typing.List</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt id="classes.estimators.structure_estimator.StructureEstimator.generate_possible_sub_sets_of_size">
+<em class="property">static </em><code class="sig-name descname">generate_possible_sub_sets_of_size</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">u</span><span class="p">:</span> <span class="n">List</span></em>, <em class="sig-param"><span class="n">size</span><span class="p">:</span> <span class="n">int</span></em>, <em class="sig-param"><span class="n">parent_label</span><span class="p">:</span> <span class="n">str</span></em><span class="sig-paren">)</span><a class="headerlink" href="#classes.estimators.structure_estimator.StructureEstimator.generate_possible_sub_sets_of_size" title="Permalink to this definition">¶</a></dt>
+<dd><p>Creates a list containing all possible subsets of the list <code class="docutils literal notranslate"><span class="pre">u</span></code> of size <code class="docutils literal notranslate"><span class="pre">size</span></code>,
+that do not contains a the node identified by <code class="docutils literal notranslate"><span class="pre">parent_label</span></code>.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>u</strong> (<em>List</em>) – the list of nodes</p></li>
+<li><p><strong>size</strong> (<em>int</em>) – the size of the subsets</p></li>
+<li><p><strong>parent_label</strong> (<em>string</em>) – the node to exclude in the subsets generation</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>an Iterator Object containing a list of lists</p>
+</dd>
+<dt class="field-odd">Return type</dt>
+<dd class="field-odd"><p>Iterator</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt id="classes.estimators.structure_estimator.StructureEstimator.remove_diagonal_elements">
+<code class="sig-name descname">remove_diagonal_elements</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">matrix</span></em><span class="sig-paren">)</span><a class="headerlink" href="#classes.estimators.structure_estimator.StructureEstimator.remove_diagonal_elements" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt id="classes.estimators.structure_estimator.StructureEstimator.save_plot_estimated_structure_graph">
+<code class="sig-name descname">save_plot_estimated_structure_graph</code><span class="sig-paren">(</span><span class="sig-paren">)</span> &#x2192; None<a class="headerlink" href="#classes.estimators.structure_estimator.StructureEstimator.save_plot_estimated_structure_graph" title="Permalink to this definition">¶</a></dt>
+<dd><p>Plot the estimated structure in a graphical model style.
+Spurious edges are colored in red.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt id="classes.estimators.structure_estimator.StructureEstimator.save_results">
+<code class="sig-name descname">save_results</code><span class="sig-paren">(</span><span class="sig-paren">)</span> &#x2192; None<a class="headerlink" href="#classes.estimators.structure_estimator.StructureEstimator.save_results" title="Permalink to this definition">¶</a></dt>
+<dd><p>Save the estimated Structure to a .json file in the path where the data are loaded from.
+The file is named as the input dataset but the <cite>results_</cite> word is appended to the results file.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt id="classes.estimators.structure_estimator.StructureEstimator.spurious_edges">
+<code class="sig-name descname">spurious_edges</code><span class="sig-paren">(</span><span class="sig-paren">)</span> &#x2192; List<a class="headerlink" href="#classes.estimators.structure_estimator.StructureEstimator.spurious_edges" title="Permalink to this definition">¶</a></dt>
+<dd><dl class="simple">
+<dt>Return the spurious edges present in the estimated structure, if a prior net structure is present in</dt><dd><p><code class="docutils literal notranslate"><span class="pre">_sample_path.structure</span></code>.</p>
+</dd>
+</dl>
+<dl class="field-list simple">
+<dt class="field-odd">Returns</dt>
+<dd class="field-odd"><p>A list containing the spurious edges</p>
+</dd>
+<dt class="field-even">Return type</dt>
+<dd class="field-even"><p>List</p>
+</dd>
+</dl>
+</dd></dl>
+
+</dd></dl>
+
+</div>
+<div class="section" id="module-classes.estimators.structure_score_based_estimator">
+<span id="classes-estimators-structure-score-based-estimator-module"></span><h2>classes.estimators.structure_score_based_estimator module<a class="headerlink" href="#module-classes.estimators.structure_score_based_estimator" title="Permalink to this headline">¶</a></h2>
+<dl class="py class">
+<dt id="classes.estimators.structure_score_based_estimator.StructureScoreBasedEstimator">
+<em class="property">class </em><code class="sig-prename descclassname">classes.estimators.structure_score_based_estimator.</code><code class="sig-name descname">StructureScoreBasedEstimator</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">sample_path</span><span class="p">:</span> <span class="n"><a class="reference internal" href="classes.structure_graph.html#classes.structure_graph.sample_path.SamplePath" title="classes.structure_graph.sample_path.SamplePath">classes.structure_graph.sample_path.SamplePath</a></span></em>, <em class="sig-param"><span class="n">tau_xu</span><span class="p">:</span> <span class="n">int</span> <span class="o">=</span> <span class="default_value">0.1</span></em>, <em class="sig-param"><span class="n">alpha_xu</span><span class="p">:</span> <span class="n">int</span> <span class="o">=</span> <span class="default_value">1</span></em>, <em class="sig-param"><span class="n">known_edges</span><span class="p">:</span> <span class="n">List</span> <span class="o">=</span> <span class="default_value">[]</span></em><span class="sig-paren">)</span><a class="headerlink" href="#classes.estimators.structure_score_based_estimator.StructureScoreBasedEstimator" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <a class="reference internal" href="#classes.estimators.structure_estimator.StructureEstimator" title="classes.estimators.structure_estimator.StructureEstimator"><code class="xref py py-class docutils literal notranslate"><span class="pre">classes.estimators.structure_estimator.StructureEstimator</span></code></a></p>
+<p>Has the task of estimating the network structure given the trajectories in samplepath by
+using a score based approach.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>sample_path</strong> (<a class="reference internal" href="classes.structure_graph.html#classes.structure_graph.sample_path.SamplePath" title="classes.structure_graph.sample_path.SamplePath"><em>SamplePath</em></a>) – the _sample_path object containing the trajectories and the real structure</p></li>
+<li><p><strong>tau_xu</strong> (<em>float</em><em>, </em><em>optional</em>) – hyperparameter over the CTBN’s q parameters, default to 0.1</p></li>
+<li><p><strong>alpha_xu</strong> (<em>float</em><em>, </em><em>optional</em>) – hyperparameter over the CTBN’s q parameters, default to 1</p></li>
+<li><p><strong>known_edges</strong> (<em>List</em><em>, </em><em>optional</em>) – List of known edges, default to []</p></li>
+</ul>
+</dd>
+</dl>
+<dl class="py method">
+<dt id="classes.estimators.structure_score_based_estimator.StructureScoreBasedEstimator.estimate_parents">
+<code class="sig-name descname">estimate_parents</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">node_id</span><span class="p">:</span> <span class="n">str</span></em>, <em class="sig-param"><span class="n">max_parents</span><span class="p">:</span> <span class="n">int</span> <span class="o">=</span> <span class="default_value">None</span></em>, <em class="sig-param"><span class="n">iterations_number</span><span class="p">:</span> <span class="n">int</span> <span class="o">=</span> <span class="default_value">40</span></em>, <em class="sig-param"><span class="n">patience</span><span class="p">:</span> <span class="n">int</span> <span class="o">=</span> <span class="default_value">10</span></em>, <em class="sig-param"><span class="n">tabu_length</span><span class="p">:</span> <span class="n">int</span> <span class="o">=</span> <span class="default_value">None</span></em>, <em class="sig-param"><span class="n">tabu_rules_duration</span><span class="p">:</span> <span class="n">int</span> <span class="o">=</span> <span class="default_value">5</span></em>, <em class="sig-param"><span class="n">optimizer</span><span class="p">:</span> <span class="n">str</span> <span class="o">=</span> <span class="default_value">'hill'</span></em><span class="sig-paren">)</span><a class="headerlink" href="#classes.estimators.structure_score_based_estimator.StructureScoreBasedEstimator.estimate_parents" title="Permalink to this definition">¶</a></dt>
+<dd><p>Use the FamScore of a node in order to find the best parent nodes</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>node_id</strong> (<em>string</em>) – current node’s id</p></li>
+<li><p><strong>max_parents</strong> (<em>int</em><em>, </em><em>optional</em>) – maximum number of parents for each variable. If None, disabled, default to None</p></li>
+<li><p><strong>iterations_number</strong> (<em>int</em><em>, </em><em>optional</em>) – maximum number of optimization algorithm’s iteration, default to 40</p></li>
+<li><p><strong>patience</strong> (<em>int</em><em>, </em><em>optional</em>) – number of iteration without any improvement before to stop the search.If None, disabled, default to None</p></li>
+<li><p><strong>tabu_length</strong> (<em>int</em><em>, </em><em>optional</em>) – maximum lenght of the data structures used in the optimization process, default to None</p></li>
+<li><p><strong>tabu_rules_duration</strong> (<em>int</em><em>, </em><em>optional</em>) – number of iterations in which each rule keeps its value, default to None</p></li>
+<li><p><strong>optimizer</strong> (<em>string</em><em>, </em><em>optional</em>) – name of the optimizer algorithm. Possible values: ‘hill’ (Hill climbing),’tabu’ (tabu search), defualt to ‘tabu’</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>A list of the best edges for the currente node</p>
+</dd>
+<dt class="field-odd">Return type</dt>
+<dd class="field-odd"><p>List</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt id="classes.estimators.structure_score_based_estimator.StructureScoreBasedEstimator.estimate_structure">
+<code class="sig-name descname">estimate_structure</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">max_parents</span><span class="p">:</span> <span class="n">int</span> <span class="o">=</span> <span class="default_value">None</span></em>, <em class="sig-param"><span class="n">iterations_number</span><span class="p">:</span> <span class="n">int</span> <span class="o">=</span> <span class="default_value">40</span></em>, <em class="sig-param"><span class="n">patience</span><span class="p">:</span> <span class="n">int</span> <span class="o">=</span> <span class="default_value">None</span></em>, <em class="sig-param"><span class="n">tabu_length</span><span class="p">:</span> <span class="n">int</span> <span class="o">=</span> <span class="default_value">None</span></em>, <em class="sig-param"><span class="n">tabu_rules_duration</span><span class="p">:</span> <span class="n">int</span> <span class="o">=</span> <span class="default_value">None</span></em>, <em class="sig-param"><span class="n">optimizer</span><span class="p">:</span> <span class="n">str</span> <span class="o">=</span> <span class="default_value">'tabu'</span></em>, <em class="sig-param"><span class="n">disable_multiprocessing</span><span class="p">:</span> <span class="n">bool</span> <span class="o">=</span> <span class="default_value">False</span></em><span class="sig-paren">)</span><a class="headerlink" href="#classes.estimators.structure_score_based_estimator.StructureScoreBasedEstimator.estimate_structure" title="Permalink to this definition">¶</a></dt>
+<dd><p>Compute the score-based algorithm to find the optimal structure</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>max_parents</strong> (<em>int</em><em>, </em><em>optional</em>) – maximum number of parents for each variable. If None, disabled, default to None</p></li>
+<li><p><strong>iterations_number</strong> (<em>int</em><em>, </em><em>optional</em>) – maximum number of optimization algorithm’s iteration, default to 40</p></li>
+<li><p><strong>patience</strong> (<em>int</em><em>, </em><em>optional</em>) – number of iteration without any improvement before to stop the search.If None, disabled, default to None</p></li>
+<li><p><strong>tabu_length</strong> (<em>int</em><em>, </em><em>optional</em>) – maximum lenght of the data structures used in the optimization process, default to None</p></li>
+<li><p><strong>tabu_rules_duration</strong> (<em>int</em><em>, </em><em>optional</em>) – number of iterations in which each rule keeps its value, default to None</p></li>
+<li><p><strong>optimizer</strong> (<em>string</em><em>, </em><em>optional</em>) – name of the optimizer algorithm. Possible values: ‘hill’ (Hill climbing),’tabu’ (tabu search), defualt to ‘tabu’</p></li>
+<li><p><strong>disable_multiprocessing</strong> (<em>Boolean</em><em>, </em><em>optional</em>) – true if you desire to disable the multiprocessing operations, default to False</p></li>
+</ul>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt id="classes.estimators.structure_score_based_estimator.StructureScoreBasedEstimator.get_score_from_graph">
+<code class="sig-name descname">get_score_from_graph</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">graph</span><span class="p">:</span> <span class="n"><a class="reference internal" href="classes.structure_graph.html#classes.structure_graph.network_graph.NetworkGraph" title="classes.structure_graph.network_graph.NetworkGraph">classes.structure_graph.network_graph.NetworkGraph</a></span></em>, <em class="sig-param"><span class="n">node_id</span><span class="p">:</span> <span class="n">str</span></em><span class="sig-paren">)</span><a class="headerlink" href="#classes.estimators.structure_score_based_estimator.StructureScoreBasedEstimator.get_score_from_graph" title="Permalink to this definition">¶</a></dt>
+<dd><p>Get the FamScore of a node</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>node_id</strong> (<em>string</em>) – current node’s id</p></li>
+<li><p><strong>graph</strong> (<em>class:'NetworkGraph'</em>) – current graph to be computed</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>The FamSCore for this graph structure</p>
+</dd>
+<dt class="field-odd">Return type</dt>
+<dd class="field-odd"><p>float</p>
+</dd>
+</dl>
+</dd></dl>
+
+</dd></dl>
+
+</div>
+<div class="section" id="module-classes.estimators">
+<span id="module-contents"></span><h2>Module contents<a class="headerlink" href="#module-classes.estimators" title="Permalink to this headline">¶</a></h2>
+</div>
+</div>
+
+
+	    </div>
+            <footer>
+  
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>
+        &copy; Copyright 2021, Bregoli Alessandro, Martini Filippo, Moretti Luca.
+    </p>
+  </div>
+
+  Built with <a href="http://sphinx-doc.org/">Sphinx</a> using a <a href="https://github.com/jucacrispim/sphinx_pdj_theme">theme</a> provided by <a href="http://poraodojuca.net">Porão do Juca</a>.
+
+</footer>
+	</div>
+	</div>
+	  
+
+    <script type="text/javascript">
+        var DOCUMENTATION_OPTIONS = {
+            URL_ROOT:'./',
+            VERSION:'2.0',
+            COLLAPSE_INDEX:false,
+            FILE_SUFFIX:'.html',
+            HAS_SOURCE:  true
+        };
+    </script>
+    <script type="text/javascript" src="_static/jquery.js">
+
+    </script>
+    <script type="text/javascript" src="_static/underscore.js">
+
+    </script>
+    <script type="text/javascript" src="_static/doctools.js">
+
+    </script>
+    <script type="text/javascript" src="_static/language_data.js">
+
+    </script>
+
+  
+
+   <script type="text/javascript"
+           src="_static/js/theme.js"></script>
+
+   <script type="text/javascript"
+           src="_static/js/pdj.js"></script>
+
+  
+  
+  <script type="text/javascript">
+      jQuery(function () {
+          SphinxRtdTheme.StickyNav.enable();
+      });
+  </script>
+   
+
+  </body>
+</html>

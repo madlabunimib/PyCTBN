@@ -25,7 +25,7 @@ class Trajectory(object):
 
     @property
     def trajectory(self) -> np.ndarray:
-        return self._actual_trajectory[:, :self._original_cols_number]
+        return self._actual_trajectory[:, :self._original_cols_number - 1]
 
     @property
     def complete_trajectory(self) -> np.ndarray:

@@ -125,10 +125,8 @@ class FamScoreCalculator:
     def single_internal_cim_xxu_marginal_likelihood_theta(self,
                                                 M_xxu_suff_stats: float,
                                                 alpha_xxu: float=1):
-        """
-        Calculate the second part of the marginal likelihood over theta formula
+        """Calculate the second part of the marginal likelihood over theta formula
         
-
         :param M_xxu_suff_stats: value of the suffucient statistic M[xx'|u]
         :type M_xxu_suff_stats: float
         :param alpha_xxu: distribuited hyperparameter over the CTBN’s theta parameters
