@@ -1,5 +1,4 @@
-import sys
-sys.path.append("../../classes/")
+
 import glob
 import math
 import os
@@ -10,10 +9,10 @@ import numpy as np
 import psutil
 from line_profiler import LineProfiler
 
-import utility.cache as ch
-import structure_graph.sample_path as sp
-import estimators.structure_constraint_based_estimator as se
-import utility.json_importer as ji
+from ...classes.utility.cache import Cache
+from ...classes.structure_graph.sample_path import SamplePath
+from ...classes.estimators.structure_constraint_based_estimator import StructureConstraintBasedEstimator
+from ...classes.utility.json_importer import JsonImporter
 
 from multiprocessing import set_start_method
 
@@ -27,8 +26,8 @@ class TestStructureConstraintBasedEstimator(unittest.TestCase):
 
     def test_structure(self):
         #cls.read_files = glob.glob(os.path.join('../../data', "*.json"))
-        self.importer = ji.JsonImporter("/home/alessandro/Documents/ctbn_cba/data/networks_and_trajectories_ternary_data_15.json", 'samples', 'dyn.str', 'variables', 'Time', 'Name')
-        self.s1 = sp.SamplePath(self.importer)
+        self.importer = JsonImporter("./main_package/data/networks_and_trajectories_ternary_data_15.json", 'samples', 'dyn.str', 'variables', 'Time', 'Name')
+        self.s1 = SamplePath(self.importer)
         self.s1.build_trajectories()
         self.s1.build_structure()
 
@@ -36,12 +35,12 @@ class TestStructureConstraintBasedEstimator(unittest.TestCase):
         true_edges = set(map(tuple, true_edges))
 
         
-        se1 = se.StructureConstraintBasedEstimator(self.s1,0.1,0.1)
+        se1 = StructureConstraintBasedEstimator(self.s1,0.1,0.1)
         edges = se1.estimate_structure(disable_multiprocessing=False)       
 
 
-        self.importer = ji.JsonImporter("/home/alessandro/Documents/ctbn_cba/data/networks_and_trajectories_ternary_data_15.json", 'samples', 'dyn.str', 'variables', 'Time', 'Name')
-        self.s1 = sp.SamplePath(self.importer)
+        self.importer = JsonImporter("./main_package/data/networks_and_trajectories_ternary_data_15.json", 'samples', 'dyn.str', 'variables', 'Time', 'Name')
+        self.s1 = SamplePath(self.importer)
         self.s1.build_trajectories()
         self.s1.build_structure()
 
@@ -49,7 +48,7 @@ class TestStructureConstraintBasedEstimator(unittest.TestCase):
         true_edges = set(map(tuple, true_edges))
 
         
-        se1 = se.StructureConstraintBasedEstimator(self.s1,0.1,0.1)
+        se1 = StructureConstraintBasedEstimator(self.s1,0.1,0.1)
         edges = se1.estimate_structure(disable_multiprocessing=True)  
         
         

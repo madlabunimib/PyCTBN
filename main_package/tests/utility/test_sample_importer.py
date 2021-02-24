@@ -1,12 +1,11 @@
-import sys
-sys.path.append("../../classes/")
+
 import unittest
 import os
 import glob
 import numpy as np
 import pandas as pd
-import utility.sample_importer as si
-import structure_graph.sample_path as sp
+from ...classes.utility.sample_importer import SampleImporter
+from ...classes.structure_graph.sample_path import SamplePath
 
 import json
 
@@ -16,7 +15,7 @@ class TestSampleImporter(unittest.TestCase):
 
     @classmethod
     def setUpClass(cls) -> None:
-        with open("../../data/networks_and_trajectories_binary_data_01_3.json") as f:
+        with open("./main_package/data/networks_and_trajectories_binary_data_01_3.json") as f:
             raw_data = json.load(f)
 
             trajectory_list_raw= raw_data[0]["samples"]
@@ -28,7 +27,7 @@ class TestSampleImporter(unittest.TestCase):
 
 
     def test_init(self):
-        sample_importer = si.SampleImporter(
+        sample_importer = SampleImporter(
                                         trajectory_list=self.trajectory_list,
                                         variables=self.variables,
                                         prior_net_structure=self.prior_net_structure
@@ -36,7 +35,7 @@ class TestSampleImporter(unittest.TestCase):
         
         sample_importer.import_data()
 
-        s1 = sp.SamplePath(sample_importer)
+        s1 = SamplePath(sample_importer)
         s1.build_trajectories()
         s1.build_structure()
         s1.clear_memory() 
@@ -50,7 +49,7 @@ class TestSampleImporter(unittest.TestCase):
         self.assertIsInstance(s1._importer._df_structure,pd.DataFrame)
 
     def test_order(self):
-        sample_importer = si.SampleImporter(
+        sample_importer = SampleImporter(
                                         trajectory_list=self.trajectory_list,
                                         variables=self.variables,
                                         prior_net_structure=self.prior_net_structure
@@ -58,7 +57,7 @@ class TestSampleImporter(unittest.TestCase):
         
         sample_importer.import_data()
 
-        s1 = sp.SamplePath(sample_importer)
+        s1 = SamplePath(sample_importer)
         s1.build_trajectories()
         s1.build_structure()
         s1.clear_memory() 

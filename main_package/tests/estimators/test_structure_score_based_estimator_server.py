@@ -1,5 +1,4 @@
-import sys
-sys.path.append("../../classes/")
+
 import glob
 import math
 import os
@@ -11,10 +10,10 @@ import psutil
 from line_profiler import LineProfiler
 import copy
 
-import utility.cache as ch
-import structure_graph.sample_path as sp
-import estimators.structure_score_based_estimator as se
-import utility.json_importer as ji
+from ...classes.utility.cache import Cache
+from ...classes.structure_graph.sample_path import SamplePath
+from ...classes.estimators.structure_score_based_estimator import StructureScoreBasedEstimator
+from ...classes.utility.json_importer import JsonImporter
 
 
 
@@ -28,8 +27,8 @@ class TestStructureScoreBasedEstimator(unittest.TestCase):
 
     def test_structure(self):
         #cls.read_files = glob.glob(os.path.join('../../data', "*.json"))
-        self.importer = ji.JsonImporter("/home/alessandro/Documents/ctbn_cba/data/networks_and_trajectories_ternary_data_15.json", 'samples', 'dyn.str', 'variables', 'Time', 'Name')
-        self.s1 = sp.SamplePath(self.importer)
+        self.importer = JsonImporter("./main_package/data/networks_and_trajectories_ternary_data_3.json", 'samples', 'dyn.str', 'variables', 'Time', 'Name')
+        self.s1 = SamplePath(self.importer)
         self.s1.build_trajectories()
         self.s1.build_structure()
 
@@ -37,7 +36,7 @@ class TestStructureScoreBasedEstimator(unittest.TestCase):
         true_edges = set(map(tuple, true_edges))
 
         
-        se1 = se.StructureScoreBasedEstimator(self.s1)
+        se1 = StructureScoreBasedEstimator(self.s1)
         edges = se1.estimate_structure(
                                     max_parents = None,
                                     iterations_number = 100,
@@ -49,8 +48,8 @@ class TestStructureScoreBasedEstimator(unittest.TestCase):
                                     )
 
 
-        self.importer = ji.JsonImporter("/home/alessandro/Documents/ctbn_cba/data/networks_and_trajectories_ternary_data_15.json", 'samples', 'dyn.str', 'variables', 'Time', 'Name')
-        self.s1 = sp.SamplePath(self.importer)
+        self.importer = JsonImporter("./main_package/data/networks_and_trajectories_ternary_data_3.json", 'samples', 'dyn.str', 'variables', 'Time', 'Name')
+        self.s1 = SamplePath(self.importer)
         self.s1.build_trajectories()
         self.s1.build_structure()
 
@@ -58,7 +57,7 @@ class TestStructureScoreBasedEstimator(unittest.TestCase):
         true_edges = set(map(tuple, true_edges))
 
         
-        se1 = se.StructureScoreBasedEstimator(self.s1)
+        se1 = StructureScoreBasedEstimator(self.s1)
         edges = se1.estimate_structure(
                                     max_parents = None,
                                     iterations_number = 100,

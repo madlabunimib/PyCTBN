@@ -11,10 +11,11 @@ import psutil
 from line_profiler import LineProfiler
 import copy
 
-import utility.cache as ch
-import structure_graph.sample_path as sp
-import estimators.structure_score_based_estimator as se
-import utility.sample_importer as si
+from ...classes.utility.cache import Cache
+from ...classes.structure_graph.sample_path import SamplePath
+from ...classes.estimators.structure_score_based_estimator import StructureScoreBasedEstimator
+from ...classes.utility.json_importer import JsonImporter
+from ...classes.utility.sample_importer import SampleImporter
 
 import json
 
@@ -26,7 +27,7 @@ class TestStructureScoreBasedEstimator(unittest.TestCase):
 
     @classmethod
     def setUpClass(cls):
-        with open("../../data/networks_and_trajectories_binary_data_01_6.json") as f:
+        with open("./main_package/data/networks_and_trajectories_binary_data_01_6.json") as f:
             raw_data = json.load(f)
 
             trajectory_list_raw= raw_data[0]["samples"]
@@ -37,7 +38,7 @@ class TestStructureScoreBasedEstimator(unittest.TestCase):
             prior_net_structure = pd.DataFrame(raw_data[0]["dyn.str"])
 
 
-        cls.importer = si.SampleImporter(
+        cls.importer = SampleImporter(
                                         trajectory_list=trajectory_list,
                                         variables=variables,
                                         prior_net_structure=prior_net_structure
@@ -49,7 +50,7 @@ class TestStructureScoreBasedEstimator(unittest.TestCase):
         #cls.traj = cls.s1.concatenated_samples
 
        # print(len(cls.traj))
-        cls.s1 = sp.SamplePath(cls.importer)
+        cls.s1 = SamplePath(cls.importer)
         cls.s1.build_trajectories()
         cls.s1.build_structure()
 
@@ -60,7 +61,7 @@ class TestStructureScoreBasedEstimator(unittest.TestCase):
         true_edges = set(map(tuple, true_edges))
 
         
-        se1 = se.StructureScoreBasedEstimator(self.s1,known_edges = [('X','Q')])
+        se1 = StructureScoreBasedEstimator(self.s1,known_edges = [('X','Q')])
         edges = se1.estimate_structure(
                                     max_parents = None,
                                     iterations_number = 100,
