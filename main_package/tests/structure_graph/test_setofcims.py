@@ -1,12 +1,9 @@
-import sys
-sys.path.append("../../classes/")
+
 import unittest
 import numpy as np
 import itertools
 
-from structure_graph.set_of_cims import SetOfCims
-
-
+from ...classes.structure_graph.set_of_cims import SetOfCims
 
 
 class TestSetOfCims(unittest.TestCase):

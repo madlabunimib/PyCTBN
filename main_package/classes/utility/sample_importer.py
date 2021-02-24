@@ -3,14 +3,12 @@ import typing
 
 import pandas as pd
 import numpy as np
-import sys
-sys.path.append('../')
 
-import utility.abstract_importer as ai
+from .abstract_importer import AbstractImporter
 
 
 
-class SampleImporter(ai.AbstractImporter):
+class SampleImporter(AbstractImporter):
     """Implements the abstracts methods of AbstractImporter and adds all the necessary methods to process and prepare
     the data loaded directly by using DataFrame
 

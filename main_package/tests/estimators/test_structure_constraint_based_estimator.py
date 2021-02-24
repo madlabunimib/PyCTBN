@@ -1,5 +1,4 @@
-import sys
-sys.path.append("../../classes/")
+
 import glob
 import math
 import os
@@ -13,10 +12,10 @@ from line_profiler import LineProfiler
 import json
 import pandas as pd
 
-import utility.cache as ch
-import structure_graph.sample_path as sp
-import estimators.structure_constraint_based_estimator as se
-import utility.sample_importer as si
+
+from ...classes.structure_graph.sample_path import SamplePath
+from ...classes.estimators.structure_constraint_based_estimator import StructureConstraintBasedEstimator
+from ...classes.utility.sample_importer import SampleImporter
 
 import copy
 
@@ -24,7 +23,7 @@ import copy
 class TestStructureConstraintBasedEstimator(unittest.TestCase):
     @classmethod
     def setUpClass(cls):
-        with open("../../data/networks_and_trajectories_ternary_data_3.json") as f:
+        with open("./main_package/data/networks_and_trajectories_ternary_data_3.json") as f:
             raw_data = json.load(f)
 
             trajectory_list_raw= raw_data[0]["samples"]
@@ -35,7 +34,7 @@ class TestStructureConstraintBasedEstimator(unittest.TestCase):
             prior_net_structure = pd.DataFrame(raw_data[0]["dyn.str"])
 
 
-        cls.importer = si.SampleImporter(
+        cls.importer = SampleImporter(
                                         trajectory_list=trajectory_list,
                                         variables=variables,
                                         prior_net_structure=prior_net_structure
@@ -47,7 +46,7 @@ class TestStructureConstraintBasedEstimator(unittest.TestCase):
         #cls.traj = cls.s1.concatenated_samples
 
        # print(len(cls.traj))
-        cls.s1 = sp.SamplePath(cls.importer)
+        cls.s1 = SamplePath(cls.importer)
         cls.s1.build_trajectories()
         cls.s1.build_structure()
 
@@ -55,7 +54,7 @@ class TestStructureConstraintBasedEstimator(unittest.TestCase):
         true_edges = copy.deepcopy(self.s1.structure.edges)
         true_edges = set(map(tuple, true_edges))
 
-        se1 = se.StructureConstraintBasedEstimator(self.s1,0.1,0.1)
+        se1 = StructureConstraintBasedEstimator(self.s1,0.1,0.1)
         edges = se1.estimate_structure(disable_multiprocessing=False)
         
 

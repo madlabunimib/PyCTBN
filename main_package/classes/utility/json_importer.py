@@ -2,13 +2,12 @@ import json
 import typing
 
 import pandas as pd
-import sys
-sys.path.append('../')
-
-import utility.abstract_importer as ai
 
 
-class JsonImporter(ai.AbstractImporter):
+from .abstract_importer import AbstractImporter
+
+
+class JsonImporter(AbstractImporter):
     """Implements the abstracts methods of AbstractImporter and adds all the necessary methods to process and prepare
     the data in json extension.
 

@@ -1,33 +1,71 @@
-import sys
-sys.path.append("../../classes/")
+
 import unittest
 import glob
 import os
-import utility.json_importer as ji
-import structure_graph.sample_path as sp
-import structure_graph.trajectory as tr
-import structure_graph.structure as st
+import random
+
+from ...classes.utility.json_importer import JsonImporter
+from ...classes.structure_graph.sample_path import SamplePath
+from ...classes.structure_graph.trajectory import Trajectory
+from ...classes.structure_graph.structure import Structure
 
 
 class TestSamplePath(unittest.TestCase):
 
     @classmethod
     def setUpClass(cls) -> None:
-        cls.read_files = glob.glob(os.path.join('../../data', "*.json"))
-        cls.importer = ji.JsonImporter("../../data/networks_and_trajectories_binary_data_01_3.json", 'samples', 'dyn.str', 'variables', 'Time', 'Name')
+        cls.read_files = glob.glob(os.path.join('./main_package/data', "*.json"))
+
+    def test_init_not_initialized_importer(self):
+        importer = JsonImporter(self.read_files[0], 'samples', 'dyn.str', 'variables', 'Time', 'Name')
+        self.assertRaises(RuntimeError, SamplePath, importer)
+
+    def test_init_not_filled_dataframse(self):
+        importer = JsonImporter(self.read_files[0], 'samples', 'dyn.str', 'variables', 'Time', 'Name')
+        importer.import_data(0)
+        importer.clear_concatenated_frame()
+        self.assertRaises(RuntimeError, SamplePath, importer)
 
     def test_init(self):
-        s1 = sp.SamplePath(self.importer)
+        importer = JsonImporter(self.read_files[0], 'samples', 'dyn.str', 'variables', 'Time', 'Name')
+        importer.import_data(0)
+        s1 = SamplePath(importer)
+        self.assertIsNone(s1.trajectories)
+        self.assertIsNone(s1.structure)
+        self.assertFalse(s1._importer.concatenated_samples.empty)
+        self.assertIsNone(s1._total_variables_count)
+
+    def test_build_trajectories(self):
+        importer = JsonImporter(self.read_files[0], 'samples', 'dyn.str', 'variables', 'Time', 'Name')
+        importer.import_data(0)
+        s1 = SamplePath(importer)
         s1.build_trajectories()
-        self.assertIsNotNone(s1.trajectories)
-        self.assertIsInstance(s1.trajectories, tr.Trajectory)
+        self.assertIsInstance(s1.trajectories, Trajectory)
+
+    def test_build_structure(self):
+        importer = JsonImporter(self.read_files[0], 'samples', 'dyn.str', 'variables', 'Time', 'Name')
+        importer.import_data(0)
+        s1 = SamplePath(importer)
         s1.build_structure()
-        self.assertIsNotNone(s1.structure)
-        self.assertIsInstance(s1.structure, st.Structure)
-        self.assertTrue(s1.importer.concatenated_samples.empty)
-        self.assertEqual(s1.total_variables_count, len(s1.importer.sorter))
-        print(s1.structure)
-        print(s1.trajectories)
+        self.assertIsInstance(s1.structure, Structure)
+        self.assertEqual(s1._total_variables_count, len(s1._importer.sorter))
+
+    def test_build_structure_bad_sorter(self):
+        importer = JsonImporter(self.read_files[0], 'samples', 'dyn.str', 'variables', 'Time', 'Name')
+        importer.import_data(0)
+        s1 = SamplePath(importer)
+        random.shuffle(importer._sorter)
+        self.assertRaises(RuntimeError, s1.build_structure)
+
+    def test_build_saplepath_no_prior_net_structure(self):
+        importer = JsonImporter(self.read_files[0], 'samples', 'dyn.str', 'variables', 'Time', 'Name')
+        importer.import_data(0)
+        importer._df_structure = None
+        s1 = SamplePath(importer)
+        s1.build_trajectories()
+        s1.build_structure()
+        self.assertFalse(s1.structure.edges)
+
 
 
 if __name__ == '__main__':

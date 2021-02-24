@@ -1,5 +1,4 @@
-import sys
-sys.path.append('../')
+
 import itertools
 import json
 import typing
@@ -13,23 +12,18 @@ from random import choice
 import concurrent.futures
 
 import copy
-import utility.cache as ch
-import structure_graph.conditional_intensity_matrix as condim
-import structure_graph.network_graph as ng
-import estimators.parameters_estimator as pe
-import estimators.structure_estimator as se
-import structure_graph.sample_path as sp
-import structure_graph.structure as st
-import estimators.fam_score_calculator as fam_score
-import optimizers.hill_climbing_search as hill
-import optimizers.tabu_search as tabu
 
-from utility.decorators import timing,timing_write
+from ..structure_graph.conditional_intensity_matrix import ConditionalIntensityMatrix
+from ..structure_graph.network_graph import NetworkGraph
+from .parameters_estimator import ParametersEstimator
+from .structure_estimator import StructureEstimator
+from ..structure_graph.sample_path import SamplePath
+from ..structure_graph.structure import Structure
+from .fam_score_calculator import FamScoreCalculator
+from ..optimizers.hill_climbing_search import HillClimbing
+from ..optimizers.tabu_search import TabuSearch
 
-from multiprocessing import get_context
-
-
-#from numba import njit
+from ..utility.decorators import timing,timing_write
 
 import multiprocessing
 from multiprocessing import Pool
@@ -37,7 +31,7 @@ from multiprocessing import Pool
 
 
 
-class StructureScoreBasedEstimator(se.StructureEstimator):
+class StructureScoreBasedEstimator(StructureEstimator):
     """
     Has the task of estimating the network structure given the trajectories in samplepath by
     using a score based approach.
@@ -53,7 +47,7 @@ class StructureScoreBasedEstimator(se.StructureEstimator):
 
     """
 
-    def __init__(self, sample_path: sp.SamplePath, tau_xu:int=0.1, alpha_xu:int = 1,known_edges: typing.List= []):
+    def __init__(self, sample_path: SamplePath, tau_xu:int=0.1, alpha_xu:int = 1,known_edges: typing.List= []):
         super().__init__(sample_path,known_edges)
         self.tau_xu=tau_xu
         self.alpha_xu=alpha_xu
@@ -90,7 +84,7 @@ class StructureScoreBasedEstimator(se.StructureEstimator):
 
         estimate_parents = self.estimate_parents
 
-        n_nodes= len(self.nodes)
+        n_nodes= len(self._nodes)
         
         l_max_parents= [max_parents] * n_nodes
         l_iterations_number = [iterations_number] * n_nodes
@@ -116,11 +110,11 @@ class StructureScoreBasedEstimator(se.StructureEstimator):
 
         'Estimate the best parents for each node'
         if disable_multiprocessing:
-            list_edges_partial = [estimate_parents(n,max_parents,iterations_number,patience,tabu_length,tabu_rules_duration,optimizer) for n in self.nodes]
+            list_edges_partial = [estimate_parents(n,max_parents,iterations_number,patience,tabu_length,tabu_rules_duration,optimizer) for n in self._nodes]
         else:
             with concurrent.futures.ProcessPoolExecutor(max_workers=cpu_count) as executor:
                 list_edges_partial = executor.map(estimate_parents, 
-                                                            self.nodes,
+                                                            self._nodes,
                                                             l_max_parents,
                                                             l_iterations_number,
                                                             l_patience,
@@ -130,7 +124,7 @@ class StructureScoreBasedEstimator(se.StructureEstimator):
 
 
 
-            #list_edges_partial = p.map(estimate_parents, self.nodes)
+            #list_edges_partial = p.map(estimate_parents, self._nodes)
             #list_edges_partial= estimate_parents('Q',max_parents,iterations_number,patience,tabu_length,tabu_rules_duration,optimizer) 
 
         'Concatenate all the edges list'
@@ -194,7 +188,7 @@ class StructureScoreBasedEstimator(se.StructureEstimator):
 
         "choose the optimizer algotithm"
         if optimizer == 'tabu':
-            optimizer = tabu.TabuSearch(
+            optimizer = TabuSearch(
                         node_id = node_id,
                         structure_estimator = self,
                         max_parents = max_parents,
@@ -203,7 +197,7 @@ class StructureScoreBasedEstimator(se.StructureEstimator):
                         tabu_length = tabu_length,
                         tabu_rules_duration = tabu_rules_duration)
         else: #if optimizer == 'hill':
-            optimizer = hill.HillClimbing(
+            optimizer = HillClimbing(
                                     node_id = node_id,
                                     structure_estimator = self,
                                     max_parents = max_parents,
@@ -215,7 +209,7 @@ class StructureScoreBasedEstimator(se.StructureEstimator):
 
     
     def get_score_from_graph(self,
-                            graph: ng.NetworkGraph,
+                            graph: NetworkGraph,
                             node_id:str):
         """
         Get the FamScore of a node 
@@ -233,14 +227,14 @@ class StructureScoreBasedEstimator(se.StructureEstimator):
         'inizialize the graph for a single node'
         graph.fast_init(node_id) 
 
-        params_estimation = pe.ParametersEstimator(self._sample_path, graph)
+        params_estimation = ParametersEstimator(self._sample_path.trajectories, graph)
 
         'Inizialize and compute parameters for node'
         params_estimation.fast_init(node_id)
         SoCims = params_estimation.compute_parameters_for_node(node_id)
 
         'calculate the FamScore for the node'
-        fam_score_obj = fam_score.FamScoreCalculator()
+        fam_score_obj = FamScoreCalculator()
 
         score = fam_score_obj.get_fam_score(SoCims.actual_cims,tau_xu = self.tau_xu,alpha_xu=self.alpha_xu)
         

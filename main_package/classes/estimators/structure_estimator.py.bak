@@ -1,4 +1,5 @@
-
+import sys
+sys.path.append('../')
 import itertools
 import json
 import typing
@@ -12,11 +13,11 @@ from abc import ABC
 
 import abc
 
-from ..utility.cache import Cache
-from ..structure_graph.conditional_intensity_matrix import ConditionalIntensityMatrix
-from ..structure_graph.network_graph import NetworkGraph
-from .parameters_estimator import ParametersEstimator
-from ..structure_graph.sample_path import SamplePath
+import ..utility.cache as ch
+import ..structure_graph.conditional_intensity_matrix import ConditionalIntensityMatrix
+import ..structure_graph.network_graph import NetworkGraph
+import .parameters_estimator import ParametersEstimator
+import ..structure_graph.sample_path import SamplePath
 from ..structure_graph.structure import Structure
 
 
@@ -33,12 +34,13 @@ class StructureEstimator(object):
 
     def __init__(self, sample_path: SamplePath, known_edges: typing.List = None):
         self._sample_path = sample_path
-        self._nodes = np.array(self._sample_path.structure.nodes_labels)
-        self._nodes_vals = self._sample_path.structure.nodes_values
-        self._nodes_indxs = self._sample_path.structure.nodes_indexes
-        self._removable_edges_matrix = self.build_removable_edges_matrix(known_edges)
-        self._complete_graph = StructureEstimator.build_complete_graph(self._sample_path.structure.nodes_labels)
-        
+        self.nodes = np.array(self._sample_path.structure.nodes_labels)
+        self.nodes_vals = self._sample_path.structure.nodes_values
+        self.nodes_indxs = self._sample_path.structure.nodes_indexes
+        self._removable_edges_matrix = self.
+        (known_edges)
+        self.complete_graph = self.build_complete_graph(self._sample_path.structure.nodes_labels)
+        self.cache = ch.Cache()
 
     def build_removable_edges_matrix(self, known_edges: typing.List):
         """Builds a boolean matrix who shows if a edge could be removed or not, based on prior knowledge given:
@@ -72,8 +74,8 @@ class StructureEstimator(object):
         return complete_graph
 
 
-    @staticmethod
-    def generate_possible_sub_sets_of_size( u: typing.List, size: int, parent_label: str):
+
+    def generate_possible_sub_sets_of_size(self, u: typing.List, size: int, parent_label: str):
         """Creates a list containing all possible subsets of the list ``u`` of size ``size``,
         that do not contains a the node identified by ``parent_label``.
 
@@ -90,7 +92,7 @@ class StructureEstimator(object):
         list_without_test_parent.remove(parent_label)
         return map(list, itertools.combinations(list_without_test_parent, size))
 
-    def save_results(self) -> None:
+ 	def save_results(self) -> None:
         """Save the estimated Structure to a .json file in the path where the data are loaded from.
         The file is named as the input dataset but the `results_` word is appended to the results file.
         """

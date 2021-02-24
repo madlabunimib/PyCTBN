@@ -3,7 +3,7 @@ sys.path.append('../')
 import numpy as np
 
 from ..structure_graph.network_graph import NetworkGraph
-from ..structure_graph.set_of_cims import SetOfCims
+from ..structure_graph.sample_path import SetOfCims
 from ..structure_graph.trajectory import Trajectory
 
 

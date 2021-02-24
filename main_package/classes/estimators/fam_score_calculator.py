@@ -1,6 +1,3 @@
-import sys
-sys.path.append('../')
-
 
 import itertools
 import json
@@ -15,9 +12,9 @@ from math import log
 from scipy.special import loggamma
 from random import choice
 
-import structure_graph.set_of_cims as soCims
-import structure_graph.network_graph as net_graph
-import structure_graph.conditional_intensity_matrix as cim_class
+from ..structure_graph.set_of_cims import SetOfCims
+from ..structure_graph.network_graph import NetworkGraph
+from ..structure_graph.conditional_intensity_matrix import ConditionalIntensityMatrix
 
 
 '''
@@ -37,7 +34,7 @@ class FamScoreCalculator:
     # region theta
 
     def marginal_likelihood_theta(self,
-                        cims: cim_class.ConditionalIntensityMatrix,
+                        cims: ConditionalIntensityMatrix,
                         alpha_xu: float,
                         alpha_xxu: float):
         """
@@ -60,7 +57,7 @@ class FamScoreCalculator:
                         for cim in cims])
 
     def variable_cim_xu_marginal_likelihood_theta(self,
-                        cim: cim_class.ConditionalIntensityMatrix,
+                        cim: ConditionalIntensityMatrix,
                         alpha_xu: float,
                         alpha_xxu: float):
         """
@@ -91,7 +88,7 @@ class FamScoreCalculator:
 
     def single_cim_xu_marginal_likelihood_theta(self,
                     index: int,
-                    cim: cim_class.ConditionalIntensityMatrix,
+                    cim: ConditionalIntensityMatrix,
                     alpha_xu: float,
                     alpha_xxu: float):
         """
@@ -168,7 +165,7 @@ class FamScoreCalculator:
         return np.sum([self.variable_cim_xu_marginal_likelihood_q(cim, tau_xu, alpha_xu) for cim in cims])
 
     def variable_cim_xu_marginal_likelihood_q(self,
-                        cim: cim_class.ConditionalIntensityMatrix,
+                        cim: ConditionalIntensityMatrix,
                         tau_xu: float=0.1,
                         alpha_xu: float=1):
         """

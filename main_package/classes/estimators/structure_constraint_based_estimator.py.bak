@@ -1,4 +1,5 @@
-
+import sys
+sys.path.append('../')
 import itertools
 import json
 import typing
@@ -11,7 +12,7 @@ from scipy.stats import chi2 as chi2_dist
 from scipy.stats import f as f_dist
 from tqdm import tqdm
 
-from ..utility.cache import Cache
+from ..utility.cache as ch
 from ..structure_graph.conditional_intensity_matrix import ConditionalIntensityMatrix
 from ..structure_graph.network_graph import NetworkGraph
 from .parameters_estimator import ParametersEstimator
@@ -22,13 +23,13 @@ from ..optimizers.constraint_based_optimizer import ConstraintBasedOptimizer
 
 import concurrent.futures
 
-
+from utility.decorators import timing,timing_write
 
 import multiprocessing
 from multiprocessing import Pool
 
 
-class StructureConstraintBasedEstimator(StructureEstimator):
+class StructureConstraintBasedEstimator(se.StructureEstimator):
     """
     Has the task of estimating the network structure given the trajectories in samplepath by using a constraint-based approach.
 
@@ -49,8 +50,8 @@ class StructureConstraintBasedEstimator(StructureEstimator):
         super().__init__(sample_path,known_edges)
         self._exp_test_sign = exp_test_alfa
         self._chi_test_alfa = chi_test_alfa
-        self._thumb_threshold = thumb_threshold
-        self._cache = Cache()
+		self._thumb_threshold = thumb_threshold
+                      tot_vars_count: int, parent_indx, child_indx) -> bool:
 
     def complete_test(self, test_parent: str, test_child: str, parent_set: typing.List, child_states_numb: int,
                       tot_vars_count: int, parent_indx, child_indx) -> bool:
@@ -188,7 +189,7 @@ class StructureConstraintBasedEstimator(StructureEstimator):
         :param var_id: the node label of the test child
         :type var_id: string
         """
-        optimizer_obj = ConstraintBasedOptimizer(
+        optimizer_obj = optimizer.ConstraintBasedOptimizer(
                                                             node_id = var_id,
                                                             structure_estimator = self,
                                                             tot_vars_count = tot_vars_count)
@@ -206,7 +207,7 @@ class StructureConstraintBasedEstimator(StructureEstimator):
         ctpc_algo = self.one_iteration_of_CTPC_algorithm
         total_vars_numb = self._sample_path.total_variables_count
 
-        n_nodes= len(self._nodes)
+        n_nodes= len(self.nodes)
 
         total_vars_numb_array =  [total_vars_numb] *  n_nodes
 
@@ -224,17 +225,18 @@ class StructureConstraintBasedEstimator(StructureEstimator):
         if disable_multiprocessing:
             print("DISABILITATO")
             cpu_count = 1
-            list_edges_partial = [ctpc_algo(n,total_vars_numb) for n in self._nodes]
+            list_edges_partial = [ctpc_algo(n,total_vars_numb) for n in self.nodes]
         else:
             with concurrent.futures.ProcessPoolExecutor(max_workers=cpu_count) as executor:
                 list_edges_partial = executor.map(ctpc_algo,
-                                                                 self._nodes,
+                                                                 self.nodes,
                                                                  total_vars_numb_array)
-            #list_edges_partial = [ctpc_algo(n,total_vars_numb) for n in self._nodes]
+            #list_edges_partial = [ctpc_algo(n,total_vars_numb) for n in self.nodes]
 
         return set(itertools.chain.from_iterable(list_edges_partial))
 
         
+    @timing
     def estimate_structure(self,disable_multiprocessing:bool=False):
         return self.ctpc_algorithm(disable_multiprocessing=disable_multiprocessing)
 

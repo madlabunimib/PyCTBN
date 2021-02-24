@@ -92,7 +92,7 @@ class NetworkGraph(object):
         Returns:
             bool
         """
-        return self._graph.has_edge(edge[0],edge[1])
+        return self.graph.has_edge(edge[0],edge[1])
 
     def add_edges(self, list_of_edges: typing.List) -> None:
         """Add the edges to the ``_graph`` contained in the list ``list_of_edges``.
@@ -137,16 +137,6 @@ class NetworkGraph(object):
         p_indxes = [get_node_indx(node) for node in sorted_parents]
         p_values = [self.get_states_number(node) for node in sorted_parents]
         return sorted_parents, p_indxes, p_values
-
-    def remove_edges(self, list_of_edges: typing.List) -> None:
-        """
-        Remove the edges to the graph contained in the list list_of_edges.
-        Parameters:
-            list_of_edges
-        Returns:
-            void
-        """
-        self._graph.remove_edges_from(list_of_edges)
 
     @staticmethod
     def build_time_scalar_indexing_structure_for_a_node(node_states: int,

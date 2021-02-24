@@ -1,10 +1,11 @@
-
+import sys
+sys.path.append('../')
 
 import typing
 
 import numpy as np
 
-from .conditional_intensity_matrix import ConditionalIntensityMatrix
+import structure_graph.conditional_intensity_matrix as cim
 
 
 class SetOfCims(object):
@@ -57,7 +58,7 @@ class SetOfCims(object):
         :type transition_matrices: numpy.ndArray
         """
         for state_res_time_vector, transition_matrix in zip(state_res_times, transition_matrices):
-            cim_to_add = ConditionalIntensityMatrix(state_res_time_vector, transition_matrix)
+            cim_to_add = cim.ConditionalIntensityMatrix(state_res_time_vector, transition_matrix)
             cim_to_add.compute_cim_coefficients()
             self._actual_cims.append(cim_to_add)
         self._actual_cims = np.array(self._actual_cims)

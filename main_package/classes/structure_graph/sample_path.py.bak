@@ -1,11 +1,15 @@
+import sys
+sys.path.append('../')
 
 
 import numpy as np
 import pandas as pd
 
+import .abstract_sample_path as asam
+import ..utility.json_importer as imp
 from .structure import Structure
 from .trajectory import Trajectory
-from ..utility.abstract_importer import AbstractImporter
+import ..utility.abstract_importer as ai
 
 
 
@@ -20,7 +24,7 @@ class SamplePath(object):
     :_structure: the ``Structure`` Object that will contain all the structural infos about the net
     :_total_variables_count: the number of variables in the net
     """
-    def __init__(self, importer: AbstractImporter):
+    def __init__(self, importer: ai.AbstractImporter):
         """Constructor Method
         """
         self._importer = importer

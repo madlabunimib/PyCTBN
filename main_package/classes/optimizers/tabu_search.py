@@ -1,21 +1,19 @@
-import sys
-sys.path.append('../')
+
 import itertools
 import json
 import typing
 
 import networkx as nx
 import numpy as np
-from networkx.readwrite import json_graph
 
 from random import choice,sample
 
 from abc import ABC
 
 
-from optimizers.optimizer import Optimizer
-from estimators import structure_estimator as se
-import structure_graph.network_graph as ng
+from .optimizer import Optimizer
+from ..estimators.structure_estimator import StructureEstimator
+from ..structure_graph.network_graph import NetworkGraph
 
 import queue
 
@@ -44,7 +42,7 @@ class TabuSearch(Optimizer):
     """
     def __init__(self,
                 node_id:str,
-                structure_estimator: se.StructureEstimator,
+                structure_estimator: StructureEstimator,
                 max_parents:int = None,
                 iterations_number:int= 40,
                 patience:int = None,
@@ -72,7 +70,7 @@ class TabuSearch(Optimizer):
         print(f"tabu search is processing the structure of {self.node_id}")
 
         'Create the graph for the single node'
-        graph = ng.NetworkGraph(self.structure_estimator._sample_path.structure)
+        graph = NetworkGraph(self.structure_estimator._sample_path.structure)
 
         'get the index for the current node'
         node_index = self.structure_estimator._sample_path._structure.get_node_indx(self.node_id)

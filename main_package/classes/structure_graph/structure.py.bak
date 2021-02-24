@@ -1,3 +1,5 @@
+import sys
+sys.path.append('../')
 
 import typing as ty
 
@@ -61,7 +63,8 @@ class Structure(object):
         return self._total_variables_number
 
     def get_node_id(self, node_indx: int) -> str:
-        """Given the ``node_index`` returns the node label.
+        """
+        Given the ``node_index`` returns the node label.
 
         :param node_indx: the node index
         :type node_indx: int
@@ -84,7 +87,8 @@ class Structure(object):
         return edge in self._edges_list
 
     def get_node_indx(self, node_id: str) -> int:
-        """Given the ``node_index`` returns the node label.
+        """
+        Given the ``node_index`` returns the node label.
 
         :param node_id: the node label
         :type node_id: string

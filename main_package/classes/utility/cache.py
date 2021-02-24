@@ -1,9 +1,7 @@
-import sys
-sys.path.append('../')
 
 import typing
 
-import structure_graph.set_of_cims as sofc
+from ..structure_graph.set_of_cims import SetOfCims 
 
 
 class Cache:
@@ -40,7 +38,7 @@ class Cache:
         except ValueError:
             return None
 
-    def put(self, parents_comb: typing.Union[typing.Set, str], socim: sofc.SetOfCims):
+    def put(self, parents_comb: typing.Set, socim: SetOfCims):
         """Place in cache the ``SetOfCims`` object, and the related symbolic index ``parents_comb`` in
         ``_list_of_sets_of_parents``.
 
