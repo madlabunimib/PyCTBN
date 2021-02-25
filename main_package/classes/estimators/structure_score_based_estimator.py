@@ -23,7 +23,6 @@ from .fam_score_calculator import FamScoreCalculator
 from ..optimizers.hill_climbing_search import HillClimbing
 from ..optimizers.tabu_search import TabuSearch
 
-from ..utility.decorators import timing,timing_write
 
 import multiprocessing
 from multiprocessing import Pool
@@ -53,7 +52,6 @@ class StructureScoreBasedEstimator(StructureEstimator):
         self.alpha_xu=alpha_xu
 
 
-    @timing
     def estimate_structure(self, max_parents:int = None, iterations_number:int= 40,
                          patience:int = None, tabu_length:int = None, tabu_rules_duration:int = None,
                          optimizer: str = 'tabu',disable_multiprocessing:bool= False ):
