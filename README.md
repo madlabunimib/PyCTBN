@@ -1,1 +1,1 @@
-# PyCTBN
+# CTBN_Project

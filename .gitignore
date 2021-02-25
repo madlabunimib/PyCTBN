@@ -1,0 +1,8 @@
+__pycache__
+.vscode
+**/__pycache__
+**/data
+**/PyCTBN.egg-info
+**/dist
+**/results_data
+**/.scannerwork
