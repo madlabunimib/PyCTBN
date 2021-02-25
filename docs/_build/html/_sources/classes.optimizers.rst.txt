@@ -1,37 +1,37 @@
-classes.optimizers package
+PyCTBN.optimizers package
 ==========================
 
 Submodules
 ----------
 
-classes.optimizers.constraint\_based\_optimizer module
+PyCTBN.optimizers.constraint\_based\_optimizer module
 ------------------------------------------------------
 
-.. automodule:: classes.optimizers.constraint_based_optimizer
+.. automodule:: PyCTBN.optimizers.constraint_based_optimizer
    :members:
    :undoc-members:
    :show-inheritance:
 
-classes.optimizers.hill\_climbing\_search module
+PyCTBN.optimizers.hill\_climbing\_search module
 ------------------------------------------------
 
-.. automodule:: classes.optimizers.hill_climbing_search
+.. automodule:: PyCTBN.optimizers.hill_climbing_search
    :members:
    :undoc-members:
    :show-inheritance:
 
-classes.optimizers.optimizer module
+PyCTBN.optimizers.optimizer module
 -----------------------------------
 
-.. automodule:: classes.optimizers.optimizer
+.. automodule:: PyCTBN.optimizers.optimizer
    :members:
    :undoc-members:
    :show-inheritance:
 
-classes.optimizers.tabu\_search module
+PyCTBN.optimizers.tabu\_search module
 --------------------------------------
 
-.. automodule:: classes.optimizers.tabu_search
+.. automodule:: PyCTBN.optimizers.tabu_search
    :members:
    :undoc-members:
    :show-inheritance:
@@ -39,7 +39,7 @@ classes.optimizers.tabu\_search module
 Module contents
 ---------------
 
-.. automodule:: classes.optimizers
+.. automodule:: PyCTBN.optimizers
    :members:
    :undoc-members:
    :show-inheritance:

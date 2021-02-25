@@ -1,7 +1,7 @@
-classes
+PyCTBN
 =======
 
 .. toctree::
    :maxdepth: 4
 
-   classes
+   PyCTBN

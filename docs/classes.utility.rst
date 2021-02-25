@@ -1,45 +1,45 @@
-classes.utility package
+PyCTBN.utility package
 =======================
 
 Submodules
 ----------
 
-classes.utility.abstract\_importer module
+PyCTBN.utility.abstract\_importer module
 -----------------------------------------
 
-.. automodule:: classes.utility.abstract_importer
+.. automodule:: PyCTBN.utility.abstract_importer
    :members:
    :undoc-members:
    :show-inheritance:
 
-classes.utility.cache module
+PyCTBN.utility.cache module
 ----------------------------
 
-.. automodule:: classes.utility.cache
+.. automodule:: PyCTBN.utility.cache
    :members:
    :undoc-members:
    :show-inheritance:
 
-classes.utility.decorators module
+PyCTBN.utility.decorators module
 ---------------------------------
 
-.. automodule:: classes.utility.decorators
+.. automodule:: PyCTBN.utility.decorators
    :members:
    :undoc-members:
    :show-inheritance:
 
-classes.utility.json\_importer module
+PyCTBN.utility.json\_importer module
 -------------------------------------
 
-.. automodule:: classes.utility.json_importer
+.. automodule:: PyCTBN.utility.json_importer
    :members:
    :undoc-members:
    :show-inheritance:
 
-classes.utility.sample\_importer module
+PyCTBN.utility.sample\_importer module
 ---------------------------------------
 
-.. automodule:: classes.utility.sample_importer
+.. automodule:: PyCTBN.utility.sample_importer
    :members:
    :undoc-members:
    :show-inheritance:
@@ -47,7 +47,7 @@ classes.utility.sample\_importer module
 Module contents
 ---------------
 
-.. automodule:: classes.utility
+.. automodule:: PyCTBN.utility
    :members:
    :undoc-members:
    :show-inheritance:

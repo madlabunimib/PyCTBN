@@ -8,7 +8,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
   
-  <title>classes.structure_graph package &mdash; PyCTBN 2.0 documentation</title>
+  <title>PyCTBN.structure_graph package &mdash; PyCTBN 2.0 documentation</title>
   
 
   
@@ -107,20 +107,20 @@
           <div role="main" class="">
 
 	    <div id="content" class="hfeed entry-container hentry">
-  <div class="section" id="classes-structure-graph-package">
-<h1>classes.structure_graph package<a class="headerlink" href="#classes-structure-graph-package" title="Permalink to this headline">¶</a></h1>
+  <div class="section" id="PyCTBN-structure-graph-package">
+<h1>PyCTBN.structure_graph package<a class="headerlink" href="#PyCTBN-structure-graph-package" title="Permalink to this headline">¶</a></h1>
 <div class="section" id="submodules">
 <h2>Submodules<a class="headerlink" href="#submodules" title="Permalink to this headline">¶</a></h2>
 </div>
-<div class="section" id="module-classes.structure_graph.abstract_sample_path">
-<span id="classes-structure-graph-abstract-sample-path-module"></span><h2>classes.structure_graph.abstract_sample_path module<a class="headerlink" href="#module-classes.structure_graph.abstract_sample_path" title="Permalink to this headline">¶</a></h2>
+<div class="section" id="module-PyCTBN.structure_graph.abstract_sample_path">
+<span id="PyCTBN-structure-graph-abstract-sample-path-module"></span><h2>PyCTBN.structure_graph.abstract_sample_path module<a class="headerlink" href="#module-PyCTBN.structure_graph.abstract_sample_path" title="Permalink to this headline">¶</a></h2>
 <dl class="py class">
-<dt id="classes.structure_graph.abstract_sample_path.AbstractSamplePath">
-<em class="property">class </em><code class="sig-prename descclassname">classes.structure_graph.abstract_sample_path.</code><code class="sig-name descname">AbstractSamplePath</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">importer</span><span class="p">:</span> <span class="n">utility.abstract_importer.AbstractImporter</span></em><span class="sig-paren">)</span><a class="headerlink" href="#classes.structure_graph.abstract_sample_path.AbstractSamplePath" title="Permalink to this definition">¶</a></dt>
+<dt id="PyCTBN.structure_graph.abstract_sample_path.AbstractSamplePath">
+<em class="property">class </em><code class="sig-prename descclassname">PyCTBN.structure_graph.abstract_sample_path.</code><code class="sig-name descname">AbstractSamplePath</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">importer</span><span class="p">:</span> <span class="n">utility.abstract_importer.AbstractImporter</span></em><span class="sig-paren">)</span><a class="headerlink" href="#PyCTBN.structure_graph.abstract_sample_path.AbstractSamplePath" title="Permalink to this definition">¶</a></dt>
 <dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">abc.ABC</span></code></p>
 <dl class="py method">
-<dt id="classes.structure_graph.abstract_sample_path.AbstractSamplePath.build_structure">
-<em class="property">abstract </em><code class="sig-name descname">build_structure</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#classes.structure_graph.abstract_sample_path.AbstractSamplePath.build_structure" title="Permalink to this definition">¶</a></dt>
+<dt id="PyCTBN.structure_graph.abstract_sample_path.AbstractSamplePath.build_structure">
+<em class="property">abstract </em><code class="sig-name descname">build_structure</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#PyCTBN.structure_graph.abstract_sample_path.AbstractSamplePath.build_structure" title="Permalink to this definition">¶</a></dt>
 <dd><p>Builds the Structure object that aggregates all the infos about the net.
 Assigns the Structure object to the instance attribuite _structure
 Parameters:</p>
@@ -134,8 +134,8 @@ Parameters:</p>
 </dd></dl>
 
 <dl class="py method">
-<dt id="classes.structure_graph.abstract_sample_path.AbstractSamplePath.build_trajectories">
-<em class="property">abstract </em><code class="sig-name descname">build_trajectories</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#classes.structure_graph.abstract_sample_path.AbstractSamplePath.build_trajectories" title="Permalink to this definition">¶</a></dt>
+<dt id="PyCTBN.structure_graph.abstract_sample_path.AbstractSamplePath.build_trajectories">
+<em class="property">abstract </em><code class="sig-name descname">build_trajectories</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#PyCTBN.structure_graph.abstract_sample_path.AbstractSamplePath.build_trajectories" title="Permalink to this definition">¶</a></dt>
 <dd><p>Builds the Trajectory object that will contain all the trajectories.
 Assigns the Trajectoriy object to the instance attribute _trajectories
 Clears all the unused dataframes in Importer Object</p>
@@ -150,11 +150,11 @@ Clears all the unused dataframes in Importer Object</p>
 </dd></dl>
 
 </div>
-<div class="section" id="module-classes.structure_graph.conditional_intensity_matrix">
-<span id="classes-structure-graph-conditional-intensity-matrix-module"></span><h2>classes.structure_graph.conditional_intensity_matrix module<a class="headerlink" href="#module-classes.structure_graph.conditional_intensity_matrix" title="Permalink to this headline">¶</a></h2>
+<div class="section" id="module-PyCTBN.structure_graph.conditional_intensity_matrix">
+<span id="PyCTBN-structure-graph-conditional-intensity-matrix-module"></span><h2>PyCTBN.structure_graph.conditional_intensity_matrix module<a class="headerlink" href="#module-PyCTBN.structure_graph.conditional_intensity_matrix" title="Permalink to this headline">¶</a></h2>
 <dl class="py class">
-<dt id="classes.structure_graph.conditional_intensity_matrix.ConditionalIntensityMatrix">
-<em class="property">class </em><code class="sig-prename descclassname">classes.structure_graph.conditional_intensity_matrix.</code><code class="sig-name descname">ConditionalIntensityMatrix</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">state_residence_times</span><span class="p">:</span> <span class="n">numpy.array</span></em>, <em class="sig-param"><span class="n">state_transition_matrix</span><span class="p">:</span> <span class="n">numpy.array</span></em><span class="sig-paren">)</span><a class="headerlink" href="#classes.structure_graph.conditional_intensity_matrix.ConditionalIntensityMatrix" title="Permalink to this definition">¶</a></dt>
+<dt id="PyCTBN.structure_graph.conditional_intensity_matrix.ConditionalIntensityMatrix">
+<em class="property">class </em><code class="sig-prename descclassname">PyCTBN.structure_graph.conditional_intensity_matrix.</code><code class="sig-name descname">ConditionalIntensityMatrix</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">state_residence_times</span><span class="p">:</span> <span class="n">numpy.array</span></em>, <em class="sig-param"><span class="n">state_transition_matrix</span><span class="p">:</span> <span class="n">numpy.array</span></em><span class="sig-paren">)</span><a class="headerlink" href="#PyCTBN.structure_graph.conditional_intensity_matrix.ConditionalIntensityMatrix" title="Permalink to this definition">¶</a></dt>
 <dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></p>
 <p>Abstracts the Conditional Intesity matrix of a node as aggregation of the state residence times vector
 and state transition matrix and the actual CIM matrix.</p>
@@ -170,41 +170,41 @@ and state transition matrix and the actual CIM matrix.</p>
 </dd>
 </dl>
 <dl class="py method">
-<dt id="classes.structure_graph.conditional_intensity_matrix.ConditionalIntensityMatrix.cim">
-<em class="property">property </em><code class="sig-name descname">cim</code><a class="headerlink" href="#classes.structure_graph.conditional_intensity_matrix.ConditionalIntensityMatrix.cim" title="Permalink to this definition">¶</a></dt>
+<dt id="PyCTBN.structure_graph.conditional_intensity_matrix.ConditionalIntensityMatrix.cim">
+<em class="property">property </em><code class="sig-name descname">cim</code><a class="headerlink" href="#PyCTBN.structure_graph.conditional_intensity_matrix.ConditionalIntensityMatrix.cim" title="Permalink to this definition">¶</a></dt>
 <dd></dd></dl>
 
 <dl class="py method">
-<dt id="classes.structure_graph.conditional_intensity_matrix.ConditionalIntensityMatrix.compute_cim_coefficients">
-<code class="sig-name descname">compute_cim_coefficients</code><span class="sig-paren">(</span><span class="sig-paren">)</span> &#x2192; None<a class="headerlink" href="#classes.structure_graph.conditional_intensity_matrix.ConditionalIntensityMatrix.compute_cim_coefficients" title="Permalink to this definition">¶</a></dt>
+<dt id="PyCTBN.structure_graph.conditional_intensity_matrix.ConditionalIntensityMatrix.compute_cim_coefficients">
+<code class="sig-name descname">compute_cim_coefficients</code><span class="sig-paren">(</span><span class="sig-paren">)</span> &#x2192; None<a class="headerlink" href="#PyCTBN.structure_graph.conditional_intensity_matrix.ConditionalIntensityMatrix.compute_cim_coefficients" title="Permalink to this definition">¶</a></dt>
 <dd><p>Compute the coefficients of the matrix _cim by using the following equality q_xx’ = M[x, x’] / T[x].
 The class member <code class="docutils literal notranslate"><span class="pre">_cim</span></code> will contain the computed cim</p>
 </dd></dl>
 
 <dl class="py method">
-<dt id="classes.structure_graph.conditional_intensity_matrix.ConditionalIntensityMatrix.state_residence_times">
-<em class="property">property </em><code class="sig-name descname">state_residence_times</code><a class="headerlink" href="#classes.structure_graph.conditional_intensity_matrix.ConditionalIntensityMatrix.state_residence_times" title="Permalink to this definition">¶</a></dt>
+<dt id="PyCTBN.structure_graph.conditional_intensity_matrix.ConditionalIntensityMatrix.state_residence_times">
+<em class="property">property </em><code class="sig-name descname">state_residence_times</code><a class="headerlink" href="#PyCTBN.structure_graph.conditional_intensity_matrix.ConditionalIntensityMatrix.state_residence_times" title="Permalink to this definition">¶</a></dt>
 <dd></dd></dl>
 
 <dl class="py method">
-<dt id="classes.structure_graph.conditional_intensity_matrix.ConditionalIntensityMatrix.state_transition_matrix">
-<em class="property">property </em><code class="sig-name descname">state_transition_matrix</code><a class="headerlink" href="#classes.structure_graph.conditional_intensity_matrix.ConditionalIntensityMatrix.state_transition_matrix" title="Permalink to this definition">¶</a></dt>
+<dt id="PyCTBN.structure_graph.conditional_intensity_matrix.ConditionalIntensityMatrix.state_transition_matrix">
+<em class="property">property </em><code class="sig-name descname">state_transition_matrix</code><a class="headerlink" href="#PyCTBN.structure_graph.conditional_intensity_matrix.ConditionalIntensityMatrix.state_transition_matrix" title="Permalink to this definition">¶</a></dt>
 <dd></dd></dl>
 
 </dd></dl>
 
 </div>
-<div class="section" id="module-classes.structure_graph.network_graph">
-<span id="classes-structure-graph-network-graph-module"></span><h2>classes.structure_graph.network_graph module<a class="headerlink" href="#module-classes.structure_graph.network_graph" title="Permalink to this headline">¶</a></h2>
+<div class="section" id="module-PyCTBN.structure_graph.network_graph">
+<span id="PyCTBN-structure-graph-network-graph-module"></span><h2>PyCTBN.structure_graph.network_graph module<a class="headerlink" href="#module-PyCTBN.structure_graph.network_graph" title="Permalink to this headline">¶</a></h2>
 <dl class="py class">
-<dt id="classes.structure_graph.network_graph.NetworkGraph">
-<em class="property">class </em><code class="sig-prename descclassname">classes.structure_graph.network_graph.</code><code class="sig-name descname">NetworkGraph</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">graph_struct</span><span class="p">:</span> <span class="n"><a class="reference internal" href="#classes.structure_graph.structure.Structure" title="classes.structure_graph.structure.Structure">classes.structure_graph.structure.Structure</a></span></em><span class="sig-paren">)</span><a class="headerlink" href="#classes.structure_graph.network_graph.NetworkGraph" title="Permalink to this definition">¶</a></dt>
+<dt id="PyCTBN.structure_graph.network_graph.NetworkGraph">
+<em class="property">class </em><code class="sig-prename descclassname">PyCTBN.structure_graph.network_graph.</code><code class="sig-name descname">NetworkGraph</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">graph_struct</span><span class="p">:</span> <span class="n"><a class="reference internal" href="#PyCTBN.structure_graph.structure.Structure" title="PyCTBN.structure_graph.structure.Structure">PyCTBN.structure_graph.structure.Structure</a></span></em><span class="sig-paren">)</span><a class="headerlink" href="#PyCTBN.structure_graph.network_graph.NetworkGraph" title="Permalink to this definition">¶</a></dt>
 <dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></p>
 <p>Abstracts the infos contained in the Structure class in the form of a directed graph.
 Has the task of creating all the necessary filtering and indexing structures for parameters estimation</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
-<dd class="field-odd"><p><strong>graph_struct</strong> (<a class="reference internal" href="#classes.structure_graph.structure.Structure" title="classes.structure_graph.structure.Structure"><em>Structure</em></a>) – the <code class="docutils literal notranslate"><span class="pre">Structure</span></code> object from which infos about the net will be extracted</p>
+<dd class="field-odd"><p><strong>graph_struct</strong> (<a class="reference internal" href="#PyCTBN.structure_graph.structure.Structure" title="PyCTBN.structure_graph.structure.Structure"><em>Structure</em></a>) – the <code class="docutils literal notranslate"><span class="pre">Structure</span></code> object from which infos about the net will be extracted</p>
 </dd>
 <dt class="field-even">_graph</dt>
 <dd class="field-even"><p>directed graph</p>
@@ -231,8 +231,8 @@ from one state to another</p>
 </dd>
 </dl>
 <dl class="py method">
-<dt id="classes.structure_graph.network_graph.NetworkGraph.add_edges">
-<code class="sig-name descname">add_edges</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">list_of_edges</span><span class="p">:</span> <span class="n">List</span></em><span class="sig-paren">)</span> &#x2192; None<a class="headerlink" href="#classes.structure_graph.network_graph.NetworkGraph.add_edges" title="Permalink to this definition">¶</a></dt>
+<dt id="PyCTBN.structure_graph.network_graph.NetworkGraph.add_edges">
+<code class="sig-name descname">add_edges</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">list_of_edges</span><span class="p">:</span> <span class="n">List</span></em><span class="sig-paren">)</span> &#x2192; None<a class="headerlink" href="#PyCTBN.structure_graph.network_graph.NetworkGraph.add_edges" title="Permalink to this definition">¶</a></dt>
 <dd><p>Add the edges to the <code class="docutils literal notranslate"><span class="pre">_graph</span></code> contained in the list <code class="docutils literal notranslate"><span class="pre">list_of_edges</span></code>.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
@@ -242,8 +242,8 @@ from one state to another</p>
 </dd></dl>
 
 <dl class="py method">
-<dt id="classes.structure_graph.network_graph.NetworkGraph.add_nodes">
-<code class="sig-name descname">add_nodes</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">list_of_nodes</span><span class="p">:</span> <span class="n">List</span></em><span class="sig-paren">)</span> &#x2192; None<a class="headerlink" href="#classes.structure_graph.network_graph.NetworkGraph.add_nodes" title="Permalink to this definition">¶</a></dt>
+<dt id="PyCTBN.structure_graph.network_graph.NetworkGraph.add_nodes">
+<code class="sig-name descname">add_nodes</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">list_of_nodes</span><span class="p">:</span> <span class="n">List</span></em><span class="sig-paren">)</span> &#x2192; None<a class="headerlink" href="#PyCTBN.structure_graph.network_graph.NetworkGraph.add_nodes" title="Permalink to this definition">¶</a></dt>
 <dd><p>Adds the nodes to the <code class="docutils literal notranslate"><span class="pre">_graph</span></code> contained in the list of nodes <code class="docutils literal notranslate"><span class="pre">list_of_nodes</span></code>.
 Sets all the properties that identify a nodes (index, positional index, cardinality)</p>
 <dl class="field-list simple">
@@ -254,8 +254,8 @@ Sets all the properties that identify a nodes (index, positional index, cardinal
 </dd></dl>
 
 <dl class="py method">
-<dt id="classes.structure_graph.network_graph.NetworkGraph.build_p_comb_structure_for_a_node">
-<em class="property">static </em><code class="sig-name descname">build_p_comb_structure_for_a_node</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">parents_values</span><span class="p">:</span> <span class="n">List</span></em><span class="sig-paren">)</span> &#x2192; numpy.ndarray<a class="headerlink" href="#classes.structure_graph.network_graph.NetworkGraph.build_p_comb_structure_for_a_node" title="Permalink to this definition">¶</a></dt>
+<dt id="PyCTBN.structure_graph.network_graph.NetworkGraph.build_p_comb_structure_for_a_node">
+<em class="property">static </em><code class="sig-name descname">build_p_comb_structure_for_a_node</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">parents_values</span><span class="p">:</span> <span class="n">List</span></em><span class="sig-paren">)</span> &#x2192; numpy.ndarray<a class="headerlink" href="#PyCTBN.structure_graph.network_graph.NetworkGraph.build_p_comb_structure_for_a_node" title="Permalink to this definition">¶</a></dt>
 <dd><p>Builds the combinatorial structure that contains the combinations of all the values contained in
 <code class="docutils literal notranslate"><span class="pre">parents_values</span></code>.</p>
 <dl class="field-list simple">
@@ -272,8 +272,8 @@ Sets all the properties that identify a nodes (index, positional index, cardinal
 </dd></dl>
 
 <dl class="py method">
-<dt id="classes.structure_graph.network_graph.NetworkGraph.build_time_columns_filtering_for_a_node">
-<em class="property">static </em><code class="sig-name descname">build_time_columns_filtering_for_a_node</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">node_indx</span><span class="p">:</span> <span class="n">int</span></em>, <em class="sig-param"><span class="n">p_indxs</span><span class="p">:</span> <span class="n">List</span></em><span class="sig-paren">)</span> &#x2192; numpy.ndarray<a class="headerlink" href="#classes.structure_graph.network_graph.NetworkGraph.build_time_columns_filtering_for_a_node" title="Permalink to this definition">¶</a></dt>
+<dt id="PyCTBN.structure_graph.network_graph.NetworkGraph.build_time_columns_filtering_for_a_node">
+<em class="property">static </em><code class="sig-name descname">build_time_columns_filtering_for_a_node</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">node_indx</span><span class="p">:</span> <span class="n">int</span></em>, <em class="sig-param"><span class="n">p_indxs</span><span class="p">:</span> <span class="n">List</span></em><span class="sig-paren">)</span> &#x2192; numpy.ndarray<a class="headerlink" href="#PyCTBN.structure_graph.network_graph.NetworkGraph.build_time_columns_filtering_for_a_node" title="Permalink to this definition">¶</a></dt>
 <dd><p>Builds the necessary structure to filter the desired columns indicated by <code class="docutils literal notranslate"><span class="pre">node_indx</span></code> and <code class="docutils literal notranslate"><span class="pre">p_indxs</span></code>
 in the dataset.
 This structute will be used in the computation of the state res times.
@@ -286,8 +286,8 @@ This structute will be used in the computation of the state res times.
 </dd></dl>
 
 <dl class="py method">
-<dt id="classes.structure_graph.network_graph.NetworkGraph.build_time_scalar_indexing_structure_for_a_node">
-<em class="property">static </em><code class="sig-name descname">build_time_scalar_indexing_structure_for_a_node</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">node_states</span><span class="p">:</span> <span class="n">int</span></em>, <em class="sig-param"><span class="n">parents_vals</span><span class="p">:</span> <span class="n">List</span></em><span class="sig-paren">)</span> &#x2192; numpy.ndarray<a class="headerlink" href="#classes.structure_graph.network_graph.NetworkGraph.build_time_scalar_indexing_structure_for_a_node" title="Permalink to this definition">¶</a></dt>
+<dt id="PyCTBN.structure_graph.network_graph.NetworkGraph.build_time_scalar_indexing_structure_for_a_node">
+<em class="property">static </em><code class="sig-name descname">build_time_scalar_indexing_structure_for_a_node</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">node_states</span><span class="p">:</span> <span class="n">int</span></em>, <em class="sig-param"><span class="n">parents_vals</span><span class="p">:</span> <span class="n">List</span></em><span class="sig-paren">)</span> &#x2192; numpy.ndarray<a class="headerlink" href="#PyCTBN.structure_graph.network_graph.NetworkGraph.build_time_scalar_indexing_structure_for_a_node" title="Permalink to this definition">¶</a></dt>
 <dd><p>Builds an indexing structure for the computation of state residence times values.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
@@ -306,8 +306,8 @@ This structute will be used in the computation of the state res times.
 </dd></dl>
 
 <dl class="py method">
-<dt id="classes.structure_graph.network_graph.NetworkGraph.build_transition_filtering_for_a_node">
-<em class="property">static </em><code class="sig-name descname">build_transition_filtering_for_a_node</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">node_indx</span><span class="p">:</span> <span class="n">int</span></em>, <em class="sig-param"><span class="n">p_indxs</span><span class="p">:</span> <span class="n">List</span></em>, <em class="sig-param"><span class="n">nodes_number</span><span class="p">:</span> <span class="n">int</span></em><span class="sig-paren">)</span> &#x2192; numpy.ndarray<a class="headerlink" href="#classes.structure_graph.network_graph.NetworkGraph.build_transition_filtering_for_a_node" title="Permalink to this definition">¶</a></dt>
+<dt id="PyCTBN.structure_graph.network_graph.NetworkGraph.build_transition_filtering_for_a_node">
+<em class="property">static </em><code class="sig-name descname">build_transition_filtering_for_a_node</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">node_indx</span><span class="p">:</span> <span class="n">int</span></em>, <em class="sig-param"><span class="n">p_indxs</span><span class="p">:</span> <span class="n">List</span></em>, <em class="sig-param"><span class="n">nodes_number</span><span class="p">:</span> <span class="n">int</span></em><span class="sig-paren">)</span> &#x2192; numpy.ndarray<a class="headerlink" href="#PyCTBN.structure_graph.network_graph.NetworkGraph.build_transition_filtering_for_a_node" title="Permalink to this definition">¶</a></dt>
 <dd><p>Builds the necessary structure to filter the desired columns indicated by <code class="docutils literal notranslate"><span class="pre">node_indx</span></code> and <code class="docutils literal notranslate"><span class="pre">p_indxs</span></code>
 in the dataset.
 This structure will be used in the computation of the state transitions values.
@@ -322,8 +322,8 @@ This structure will be used in the computation of the state transitions values.
 </dd></dl>
 
 <dl class="py method">
-<dt id="classes.structure_graph.network_graph.NetworkGraph.build_transition_scalar_indexing_structure_for_a_node">
-<em class="property">static </em><code class="sig-name descname">build_transition_scalar_indexing_structure_for_a_node</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">node_states_number</span><span class="p">:</span> <span class="n">int</span></em>, <em class="sig-param"><span class="n">parents_vals</span><span class="p">:</span> <span class="n">List</span></em><span class="sig-paren">)</span> &#x2192; numpy.ndarray<a class="headerlink" href="#classes.structure_graph.network_graph.NetworkGraph.build_transition_scalar_indexing_structure_for_a_node" title="Permalink to this definition">¶</a></dt>
+<dt id="PyCTBN.structure_graph.network_graph.NetworkGraph.build_transition_scalar_indexing_structure_for_a_node">
+<em class="property">static </em><code class="sig-name descname">build_transition_scalar_indexing_structure_for_a_node</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">node_states_number</span><span class="p">:</span> <span class="n">int</span></em>, <em class="sig-param"><span class="n">parents_vals</span><span class="p">:</span> <span class="n">List</span></em><span class="sig-paren">)</span> &#x2192; numpy.ndarray<a class="headerlink" href="#PyCTBN.structure_graph.network_graph.NetworkGraph.build_transition_scalar_indexing_structure_for_a_node" title="Permalink to this definition">¶</a></dt>
 <dd><p>Builds an indexing structure for the computation of state transitions values.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
@@ -342,19 +342,19 @@ This structure will be used in the computation of the state transitions values.
 </dd></dl>
 
 <dl class="py method">
-<dt id="classes.structure_graph.network_graph.NetworkGraph.clear_indexing_filtering_structures">
-<code class="sig-name descname">clear_indexing_filtering_structures</code><span class="sig-paren">(</span><span class="sig-paren">)</span> &#x2192; None<a class="headerlink" href="#classes.structure_graph.network_graph.NetworkGraph.clear_indexing_filtering_structures" title="Permalink to this definition">¶</a></dt>
+<dt id="PyCTBN.structure_graph.network_graph.NetworkGraph.clear_indexing_filtering_structures">
+<code class="sig-name descname">clear_indexing_filtering_structures</code><span class="sig-paren">(</span><span class="sig-paren">)</span> &#x2192; None<a class="headerlink" href="#PyCTBN.structure_graph.network_graph.NetworkGraph.clear_indexing_filtering_structures" title="Permalink to this definition">¶</a></dt>
 <dd><p>Initialize all the filtering/indexing structures.</p>
 </dd></dl>
 
 <dl class="py method">
-<dt id="classes.structure_graph.network_graph.NetworkGraph.edges">
-<em class="property">property </em><code class="sig-name descname">edges</code><a class="headerlink" href="#classes.structure_graph.network_graph.NetworkGraph.edges" title="Permalink to this definition">¶</a></dt>
+<dt id="PyCTBN.structure_graph.network_graph.NetworkGraph.edges">
+<em class="property">property </em><code class="sig-name descname">edges</code><a class="headerlink" href="#PyCTBN.structure_graph.network_graph.NetworkGraph.edges" title="Permalink to this definition">¶</a></dt>
 <dd></dd></dl>
 
 <dl class="py method">
-<dt id="classes.structure_graph.network_graph.NetworkGraph.fast_init">
-<code class="sig-name descname">fast_init</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">node_id</span><span class="p">:</span> <span class="n">str</span></em><span class="sig-paren">)</span> &#x2192; None<a class="headerlink" href="#classes.structure_graph.network_graph.NetworkGraph.fast_init" title="Permalink to this definition">¶</a></dt>
+<dt id="PyCTBN.structure_graph.network_graph.NetworkGraph.fast_init">
+<code class="sig-name descname">fast_init</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">node_id</span><span class="p">:</span> <span class="n">str</span></em><span class="sig-paren">)</span> &#x2192; None<a class="headerlink" href="#PyCTBN.structure_graph.network_graph.NetworkGraph.fast_init" title="Permalink to this definition">¶</a></dt>
 <dd><p>Initializes all the necessary structures for parameters estimation of the node identified by the label
 node_id</p>
 <dl class="field-list simple">
@@ -365,13 +365,13 @@ node_id</p>
 </dd></dl>
 
 <dl class="py method">
-<dt id="classes.structure_graph.network_graph.NetworkGraph.get_node_indx">
-<code class="sig-name descname">get_node_indx</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">node_id</span></em><span class="sig-paren">)</span> &#x2192; int<a class="headerlink" href="#classes.structure_graph.network_graph.NetworkGraph.get_node_indx" title="Permalink to this definition">¶</a></dt>
+<dt id="PyCTBN.structure_graph.network_graph.NetworkGraph.get_node_indx">
+<code class="sig-name descname">get_node_indx</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">node_id</span></em><span class="sig-paren">)</span> &#x2192; int<a class="headerlink" href="#PyCTBN.structure_graph.network_graph.NetworkGraph.get_node_indx" title="Permalink to this definition">¶</a></dt>
 <dd></dd></dl>
 
 <dl class="py method">
-<dt id="classes.structure_graph.network_graph.NetworkGraph.get_ordered_by_indx_set_of_parents">
-<code class="sig-name descname">get_ordered_by_indx_set_of_parents</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">node</span><span class="p">:</span> <span class="n">str</span></em><span class="sig-paren">)</span> &#x2192; Tuple<a class="headerlink" href="#classes.structure_graph.network_graph.NetworkGraph.get_ordered_by_indx_set_of_parents" title="Permalink to this definition">¶</a></dt>
+<dt id="PyCTBN.structure_graph.network_graph.NetworkGraph.get_ordered_by_indx_set_of_parents">
+<code class="sig-name descname">get_ordered_by_indx_set_of_parents</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">node</span><span class="p">:</span> <span class="n">str</span></em><span class="sig-paren">)</span> &#x2192; Tuple<a class="headerlink" href="#PyCTBN.structure_graph.network_graph.NetworkGraph.get_ordered_by_indx_set_of_parents" title="Permalink to this definition">¶</a></dt>
 <dd><p>Builds the aggregated structure that holds all the infos relative to the parent set of the node, namely
 (parents_labels, parents_indexes, parents_cardinalities).</p>
 <dl class="field-list simple">
@@ -388,8 +388,8 @@ node_id</p>
 </dd></dl>
 
 <dl class="py method">
-<dt id="classes.structure_graph.network_graph.NetworkGraph.get_parents_by_id">
-<code class="sig-name descname">get_parents_by_id</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">node_id</span></em><span class="sig-paren">)</span> &#x2192; List<a class="headerlink" href="#classes.structure_graph.network_graph.NetworkGraph.get_parents_by_id" title="Permalink to this definition">¶</a></dt>
+<dt id="PyCTBN.structure_graph.network_graph.NetworkGraph.get_parents_by_id">
+<code class="sig-name descname">get_parents_by_id</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">node_id</span></em><span class="sig-paren">)</span> &#x2192; List<a class="headerlink" href="#PyCTBN.structure_graph.network_graph.NetworkGraph.get_parents_by_id" title="Permalink to this definition">¶</a></dt>
 <dd><p>Returns a list of labels of the parents of the node <code class="docutils literal notranslate"><span class="pre">node_id</span></code></p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
@@ -405,18 +405,18 @@ node_id</p>
 </dd></dl>
 
 <dl class="py method">
-<dt id="classes.structure_graph.network_graph.NetworkGraph.get_positional_node_indx">
-<code class="sig-name descname">get_positional_node_indx</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">node_id</span></em><span class="sig-paren">)</span> &#x2192; int<a class="headerlink" href="#classes.structure_graph.network_graph.NetworkGraph.get_positional_node_indx" title="Permalink to this definition">¶</a></dt>
+<dt id="PyCTBN.structure_graph.network_graph.NetworkGraph.get_positional_node_indx">
+<code class="sig-name descname">get_positional_node_indx</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">node_id</span></em><span class="sig-paren">)</span> &#x2192; int<a class="headerlink" href="#PyCTBN.structure_graph.network_graph.NetworkGraph.get_positional_node_indx" title="Permalink to this definition">¶</a></dt>
 <dd></dd></dl>
 
 <dl class="py method">
-<dt id="classes.structure_graph.network_graph.NetworkGraph.get_states_number">
-<code class="sig-name descname">get_states_number</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">node_id</span></em><span class="sig-paren">)</span> &#x2192; int<a class="headerlink" href="#classes.structure_graph.network_graph.NetworkGraph.get_states_number" title="Permalink to this definition">¶</a></dt>
+<dt id="PyCTBN.structure_graph.network_graph.NetworkGraph.get_states_number">
+<code class="sig-name descname">get_states_number</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">node_id</span></em><span class="sig-paren">)</span> &#x2192; int<a class="headerlink" href="#PyCTBN.structure_graph.network_graph.NetworkGraph.get_states_number" title="Permalink to this definition">¶</a></dt>
 <dd></dd></dl>
 
 <dl class="py method">
-<dt id="classes.structure_graph.network_graph.NetworkGraph.has_edge">
-<code class="sig-name descname">has_edge</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">edge</span><span class="p">:</span> <span class="n">tuple</span></em><span class="sig-paren">)</span> &#x2192; bool<a class="headerlink" href="#classes.structure_graph.network_graph.NetworkGraph.has_edge" title="Permalink to this definition">¶</a></dt>
+<dt id="PyCTBN.structure_graph.network_graph.NetworkGraph.has_edge">
+<code class="sig-name descname">has_edge</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">edge</span><span class="p">:</span> <span class="n">tuple</span></em><span class="sig-paren">)</span> &#x2192; bool<a class="headerlink" href="#PyCTBN.structure_graph.network_graph.NetworkGraph.has_edge" title="Permalink to this definition">¶</a></dt>
 <dd><p>Check if the graph contains a specific edge</p>
 <dl class="simple">
 <dt>Parameters:</dt><dd><p>edge: a tuple that rappresents the edge</p>
@@ -427,33 +427,33 @@ node_id</p>
 </dd></dl>
 
 <dl class="py method">
-<dt id="classes.structure_graph.network_graph.NetworkGraph.init_graph">
-<code class="sig-name descname">init_graph</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#classes.structure_graph.network_graph.NetworkGraph.init_graph" title="Permalink to this definition">¶</a></dt>
+<dt id="PyCTBN.structure_graph.network_graph.NetworkGraph.init_graph">
+<code class="sig-name descname">init_graph</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#PyCTBN.structure_graph.network_graph.NetworkGraph.init_graph" title="Permalink to this definition">¶</a></dt>
 <dd></dd></dl>
 
 <dl class="py method">
-<dt id="classes.structure_graph.network_graph.NetworkGraph.nodes">
-<em class="property">property </em><code class="sig-name descname">nodes</code><a class="headerlink" href="#classes.structure_graph.network_graph.NetworkGraph.nodes" title="Permalink to this definition">¶</a></dt>
+<dt id="PyCTBN.structure_graph.network_graph.NetworkGraph.nodes">
+<em class="property">property </em><code class="sig-name descname">nodes</code><a class="headerlink" href="#PyCTBN.structure_graph.network_graph.NetworkGraph.nodes" title="Permalink to this definition">¶</a></dt>
 <dd></dd></dl>
 
 <dl class="py method">
-<dt id="classes.structure_graph.network_graph.NetworkGraph.nodes_indexes">
-<em class="property">property </em><code class="sig-name descname">nodes_indexes</code><a class="headerlink" href="#classes.structure_graph.network_graph.NetworkGraph.nodes_indexes" title="Permalink to this definition">¶</a></dt>
+<dt id="PyCTBN.structure_graph.network_graph.NetworkGraph.nodes_indexes">
+<em class="property">property </em><code class="sig-name descname">nodes_indexes</code><a class="headerlink" href="#PyCTBN.structure_graph.network_graph.NetworkGraph.nodes_indexes" title="Permalink to this definition">¶</a></dt>
 <dd></dd></dl>
 
 <dl class="py method">
-<dt id="classes.structure_graph.network_graph.NetworkGraph.nodes_values">
-<em class="property">property </em><code class="sig-name descname">nodes_values</code><a class="headerlink" href="#classes.structure_graph.network_graph.NetworkGraph.nodes_values" title="Permalink to this definition">¶</a></dt>
+<dt id="PyCTBN.structure_graph.network_graph.NetworkGraph.nodes_values">
+<em class="property">property </em><code class="sig-name descname">nodes_values</code><a class="headerlink" href="#PyCTBN.structure_graph.network_graph.NetworkGraph.nodes_values" title="Permalink to this definition">¶</a></dt>
 <dd></dd></dl>
 
 <dl class="py method">
-<dt id="classes.structure_graph.network_graph.NetworkGraph.p_combs">
-<em class="property">property </em><code class="sig-name descname">p_combs</code><a class="headerlink" href="#classes.structure_graph.network_graph.NetworkGraph.p_combs" title="Permalink to this definition">¶</a></dt>
+<dt id="PyCTBN.structure_graph.network_graph.NetworkGraph.p_combs">
+<em class="property">property </em><code class="sig-name descname">p_combs</code><a class="headerlink" href="#PyCTBN.structure_graph.network_graph.NetworkGraph.p_combs" title="Permalink to this definition">¶</a></dt>
 <dd></dd></dl>
 
 <dl class="py method">
-<dt id="classes.structure_graph.network_graph.NetworkGraph.remove_edges">
-<code class="sig-name descname">remove_edges</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">list_of_edges</span><span class="p">:</span> <span class="n">List</span></em><span class="sig-paren">)</span> &#x2192; None<a class="headerlink" href="#classes.structure_graph.network_graph.NetworkGraph.remove_edges" title="Permalink to this definition">¶</a></dt>
+<dt id="PyCTBN.structure_graph.network_graph.NetworkGraph.remove_edges">
+<code class="sig-name descname">remove_edges</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">list_of_edges</span><span class="p">:</span> <span class="n">List</span></em><span class="sig-paren">)</span> &#x2192; None<a class="headerlink" href="#PyCTBN.structure_graph.network_graph.NetworkGraph.remove_edges" title="Permalink to this definition">¶</a></dt>
 <dd><p>Remove the edges to the graph contained in the list list_of_edges.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
@@ -463,47 +463,47 @@ node_id</p>
 </dd></dl>
 
 <dl class="py method">
-<dt id="classes.structure_graph.network_graph.NetworkGraph.remove_node">
-<code class="sig-name descname">remove_node</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">node_id</span><span class="p">:</span> <span class="n">str</span></em><span class="sig-paren">)</span> &#x2192; None<a class="headerlink" href="#classes.structure_graph.network_graph.NetworkGraph.remove_node" title="Permalink to this definition">¶</a></dt>
+<dt id="PyCTBN.structure_graph.network_graph.NetworkGraph.remove_node">
+<code class="sig-name descname">remove_node</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">node_id</span><span class="p">:</span> <span class="n">str</span></em><span class="sig-paren">)</span> &#x2192; None<a class="headerlink" href="#PyCTBN.structure_graph.network_graph.NetworkGraph.remove_node" title="Permalink to this definition">¶</a></dt>
 <dd><p>Remove the node <code class="docutils literal notranslate"><span class="pre">node_id</span></code> from all the class members.
 Initialize all the filtering/indexing structures.</p>
 </dd></dl>
 
 <dl class="py method">
-<dt id="classes.structure_graph.network_graph.NetworkGraph.time_filtering">
-<em class="property">property </em><code class="sig-name descname">time_filtering</code><a class="headerlink" href="#classes.structure_graph.network_graph.NetworkGraph.time_filtering" title="Permalink to this definition">¶</a></dt>
+<dt id="PyCTBN.structure_graph.network_graph.NetworkGraph.time_filtering">
+<em class="property">property </em><code class="sig-name descname">time_filtering</code><a class="headerlink" href="#PyCTBN.structure_graph.network_graph.NetworkGraph.time_filtering" title="Permalink to this definition">¶</a></dt>
 <dd></dd></dl>
 
 <dl class="py method">
-<dt id="classes.structure_graph.network_graph.NetworkGraph.time_scalar_indexing_strucure">
-<em class="property">property </em><code class="sig-name descname">time_scalar_indexing_strucure</code><a class="headerlink" href="#classes.structure_graph.network_graph.NetworkGraph.time_scalar_indexing_strucure" title="Permalink to this definition">¶</a></dt>
+<dt id="PyCTBN.structure_graph.network_graph.NetworkGraph.time_scalar_indexing_strucure">
+<em class="property">property </em><code class="sig-name descname">time_scalar_indexing_strucure</code><a class="headerlink" href="#PyCTBN.structure_graph.network_graph.NetworkGraph.time_scalar_indexing_strucure" title="Permalink to this definition">¶</a></dt>
 <dd></dd></dl>
 
 <dl class="py method">
-<dt id="classes.structure_graph.network_graph.NetworkGraph.transition_filtering">
-<em class="property">property </em><code class="sig-name descname">transition_filtering</code><a class="headerlink" href="#classes.structure_graph.network_graph.NetworkGraph.transition_filtering" title="Permalink to this definition">¶</a></dt>
+<dt id="PyCTBN.structure_graph.network_graph.NetworkGraph.transition_filtering">
+<em class="property">property </em><code class="sig-name descname">transition_filtering</code><a class="headerlink" href="#PyCTBN.structure_graph.network_graph.NetworkGraph.transition_filtering" title="Permalink to this definition">¶</a></dt>
 <dd></dd></dl>
 
 <dl class="py method">
-<dt id="classes.structure_graph.network_graph.NetworkGraph.transition_scalar_indexing_structure">
-<em class="property">property </em><code class="sig-name descname">transition_scalar_indexing_structure</code><a class="headerlink" href="#classes.structure_graph.network_graph.NetworkGraph.transition_scalar_indexing_structure" title="Permalink to this definition">¶</a></dt>
+<dt id="PyCTBN.structure_graph.network_graph.NetworkGraph.transition_scalar_indexing_structure">
+<em class="property">property </em><code class="sig-name descname">transition_scalar_indexing_structure</code><a class="headerlink" href="#PyCTBN.structure_graph.network_graph.NetworkGraph.transition_scalar_indexing_structure" title="Permalink to this definition">¶</a></dt>
 <dd></dd></dl>
 
 </dd></dl>
 
 </div>
-<div class="section" id="module-classes.structure_graph.sample_path">
-<span id="classes-structure-graph-sample-path-module"></span><h2>classes.structure_graph.sample_path module<a class="headerlink" href="#module-classes.structure_graph.sample_path" title="Permalink to this headline">¶</a></h2>
+<div class="section" id="module-PyCTBN.structure_graph.sample_path">
+<span id="PyCTBN-structure-graph-sample-path-module"></span><h2>PyCTBN.structure_graph.sample_path module<a class="headerlink" href="#module-PyCTBN.structure_graph.sample_path" title="Permalink to this headline">¶</a></h2>
 <dl class="py class">
-<dt id="classes.structure_graph.sample_path.SamplePath">
-<em class="property">class </em><code class="sig-prename descclassname">classes.structure_graph.sample_path.</code><code class="sig-name descname">SamplePath</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">importer</span><span class="p">:</span> <span class="n"><a class="reference internal" href="classes.utility.html#classes.utility.abstract_importer.AbstractImporter" title="classes.utility.abstract_importer.AbstractImporter">classes.utility.abstract_importer.AbstractImporter</a></span></em><span class="sig-paren">)</span><a class="headerlink" href="#classes.structure_graph.sample_path.SamplePath" title="Permalink to this definition">¶</a></dt>
+<dt id="PyCTBN.structure_graph.sample_path.SamplePath">
+<em class="property">class </em><code class="sig-prename descclassname">PyCTBN.structure_graph.sample_path.</code><code class="sig-name descname">SamplePath</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">importer</span><span class="p">:</span> <span class="n"><a class="reference internal" href="PyCTBN.utility.html#PyCTBN.utility.abstract_importer.AbstractImporter" title="PyCTBN.utility.abstract_importer.AbstractImporter">PyCTBN.utility.abstract_importer.AbstractImporter</a></span></em><span class="sig-paren">)</span><a class="headerlink" href="#PyCTBN.structure_graph.sample_path.SamplePath" title="Permalink to this definition">¶</a></dt>
 <dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></p>
 <p>Aggregates all the informations about the trajectories, the real structure of the sampled net and variables
 cardinalites. Has the task of creating the objects <code class="docutils literal notranslate"><span class="pre">Trajectory</span></code> and <code class="docutils literal notranslate"><span class="pre">Structure</span></code> that will
 contain the mentioned data.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
-<dd class="field-odd"><p><strong>importer</strong> (<a class="reference internal" href="classes.utility.html#classes.utility.abstract_importer.AbstractImporter" title="classes.utility.abstract_importer.AbstractImporter"><em>AbstractImporter</em></a>) – the Importer object which contains the imported and processed data</p>
+<dd class="field-odd"><p><strong>importer</strong> (<a class="reference internal" href="PyCTBN.utility.html#PyCTBN.utility.abstract_importer.AbstractImporter" title="PyCTBN.utility.abstract_importer.AbstractImporter"><em>AbstractImporter</em></a>) – the Importer object which contains the imported and processed data</p>
 </dd>
 <dt class="field-even">_trajectories</dt>
 <dd class="field-even"><p>the <code class="docutils literal notranslate"><span class="pre">Trajectory</span></code> object that will contain all the concatenated trajectories</p>
@@ -516,51 +516,51 @@ contain the mentioned data.</p>
 </dd>
 </dl>
 <dl class="py method">
-<dt id="classes.structure_graph.sample_path.SamplePath.build_structure">
-<code class="sig-name descname">build_structure</code><span class="sig-paren">(</span><span class="sig-paren">)</span> &#x2192; None<a class="headerlink" href="#classes.structure_graph.sample_path.SamplePath.build_structure" title="Permalink to this definition">¶</a></dt>
+<dt id="PyCTBN.structure_graph.sample_path.SamplePath.build_structure">
+<code class="sig-name descname">build_structure</code><span class="sig-paren">(</span><span class="sig-paren">)</span> &#x2192; None<a class="headerlink" href="#PyCTBN.structure_graph.sample_path.SamplePath.build_structure" title="Permalink to this definition">¶</a></dt>
 <dd><p>Builds the <code class="docutils literal notranslate"><span class="pre">Structure</span></code> object that aggregates all the infos about the net.</p>
 </dd></dl>
 
 <dl class="py method">
-<dt id="classes.structure_graph.sample_path.SamplePath.build_trajectories">
-<code class="sig-name descname">build_trajectories</code><span class="sig-paren">(</span><span class="sig-paren">)</span> &#x2192; None<a class="headerlink" href="#classes.structure_graph.sample_path.SamplePath.build_trajectories" title="Permalink to this definition">¶</a></dt>
+<dt id="PyCTBN.structure_graph.sample_path.SamplePath.build_trajectories">
+<code class="sig-name descname">build_trajectories</code><span class="sig-paren">(</span><span class="sig-paren">)</span> &#x2192; None<a class="headerlink" href="#PyCTBN.structure_graph.sample_path.SamplePath.build_trajectories" title="Permalink to this definition">¶</a></dt>
 <dd><p>Builds the Trajectory object that will contain all the trajectories.
 Clears all the unused dataframes in <code class="docutils literal notranslate"><span class="pre">_importer</span></code> Object</p>
 </dd></dl>
 
 <dl class="py method">
-<dt id="classes.structure_graph.sample_path.SamplePath.clear_memory">
-<code class="sig-name descname">clear_memory</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#classes.structure_graph.sample_path.SamplePath.clear_memory" title="Permalink to this definition">¶</a></dt>
+<dt id="PyCTBN.structure_graph.sample_path.SamplePath.clear_memory">
+<code class="sig-name descname">clear_memory</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#PyCTBN.structure_graph.sample_path.SamplePath.clear_memory" title="Permalink to this definition">¶</a></dt>
 <dd></dd></dl>
 
 <dl class="py method">
-<dt id="classes.structure_graph.sample_path.SamplePath.has_prior_net_structure">
-<em class="property">property </em><code class="sig-name descname">has_prior_net_structure</code><a class="headerlink" href="#classes.structure_graph.sample_path.SamplePath.has_prior_net_structure" title="Permalink to this definition">¶</a></dt>
+<dt id="PyCTBN.structure_graph.sample_path.SamplePath.has_prior_net_structure">
+<em class="property">property </em><code class="sig-name descname">has_prior_net_structure</code><a class="headerlink" href="#PyCTBN.structure_graph.sample_path.SamplePath.has_prior_net_structure" title="Permalink to this definition">¶</a></dt>
 <dd></dd></dl>
 
 <dl class="py method">
-<dt id="classes.structure_graph.sample_path.SamplePath.structure">
-<em class="property">property </em><code class="sig-name descname">structure</code><a class="headerlink" href="#classes.structure_graph.sample_path.SamplePath.structure" title="Permalink to this definition">¶</a></dt>
+<dt id="PyCTBN.structure_graph.sample_path.SamplePath.structure">
+<em class="property">property </em><code class="sig-name descname">structure</code><a class="headerlink" href="#PyCTBN.structure_graph.sample_path.SamplePath.structure" title="Permalink to this definition">¶</a></dt>
 <dd></dd></dl>
 
 <dl class="py method">
-<dt id="classes.structure_graph.sample_path.SamplePath.total_variables_count">
-<em class="property">property </em><code class="sig-name descname">total_variables_count</code><a class="headerlink" href="#classes.structure_graph.sample_path.SamplePath.total_variables_count" title="Permalink to this definition">¶</a></dt>
+<dt id="PyCTBN.structure_graph.sample_path.SamplePath.total_variables_count">
+<em class="property">property </em><code class="sig-name descname">total_variables_count</code><a class="headerlink" href="#PyCTBN.structure_graph.sample_path.SamplePath.total_variables_count" title="Permalink to this definition">¶</a></dt>
 <dd></dd></dl>
 
 <dl class="py method">
-<dt id="classes.structure_graph.sample_path.SamplePath.trajectories">
-<em class="property">property </em><code class="sig-name descname">trajectories</code><a class="headerlink" href="#classes.structure_graph.sample_path.SamplePath.trajectories" title="Permalink to this definition">¶</a></dt>
+<dt id="PyCTBN.structure_graph.sample_path.SamplePath.trajectories">
+<em class="property">property </em><code class="sig-name descname">trajectories</code><a class="headerlink" href="#PyCTBN.structure_graph.sample_path.SamplePath.trajectories" title="Permalink to this definition">¶</a></dt>
 <dd></dd></dl>
 
 </dd></dl>
 
 </div>
-<div class="section" id="module-classes.structure_graph.set_of_cims">
-<span id="classes-structure-graph-set-of-cims-module"></span><h2>classes.structure_graph.set_of_cims module<a class="headerlink" href="#module-classes.structure_graph.set_of_cims" title="Permalink to this headline">¶</a></h2>
+<div class="section" id="module-PyCTBN.structure_graph.set_of_cims">
+<span id="PyCTBN-structure-graph-set-of-cims-module"></span><h2>PyCTBN.structure_graph.set_of_cims module<a class="headerlink" href="#module-PyCTBN.structure_graph.set_of_cims" title="Permalink to this headline">¶</a></h2>
 <dl class="py class">
-<dt id="classes.structure_graph.set_of_cims.SetOfCims">
-<em class="property">class </em><code class="sig-prename descclassname">classes.structure_graph.set_of_cims.</code><code class="sig-name descname">SetOfCims</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">node_id</span><span class="p">:</span> <span class="n">str</span></em>, <em class="sig-param"><span class="n">parents_states_number</span><span class="p">:</span> <span class="n">List</span></em>, <em class="sig-param"><span class="n">node_states_number</span><span class="p">:</span> <span class="n">int</span></em>, <em class="sig-param"><span class="n">p_combs</span><span class="p">:</span> <span class="n">numpy.ndarray</span></em><span class="sig-paren">)</span><a class="headerlink" href="#classes.structure_graph.set_of_cims.SetOfCims" title="Permalink to this definition">¶</a></dt>
+<dt id="PyCTBN.structure_graph.set_of_cims.SetOfCims">
+<em class="property">class </em><code class="sig-prename descclassname">PyCTBN.structure_graph.set_of_cims.</code><code class="sig-name descname">SetOfCims</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">node_id</span><span class="p">:</span> <span class="n">str</span></em>, <em class="sig-param"><span class="n">parents_states_number</span><span class="p">:</span> <span class="n">List</span></em>, <em class="sig-param"><span class="n">node_states_number</span><span class="p">:</span> <span class="n">int</span></em>, <em class="sig-param"><span class="n">p_combs</span><span class="p">:</span> <span class="n">numpy.ndarray</span></em><span class="sig-paren">)</span><a class="headerlink" href="#PyCTBN.structure_graph.set_of_cims.SetOfCims" title="Permalink to this definition">¶</a></dt>
 <dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></p>
 <p>Aggregates all the CIMS of the node identified by the label _node_id.</p>
 <dl class="field-list simple">
@@ -583,13 +583,13 @@ Clears all the unused dataframes in <code class="docutils literal notranslate"><
 </dd>
 </dl>
 <dl class="py method">
-<dt id="classes.structure_graph.set_of_cims.SetOfCims.actual_cims">
-<em class="property">property </em><code class="sig-name descname">actual_cims</code><a class="headerlink" href="#classes.structure_graph.set_of_cims.SetOfCims.actual_cims" title="Permalink to this definition">¶</a></dt>
+<dt id="PyCTBN.structure_graph.set_of_cims.SetOfCims.actual_cims">
+<em class="property">property </em><code class="sig-name descname">actual_cims</code><a class="headerlink" href="#PyCTBN.structure_graph.set_of_cims.SetOfCims.actual_cims" title="Permalink to this definition">¶</a></dt>
 <dd></dd></dl>
 
 <dl class="py method">
-<dt id="classes.structure_graph.set_of_cims.SetOfCims.build_cims">
-<code class="sig-name descname">build_cims</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">state_res_times</span><span class="p">:</span> <span class="n">numpy.ndarray</span></em>, <em class="sig-param"><span class="n">transition_matrices</span><span class="p">:</span> <span class="n">numpy.ndarray</span></em><span class="sig-paren">)</span> &#x2192; None<a class="headerlink" href="#classes.structure_graph.set_of_cims.SetOfCims.build_cims" title="Permalink to this definition">¶</a></dt>
+<dt id="PyCTBN.structure_graph.set_of_cims.SetOfCims.build_cims">
+<code class="sig-name descname">build_cims</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">state_res_times</span><span class="p">:</span> <span class="n">numpy.ndarray</span></em>, <em class="sig-param"><span class="n">transition_matrices</span><span class="p">:</span> <span class="n">numpy.ndarray</span></em><span class="sig-paren">)</span> &#x2192; None<a class="headerlink" href="#PyCTBN.structure_graph.set_of_cims.SetOfCims.build_cims" title="Permalink to this definition">¶</a></dt>
 <dd><p>Build the <code class="docutils literal notranslate"><span class="pre">ConditionalIntensityMatrix</span></code> objects given the state residence times and transitions matrices.
 Compute the cim coefficients.The class member <code class="docutils literal notranslate"><span class="pre">_actual_cims</span></code> will contain the computed cims.</p>
 <dl class="field-list simple">
@@ -603,14 +603,14 @@ Compute the cim coefficients.The class member <code class="docutils literal notr
 </dd></dl>
 
 <dl class="py method">
-<dt id="classes.structure_graph.set_of_cims.SetOfCims.build_times_and_transitions_structures">
-<code class="sig-name descname">build_times_and_transitions_structures</code><span class="sig-paren">(</span><span class="sig-paren">)</span> &#x2192; None<a class="headerlink" href="#classes.structure_graph.set_of_cims.SetOfCims.build_times_and_transitions_structures" title="Permalink to this definition">¶</a></dt>
+<dt id="PyCTBN.structure_graph.set_of_cims.SetOfCims.build_times_and_transitions_structures">
+<code class="sig-name descname">build_times_and_transitions_structures</code><span class="sig-paren">(</span><span class="sig-paren">)</span> &#x2192; None<a class="headerlink" href="#PyCTBN.structure_graph.set_of_cims.SetOfCims.build_times_and_transitions_structures" title="Permalink to this definition">¶</a></dt>
 <dd><p>Initializes at the correct dimensions the state residence times matrix and the state transition matrices.</p>
 </dd></dl>
 
 <dl class="py method">
-<dt id="classes.structure_graph.set_of_cims.SetOfCims.filter_cims_with_mask">
-<code class="sig-name descname">filter_cims_with_mask</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">mask_arr</span><span class="p">:</span> <span class="n">numpy.ndarray</span></em>, <em class="sig-param"><span class="n">comb</span><span class="p">:</span> <span class="n">List</span></em><span class="sig-paren">)</span> &#x2192; numpy.ndarray<a class="headerlink" href="#classes.structure_graph.set_of_cims.SetOfCims.filter_cims_with_mask" title="Permalink to this definition">¶</a></dt>
+<dt id="PyCTBN.structure_graph.set_of_cims.SetOfCims.filter_cims_with_mask">
+<code class="sig-name descname">filter_cims_with_mask</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">mask_arr</span><span class="p">:</span> <span class="n">numpy.ndarray</span></em>, <em class="sig-param"><span class="n">comb</span><span class="p">:</span> <span class="n">List</span></em><span class="sig-paren">)</span> &#x2192; numpy.ndarray<a class="headerlink" href="#PyCTBN.structure_graph.set_of_cims.SetOfCims.filter_cims_with_mask" title="Permalink to this definition">¶</a></dt>
 <dd><p>Filter the cims contained in the array <code class="docutils literal notranslate"><span class="pre">_actual_cims</span></code> given the boolean mask <code class="docutils literal notranslate"><span class="pre">mask_arr</span></code> and the index
 <code class="docutils literal notranslate"><span class="pre">comb</span></code>.</p>
 <dl class="field-list simple">
@@ -630,38 +630,38 @@ Compute the cim coefficients.The class member <code class="docutils literal notr
 </dd></dl>
 
 <dl class="py method">
-<dt id="classes.structure_graph.set_of_cims.SetOfCims.get_cims_number">
-<code class="sig-name descname">get_cims_number</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#classes.structure_graph.set_of_cims.SetOfCims.get_cims_number" title="Permalink to this definition">¶</a></dt>
+<dt id="PyCTBN.structure_graph.set_of_cims.SetOfCims.get_cims_number">
+<code class="sig-name descname">get_cims_number</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#PyCTBN.structure_graph.set_of_cims.SetOfCims.get_cims_number" title="Permalink to this definition">¶</a></dt>
 <dd></dd></dl>
 
 <dl class="py method">
-<dt id="classes.structure_graph.set_of_cims.SetOfCims.p_combs">
-<em class="property">property </em><code class="sig-name descname">p_combs</code><a class="headerlink" href="#classes.structure_graph.set_of_cims.SetOfCims.p_combs" title="Permalink to this definition">¶</a></dt>
+<dt id="PyCTBN.structure_graph.set_of_cims.SetOfCims.p_combs">
+<em class="property">property </em><code class="sig-name descname">p_combs</code><a class="headerlink" href="#PyCTBN.structure_graph.set_of_cims.SetOfCims.p_combs" title="Permalink to this definition">¶</a></dt>
 <dd></dd></dl>
 
 </dd></dl>
 
 </div>
-<div class="section" id="module-classes.structure_graph.sets_of_cims_container">
-<span id="classes-structure-graph-sets-of-cims-container-module"></span><h2>classes.structure_graph.sets_of_cims_container module<a class="headerlink" href="#module-classes.structure_graph.sets_of_cims_container" title="Permalink to this headline">¶</a></h2>
+<div class="section" id="module-PyCTBN.structure_graph.sets_of_cims_container">
+<span id="PyCTBN-structure-graph-sets-of-cims-container-module"></span><h2>PyCTBN.structure_graph.sets_of_cims_container module<a class="headerlink" href="#module-PyCTBN.structure_graph.sets_of_cims_container" title="Permalink to this headline">¶</a></h2>
 <dl class="py class">
-<dt id="classes.structure_graph.sets_of_cims_container.SetsOfCimsContainer">
-<em class="property">class </em><code class="sig-prename descclassname">classes.structure_graph.sets_of_cims_container.</code><code class="sig-name descname">SetsOfCimsContainer</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">list_of_keys</span></em>, <em class="sig-param"><span class="n">states_number_per_node</span></em>, <em class="sig-param"><span class="n">list_of_parents_states_number</span></em>, <em class="sig-param"><span class="n">p_combs_list</span></em><span class="sig-paren">)</span><a class="headerlink" href="#classes.structure_graph.sets_of_cims_container.SetsOfCimsContainer" title="Permalink to this definition">¶</a></dt>
+<dt id="PyCTBN.structure_graph.sets_of_cims_container.SetsOfCimsContainer">
+<em class="property">class </em><code class="sig-prename descclassname">PyCTBN.structure_graph.sets_of_cims_container.</code><code class="sig-name descname">SetsOfCimsContainer</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">list_of_keys</span></em>, <em class="sig-param"><span class="n">states_number_per_node</span></em>, <em class="sig-param"><span class="n">list_of_parents_states_number</span></em>, <em class="sig-param"><span class="n">p_combs_list</span></em><span class="sig-paren">)</span><a class="headerlink" href="#PyCTBN.structure_graph.sets_of_cims_container.SetsOfCimsContainer" title="Permalink to this definition">¶</a></dt>
 <dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></p>
 <p>Aggrega un insieme di oggetti SetOfCims</p>
 <dl class="py method">
-<dt id="classes.structure_graph.sets_of_cims_container.SetsOfCimsContainer.get_cims_of_node">
-<code class="sig-name descname">get_cims_of_node</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">node_indx</span></em>, <em class="sig-param"><span class="n">cim_indx</span></em><span class="sig-paren">)</span><a class="headerlink" href="#classes.structure_graph.sets_of_cims_container.SetsOfCimsContainer.get_cims_of_node" title="Permalink to this definition">¶</a></dt>
+<dt id="PyCTBN.structure_graph.sets_of_cims_container.SetsOfCimsContainer.get_cims_of_node">
+<code class="sig-name descname">get_cims_of_node</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">node_indx</span></em>, <em class="sig-param"><span class="n">cim_indx</span></em><span class="sig-paren">)</span><a class="headerlink" href="#PyCTBN.structure_graph.sets_of_cims_container.SetsOfCimsContainer.get_cims_of_node" title="Permalink to this definition">¶</a></dt>
 <dd></dd></dl>
 
 <dl class="py method">
-<dt id="classes.structure_graph.sets_of_cims_container.SetsOfCimsContainer.get_set_of_cims">
-<code class="sig-name descname">get_set_of_cims</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">node_indx</span></em><span class="sig-paren">)</span><a class="headerlink" href="#classes.structure_graph.sets_of_cims_container.SetsOfCimsContainer.get_set_of_cims" title="Permalink to this definition">¶</a></dt>
+<dt id="PyCTBN.structure_graph.sets_of_cims_container.SetsOfCimsContainer.get_set_of_cims">
+<code class="sig-name descname">get_set_of_cims</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">node_indx</span></em><span class="sig-paren">)</span><a class="headerlink" href="#PyCTBN.structure_graph.sets_of_cims_container.SetsOfCimsContainer.get_set_of_cims" title="Permalink to this definition">¶</a></dt>
 <dd></dd></dl>
 
 <dl class="py method">
-<dt id="classes.structure_graph.sets_of_cims_container.SetsOfCimsContainer.init_cims_structure">
-<code class="sig-name descname">init_cims_structure</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">keys</span></em>, <em class="sig-param"><span class="n">states_number_per_node</span></em>, <em class="sig-param"><span class="n">list_of_parents_states_number</span></em>, <em class="sig-param"><span class="n">p_combs_list</span></em><span class="sig-paren">)</span><a class="headerlink" href="#classes.structure_graph.sets_of_cims_container.SetsOfCimsContainer.init_cims_structure" title="Permalink to this definition">¶</a></dt>
+<dt id="PyCTBN.structure_graph.sets_of_cims_container.SetsOfCimsContainer.init_cims_structure">
+<code class="sig-name descname">init_cims_structure</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">keys</span></em>, <em class="sig-param"><span class="n">states_number_per_node</span></em>, <em class="sig-param"><span class="n">list_of_parents_states_number</span></em>, <em class="sig-param"><span class="n">p_combs_list</span></em><span class="sig-paren">)</span><a class="headerlink" href="#PyCTBN.structure_graph.sets_of_cims_container.SetsOfCimsContainer.init_cims_structure" title="Permalink to this definition">¶</a></dt>
 <dd><p>for indx, key in enumerate(keys):
 self.sets_of_cims.append(</p>
 <blockquote>
@@ -672,11 +672,11 @@ self.sets_of_cims.append(</p>
 </dd></dl>
 
 </div>
-<div class="section" id="module-classes.structure_graph.structure">
-<span id="classes-structure-graph-structure-module"></span><h2>classes.structure_graph.structure module<a class="headerlink" href="#module-classes.structure_graph.structure" title="Permalink to this headline">¶</a></h2>
+<div class="section" id="module-PyCTBN.structure_graph.structure">
+<span id="PyCTBN-structure-graph-structure-module"></span><h2>PyCTBN.structure_graph.structure module<a class="headerlink" href="#module-PyCTBN.structure_graph.structure" title="Permalink to this headline">¶</a></h2>
 <dl class="py class">
-<dt id="classes.structure_graph.structure.Structure">
-<em class="property">class </em><code class="sig-prename descclassname">classes.structure_graph.structure.</code><code class="sig-name descname">Structure</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">nodes_labels_list</span><span class="p">:</span> <span class="n">List</span></em>, <em class="sig-param"><span class="n">nodes_indexes_arr</span><span class="p">:</span> <span class="n">numpy.ndarray</span></em>, <em class="sig-param"><span class="n">nodes_vals_arr</span><span class="p">:</span> <span class="n">numpy.ndarray</span></em>, <em class="sig-param"><span class="n">edges_list</span><span class="p">:</span> <span class="n">List</span></em>, <em class="sig-param"><span class="n">total_variables_number</span><span class="p">:</span> <span class="n">int</span></em><span class="sig-paren">)</span><a class="headerlink" href="#classes.structure_graph.structure.Structure" title="Permalink to this definition">¶</a></dt>
+<dt id="PyCTBN.structure_graph.structure.Structure">
+<em class="property">class </em><code class="sig-prename descclassname">PyCTBN.structure_graph.structure.</code><code class="sig-name descname">Structure</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">nodes_labels_list</span><span class="p">:</span> <span class="n">List</span></em>, <em class="sig-param"><span class="n">nodes_indexes_arr</span><span class="p">:</span> <span class="n">numpy.ndarray</span></em>, <em class="sig-param"><span class="n">nodes_vals_arr</span><span class="p">:</span> <span class="n">numpy.ndarray</span></em>, <em class="sig-param"><span class="n">edges_list</span><span class="p">:</span> <span class="n">List</span></em>, <em class="sig-param"><span class="n">total_variables_number</span><span class="p">:</span> <span class="n">int</span></em><span class="sig-paren">)</span><a class="headerlink" href="#PyCTBN.structure_graph.structure.Structure" title="Permalink to this definition">¶</a></dt>
 <dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></p>
 <p>Contains all the infos about the network structure(nodes labels, nodes caridinalites, edges, indexes)</p>
 <dl class="field-list simple">
@@ -691,28 +691,28 @@ self.sets_of_cims.append(</p>
 </dd>
 </dl>
 <dl class="py method">
-<dt id="classes.structure_graph.structure.Structure.add_edge">
-<code class="sig-name descname">add_edge</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">edge</span><span class="p">:</span> <span class="n">tuple</span></em><span class="sig-paren">)</span><a class="headerlink" href="#classes.structure_graph.structure.Structure.add_edge" title="Permalink to this definition">¶</a></dt>
+<dt id="PyCTBN.structure_graph.structure.Structure.add_edge">
+<code class="sig-name descname">add_edge</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">edge</span><span class="p">:</span> <span class="n">tuple</span></em><span class="sig-paren">)</span><a class="headerlink" href="#PyCTBN.structure_graph.structure.Structure.add_edge" title="Permalink to this definition">¶</a></dt>
 <dd></dd></dl>
 
 <dl class="py method">
-<dt id="classes.structure_graph.structure.Structure.clean_structure_edges">
-<code class="sig-name descname">clean_structure_edges</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#classes.structure_graph.structure.Structure.clean_structure_edges" title="Permalink to this definition">¶</a></dt>
+<dt id="PyCTBN.structure_graph.structure.Structure.clean_structure_edges">
+<code class="sig-name descname">clean_structure_edges</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#PyCTBN.structure_graph.structure.Structure.clean_structure_edges" title="Permalink to this definition">¶</a></dt>
 <dd></dd></dl>
 
 <dl class="py method">
-<dt id="classes.structure_graph.structure.Structure.contains_edge">
-<code class="sig-name descname">contains_edge</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">edge</span><span class="p">:</span> <span class="n">tuple</span></em><span class="sig-paren">)</span> &#x2192; bool<a class="headerlink" href="#classes.structure_graph.structure.Structure.contains_edge" title="Permalink to this definition">¶</a></dt>
+<dt id="PyCTBN.structure_graph.structure.Structure.contains_edge">
+<code class="sig-name descname">contains_edge</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">edge</span><span class="p">:</span> <span class="n">tuple</span></em><span class="sig-paren">)</span> &#x2192; bool<a class="headerlink" href="#PyCTBN.structure_graph.structure.Structure.contains_edge" title="Permalink to this definition">¶</a></dt>
 <dd></dd></dl>
 
 <dl class="py method">
-<dt id="classes.structure_graph.structure.Structure.edges">
-<em class="property">property </em><code class="sig-name descname">edges</code><a class="headerlink" href="#classes.structure_graph.structure.Structure.edges" title="Permalink to this definition">¶</a></dt>
+<dt id="PyCTBN.structure_graph.structure.Structure.edges">
+<em class="property">property </em><code class="sig-name descname">edges</code><a class="headerlink" href="#PyCTBN.structure_graph.structure.Structure.edges" title="Permalink to this definition">¶</a></dt>
 <dd></dd></dl>
 
 <dl class="py method">
-<dt id="classes.structure_graph.structure.Structure.get_node_id">
-<code class="sig-name descname">get_node_id</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">node_indx</span><span class="p">:</span> <span class="n">int</span></em><span class="sig-paren">)</span> &#x2192; str<a class="headerlink" href="#classes.structure_graph.structure.Structure.get_node_id" title="Permalink to this definition">¶</a></dt>
+<dt id="PyCTBN.structure_graph.structure.Structure.get_node_id">
+<code class="sig-name descname">get_node_id</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">node_indx</span><span class="p">:</span> <span class="n">int</span></em><span class="sig-paren">)</span> &#x2192; str<a class="headerlink" href="#PyCTBN.structure_graph.structure.Structure.get_node_id" title="Permalink to this definition">¶</a></dt>
 <dd><p>Given the <code class="docutils literal notranslate"><span class="pre">node_index</span></code> returns the node label.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
@@ -728,8 +728,8 @@ self.sets_of_cims.append(</p>
 </dd></dl>
 
 <dl class="py method">
-<dt id="classes.structure_graph.structure.Structure.get_node_indx">
-<code class="sig-name descname">get_node_indx</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">node_id</span><span class="p">:</span> <span class="n">str</span></em><span class="sig-paren">)</span> &#x2192; int<a class="headerlink" href="#classes.structure_graph.structure.Structure.get_node_indx" title="Permalink to this definition">¶</a></dt>
+<dt id="PyCTBN.structure_graph.structure.Structure.get_node_indx">
+<code class="sig-name descname">get_node_indx</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">node_id</span><span class="p">:</span> <span class="n">str</span></em><span class="sig-paren">)</span> &#x2192; int<a class="headerlink" href="#PyCTBN.structure_graph.structure.Structure.get_node_indx" title="Permalink to this definition">¶</a></dt>
 <dd><p>Given the <code class="docutils literal notranslate"><span class="pre">node_index</span></code> returns the node label.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
@@ -745,13 +745,13 @@ self.sets_of_cims.append(</p>
 </dd></dl>
 
 <dl class="py method">
-<dt id="classes.structure_graph.structure.Structure.get_positional_node_indx">
-<code class="sig-name descname">get_positional_node_indx</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">node_id</span><span class="p">:</span> <span class="n">str</span></em><span class="sig-paren">)</span> &#x2192; int<a class="headerlink" href="#classes.structure_graph.structure.Structure.get_positional_node_indx" title="Permalink to this definition">¶</a></dt>
+<dt id="PyCTBN.structure_graph.structure.Structure.get_positional_node_indx">
+<code class="sig-name descname">get_positional_node_indx</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">node_id</span><span class="p">:</span> <span class="n">str</span></em><span class="sig-paren">)</span> &#x2192; int<a class="headerlink" href="#PyCTBN.structure_graph.structure.Structure.get_positional_node_indx" title="Permalink to this definition">¶</a></dt>
 <dd></dd></dl>
 
 <dl class="py method">
-<dt id="classes.structure_graph.structure.Structure.get_states_number">
-<code class="sig-name descname">get_states_number</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">node</span><span class="p">:</span> <span class="n">str</span></em><span class="sig-paren">)</span> &#x2192; int<a class="headerlink" href="#classes.structure_graph.structure.Structure.get_states_number" title="Permalink to this definition">¶</a></dt>
+<dt id="PyCTBN.structure_graph.structure.Structure.get_states_number">
+<code class="sig-name descname">get_states_number</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">node</span><span class="p">:</span> <span class="n">str</span></em><span class="sig-paren">)</span> &#x2192; int<a class="headerlink" href="#PyCTBN.structure_graph.structure.Structure.get_states_number" title="Permalink to this definition">¶</a></dt>
 <dd><p>Given the node label <code class="docutils literal notranslate"><span class="pre">node</span></code> returns the cardinality of the node.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
@@ -767,45 +767,45 @@ self.sets_of_cims.append(</p>
 </dd></dl>
 
 <dl class="py method">
-<dt id="classes.structure_graph.structure.Structure.nodes_indexes">
-<em class="property">property </em><code class="sig-name descname">nodes_indexes</code><a class="headerlink" href="#classes.structure_graph.structure.Structure.nodes_indexes" title="Permalink to this definition">¶</a></dt>
+<dt id="PyCTBN.structure_graph.structure.Structure.nodes_indexes">
+<em class="property">property </em><code class="sig-name descname">nodes_indexes</code><a class="headerlink" href="#PyCTBN.structure_graph.structure.Structure.nodes_indexes" title="Permalink to this definition">¶</a></dt>
 <dd></dd></dl>
 
 <dl class="py method">
-<dt id="classes.structure_graph.structure.Structure.nodes_labels">
-<em class="property">property </em><code class="sig-name descname">nodes_labels</code><a class="headerlink" href="#classes.structure_graph.structure.Structure.nodes_labels" title="Permalink to this definition">¶</a></dt>
+<dt id="PyCTBN.structure_graph.structure.Structure.nodes_labels">
+<em class="property">property </em><code class="sig-name descname">nodes_labels</code><a class="headerlink" href="#PyCTBN.structure_graph.structure.Structure.nodes_labels" title="Permalink to this definition">¶</a></dt>
 <dd></dd></dl>
 
 <dl class="py method">
-<dt id="classes.structure_graph.structure.Structure.nodes_values">
-<em class="property">property </em><code class="sig-name descname">nodes_values</code><a class="headerlink" href="#classes.structure_graph.structure.Structure.nodes_values" title="Permalink to this definition">¶</a></dt>
+<dt id="PyCTBN.structure_graph.structure.Structure.nodes_values">
+<em class="property">property </em><code class="sig-name descname">nodes_values</code><a class="headerlink" href="#PyCTBN.structure_graph.structure.Structure.nodes_values" title="Permalink to this definition">¶</a></dt>
 <dd></dd></dl>
 
 <dl class="py method">
-<dt id="classes.structure_graph.structure.Structure.remove_edge">
-<code class="sig-name descname">remove_edge</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">edge</span><span class="p">:</span> <span class="n">tuple</span></em><span class="sig-paren">)</span><a class="headerlink" href="#classes.structure_graph.structure.Structure.remove_edge" title="Permalink to this definition">¶</a></dt>
+<dt id="PyCTBN.structure_graph.structure.Structure.remove_edge">
+<code class="sig-name descname">remove_edge</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">edge</span><span class="p">:</span> <span class="n">tuple</span></em><span class="sig-paren">)</span><a class="headerlink" href="#PyCTBN.structure_graph.structure.Structure.remove_edge" title="Permalink to this definition">¶</a></dt>
 <dd></dd></dl>
 
 <dl class="py method">
-<dt id="classes.structure_graph.structure.Structure.remove_node">
-<code class="sig-name descname">remove_node</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">node_id</span><span class="p">:</span> <span class="n">str</span></em><span class="sig-paren">)</span> &#x2192; None<a class="headerlink" href="#classes.structure_graph.structure.Structure.remove_node" title="Permalink to this definition">¶</a></dt>
+<dt id="PyCTBN.structure_graph.structure.Structure.remove_node">
+<code class="sig-name descname">remove_node</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">node_id</span><span class="p">:</span> <span class="n">str</span></em><span class="sig-paren">)</span> &#x2192; None<a class="headerlink" href="#PyCTBN.structure_graph.structure.Structure.remove_node" title="Permalink to this definition">¶</a></dt>
 <dd><p>Remove the node <code class="docutils literal notranslate"><span class="pre">node_id</span></code> from all the class members.
 The class member <code class="docutils literal notranslate"><span class="pre">_total_variables_number</span></code> since it refers to the total number of variables in the dataset.</p>
 </dd></dl>
 
 <dl class="py method">
-<dt id="classes.structure_graph.structure.Structure.total_variables_number">
-<em class="property">property </em><code class="sig-name descname">total_variables_number</code><a class="headerlink" href="#classes.structure_graph.structure.Structure.total_variables_number" title="Permalink to this definition">¶</a></dt>
+<dt id="PyCTBN.structure_graph.structure.Structure.total_variables_number">
+<em class="property">property </em><code class="sig-name descname">total_variables_number</code><a class="headerlink" href="#PyCTBN.structure_graph.structure.Structure.total_variables_number" title="Permalink to this definition">¶</a></dt>
 <dd></dd></dl>
 
 </dd></dl>
 
 </div>
-<div class="section" id="module-classes.structure_graph.trajectory">
-<span id="classes-structure-graph-trajectory-module"></span><h2>classes.structure_graph.trajectory module<a class="headerlink" href="#module-classes.structure_graph.trajectory" title="Permalink to this headline">¶</a></h2>
+<div class="section" id="module-PyCTBN.structure_graph.trajectory">
+<span id="PyCTBN-structure-graph-trajectory-module"></span><h2>PyCTBN.structure_graph.trajectory module<a class="headerlink" href="#module-PyCTBN.structure_graph.trajectory" title="Permalink to this headline">¶</a></h2>
 <dl class="py class">
-<dt id="classes.structure_graph.trajectory.Trajectory">
-<em class="property">class </em><code class="sig-prename descclassname">classes.structure_graph.trajectory.</code><code class="sig-name descname">Trajectory</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">list_of_columns</span><span class="p">:</span> <span class="n">List</span></em>, <em class="sig-param"><span class="n">original_cols_number</span><span class="p">:</span> <span class="n">int</span></em><span class="sig-paren">)</span><a class="headerlink" href="#classes.structure_graph.trajectory.Trajectory" title="Permalink to this definition">¶</a></dt>
+<dt id="PyCTBN.structure_graph.trajectory.Trajectory">
+<em class="property">class </em><code class="sig-prename descclassname">PyCTBN.structure_graph.trajectory.</code><code class="sig-name descname">Trajectory</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">list_of_columns</span><span class="p">:</span> <span class="n">List</span></em>, <em class="sig-param"><span class="n">original_cols_number</span><span class="p">:</span> <span class="n">int</span></em><span class="sig-paren">)</span><a class="headerlink" href="#PyCTBN.structure_graph.trajectory.Trajectory" title="Permalink to this definition">¶</a></dt>
 <dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></p>
 <p>Abstracts the infos about a complete set of trajectories, represented as a numpy array of doubles
 (the time deltas) and a numpy matrix of ints (the changes of states).</p>
@@ -824,30 +824,30 @@ The class member <code class="docutils literal notranslate"><span class="pre">_t
 </dd>
 </dl>
 <dl class="py method">
-<dt id="classes.structure_graph.trajectory.Trajectory.complete_trajectory">
-<em class="property">property </em><code class="sig-name descname">complete_trajectory</code><a class="headerlink" href="#classes.structure_graph.trajectory.Trajectory.complete_trajectory" title="Permalink to this definition">¶</a></dt>
+<dt id="PyCTBN.structure_graph.trajectory.Trajectory.complete_trajectory">
+<em class="property">property </em><code class="sig-name descname">complete_trajectory</code><a class="headerlink" href="#PyCTBN.structure_graph.trajectory.Trajectory.complete_trajectory" title="Permalink to this definition">¶</a></dt>
 <dd></dd></dl>
 
 <dl class="py method">
-<dt id="classes.structure_graph.trajectory.Trajectory.size">
-<code class="sig-name descname">size</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#classes.structure_graph.trajectory.Trajectory.size" title="Permalink to this definition">¶</a></dt>
+<dt id="PyCTBN.structure_graph.trajectory.Trajectory.size">
+<code class="sig-name descname">size</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#PyCTBN.structure_graph.trajectory.Trajectory.size" title="Permalink to this definition">¶</a></dt>
 <dd></dd></dl>
 
 <dl class="py method">
-<dt id="classes.structure_graph.trajectory.Trajectory.times">
-<em class="property">property </em><code class="sig-name descname">times</code><a class="headerlink" href="#classes.structure_graph.trajectory.Trajectory.times" title="Permalink to this definition">¶</a></dt>
+<dt id="PyCTBN.structure_graph.trajectory.Trajectory.times">
+<em class="property">property </em><code class="sig-name descname">times</code><a class="headerlink" href="#PyCTBN.structure_graph.trajectory.Trajectory.times" title="Permalink to this definition">¶</a></dt>
 <dd></dd></dl>
 
 <dl class="py method">
-<dt id="classes.structure_graph.trajectory.Trajectory.trajectory">
-<em class="property">property </em><code class="sig-name descname">trajectory</code><a class="headerlink" href="#classes.structure_graph.trajectory.Trajectory.trajectory" title="Permalink to this definition">¶</a></dt>
+<dt id="PyCTBN.structure_graph.trajectory.Trajectory.trajectory">
+<em class="property">property </em><code class="sig-name descname">trajectory</code><a class="headerlink" href="#PyCTBN.structure_graph.trajectory.Trajectory.trajectory" title="Permalink to this definition">¶</a></dt>
 <dd></dd></dl>
 
 </dd></dl>
 
 </div>
-<div class="section" id="module-classes.structure_graph">
-<span id="module-contents"></span><h2>Module contents<a class="headerlink" href="#module-classes.structure_graph" title="Permalink to this headline">¶</a></h2>
+<div class="section" id="module-PyCTBN.structure_graph">
+<span id="module-contents"></span><h2>Module contents<a class="headerlink" href="#module-PyCTBN.structure_graph" title="Permalink to this headline">¶</a></h2>
 </div>
 </div>
 

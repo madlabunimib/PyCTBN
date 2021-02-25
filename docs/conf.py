@@ -16,13 +16,13 @@
 
 import os
 import sys
-sys.path.insert(0, os.path.abspath('../main_package/'))
-#sys.path.insert(0, os.path.abspath('../PyCTBN/main_package'))
-sys.path.insert(0, os.path.abspath('../main_package/classes'))
-sys.path.insert(0, os.path.abspath('../main_package/classes/estimators'))
-sys.path.insert(0, os.path.abspath('../main_package/classes/optimizers'))
-sys.path.insert(0, os.path.abspath('../main_package/classes/structure_graph'))
-sys.path.insert(0, os.path.abspath('../main_package/classes/utility'))
+sys.path.insert(0, os.path.abspath('../PyCTBN/'))
+#sys.path.insert(0, os.path.abspath('../PyCTBN/PyCTBN'))
+sys.path.insert(0, os.path.abspath('../PyCTBN/PyCTBN'))
+sys.path.insert(0, os.path.abspath('../PyCTBN/PyCTBN/estimators'))
+sys.path.insert(0, os.path.abspath('../PyCTBN/PyCTBN/optimizers'))
+sys.path.insert(0, os.path.abspath('../PyCTBN/PyCTBN/structure_graph'))
+sys.path.insert(0, os.path.abspath('../PyCTBN/PyCTBN/utility'))
 
 print(sys.path)
 

@@ -1,45 +1,45 @@
-classes.estimators package
+PyCTBN.estimators package
 ==========================
 
 Submodules
 ----------
 
-classes.estimators.fam\_score\_calculator module
+PyCTBN.estimators.fam\_score\_calculator module
 ------------------------------------------------
 
-.. automodule:: classes.estimators.fam_score_calculator
+.. automodule:: PyCTBN.estimators.fam_score_calculator
    :members:
    :undoc-members:
    :show-inheritance:
 
-classes.estimators.parameters\_estimator module
+PyCTBN.estimators.parameters\_estimator module
 -----------------------------------------------
 
-.. automodule:: classes.estimators.parameters_estimator
+.. automodule:: PyCTBN.estimators.parameters_estimator
    :members:
    :undoc-members:
    :show-inheritance:
 
-classes.estimators.structure\_constraint\_based\_estimator module
+PyCTBN.estimators.structure\_constraint\_based\_estimator module
 -----------------------------------------------------------------
 
-.. automodule:: classes.estimators.structure_constraint_based_estimator
+.. automodule:: PyCTBN.estimators.structure_constraint_based_estimator
    :members:
    :undoc-members:
    :show-inheritance:
 
-classes.estimators.structure\_estimator module
+PyCTBN.estimators.structure\_estimator module
 ----------------------------------------------
 
-.. automodule:: classes.estimators.structure_estimator
+.. automodule:: PyCTBN.estimators.structure_estimator
    :members:
    :undoc-members:
    :show-inheritance:
 
-classes.estimators.structure\_score\_based\_estimator module
+PyCTBN.estimators.structure\_score\_based\_estimator module
 ------------------------------------------------------------
 
-.. automodule:: classes.estimators.structure_score_based_estimator
+.. automodule:: PyCTBN.estimators.structure_score_based_estimator
    :members:
    :undoc-members:
    :show-inheritance:
@@ -47,7 +47,7 @@ classes.estimators.structure\_score\_based\_estimator module
 Module contents
 ---------------
 
-.. automodule:: classes.estimators
+.. automodule:: PyCTBN.estimators
    :members:
    :undoc-members:
    :show-inheritance:

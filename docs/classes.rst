@@ -1,4 +1,4 @@
-classes package
+PyCTBN package
 ===============
 
 Subpackages
@@ -7,15 +7,15 @@ Subpackages
 .. toctree::
    :maxdepth: 4
 
-   classes.estimators
-   classes.optimizers
-   classes.structure_graph
-   classes.utility
+   PyCTBN.estimators
+   PyCTBN.optimizers
+   PyCTBN.structure_graph
+   PyCTBN.utility
 
 Module contents
 ---------------
 
-.. automodule:: classes
+.. automodule:: PyCTBN
    :members:
    :undoc-members:
    :show-inheritance:
