@@ -7,3 +7,4 @@ scipy==1.5.4
 threadpoolctl==2.1.0
 tqdm==4.54.1
 psutil==5.7.3
+pytest-xdist==2.2.1
