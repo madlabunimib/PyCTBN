@@ -121,14 +121,8 @@ class StructureScoreBasedEstimator(StructureEstimator):
                                                             l_optimizer)
 
 
-
-            #list_edges_partial = p.map(estimate_parents, self._nodes)
-            #list_edges_partial= estimate_parents('Q',max_parents,iterations_number,patience,tabu_length,tabu_rules_duration,optimizer) 
-
         'Concatenate all the edges list'
         set_list_edges =  set(itertools.chain.from_iterable(list_edges_partial))
-
-        #print('-------------------------')
 
 
         'calculate precision and recall'
@@ -145,10 +139,7 @@ class StructureScoreBasedEstimator(StructureEstimator):
             precision = n_true_positive / (n_true_positive + n_added_fake_edges)
 
             recall = n_true_positive / (n_true_positive + n_missing_edges)
-
-
-            # print(f"n archi reali non trovati: {n_missing_edges}")
-            # print(f"n archi non reali aggiunti: {n_added_fake_edges}")
+        
             print(true_edges)
             print(set_list_edges)
             print(f"precision: {precision} ")

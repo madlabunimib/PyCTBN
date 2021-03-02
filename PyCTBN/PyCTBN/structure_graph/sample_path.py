@@ -8,6 +8,7 @@ from .trajectory import Trajectory
 from ..utility.abstract_importer import AbstractImporter
 
 
+MESSAGE_HAS_TO_CONTAIN_EXCEPTION = 'The importer object has to contain the all processed data!'
 
 class SamplePath(object):
     """Aggregates all the informations about the trajectories, the real structure of the sampled net and variables
@@ -25,15 +26,15 @@ class SamplePath(object):
         """
         self._importer = importer
         if self._importer._df_variables is None or self._importer._concatenated_samples is None:
-            raise RuntimeError('The importer object has to contain the all processed data!')
+            raise RuntimeError()
         if self._importer._df_variables.empty:
-            raise RuntimeError('The importer object has to contain the all processed data!')
-        if isinstance(self._importer._concatenated_samples, pd.DataFrame):
-            if self._importer._concatenated_samples.empty:
-                raise RuntimeError('The importer object has to contain the all processed data!')
-        if isinstance(self._importer._concatenated_samples, np.ndarray):
-            if self._importer._concatenated_samples.size == 0:
-                raise RuntimeError('The importer object has to contain the all processed data!')
+            raise RuntimeError(MESSAGE_HAS_TO_CONTAIN_EXCEPTION)
+        if isinstance(self._importer._concatenated_samples, pd.DataFrame) and\
+            self._importer._concatenated_samples.empty:
+                raise RuntimeError(MESSAGE_HAS_TO_CONTAIN_EXCEPTION)
+        if isinstance(self._importer._concatenated_samples, np.ndarray) and\
+            self._importer._concatenated_samples.size == 0:
+                raise RuntimeError(MESSAGE_HAS_TO_CONTAIN_EXCEPTION)
         self._trajectories = None
         self._structure = None
         self._total_variables_count = None

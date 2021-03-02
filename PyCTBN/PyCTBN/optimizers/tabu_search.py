@@ -140,20 +140,9 @@ class TabuSearch(Optimizer):
                         graph.remove_edges([parent_removed])
                 graph.add_edges([current_edge])
                 added = True
-            #print('**************************')
+           
             current_score =  self.structure_estimator.get_score_from_graph(graph,self.node_id)
 
-
-            # print("-------------------------------------------")
-            # print(f"Current new parent: {current_new_parent}")
-            # print(f"Current score: {current_score}")
-            # print(f"Current best score: {actual_best_score}")
-            # print(f"tabu list : {str(tabu_set)} length: {len(tabu_set)}")
-            # print(f"tabu queue : {str(tabu_queue)} length: {tabu_queue.qsize()}")
-            # print(f"graph edges: {graph.edges}")
-
-            # print("-------------------------------------------")
-            # input()
             if current_score > actual_best_score:
                 'update current best score' 
                 actual_best_score = current_score
