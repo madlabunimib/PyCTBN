@@ -234,7 +234,3 @@ class StructureScoreBasedEstimator(StructureEstimator):
         
         #print(f" lo score per {node_id} risulta: {score} ")
         return score 
-
-
-
-
