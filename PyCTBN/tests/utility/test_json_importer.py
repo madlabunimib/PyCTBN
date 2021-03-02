@@ -152,7 +152,7 @@ class TestJsonImporter(unittest.TestCase):
 
     def test_file_path(self):
         j1 = JsonImporter("./PyCTBN/test_data/networks_and_trajectories_binary_data_01_3.json", 'samples', 'dyn.str', 'variables', 'Time', 'Name')
-        self.assertEqual(j1.file_path, "./PyCTBN/data/networks_and_trajectories_binary_data_01_3.json")
+        self.assertEqual(j1.file_path, "./PyCTBN/test_data/networks_and_trajectories_binary_data_01_3.json")
 
     def test_import_data(self):
         j1 = JsonImporter("./PyCTBN/test_data/networks_and_trajectories_binary_data_01_3.json", 'samples', 'dyn.str', 'variables', 'Time', 'Name')

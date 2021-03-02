@@ -36,15 +36,15 @@ class NetworkGraph(object):
         self._transition_filtering = None
         self._p_combs_structure = None
 
-    def init_graph(self):
-        self.add_nodes(self._nodes_labels)
-        self.add_edges(self.graph_struct.edges)
-        self.aggregated_info_about_nodes_parents = self.get_ord_set_of_par_of_all_nodes()
-        self._fancy_indexing = self.build_fancy_indexing_structure(0)
-        self.build_scalar_indexing_structures()
-        self.build_time_columns_filtering_structure()
-        self.build_transition_columns_filtering_structure()
-        self._p_combs_structure = self.build_p_combs_structure()
+    #def init_graph(self):
+    #    self.add_nodes(self._nodes_labels)
+    #    self.add_edges(self.graph_struct.edges)
+    #    self.aggregated_info_about_nodes_parents = self.get_ord_set_of_par_of_all_nodes()
+    #    self._fancy_indexing = self.build_fancy_indexing_structure(0)
+    #    self.build_scalar_indexing_structures()
+    #    self.build_time_columns_filtering_structure()
+    #    self.build_transition_columns_filtering_structure()
+    #    self._p_combs_structure = self.build_p_combs_structure()
 
     def fast_init(self, node_id: str) -> None:
         """Initializes all the necessary structures for parameters estimation of the node identified by the label

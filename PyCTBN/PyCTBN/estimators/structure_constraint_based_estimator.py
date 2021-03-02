@@ -226,8 +226,13 @@ class StructureConstraintBasedEstimator(StructureEstimator):
                                                                  self._nodes,
                                                                  total_vars_numb_array)
             #list_edges_partial = [ctpc_algo(n,total_vars_numb) for n in self._nodes]
+            
+        'Update the graph'
+        edges = set(itertools.chain.from_iterable(list_edges_partial))
+        self._complete_graph = nx.DiGraph()
+        self._complete_graph.add_edges_from(edges)
 
-        return set(itertools.chain.from_iterable(list_edges_partial))
+        return edges
 
         
     def estimate_structure(self,disable_multiprocessing:bool=False):

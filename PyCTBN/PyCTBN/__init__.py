@@ -1,8 +1,8 @@
-import PyCTBN.estimators
-from PyCTBN.estimators import *
-import PyCTBN.optimizers
-from PyCTBN.optimizers import *
-import PyCTBN.structure_graph
-from PyCTBN.structure_graph import *
-import PyCTBN.utility
-from PyCTBN.utility import *
+import PyCTBN.PyCTBN.estimators
+from PyCTBN.PyCTBN.estimators import *
+import PyCTBN.PyCTBN.optimizers
+from PyCTBN.PyCTBN.optimizers import *
+import PyCTBN.PyCTBN.structure_graph
+from PyCTBN.PyCTBN.structure_graph import *
+import PyCTBN.PyCTBN.utility
+from PyCTBN.PyCTBN.utility import *

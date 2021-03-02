@@ -74,11 +74,11 @@ class Structure(object):
         self._edges_list = list()
 
     def add_edge(self,edge: tuple):
-        self._edges_list.append(tuple)
-        print(self._edges_list)
+        self._edges_list.append(edge)
+
     
     def remove_edge(self,edge: tuple):
-        self._edges_list.remove(tuple)
+        self._edges_list.remove(edge)
 
     def contains_edge(self,edge:tuple) -> bool:
         return edge in self._edges_list

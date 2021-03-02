@@ -33,13 +33,15 @@ class TestSampleImporter(unittest.TestCase):
                                         prior_net_structure=self.prior_net_structure
                                     )
         
-        sample_importer.import_data()
+        sample_importer.import_data(['X','Y','Z'])
 
         s1 = SamplePath(sample_importer)
         s1.build_trajectories()
         s1.build_structure()
         s1.clear_memory() 
+        data_id= sample_importer.dataset_id()
 
+        self.assertEqual(data_id,"")
         self.assertEqual(len(s1._importer._df_samples_list), 300)
         self.assertIsInstance(s1._importer._df_samples_list,list)
         self.assertIsInstance(s1._importer._df_samples_list[0],pd.DataFrame)

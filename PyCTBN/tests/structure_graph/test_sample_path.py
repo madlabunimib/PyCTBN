@@ -54,7 +54,8 @@ class TestSamplePath(unittest.TestCase):
         importer = JsonImporter(self.read_files[0], 'samples', 'dyn.str', 'variables', 'Time', 'Name')
         importer.import_data(0)
         s1 = SamplePath(importer)
-        random.shuffle(importer._sorter)
+        importer._sorter[0],importer._sorter[1]= importer._sorter[1],importer._sorter[0]
+
         self.assertRaises(RuntimeError, s1.build_structure)
 
     def test_build_saplepath_no_prior_net_structure(self):
@@ -66,7 +67,17 @@ class TestSamplePath(unittest.TestCase):
         s1.build_structure()
         self.assertFalse(s1.structure.edges)
 
+    def test_buid_samplepath_no_variables(self):
+        importer = JsonImporter(self.read_files[0], 'samples', 'dyn.str', 'variables', 'Time', 'Name')
+        importer.import_data(0)
+        importer._df_variables = None
+        self.assertRaises(RuntimeError, SamplePath, importer)
 
+    def test_buid_samplepath_no_concatenated_samples(self):
+        importer = JsonImporter(self.read_files[0], 'samples', 'dyn.str', 'variables', 'Time', 'Name')
+        importer.import_data(0)
+        importer._concatenated_samples = None
+        self.assertRaises(RuntimeError, SamplePath, importer)
 
 if __name__ == '__main__':
     unittest.main()

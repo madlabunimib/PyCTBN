@@ -104,7 +104,7 @@ class TabuSearch(Optimizer):
             self.tabu_length = len(other_nodes)
 
         if self.tabu_rules_duration is None:
-            self.tabu_tabu_rules_durationength = len(other_nodes)
+            self.tabu_rules_duration = len(other_nodes)
 
         'inizialize the data structures'
         tabu_set = set()

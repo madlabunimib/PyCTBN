@@ -9,7 +9,7 @@ import numpy as np
 from networkx.readwrite import json_graph
 
 from abc import ABC
-
+import os
 import abc
 
 from ..utility.cache import Cache
@@ -104,11 +104,11 @@ class StructureEstimator(object):
             json.dump(res, f)
 
 
-    def remove_diagonal_elements(self, matrix):
-        m = matrix.shape[0]
-        strided = np.lib.stride_tricks.as_strided
-        s0, s1 = matrix.strides
-        return strided(matrix.ravel()[1:], shape=(m - 1, m), strides=(s0 + s1, s1)).reshape(m, -1)
+    #def remove_diagonal_elements(self, matrix):
+    #   m = matrix.shape[0]
+    #    strided = np.lib.stride_tricks.as_strided
+    #    s0, s1 = matrix.strides
+    #    return strided(matrix.ravel()[1:], shape=(m - 1, m), strides=(s0 + s1, s1)).reshape(m, -1)
 
 
     @abc.abstractmethod
@@ -137,49 +137,47 @@ class StructureEstimator(object):
         :rtype: List
         """
         if not self._sample_path.has_prior_net_structure:
-            raise RuntimeError("Can not compute spurious edges with no prior net structure!")
+            return []
         real_graph = nx.DiGraph()
         real_graph.add_nodes_from(self._sample_path.structure.nodes_labels)
         real_graph.add_edges_from(self._sample_path.structure.edges)
         return nx.difference(real_graph, self._complete_graph).edges
 
-    def save_plot_estimated_structure_graph(self) -> None:
-        """Plot the estimated structure in a graphical model style.
-        Spurious edges are colored in red.
-        """
-        graph_to_draw = nx.DiGraph()
-        spurious_edges = self.spurious_edges()
-        non_spurious_edges = list(set(self._complete_graph.edges) - set(spurious_edges))
-        print(non_spurious_edges)
-        edges_colors = ['red' if edge in spurious_edges else 'black' for edge in self._complete_graph.edges]
-        graph_to_draw.add_edges_from(spurious_edges)
-        graph_to_draw.add_edges_from(non_spurious_edges)
-        pos = nx.spring_layout(graph_to_draw, k=0.5*1/np.sqrt(len(graph_to_draw.nodes())), iterations=50,scale=10)
-        options = {
-            "node_size": 2000,
-            "node_color": "white",
-            "edgecolors": "black",
-            'linewidths':2,
-            "with_labels":True,
-            "font_size":13,
-            'connectionstyle': 'arc3, rad = 0.1',
-            "arrowsize": 15,
-            "arrowstyle": '<|-',
-            "width": 1,
-            "edge_color":edges_colors,
-        }
+    def save_plot_estimated_structure_graph(self, file_path: str) -> None:  
+            """Plot the estimated structure in a graphical model style, use .png extension.
+            Spurious edges are colored in red if a prior structure is present.
 
-        nx.draw(graph_to_draw, pos, **options)
-        ax = plt.gca()
-        ax.margins(0.20)
-        plt.axis("off")
-        name = self._sample_path._importer.file_path.rsplit('/', 1)[-1]
-        name = name.split('.', 1)[0]
-        name += '_' + str(self._sample_path._importer.dataset_id())
-        name += '.png'
-        plt.savefig(name)
-        plt.clf()
-        print("Estimated Structure Plot Saved At: ", os.path.abspath(name))
+            :param file_path: path to save the file to
+            :type: string
+            """
+            graph_to_draw = nx.DiGraph()
+            spurious_edges = self.spurious_edges()
+            non_spurious_edges = list(set(self._complete_graph.edges) - set(spurious_edges))
+            edges_colors = ['red' if edge in spurious_edges else 'black' for edge in self._complete_graph.edges]
+            graph_to_draw.add_edges_from(spurious_edges)
+            graph_to_draw.add_edges_from(non_spurious_edges)
+            pos = nx.spring_layout(graph_to_draw, k=0.5*1/np.sqrt(len(graph_to_draw.nodes())), iterations=50,scale=10)
+            options = {
+                "node_size": 2000,
+                "node_color": "white",
+                "edgecolors": "black",
+                'linewidths':2,
+                "with_labels":True,
+                "font_size":13,
+                'connectionstyle': 'arc3, rad = 0.1',
+                "arrowsize": 15,
+                "arrowstyle": '<|-',
+                "width": 1,
+                "edge_color":edges_colors,
+            }
+
+            nx.draw(graph_to_draw, pos, **options)
+            ax = plt.gca()
+            ax.margins(0.20)
+            plt.axis("off")
+            plt.savefig(file_path)
+            plt.clf()
+            print("Estimated Structure Plot Saved At: ", os.path.abspath(file_path))
 
 
 

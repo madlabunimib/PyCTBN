@@ -156,6 +156,11 @@ class StructureScoreBasedEstimator(StructureEstimator):
         except Exception as e: 
             print(f"errore: {e}")
 
+
+        'Update the graph'
+        self._complete_graph = nx.DiGraph()
+        self._complete_graph.add_edges_from(set_list_edges)
+
         return set_list_edges
     
 
