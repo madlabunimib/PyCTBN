@@ -9,7 +9,7 @@ import networkx as nx
 import numpy as np
 import pandas as pd
 import psutil
-from line_profiler import LineProfiler
+
 import copy
 import json
 

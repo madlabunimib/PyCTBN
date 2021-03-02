@@ -7,7 +7,7 @@ import unittest
 import networkx as nx
 import numpy as np
 import psutil
-from line_profiler import LineProfiler
+
 import copy
 
 from ...PyCTBN.utility.cache import Cache

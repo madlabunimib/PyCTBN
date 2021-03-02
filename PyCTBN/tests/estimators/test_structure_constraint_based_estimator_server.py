@@ -7,7 +7,6 @@ import unittest
 import networkx as nx
 import numpy as np
 import psutil
-from line_profiler import LineProfiler
 
 from ...PyCTBN.utility.cache import Cache
 from ...PyCTBN.structure_graph.sample_path import SamplePath
