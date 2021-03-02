@@ -12,7 +12,7 @@ class TestTrajectory(unittest.TestCase):
     @classmethod
     def setUpClass(cls) -> None:
         cls.read_files = glob.glob(os.path.join('./PyCTBN/test_data', "*.json"))
-        cls.importer = JsonImporter(cls.read_files[0], 'samples', 'dyn.str', 'variables', 'Time', 'Name')
+        cls.importer = JsonImporter(cls.read_files[2], 'samples', 'dyn.str', 'variables', 'Time', 'Name')
         cls.importer.import_data(0)
 
     def test_init(self):
