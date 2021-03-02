@@ -36,4 +36,4 @@ class Optimizer(abc.ABC):
         :return: the estimated structure for the node
         :rtype: List
         """
-    pass
+        pass

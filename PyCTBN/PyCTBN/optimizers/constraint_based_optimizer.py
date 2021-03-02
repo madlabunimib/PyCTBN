@@ -60,9 +60,6 @@ class ConstraintBasedOptimizer(Optimizer):
 
         
         u = other_nodes
-        #tests_parents_numb = len(u)
-        #complete_frame = self.complete_graph_frame
-        #test_frame = complete_frame.loc[complete_frame['To'].isin([self.node_id])]
         child_states_numb = self.structure_estimator._sample_path.structure.get_states_number(self.node_id)
         b = 0
         while b < len(u):

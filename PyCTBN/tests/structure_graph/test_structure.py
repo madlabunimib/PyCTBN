@@ -28,6 +28,15 @@ class TestStructure(unittest.TestCase):
         for indx, var in enumerate(self.labels):
             self.assertEqual(var, s1.get_node_id(indx))
 
+    def test_edges_operations(self):
+        s1 = Structure(self.labels, self.indxs, self.vals, self.edges, self.vars_numb)
+
+        self.assertTrue(s1.contains_edge(('X','Z')))
+        s1.add_edge(('Z','X'))
+        self.assertTrue(s1.contains_edge(('Z','X')))
+        s1.remove_edge(('Z','X'))
+        self.assertFalse(s1.contains_edge(('Z','X')))
+
     def test_get_node_indx(self):
         l2 = self.labels[:]
         l2.remove('Y')
@@ -71,6 +80,7 @@ class TestStructure(unittest.TestCase):
         s1 = Structure(self.labels, self.indxs, self.vals, self.edges, self.vars_numb)
         s2 = Structure(self.labels, self.indxs, self.vals, self.edges, self.vars_numb)
         self.assertEqual(s1, s2)
+        self.assertNotEqual(s1,4)
 
     def test_repr(self):
         s1 = Structure(self.labels, self.indxs, self.vals, self.edges, self.vars_numb)

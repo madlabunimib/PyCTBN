@@ -32,7 +32,7 @@ class SampleImporter(AbstractImporter):
         'If the data are not DataFrame, it will be converted'
         if isinstance(variables,list) or isinstance(variables,np.ndarray):
             variables = pd.DataFrame(variables)
-        if isinstance(variables,list) or isinstance(variables,np.ndarray):
+        if isinstance(prior_net_structure,list) or isinstance(prior_net_structure,np.ndarray):
             prior_net_structure=pd.DataFrame(prior_net_structure)
 
         super(SampleImporter, self).__init__(trajectory_list =trajectory_list,
@@ -48,9 +48,6 @@ class SampleImporter(AbstractImporter):
 
         samples_list= self._df_samples_list
 
-        if isinstance(samples_list, np.ndarray):
-            samples_list = samples_list.tolist()
-
         self.compute_row_delta_in_all_samples_frames(samples_list)
 
     def build_sorter(self, sample_frame: pd.DataFrame) -> typing.List:
@@ -61,5 +58,5 @@ class SampleImporter(AbstractImporter):
         return columns_header
 
 
-    def dataset_id(self) -> object:
-        pass
+    def dataset_id(self) -> str:
+        return str("")

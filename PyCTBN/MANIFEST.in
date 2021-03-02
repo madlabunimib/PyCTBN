@@ -1,0 +1,9 @@
+include MANIFEST.in
+include setup.py
+include README.rst
+prune PyCTBN/test_data
+prune PyCTBN/tests
+prune tests
+prune test_data
+prune *tests*
+prune *test*

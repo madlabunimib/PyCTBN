@@ -30,10 +30,7 @@ class Cache:
         :rtype: SetOfCims
         """
         try:
-            #print("Cache State:", self.list_of_sets_of_indxs)
-            #print("Look For:", parents_comb)
             result = self._actual_cache[self._list_of_sets_of_parents.index(parents_comb)]
-            #print("CACHE HIT!!!!", parents_comb)
             return result
         except ValueError:
             return None
@@ -47,7 +44,6 @@ class Cache:
         :param socim: the related SetOfCims object
         :type socim: SetOfCims
         """
-        #print("Putting in cache:", parents_comb)
         self._list_of_sets_of_parents.append(parents_comb)
         self._actual_cache.append(socim)
 

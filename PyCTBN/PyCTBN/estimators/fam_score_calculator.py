@@ -252,14 +252,7 @@ class FamScoreCalculator:
         :return: the FamScore value of the node
         :rtype: float
         """
-        #print("------")
-        #print(self.marginal_likelihood_q(cims,
-                                    # tau_xu,
-                                    # alpha_xu))
 
-        #print(self.marginal_likelihood_theta(cims, 
-                                        # alpha_xu,
-                                        # alpha_xxu))
         'calculate alpha_xxu as a uniform distribution'                                
         alpha_xxu = alpha_xu /(len(cims[0]._state_residence_times) - 1)
 

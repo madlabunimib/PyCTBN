@@ -141,8 +141,7 @@ class StructureConstraintBasedEstimator(StructureEstimator):
         r2s = M2.diagonal()
         C1 = cim1.cim
         C2 = cim2.cim
-        if child_states_numb > 2:
-            if (np.sum(np.diagonal(M1)) / thumb_value) < self._thumb_threshold:
+        if child_states_numb > 2 and (np.sum(np.diagonal(M1)) / thumb_value) < self._thumb_threshold:
                 self._removable_edges_matrix[parent_indx][child_indx] = False
                 return False
         F_stats = C2.diagonal() / C1.diagonal()
@@ -225,9 +224,13 @@ class StructureConstraintBasedEstimator(StructureEstimator):
                 list_edges_partial = executor.map(ctpc_algo,
                                                                  self._nodes,
                                                                  total_vars_numb_array)
-            #list_edges_partial = [ctpc_algo(n,total_vars_numb) for n in self._nodes]
+            
+        'Update the graph'
+        edges = set(itertools.chain.from_iterable(list_edges_partial))
+        self._complete_graph = nx.DiGraph()
+        self._complete_graph.add_edges_from(edges)
 
-        return set(itertools.chain.from_iterable(list_edges_partial))
+        return edges
 
         
     def estimate_structure(self,disable_multiprocessing:bool=False):
