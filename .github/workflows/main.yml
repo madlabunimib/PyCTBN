@@ -34,7 +34,7 @@ jobs:
         cd ./docs-out
         make html
         rm -r ../docs/*
-        cp -r build/html ../docs
+        cp -r _build/html ../docs
         
         
         
