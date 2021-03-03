@@ -37,7 +37,7 @@ jobs:
         cd ./docs-out
         make clean
         make html
-        rm -r ../docs/*
+        rm -rf ../docs/*
         cp -R _build/html/* ../docs
         git config --local user.email "f.martini@campus.unimib.it"
         git config --local user.name "philipMartini"
