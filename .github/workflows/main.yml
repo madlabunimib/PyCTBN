@@ -32,6 +32,7 @@ jobs:
     - name: Build html
       run: |
         cd ./docs-out
+        make clean
         make html
         rm -r ../docs/*
         cp -r _build/html ../docs
