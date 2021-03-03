@@ -33,7 +33,7 @@ from multiprocessing import Pool
 class StructureScoreBasedEstimator(StructureEstimator):
     """
     Has the task of estimating the network structure given the trajectories in samplepath by
-    using a score based approach.
+    using a score based approach and differt kinds of optimization algorithms.
 
     :param sample_path: the _sample_path object containing the trajectories and the real structure
     :type sample_path: SamplePath
