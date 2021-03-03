@@ -5,6 +5,9 @@ name: Sphinx Docs
 
 on:
   push:
+    paths-ignore: 
+      -'docs/**'
+      -'docs-out/**'
     branches: [ master ]
   pull_request:
     branches: [ master ]
