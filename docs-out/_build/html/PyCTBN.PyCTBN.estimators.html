@@ -399,22 +399,26 @@ in the graph <code class="docutils literal notranslate"><span class="pre">_net_g
 <li><p><strong>sample_path</strong> (<a class="reference internal" href="PyCTBN.PyCTBN.structure_graph.html#PyCTBN.PyCTBN.structure_graph.sample_path.SamplePath" title="PyCTBN.PyCTBN.structure_graph.sample_path.SamplePath"><em>SamplePath</em></a>) – the _sample_path object containing the trajectories and the real structure</p></li>
 <li><p><strong>exp_test_alfa</strong> (<em>float</em>) – the significance level for the exponential Hp test</p></li>
 <li><p><strong>chi_test_alfa</strong> (<em>float</em>) – the significance level for the chi Hp test</p></li>
+<li><p><strong>known_edges</strong> (<em>List</em>) – the prior known edges in the net structure if present</p></li>
 </ul>
 </dd>
-<dt class="field-even">_nodes</dt>
-<dd class="field-even"><p>the nodes labels</p>
+<dt class="field-even">Param</dt>
+<dd class="field-even"><p>thumb_threshold: the threshold value to consider a valid independence test</p>
 </dd>
-<dt class="field-odd">_nodes_vals</dt>
-<dd class="field-odd"><p>the nodes cardinalities</p>
+<dt class="field-odd">_nodes</dt>
+<dd class="field-odd"><p>the nodes labels</p>
 </dd>
-<dt class="field-even">_nodes_indxs</dt>
-<dd class="field-even"><p>the nodes indexes</p>
+<dt class="field-even">_nodes_vals</dt>
+<dd class="field-even"><p>the nodes cardinalities</p>
 </dd>
-<dt class="field-odd">_complete_graph</dt>
-<dd class="field-odd"><p>the complete directed graph built using the nodes labels in <code class="docutils literal notranslate"><span class="pre">_nodes</span></code></p>
+<dt class="field-odd">_nodes_indxs</dt>
+<dd class="field-odd"><p>the nodes indexes</p>
 </dd>
-<dt class="field-even">_cache</dt>
-<dd class="field-even"><p>the Cache object</p>
+<dt class="field-even">_complete_graph</dt>
+<dd class="field-even"><p>the complete directed graph built using the nodes labels in <code class="docutils literal notranslate"><span class="pre">_nodes</span></code></p>
+</dd>
+<dt class="field-odd">_cache</dt>
+<dd class="field-odd"><p>the Cache object</p>
 </dd>
 </dl>
 <dl class="py method">
@@ -529,7 +533,10 @@ it is performed also the chi_test.</p>
 <p>Has the task of estimating the network structure given the trajectories in <code class="docutils literal notranslate"><span class="pre">samplepath</span></code>.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
-<dd class="field-odd"><p><strong>sample_path</strong> (<a class="reference internal" href="PyCTBN.PyCTBN.structure_graph.html#PyCTBN.PyCTBN.structure_graph.sample_path.SamplePath" title="PyCTBN.PyCTBN.structure_graph.sample_path.SamplePath"><em>SamplePath</em></a>) – the _sample_path object containing the trajectories and the real structure</p>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>sample_path</strong> (<a class="reference internal" href="PyCTBN.PyCTBN.structure_graph.html#PyCTBN.PyCTBN.structure_graph.sample_path.SamplePath" title="PyCTBN.PyCTBN.structure_graph.sample_path.SamplePath"><em>SamplePath</em></a>) – the _sample_path object containing the trajectories and the real structure</p></li>
+<li><p><strong>known_edges</strong> (<em>List</em>) – the prior known edges in the net structure if present</p></li>
+</ul>
 </dd>
 <dt class="field-even">_nodes</dt>
 <dd class="field-even"><p>the nodes labels</p>
