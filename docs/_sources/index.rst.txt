@@ -10,7 +10,8 @@ Welcome to PyCTBN's documentation!
    :maxdepth: 4
    :caption: Contents:
 
-   modules
+   PyCTBN.PyCTBN
+   examples
 
 
 
