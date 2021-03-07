@@ -25,6 +25,8 @@ class StructureEstimator(object):
 
     :param sample_path: the _sample_path object containing the trajectories and the real structure
     :type sample_path: SamplePath
+    :param known_edges: the prior known edges in the net structure if present
+    :type known_edges: List
     :_nodes: the nodes labels
     :_nodes_vals: the nodes cardinalities
     :_nodes_indxs: the nodes indexes

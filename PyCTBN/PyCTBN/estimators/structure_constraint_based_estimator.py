@@ -38,6 +38,10 @@ class StructureConstraintBasedEstimator(StructureEstimator):
     :type exp_test_alfa: float
     :param chi_test_alfa: the significance level for the chi Hp test
     :type chi_test_alfa: float
+    :param: thumb_threshold: the threshold value to consider a valid independence test
+    :type thumb_threshold: int
+    :param known_edges: the prior known edges in the net structure if present
+    :type known_edges: List
     :_nodes: the nodes labels
     :_nodes_vals: the nodes cardinalities
     :_nodes_indxs: the nodes indexes
@@ -45,7 +49,8 @@ class StructureConstraintBasedEstimator(StructureEstimator):
     :_cache: the Cache object
     """
 
-    def __init__(self, sample_path: SamplePath, exp_test_alfa: float, chi_test_alfa: float,known_edges: typing.List= [],thumb_threshold:int = 25):
+    def __init__(self, sample_path: SamplePath, exp_test_alfa: float, chi_test_alfa: float,known_edges: typing.List= [],
+                 thumb_threshold:int = 25):
         super().__init__(sample_path,known_edges)
         self._exp_test_sign = exp_test_alfa
         self._chi_test_alfa = chi_test_alfa
