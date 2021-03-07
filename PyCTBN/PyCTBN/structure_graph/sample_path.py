@@ -10,6 +10,7 @@ from ..utility.abstract_importer import AbstractImporter
 
 MESSAGE_HAS_TO_CONTAIN_EXCEPTION = 'The importer object has to contain the all processed data!'
 
+
 class SamplePath(object):
     """Aggregates all the informations about the trajectories, the real structure of the sampled net and variables
     cardinalites. Has the task of creating the objects ``Trajectory`` and ``Structure`` that will

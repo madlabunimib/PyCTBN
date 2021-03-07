@@ -90,17 +90,14 @@ class StructureEstimator(object):
         list_without_test_parent.remove(parent_label)
         return map(list, itertools.combinations(list_without_test_parent, size))
 
-    def save_results(self) -> None:
-        """Save the estimated Structure to a .json file in the path where the data are loaded from.
-        The file is named as the input dataset but the `results_` word is appended to the results file.
+    def save_results(self, file_path: str) -> None:
+        """Save the estimated Structure to a .json file in file_path.
+
+        :param file_path: the path including the file name with .json extension
+        :type file_path: string
         """
         res = json_graph.node_link_data(self._complete_graph)
-        name = self._sample_path._importer.file_path.rsplit('/', 1)[-1]
-        name = name.split('.', 1)[0]
-        name += '_' + str(self._sample_path._importer.dataset_id())
-        name += '.json'
-        file_name = 'results_' + name
-        with open(file_name, 'w') as f:
+        with open(file_path, 'w') as f:
             json.dump(res, f)
 
 
@@ -120,14 +117,13 @@ class StructureEstimator(object):
         """
         pass
 
-    
     def adjacency_matrix(self) -> np.ndarray:
         """Converts the estimated structure ``_complete_graph`` to a boolean adjacency matrix representation.
 
         :return: The adjacency matrix of the graph ``_complete_graph``
         :rtype: numpy.ndArray
         """
-        return nx.adj_matrix(self._complete_graph).toarray().astype(bool)
+        return nx.adj_matrix(self._complete_graph, self._nodes).toarray().astype(bool)
 
     def spurious_edges(self) -> typing.List:
         """Return the spurious edges present in the estimated structure, if a prior net structure is present in

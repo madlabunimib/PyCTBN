@@ -24,6 +24,7 @@ class TestStructureEstimator(unittest.TestCase):
         cls.s1 = SamplePath(cls.importer)
         cls.s1.build_trajectories()
         cls.s1.build_structure()
+        cls.real_net_structure = nx.DiGraph(cls.s1.structure.edges)
 
     def test_init(self):
         exp_alfa = 0.1
@@ -50,7 +51,6 @@ class TestStructureEstimator(unittest.TestCase):
             no_self_loops.remove(node)
             for n2 in no_self_loops:
                 self.assertIn((node, n2), cg.edges)
-        #se1.save_plot_estimated_structure_graph()
 
     def test_build_removable_edges_matrix(self):
         exp_alfa = 0.1
@@ -84,18 +84,12 @@ class TestStructureEstimator(unittest.TestCase):
         print("Execution Time: ", exec_time)
         for ed in self.s1.structure.edges:
             self.assertIn(tuple(ed), se1._complete_graph.edges)
-        #print("Spurious Edges:", se1.spurious_edges())
-        #se1.save_plot_estimated_structure_graph()
 
     def test_save_results(self):
         se1 = StructureConstraintBasedEstimator(self.s1, 0.1, 0.1)
         se1.ctpc_algorithm()
-        se1.save_results()
-        name = self.s1._importer.file_path.rsplit('/', 1)[-1]
-        name = name.split('.', 1)[0]
-        name += '_' + str(self.s1._importer.dataset_id())
-        name += '.json'
-        file_name = 'results_' + name
+        file_name = './PyCTBN/tests/estimators/test_save.json'
+        se1.save_results(file_name)
         with open(file_name) as f:
             js_graph = json.load(f)
             result_graph = nx.json_graph.node_link_graph(js_graph)
@@ -105,13 +99,16 @@ class TestStructureEstimator(unittest.TestCase):
     def test_adjacency_matrix(self):
         se1 = StructureConstraintBasedEstimator(self.s1, 0.1, 0.1)
         se1.ctpc_algorithm()
-        adj_matrix = nx.adj_matrix(se1._complete_graph).toarray().astype(bool)
+        adj_matrix = nx.adj_matrix(self.real_net_structure, self.s1.structure.nodes_labels).toarray().astype(bool)
         self.assertTrue(np.array_equal(adj_matrix, se1.adjacency_matrix()))
 
     def test_save_plot_estimated_graph(self):
         se1 = StructureConstraintBasedEstimator(self.s1, 0.1, 0.1)
         edges = se1.estimate_structure(disable_multiprocessing=True)
-        se1.save_plot_estimated_structure_graph('./networks_and_trajectories_ternary_data_3.png')
+        file_name = './PyCTBN/tests/estimators/test_plot.png'
+        se1.save_plot_estimated_structure_graph(file_name)
+        os.remove(file_name)
+
 
 
 if __name__ == '__main__':

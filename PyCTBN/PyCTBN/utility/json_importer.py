@@ -131,7 +131,6 @@ class JsonImporter(AbstractImporter):
         :rtype: List
         """
         dataframe = pd.DataFrame
-        #print(raw_data)
         smps = raw_data[indx][trajectories_key]
         df_samples_list = [dataframe(sample) for sample in smps]
         return df_samples_list
