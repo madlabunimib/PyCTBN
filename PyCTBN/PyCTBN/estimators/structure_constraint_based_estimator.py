@@ -38,10 +38,10 @@ class StructureConstraintBasedEstimator(StructureEstimator):
     :type exp_test_alfa: float
     :param chi_test_alfa: the significance level for the chi Hp test
     :type chi_test_alfa: float
-    :param: thumb_threshold: the threshold value to consider a valid independence test
-    :type thumb_threshold: int
     :param known_edges: the prior known edges in the net structure if present
     :type known_edges: List
+    :param thumb_threshold: the threshold value to consider a valid independence test
+    :type thumb_threshold: int
     :_nodes: the nodes labels
     :_nodes_vals: the nodes cardinalities
     :_nodes_indxs: the nodes indexes
