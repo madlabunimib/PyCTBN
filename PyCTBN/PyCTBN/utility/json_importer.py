@@ -49,10 +49,10 @@ class JsonImporter(AbstractImporter):
         super(JsonImporter, self).__init__(file_path)
         self._raw_data = self.read_json_file()
 
-    def import_data(self, indx: int) -> None:
+    def import_data(self, indx: int = 0) -> None:
         """Implements the abstract method of :class:`AbstractImporter`.
 
-        :param indx: the index of the outer JsonArray to extract the data from
+        :param indx: the index of the outer JsonArray to extract the data from, default to 0
         :type indx: int
         """
         self._array_indx = indx
@@ -101,7 +101,12 @@ class JsonImporter(AbstractImporter):
         """
         with open(self._file_path) as f:
             data = json.load(f)
-            return data
+
+            if (isinstance(data,list)):
+                return data
+            else:
+                return [data]
+         
 
     def one_level_normalizing(self, raw_data: typing.List, indx: int, key: str) -> pd.DataFrame:
         """Extracts the one-level nested data in the list ``raw_data`` at the index ``indx`` at the key ``key``.
