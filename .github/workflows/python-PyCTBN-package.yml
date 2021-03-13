@@ -8,6 +8,8 @@ on:
     paths-ignore: 
       -'docs/**'
       -'docs-out/**'
+      -'dist/**'
+      -'build/**'
     branches: [ master ]
   pull_request:
     branches: [ master ]
