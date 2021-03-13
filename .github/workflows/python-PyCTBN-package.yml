@@ -42,6 +42,3 @@ jobs:
     - name: Test with pytest
       run: |
         pytest PyCTBN/tests/
-   
-        branch: master
-        github_token: ${{ secrets.PYCTBN_TOK }}
