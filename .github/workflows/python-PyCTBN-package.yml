@@ -44,18 +44,11 @@ jobs:
         pytest PyCTBN/tests/
     - name: Install pypa/build
       run: |
-        python -m
-        pip install
-        build
-        --user
+        python -m pip install build
     - name: Build a binary wheel and a source tarball
       run: |
         git clone https://github.com/philipMartini/PyCTBN --branch master  --single-branch
-        python -m
-        build
-        --sdist
-        --wheel
-        --outdir dist/.
+        python -m build --sdist --wheel --outdir dist/.
         git config --local user.email "f.martini@campus.unimib.it"
         git config --local user.name "philipMartini"
         git add .
