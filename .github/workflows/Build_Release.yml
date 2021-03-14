@@ -31,8 +31,8 @@ jobs:
         env:
           GITHUB_TOKEN: ${{ secrets.PYCTBN_TOK }}
         with:
-          tag_name: v.${{ github.ref }}
-          release_name: Release v. ${{ github.ref }}
+          tag_name: ver.${{ github.ref }}
+          release_name: Release ver. ${{ github.ref }}
           draft: false
           prerelease: false
       - name: Upload Release Asset
