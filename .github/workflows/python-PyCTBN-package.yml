@@ -11,6 +11,8 @@ on:
       -'dist/**'
       -'build/**'
     branches: [ master ]
+    tags-ignore:
+      - 'v*'
   pull_request:
     branches: [ master ]
 
