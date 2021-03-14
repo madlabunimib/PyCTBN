@@ -2,7 +2,7 @@ from setuptools import setup, find_packages
 
 
 setup(name='PyCTBN',
-      version='1.0',
+      version='2.1',
       url='https://github.com/philipMartini/PyCTBN',
       license='MIT',
       author=['Alessandro Bregoli', 'Filippo Martini','Luca Moretti'],
