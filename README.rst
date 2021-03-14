@@ -92,7 +92,7 @@ Parameters Estimation Example
         #The est CIMS are inside the resultant SetOfCIms Obj
         print(sofc1.actual_cims)
 
-Structure Estimation Example
+Structure Estimation Examples
 ****************************
 
 .. code-block:: python
