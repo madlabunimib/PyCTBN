@@ -5,11 +5,8 @@ name: Python package
 
 on:
   push:
-    paths-ignore: 
-      -'docs/**'
-      -'docs-out/**'
-      -'dist/**'
-      -'build/**'
+    paths:
+      - 'PyCTBN/**'
     branches: [ master ]
     tags-ignore:
       - 'v*'
