@@ -94,32 +94,59 @@ Parameters Estimation Example
 
 Structure Estimation Examples
 ****************************
+This example shows how to estimate the structure given a series of trajectories using a constraint based approach.
+The first three instructions import all the necessary data (trajectories, nodes cardinalities, nodes labels),
+and are contextual to the dataset that is been used, in the code comments are marked as optional <>.
+If your data has a different structure or format you should implement your own importer (see Implementing your own importer example).
+The other instructions are not optional and should follow the same order.
+A SamplePath object is been created, passing an AbstractImporter object that contains the  correct class members filled
+with the data that are necessary to estimate the structure.
+Next the build_trajectories  and build_structure methods are called to instantiate the objects that will contain
+the processed trajectories and all the net infos.
+Then an estimator object is created, in this case a constraint based estimator, it necessary to pass a SamplePath object
+where build_trajectories and build_structure methods have already been called.
+If you have prior knowledge about the net structure pass it to the constructor with the known_edges parameter.
+The other three parameters are contextual to the StructureConstraintBasedEstimator, see the documentation for more details.
+To estimate the structure simply call the estimate_structure method.
+You can obtain the estimated structure as a boolean adjacency matrix with the method adjacency_matrix, or save it as a json file
+that contains all the nodes labels, and obviously the estimated edges.
+You can also save a graphical model representation of the estimated structure with the save_plot_estimated_structure_graph.
 
 .. code-block:: python
 
+    import glob
+    import os
+
     from PyCTBN import JsonImporter
     from PyCTBN import SamplePath
-    from PyCTBN import StructureEstimator
-    
-    def structure_estimation_example():
+    from PyCTBN import StructureConstraintBasedEstimator
 
-        # read the json files in ./data path
+
+    def structure_constraint_based_estimation_example():
+        # <read the json files in ./data path>
         read_files = glob.glob(os.path.join('./data', "*.json"))
-        # initialize a JsonImporter object for the first file
-        importer = JsonImporter(read_files[0], 'samples', 'dyn.str', 'variables', 'Time', 'Name')
-        # import the data at index 0 of the outer json array
+        # <initialize a JsonImporter object for the first file>
+        importer = JsonImporter(file_path=read_files[0], samples_label='samples',
+                                structure_label='dyn.str', variables_label='variables',
+                                time_key='Time', variables_key='Name')
+        # <import the data at index 0 of the outer json array>
         importer.import_data(0)
-        # construct a SamplePath Object passing a filled AbstractImporter
-        s1 = SamplePath(importer)
+        # construct a SamplePath Object passing a filled AbstractImporter object
+        s1 = SamplePath(importer=importer)
         # build the trajectories
         s1.build_trajectories()
-        # build the real structure
+        # build the information about the net
         s1.build_structure()
-        # construct a StructureEstimator object
-        se1 = StructureEstimator(s1, 0.1, 0.1)
-        # call the ctpc algorithm
-        se1.ctpc_algorithm()
-        # the adjacency matrix of the estimated structure
+        # construct a StructureEstimator object passing a correctly build SamplePath object and the
+        # independence tests significance, if you have prior knowledge about the net structure create a list of tuples
+        # that contains them and pass it as known_edges parameter
+        se1 = StructureConstraintBasedEstimator(sample_path=s1, exp_test_alfa=0.1, chi_test_alfa=0.1,
+                                                known_edges=[], thumb_threshold=25)
+        # call the algorithm to estimate the structure
+        se1.estimate_structure()
+        # obtain the adjacency matrix of the estimated structure
         print(se1.adjacency_matrix())
-        # save results to a json file
-        se1.save_results()
+        # save the estimated structure  to a json file (remember to specify the path AND the .json extension)....
+        se1.save_results('./results0.json')
+        # ...or save it also in a graphical model fashion (remember to specify the path AND the .png extension)
+        se1.save_plot_estimated_structure_graph('./result0.png')
