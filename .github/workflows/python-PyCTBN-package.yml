@@ -42,3 +42,20 @@ jobs:
     - name: Test with pytest
       run: |
         pytest PyCTBN/tests/
+    - name: Install pypa/build
+      run: |
+        python -m pip install build
+    - name: Build a binary wheel and a source tarball
+      run: |
+        python -m build --sdist --wheel --outdir dist/.
+        git config --local user.email "f.martini@campus.unimib.it"
+        git config --local user.name "philipMartini"
+        git add .
+        git commit -m "Create New Realease at dist/" -a || true
+        # The above command will fail if no changes were present, so we ignore
+        # that.
+    - name: Push changes
+      uses: ad-m/github-push-action@master
+      with:
+        branch: master
+        github_token: ${{ secrets.PYCTBN_TOK }}
