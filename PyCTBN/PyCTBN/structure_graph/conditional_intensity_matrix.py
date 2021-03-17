@@ -11,12 +11,16 @@ class ConditionalIntensityMatrix(object):
     :type state_transition_matrix: numpy.ndArray
     :_cim: the actual cim of the node
     """
-    def __init__(self, state_residence_times: np.array, state_transition_matrix: np.array):
+    def __init__(self, state_residence_times: np.array = None, state_transition_matrix: np.array = None, 
+        cim: np.array = None):
         """Constructor Method
         """
         self._state_residence_times = state_residence_times
         self._state_transition_matrix = state_transition_matrix
-        self._cim = self.state_transition_matrix.astype(np.float64)
+        if cim is not None:
+            self._cim = cim
+        else:
+            self._cim = self.state_transition_matrix.astype(np.float64)
 
     def compute_cim_coefficients(self) -> None:
         """Compute the coefficients of the matrix _cim by using the following equality q_xx' = M[x, x'] / T[x].

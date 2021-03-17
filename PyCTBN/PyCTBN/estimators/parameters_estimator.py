@@ -33,7 +33,8 @@ class ParametersEstimator(object):
         """
         p_vals = self._net_graph._aggregated_info_about_nodes_parents[2]
         node_states_number = self._net_graph.get_states_number(node_id)
-        self._single_set_of_cims = SetOfCims(node_id, p_vals, node_states_number, self._net_graph.p_combs)
+        self._single_set_of_cims = SetOfCims(node_id = node_id, parents_states_number = p_vals, 
+            node_states_number = node_states_number, p_combs = self._net_graph.p_combs)
 
     def compute_parameters_for_node(self, node_id: str) -> SetOfCims:
         """Compute the CIMS of the node identified by the label ``node_id``.

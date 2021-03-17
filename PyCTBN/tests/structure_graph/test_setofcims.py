@@ -49,7 +49,8 @@ class TestSetOfCims(unittest.TestCase):
 
     def test_filter_cims_with_mask(self):
         p_combs = self.build_p_comb_structure_for_a_node(self.possible_cardinalities)
-        sofc1 = SetOfCims('X', self.possible_cardinalities, 3, p_combs)
+        sofc1 = SetOfCims(node_id = 'X', parents_states_number = self.possible_cardinalities, node_states_number = 3, 
+            p_combs = p_combs)
         state_res_times_list = []
         transition_matrices_list = []
         for i in range(len(p_combs)):
@@ -73,7 +74,8 @@ class TestSetOfCims(unittest.TestCase):
     def aux_test_build_cims(self, node_id, p_values, node_states, p_combs):
         state_res_times_list = []
         transition_matrices_list = []
-        so1 = SetOfCims(node_id, p_values, node_states, p_combs)
+        so1 = SetOfCims(node_id = node_id, parents_states_number = p_values, node_states_number = node_states, 
+            p_combs = p_combs)
         for i in range(len(p_combs)):
             state_res_times = np.random.rand(1, node_states)[0]
             state_res_times = state_res_times * 1000
@@ -87,7 +89,8 @@ class TestSetOfCims(unittest.TestCase):
         self.assertIsNone(so1._state_residence_times)
 
     def aux_test_init(self, node_id, parents_states_number, node_states_number, p_combs):
-        sofcims = SetOfCims(node_id, parents_states_number, node_states_number, p_combs)
+        sofcims = SetOfCims(node_id = node_id, parents_states_number = parents_states_number, 
+            node_states_number = node_states_number, p_combs = p_combs)
         self.assertEqual(sofcims._node_id, node_id)
         self.assertTrue(np.array_equal(sofcims._p_combs, p_combs))
         self.assertTrue(np.array_equal(sofcims._parents_states_number, parents_states_number))
