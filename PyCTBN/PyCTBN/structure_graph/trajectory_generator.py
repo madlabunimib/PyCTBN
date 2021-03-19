@@ -62,10 +62,5 @@ class TrajectoryGenerator(object):
                 new_row.loc[0].at["Time"] = round(t, 4)
                 sigma = sigma.append(new_row, ignore_index = True)
 
-                """ sup = sigma.loc[len(sigma) - 1]
-                sup.at[self._vnames[next]] = 1 - sup.at[self._vnames[next]]
-                sup.at["Time"] = round(t, 4)
-                sigma.loc[len(sigma)] = sup """
-
                 # undefine variable time
                 time[next] = np.NaN
