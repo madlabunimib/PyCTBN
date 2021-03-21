@@ -26,7 +26,7 @@ Implementing your own data importer
 | In the read_csv_file method the data are imported in memory, put in a list and  assigned to the _df_samples_list class
 | member, so that it contains all the trajectories to be processed.
 | In the import_variables method the dataframe containing the nodes labels and the cardinalities of the nodes 
-|is assigned to the _df_variables class member. 
+| is assigned to the _df_variables class member. 
 | The class member _sorter has to contain the nodes labels in the same order of the trajectory columns,
 | just override the build_sorter method to do that.
 | If your datasets names have particular id, you can keep it using the dataset_id method to assign the id to a new class member. 
