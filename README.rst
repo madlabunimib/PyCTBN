@@ -18,9 +18,11 @@ Implementing your own data importer
 | This example demonstrates the implementation of a simple data importer the extends the class AbstractImporter 
 | to import data in csv format. The net in exam has three ternary nodes and no prior net structure.
 | Suppose the trajectories that have to be inported have this structure:
+
 .. image:: docs-out/esempio_dataset.png
   :width: 600
   :alt: An example trajectory to be imported.
+ 
 | In the read_csv_file method the data are imported in memory, put in a list and  assigned to the _df_samples_list class
 | member, so that it contains all the trajectories to be processed.
 | In the import_variables method the dataframe containing the nodes labels and the cardinalities of the nodes 
@@ -81,45 +83,6 @@ Implementing your own data importer
         s1.build_trajectories()
         #...and the Structure object with all the process data
         s1.build_structure()
-
-Parameters Estimation Example
-*****************************
-
-.. code-block:: python
-
-    from PyCTBN import JsonImporter
-    from PyCTBN import SamplePath
-    from PyCTBN import NetworkGraph
-    from PyCTBN import ParametersEstimator
-
-
-    def main():
-        read_files = glob.glob(os.path.join('./data', "*.json")) #Take all json files in this dir
-        #import data
-        importer = JsonImporter(read_files[0], 'samples', 'dyn.str', 'variables', 'Time', 'Name')
-        importer.import_data(0)
-        #Create a SamplePath Obj passing an already filled AbstractImporter object
-        s1 = SamplePath(importer)
-        #Build The trajectries and the structural infos
-        s1.build_trajectories()
-        s1.build_structure()
-        print(s1.structure.edges)
-        print(s1.structure.nodes_values)
-        #From The Structure Object build the Graph
-        g = NetworkGraph(s1.structure)
-        #Select a node you want to estimate the parameters
-        node = g.nodes[2]
-        print("Node", node)
-        #Init the _graph specifically for THIS node
-        g.fast_init(node)
-        #Use SamplePath and Grpah to create a ParametersEstimator Object
-        p1 = ParametersEstimator(s1.trajectories, g)
-        #Init the peEst specifically for THIS node
-        p1.fast_init(node)
-        #Compute the parameters
-        sofc1 = p1.compute_parameters_for_node(node)
-        #The est CIMS are inside the resultant SetOfCIms Obj
-        print(sofc1.actual_cims)
 
 Structure Estimation Examples
 ****************************
