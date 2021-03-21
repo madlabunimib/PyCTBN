@@ -15,11 +15,24 @@ Please refer to https://philipmartini.github.io/PyCTBN/ for the full project doc
 
 Implementing your own data importer
 ***********************************
-.. code-block:: python
+| This example demonstrates the implementation of a simple data importer the extends the class AbstractImporter 
+| to import data in csv format. The net in exam has three ternary nodes and no prior net structure.
+| Suppose the trajectories that have to be inported have this structure:
+.. image:: docs-out/esempio_dataset.png
+  :width: 400
+  :alt: An example trajectory to be imported.
+| In the read_csv_file method the data are imported in memory, put in a list and  assigned to the _df_samples_list class
+| member, so that it contains all the trajectories to be processed.
+| In the import_variables method the dataframe containing the nodes labels and the cardinalities of the nodes 
+|is assigned to the _df_variables class member. 
+| The class member _sorter has to contain the nodes labels in the same order of the trajectory columns,
+| just override the build_sorter method to do that.
+| If your datasets names have particular id, you can keep it using the dataset_id method to assign the id to a new class member. 
+| Finally the import_data method call all the previously implemented methods and calls the compute_row_delta_in_all_samples_frames
+| to process all the trajectories in _df_samples_list.
+| For more information about the class memebers and methods of AbstractImporter please refer to the documentation.
 
-    """This example demonstrates the implementation of a simple data importer the extends the class abstract importer to import data in csv format.
-    The net in exam has three ternary nodes and no prior net structure.
-    """
+.. code-block:: python
 
     from PyCTBN import AbstractImporter
 
@@ -52,6 +65,18 @@ Implementing your own data importer
 
         def dataset_id(self) -> object:
             pass
+
+    def main():
+        # create the importer object
+        csvimp = CSVImporter('/dataset_example.csv')
+        # call the wrapping method that wil import and process the data
+        csvimp.import_data()
+        # pass the AbstractImporter object to the SamplePath constructor
+        s1 = SamplePath(csvimp)
+        # SamplePath will contain the Trajecotry object...
+        s1.build_trajectories()
+        #...and the Structure object with all the process data
+        s1.build_structure()
 
 Parameters Estimation Example
 *****************************
