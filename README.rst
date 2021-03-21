@@ -19,7 +19,7 @@ Implementing your own data importer
 | to import data in csv format. The net in exam has three ternary nodes and no prior net structure.
 | Suppose the trajectories that have to be inported have this structure:
 .. image:: docs-out/esempio_dataset.png
-  :width: 400
+  :width: 600
   :alt: An example trajectory to be imported.
 | In the read_csv_file method the data are imported in memory, put in a list and  assigned to the _df_samples_list class
 | member, so that it contains all the trajectories to be processed.
@@ -34,7 +34,11 @@ Implementing your own data importer
 
 .. code-block:: python
 
+    import pandas as pd
+    import typing
+    
     from PyCTBN import AbstractImporter
+    from PyCTBN import SamplePath
 
     class CSVImporter(AbstractImporter):
 
