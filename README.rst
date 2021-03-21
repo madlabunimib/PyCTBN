@@ -94,23 +94,25 @@ Parameters Estimation Example
 
 Structure Estimation Examples
 ****************************
-This example shows how to estimate the structure given a series of trajectories using a constraint based approach.
-The first three instructions import all the necessary data (trajectories, nodes cardinalities, nodes labels),
-and are contextual to the dataset that is been used, in the code comments are marked as optional <>.
-If your data has a different structure or format you should implement your own importer (see Implementing your own importer example).
-The other instructions are not optional and should follow the same order.
-A SamplePath object is been created, passing an AbstractImporter object that contains the  correct class members filled
-with the data that are necessary to estimate the structure.
-Next the build_trajectories  and build_structure methods are called to instantiate the objects that will contain
-the processed trajectories and all the net infos.
-Then an estimator object is created, in this case a constraint based estimator, it necessary to pass a SamplePath object
-where build_trajectories and build_structure methods have already been called.
-If you have prior knowledge about the net structure pass it to the constructor with the known_edges parameter.
-The other three parameters are contextual to the StructureConstraintBasedEstimator, see the documentation for more details.
-To estimate the structure simply call the estimate_structure method.
-You can obtain the estimated structure as a boolean adjacency matrix with the method adjacency_matrix, or save it as a json file
-that contains all the nodes labels, and obviously the estimated edges.
-You can also save a graphical model representation of the estimated structure with the save_plot_estimated_structure_graph.
+| This example shows how to estimate the structure given a series of trajectories using a constraint based approach.
+| The first three instructions import all the necessary data (trajectories, nodes cardinalities, nodes labels),
+| and are contextual to the dataset that is been used, in the code comments are marked as optional <>.
+| If your data has a different structure or format you should implement your own importer 
+| (see Implementing your own importer example).
+| The other instructions are not optional and should follow the same order.
+| A SamplePath object is been created, passing an AbstractImporter object that contains the  correct class members 
+| filled with the data that are necessary to estimate the structure.
+| Next the build_trajectories  and build_structure methods are called to instantiate the objects that will contain
+| the processed trajectories and all the net information.
+| Then an estimator object is created, in this case a constraint based estimator, 
+| it necessary to pass a SamplePath object where build_trajectories and build_structure methods have already been called.
+| If you have prior knowledge about the net structure pass it to the constructor with the known_edges parameter.
+| The other three parameters are contextual to the StructureConstraintBasedEstimator, see the documentation for more details.
+| To estimate the structure simply call the estimate_structure method.
+| You can obtain the estimated structure as a boolean adjacency matrix with the method adjacency_matrix, 
+| or save it as a json file that contains all the nodes labels, and obviously the estimated edges.
+| You can also save a graphical model representation of the estimated structure 
+| with the save_plot_estimated_structure_graph.
 
 .. code-block:: python
 
@@ -137,8 +139,9 @@ You can also save a graphical model representation of the estimated structure wi
         s1.build_trajectories()
         # build the information about the net
         s1.build_structure()
-        # construct a StructureEstimator object passing a correctly build SamplePath object and the
-        # independence tests significance, if you have prior knowledge about the net structure create a list of tuples
+        # construct a StructureEstimator object passing a correctly build SamplePath object
+        # and the independence tests significance, if you have prior knowledge about 
+        # the net structure create a list of tuples
         # that contains them and pass it as known_edges parameter
         se1 = StructureConstraintBasedEstimator(sample_path=s1, exp_test_alfa=0.1, chi_test_alfa=0.1,
                                                 known_edges=[], thumb_threshold=25)
@@ -146,7 +149,9 @@ You can also save a graphical model representation of the estimated structure wi
         se1.estimate_structure()
         # obtain the adjacency matrix of the estimated structure
         print(se1.adjacency_matrix())
-        # save the estimated structure  to a json file (remember to specify the path AND the .json extension)....
+        # save the estimated structure  to a json file 
+        # (remember to specify the path AND the .json extension)....
         se1.save_results('./results0.json')
-        # ...or save it also in a graphical model fashion (remember to specify the path AND the .png extension)
+        # ...or save it also in a graphical model fashion 
+        # (remember to specify the path AND the .png extension)
         se1.save_plot_estimated_structure_graph('./result0.png')
