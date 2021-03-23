@@ -25,7 +25,7 @@ class TrajectoryGenerator(object):
             v_cims = []
             for comb in sampled_cims[v].keys():
                 p_combs.append(np.array(re.findall(r"=(\d)", comb)).astype("int"))
-                cim = pd.DataFrame(sampled_cims[v][comb]).to_numpy()      
+                cim = pd.DataFrame(sampled_cims[v][comb]).to_numpy()    
                 v_cims.append(ConditionalIntensityMatrix(cim = cim))
             
             sof = SetOfCims(node_id = v, parents_states_number = [self._importer._df_variables.where(self._importer._df_variables["Name"] == p)["Value"] for p in self._parents[v]], 
@@ -46,7 +46,7 @@ class TrajectoryGenerator(object):
                     current_values = sigma.loc[len(sigma) - 1]
                     cim = self._cims[self._vnames[i]].filter_cims_with_mask(np.array([True for p in self._parents[self._vnames[i]]]), 
                         [current_values.at[p] for p in self._parents[self._vnames[i]]])[0].cim
-                    param = cim[current_values.at[self._vnames[i]]][1 - current_values.at[self._vnames[i]]]
+                    param = -1 * cim[current_values.at[self._vnames[i]]][current_values.at[self._vnames[i]]]
 
                     time[i] = t + random.exponential(scale = param)
         
@@ -57,8 +57,13 @@ class TrajectoryGenerator(object):
             if t >= t_end:
                 return sigma
             else:
+                cim_row = np.array(cim[current_values.at[self._vnames[next]]])
+                cim_row[current_values.at[self._vnames[next]]] = 0
+                cim_row /= sum(cim_row)
+                rand_mult = np.random.multinomial(1, cim_row, size=1)
+
                 new_row = pd.DataFrame(sigma[-1:].values, columns = sigma.columns)
-                new_row.loc[0].at[self._vnames[next]] = 1 - new_row.loc[0].at[self._vnames[next]]
+                new_row.loc[0].at[self._vnames[next]] = np.where(rand_mult[0] == 1)[0][0]
                 new_row.loc[0].at["Time"] = round(t, 4)
                 sigma = sigma.append(new_row, ignore_index = True)
 
