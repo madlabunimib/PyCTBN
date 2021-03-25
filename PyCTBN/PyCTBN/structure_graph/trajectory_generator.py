@@ -33,7 +33,6 @@ class TrajectoryGenerator(object):
             self._cims[v] = sof
 
     def CTBN_Sample(self, t_end):
-        #Replace v_values with sigma (pandas dataframe)
         t = 0
         sigma = pd.DataFrame(columns = (["Time"] + self._vnames))
         sigma.loc[len(sigma)] = [0] + [0 for v in self._vnames]
