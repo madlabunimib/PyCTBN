@@ -75,7 +75,8 @@ class TestTabuSearch(unittest.TestCase):
     def test_structure_3(self):
         with open("./PyCTBN/test_data/networks_and_trajectories_ternary_data_01_6_1.json") as f:
                     raw_data = json.load(f)
-
+                
+                    # read the samples
                     trajectory_list_raw= raw_data["samples"]
 
                     trajectory_list = [pd.DataFrame(sample) for sample in trajectory_list_raw]
