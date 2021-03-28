@@ -8,6 +8,10 @@ Installation/Usage
 Download the release in .tar.gz or .whl format and simply use pip install to install it::
 
     $ pip install PyCTBN-1.0.tar.gz
+    
+Coverage
+********
+Please refer to https://app.codecov.io/gh/philipMartini/PyCTBN for a detailed report of test coverage.
 
 Documentation
 *************
