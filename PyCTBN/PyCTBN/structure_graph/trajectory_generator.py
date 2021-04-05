@@ -54,7 +54,7 @@ class TrajectoryGenerator(object):
             t = time[next]
 
             if t >= t_end:
-                return sigma
+                return Trajectory(self._importer.build_list_of_samples_array(sigma), len(self._vnames) + 1)
             else:
                 cim_row = np.array(cim[current_values.at[self._vnames[next]]])
                 cim_row[current_values.at[self._vnames[next]]] = 0
