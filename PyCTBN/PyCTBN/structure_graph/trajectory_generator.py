@@ -32,11 +32,12 @@ class TrajectoryGenerator(object):
                 node_states_number = self._importer._df_variables.where(self._importer._df_variables["Name"] == v)["Value"], p_combs = p_combs, cims = v_cims)
             self._cims[v] = sof
 
-    def CTBN_Sample(self, t_end):
+    def CTBN_Sample(self, t_end = -1, max_tr = -1):
         t = 0
         sigma = pd.DataFrame(columns = (["Time"] + self._vnames))
         sigma.loc[len(sigma)] = [0] + [0 for v in self._vnames]
         time = np.full(len(self._vnames), np.NaN)
+        n_tr = 0
 
         while True:
             for i in range(0, time.size):
@@ -53,7 +54,7 @@ class TrajectoryGenerator(object):
             next = time.argmin()
             t = time[next]
 
-            if t >= t_end:
+            if (max_tr != -1 and n_tr == max_tr) or (t_end != -1 and t >= t_end):
                 return Trajectory(self._importer.build_list_of_samples_array(sigma), len(self._vnames) + 1)
             else:
                 cim_row = np.array(cim[current_values.at[self._vnames[next]]])
@@ -65,6 +66,8 @@ class TrajectoryGenerator(object):
                 new_row.loc[0].at[self._vnames[next]] = np.where(rand_mult[0] == 1)[0][0]
                 new_row.loc[0].at["Time"] = round(t, 4)
                 sigma = sigma.append(new_row, ignore_index = True)
+
+                n_tr += 1
 
                 # undefine variable time
                 time[next] = np.NaN
