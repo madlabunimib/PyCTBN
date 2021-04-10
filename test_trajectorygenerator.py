@@ -22,10 +22,10 @@ class TestTrajectoryGenerator(unittest.TestCase):
         tg = TrajectoryGenerator(self.j1)
         end_time = random.randint(5, 100)
         sigma = tg.CTBN_Sample(end_time)
-        self.assertLessEqual(sigma.loc[len(sigma) - 1].at["Time"], end_time)
+        self.assertLessEqual(sigma.times.loc[len(sigma) - 1].at["Time"], end_time)
         for index, row in sigma.iterrows():
             if index > 0:
-                self.assertLess(sigma.loc[index - 1].at["Time"], row.at["Time"])
+                self.assertLess(sigma.times.loc[index - 1].at["Time"], row.at["Time"])
                 diff = abs(sum(sigma.loc[index - 1, sigma.columns != "Time"]) - 
                     sum(sigma.loc[index, sigma.columns != "Time"]))
                 self.assertEqual(diff, 1)
