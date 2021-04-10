@@ -21,6 +21,9 @@ class NetworkGenerator(object):
         self._graph.add_edges(s.edges)
 
     def generate_cims(self, min_val, max_val):
+        if self._graph is None:
+            return
+
         self._cims = {}
 
         for i, l in enumerate(self._labels):
