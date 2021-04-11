@@ -1,6 +1,7 @@
 import unittest
 import random
 
+from PyCTBN.PyCTBN.structure_graph.trajectory import Trajectory
 from PyCTBN.PyCTBN.structure_graph.trajectory_generator import TrajectoryGenerator
 from PyCTBN.PyCTBN.utility.json_importer import JsonImporter
 
@@ -22,17 +23,19 @@ class TestTrajectoryGenerator(unittest.TestCase):
         tg = TrajectoryGenerator(self.j1)
         end_time = random.randint(5, 100)
         sigma = tg.CTBN_Sample(end_time)
-        self.assertLessEqual(sigma.times[len(sigma.times) - 1], end_time)
-        for index in range(len(sigma.times)):
+        traj = Trajectory(self.j1.build_list_of_samples_array(sigma), len(self.j1.sorter) + 1)
+        self.assertLessEqual(traj.times[len(traj.times) - 1], end_time)
+        for index in range(len(traj.times)):
             if index > 0:
-                self.assertLess(sigma.times[index - 1], sigma.times[index])
-                diff = abs(sum(sigma.trajectory[index - 1]) - sum(sigma.trajectory[index]))
+                self.assertLess(traj.times[index - 1], traj.times[index])
+                diff = abs(sum(traj.trajectory[index - 1]) - sum(traj.trajectory[index]))
                 self.assertEqual(diff, 1)
 
     def test_generated_trajectory_max_tr(self):
         tg = TrajectoryGenerator(self.j1)
         n_tr = random.randint(5, 100)
         sigma = tg.CTBN_Sample(max_tr = n_tr)
-        self.assertEqual(len(sigma.times), n_tr + 1)
+        traj = Trajectory(self.j1.build_list_of_samples_array(sigma), len(self.j1.sorter) + 1)
+        self.assertEqual(len(traj.times), n_tr + 1)
 
 unittest.main()

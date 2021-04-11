@@ -55,7 +55,10 @@ class TrajectoryGenerator(object):
             t = time[next]
 
             if (max_tr != -1 and n_tr == max_tr) or (t_end != -1 and t >= t_end):
-                return Trajectory(self._importer.build_list_of_samples_array(sigma), len(self._vnames) + 1)
+                """ columns = self._importer.build_list_of_samples_array(sigma)
+                columns[0] = pd.to_numeric(columns[0])
+                return Trajectory(columns, len(self._vnames) + 1) """
+                return sigma
             else:
                 cim_row = np.array(cim[current_values.at[self._vnames[next]]])
                 cim_row[current_values.at[self._vnames[next]]] = 0
