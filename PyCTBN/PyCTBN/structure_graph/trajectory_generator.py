@@ -5,6 +5,8 @@ from .trajectory import Trajectory
 import numpy as np
 import pandas as pd
 import re
+import os
+import json
 from numpy import random
 
 class TrajectoryGenerator(object):
@@ -32,6 +34,8 @@ class TrajectoryGenerator(object):
                 node_states_number = self._importer._df_variables.where(self._importer._df_variables["Name"] == v)["Value"], p_combs = p_combs, cims = v_cims)
             self._cims[v] = sof
 
+        self._generated_trajectory = None
+
     def CTBN_Sample(self, t_end = -1, max_tr = -1):
         t = 0
         sigma = pd.DataFrame(columns = (["Time"] + self._vnames))
@@ -40,10 +44,10 @@ class TrajectoryGenerator(object):
         n_tr = 0
 
         while True:
+            current_values = sigma.loc[len(sigma) - 1]
+            
             for i in range(0, time.size):
                 if np.isnan(time[i]):
-                    # Probability to transition from current state v_values[i] to (1 - v_values[i])
-                    current_values = sigma.loc[len(sigma) - 1]
                     cim = self._cims[self._vnames[i]].filter_cims_with_mask(np.array([True for p in self._parents[self._vnames[i]]]), 
                         [current_values.at[p] for p in self._parents[self._vnames[i]]])[0].cim
                     param = -1 * cim[current_values.at[self._vnames[i]]][current_values.at[self._vnames[i]]]
@@ -55,11 +59,11 @@ class TrajectoryGenerator(object):
             t = time[next]
 
             if (max_tr != -1 and n_tr == max_tr) or (t_end != -1 and t >= t_end):
-                """ columns = self._importer.build_list_of_samples_array(sigma)
-                columns[0] = pd.to_numeric(columns[0])
-                return Trajectory(columns, len(self._vnames) + 1) """
+                self._generated_trajectory = sigma
                 return sigma
             else:
+                cim = self._cims[self._vnames[next]].filter_cims_with_mask(np.array([True for p in self._parents[self._vnames[next]]]), 
+                    [current_values.at[p] for p in self._parents[self._vnames[next]]])[0].cim
                 cim_row = np.array(cim[current_values.at[self._vnames[next]]])
                 cim_row[current_values.at[self._vnames[next]]] = 0
                 cim_row /= sum(cim_row)
@@ -74,3 +78,15 @@ class TrajectoryGenerator(object):
 
                 # undefine variable time
                 time[next] = np.NaN
+
+    def out_json(self, filename):
+        data = {
+            "dyn.str": self._importer._raw_data[0]["dyn.str"],
+            "variables": self._importer._raw_data[0]["variables"],
+            "dyn.cims": self._importer._raw_data[0]["dyn.cims"],
+            "samples": [json.loads(self._generated_trajectory.to_json(orient="records"))]
+        }
+
+        path = os.getcwd()
+        with open(path + "/" + filename, "w") as json_file:
+            json.dump(data, json_file)
