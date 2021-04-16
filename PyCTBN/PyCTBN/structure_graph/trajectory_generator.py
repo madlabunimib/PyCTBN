@@ -48,8 +48,15 @@ class TrajectoryGenerator(object):
             
             for i in range(0, time.size):
                 if np.isnan(time[i]):
-                    cim = self._cims[self._vnames[i]].filter_cims_with_mask(np.array([True for p in self._parents[self._vnames[i]]]), 
-                        [current_values.at[p] for p in self._parents[self._vnames[i]]])[0].cim
+                    n_parents = len(self._parents[self._vnames[i]])
+                    cim_obj = self._cims[self._vnames[i]].filter_cims_with_mask(np.array([True for p in self._parents[self._vnames[i]]]), 
+                        [current_values.at[p] for p in self._parents[self._vnames[i]]])
+
+                    if n_parents == 1:
+                        cim = cim_obj[current_values.at[self._parents[self._vnames[i]][0]]].cim
+                    else:
+                        cim = cim_obj[0].cim
+
                     param = -1 * cim[current_values.at[self._vnames[i]]][current_values.at[self._vnames[i]]]
 
                     time[i] = t + random.exponential(scale = param)
@@ -62,8 +69,20 @@ class TrajectoryGenerator(object):
                 self._generated_trajectory = sigma
                 return sigma
             else:
-                cim = self._cims[self._vnames[next]].filter_cims_with_mask(np.array([True for p in self._parents[self._vnames[next]]]), 
-                    [current_values.at[p] for p in self._parents[self._vnames[next]]])[0].cim
+                n_parents = len(self._parents[self._vnames[next]])
+                cim_obj = self._cims[self._vnames[next]].filter_cims_with_mask(np.array([True for p in self._parents[self._vnames[next]]]), 
+                    [current_values.at[p] for p in self._parents[self._vnames[next]]])
+
+                if n_parents == 1:
+                    cim = cim_obj[current_values.at[self._parents[self._vnames[next]][0]]].cim
+                else:
+                    cim = cim_obj[0].cim
+                    
+                """ print(self._vnames[next])
+                print([current_values.at[p] for p in self._parents[self._vnames[next]]])
+                print(current_values)
+                print(cim)
+                print() """
                 cim_row = np.array(cim[current_values.at[self._vnames[next]]])
                 cim_row[current_values.at[self._vnames[next]]] = 0
                 cim_row /= sum(cim_row)

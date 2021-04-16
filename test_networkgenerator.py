@@ -10,7 +10,7 @@ class TestNetworkGenerator(unittest.TestCase):
         card = 3
         vals = [card for l in labels]
         ng = NetworkGenerator(labels, vals)
-        ng.generate_graph()
+        ng.generate_graph(0.3)
         self.assertEqual(len(labels), len(ng.graph.nodes))
         self.assertEqual(len([edge for edge in ng.graph.edges if edge[0] == edge[1]]), 0)
 
@@ -21,7 +21,7 @@ class TestNetworkGenerator(unittest.TestCase):
         cim_min = random.uniform(0.5, 5)
         cim_max = random.uniform(0.5, 5) + cim_min
         ng = NetworkGenerator(labels, vals)
-        ng.generate_graph()
+        ng.generate_graph(0.3)
         ng.generate_cims(cim_min, cim_max)
         self.assertEqual(len(ng.cims), len(labels))      
         self.assertListEqual(list(ng.cims.keys()), labels)
