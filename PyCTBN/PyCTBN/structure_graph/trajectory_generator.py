@@ -66,6 +66,10 @@ class TrajectoryGenerator(object):
             t = time[next]
 
             if (max_tr != -1 and n_tr == max_tr) or (t_end != -1 and t >= t_end):
+                last_row = pd.DataFrame(sigma[-1:].values, columns = sigma.columns)
+                last_row.loc[0].values[:] = -1
+                last_row.loc[0].at["Time"] = round(t, 4)
+                sigma = sigma.append(last_row, ignore_index = True)
                 self._generated_trajectory = sigma
                 return sigma
             else:
@@ -78,11 +82,6 @@ class TrajectoryGenerator(object):
                 else:
                     cim = cim_obj[0].cim
                     
-                """ print(self._vnames[next])
-                print([current_values.at[p] for p in self._parents[self._vnames[next]]])
-                print(current_values)
-                print(cim)
-                print() """
                 cim_row = np.array(cim[current_values.at[self._vnames[next]]])
                 cim_row[current_values.at[self._vnames[next]]] = 0
                 cim_row /= sum(cim_row)
