@@ -66,10 +66,7 @@ class TrajectoryGenerator(object):
             t = time[next]
 
             if (max_tr != -1 and n_tr == max_tr) or (t_end != -1 and t >= t_end):
-                last_row = pd.DataFrame(sigma[-1:].values, columns = sigma.columns)
-                last_row.loc[0].values[:] = -1
-                last_row.loc[0].at["Time"] = round(t, 4)
-                sigma = sigma.append(last_row, ignore_index = True)
+                sigma.loc[len(sigma) - 1, self._vnames] = -1
                 self._generated_trajectory = sigma
                 return sigma
             else:
