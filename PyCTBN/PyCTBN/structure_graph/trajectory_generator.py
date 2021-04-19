@@ -5,7 +5,6 @@ from .trajectory import Trajectory
 import numpy as np
 import pandas as pd
 import re
-import os
 import json
 from numpy import random
 
@@ -94,14 +93,5 @@ class TrajectoryGenerator(object):
                 # undefine variable time
                 time[next] = np.NaN
 
-    def out_json(self, filename):
-        data = {
-            "dyn.str": self._importer._raw_data[0]["dyn.str"],
-            "variables": self._importer._raw_data[0]["variables"],
-            "dyn.cims": self._importer._raw_data[0]["dyn.cims"],
-            "samples": [json.loads(self._generated_trajectory.to_json(orient="records"))]
-        }
-
-        path = os.getcwd()
-        with open(path + "/" + filename, "w") as json_file:
-            json.dump(data, json_file)
+    def to_json(self):
+        return json.loads(self._generated_trajectory.to_json(orient="records"))
