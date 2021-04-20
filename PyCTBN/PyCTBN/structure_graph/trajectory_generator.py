@@ -11,13 +11,14 @@ from numpy import random
 class TrajectoryGenerator(object):
     def __init__(self, importer: AbstractImporter):
         self._importer = importer
-        self._importer.import_data(0)
 
         self._vnames = self._importer._df_variables.iloc[:, 0].to_list()
         
         self._parents = {}
         for v in self._vnames:
             self._parents[v] = self._importer._df_structure.where(self._importer._df_structure["To"] == v).dropna()["From"].tolist()
+
+        print(self._parents)
 
         self._cims = {}
         sampled_cims = self._importer._raw_data[0]["dyn.cims"]
@@ -92,6 +93,9 @@ class TrajectoryGenerator(object):
 
                 # undefine variable time
                 time[next] = np.NaN
+                for i, v in enumerate(self._parents):
+                    if self._vnames[next] in self._parents[v]:
+                        time[i] = np.NaN
 
     def to_json(self):
         return json.loads(self._generated_trajectory.to_json(orient="records"))
