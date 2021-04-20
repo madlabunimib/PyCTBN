@@ -18,8 +18,6 @@ class TrajectoryGenerator(object):
         for v in self._vnames:
             self._parents[v] = self._importer._df_structure.where(self._importer._df_structure["To"] == v).dropna()["From"].tolist()
 
-        print(self._parents)
-
         self._cims = {}
         sampled_cims = self._importer._raw_data[0]["dyn.cims"]
         for v in sampled_cims.keys():

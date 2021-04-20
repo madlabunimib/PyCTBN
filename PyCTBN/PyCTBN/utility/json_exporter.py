@@ -13,12 +13,12 @@ class JsonExporter(object):
         self._trajectories.append(trajectory)
 
     def out_json(self, filename):
-        data = {
+        data = [{
             "dyn.str": self._dyn_str,
             "variables": self._variables,
             "dyn.cims": self._dyn_cims,
             "samples": self._trajectories
-        }
+        }]
 
         path = os.getcwd()
         with open(path + "/" + filename, "w") as json_file:
