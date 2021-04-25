@@ -9,7 +9,27 @@ import json
 from numpy import random
 
 class TrajectoryGenerator(object):
+    """Provides the methods to generate a trajectory basing on the network defined
+    in the importer.
+    
+    :param _importer: the Importer object which contains the imported and processed data
+    :type _importer: AbstractImporter
+    :param _vnames: List of the variables labels that belong to the network
+    :type _vnames: List
+    :param _parents: It contains, for each variable label (the key), the list of related parents labels
+    :type _parents: Dict
+    :param _cims: It contains, for each variable label (the key), the SetOfCims object related to it
+    :type _cims: Dict
+    :param _generated_trajectory: Result of the execution of CTBN_Sample, contains the output trajectory
+    :type _generated_trajectory: pandas.DataFrame
+    """
+
     def __init__(self, importer: AbstractImporter):
+        """Constructor Method
+            It parses and elaborates the data fetched from importer in order to make the objects structure
+            more suitable for the forthcoming trajectory generation
+        """
+
         self._importer = importer
 
         self._vnames = self._importer._df_variables.iloc[:, 0].to_list()
@@ -32,14 +52,24 @@ class TrajectoryGenerator(object):
                 node_states_number = self._importer._df_variables.where(self._importer._df_variables["Name"] == v)["Value"], p_combs = p_combs, cims = v_cims)
             self._cims[v] = sof
 
-        self._generated_trajectory = None
-
     def CTBN_Sample(self, t_end = -1, max_tr = -1):
+        """This method implements the generation of a trajectory, basing on the network structure and
+            on the coefficients defined in the CIMs.
+            The variables are initialized with value 0, and the method takes care of adding the
+            conventional last row made up of -1.
+
+        :param t_end: If defined, the sampling ends when end time is reached
+        :type t_end: float
+        :param max_tr: Parameter taken in consideration in case that t_end isn't defined. It specifies the number of transitions to execute
+        :type max_tr: int
+        """
+
         t = 0
         sigma = pd.DataFrame(columns = (["Time"] + self._vnames))
         sigma.loc[len(sigma)] = [0] + [0 for v in self._vnames]
         time = np.full(len(self._vnames), np.NaN)
         n_tr = 0
+        self._generated_trajectory = None
 
         while True:
             current_values = sigma.loc[len(sigma) - 1]
@@ -96,4 +126,8 @@ class TrajectoryGenerator(object):
                         time[i] = np.NaN
 
     def to_json(self):
+        """Convert the last generated trajectory from pandas.DataFrame object type to JSON format
+            (suitable to do input/output of the trajectory with file)
+        """
+
         return json.loads(self._generated_trajectory.to_json(orient="records"))
