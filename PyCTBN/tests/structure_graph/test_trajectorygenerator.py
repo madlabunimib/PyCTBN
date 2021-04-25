@@ -9,6 +9,7 @@ class TestTrajectoryGenerator(unittest.TestCase):
     @classmethod
     def setUpClass(cls) -> None:
         cls.j1 = JsonImporter("./PyCTBN/test_data/networks_and_trajectories_binary_data_01_3.json", "samples", "dyn.str", "variables", "Time", "Name")
+        cls.j1.import_data(0)
 
     def test_init(self):
         tg = TrajectoryGenerator(self.j1)
@@ -28,8 +29,10 @@ class TestTrajectoryGenerator(unittest.TestCase):
         for index in range(len(traj.times)):
             if index > 0:
                 self.assertLess(traj.times[index - 1], traj.times[index])
-                diff = abs(sum(traj.trajectory[index - 1]) - sum(traj.trajectory[index]))
-                self.assertEqual(diff, 1)
+                if index < len(traj.times) - 1:
+                    diff = abs(sum(traj.trajectory[index - 1]) - sum(traj.trajectory[index]))
+                    self.assertEqual(diff, 1)
+        self.assertEqual(sum(traj.trajectory[len(traj.times) - 1]), -1 * len(self.j1.sorter))
 
     def test_generated_trajectory_max_tr(self):
         tg = TrajectoryGenerator(self.j1)
