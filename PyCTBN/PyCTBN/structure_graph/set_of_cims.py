@@ -84,7 +84,7 @@ class SetOfCims(object):
             return self._actual_cims
         else:
             flat_indxs = np.argwhere(np.all(self._p_combs[:, mask_arr] == comb, axis=1)).ravel()
-            return self._actual_cims[flat_indxs]
+            return np.array(self._actual_cims)[flat_indxs.astype(int)]
 
     @property
     def actual_cims(self) -> np.ndarray:

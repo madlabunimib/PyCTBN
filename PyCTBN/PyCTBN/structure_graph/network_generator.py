@@ -3,6 +3,8 @@ from .network_graph import NetworkGraph
 from .conditional_intensity_matrix import ConditionalIntensityMatrix
 from .set_of_cims import SetOfCims
 import numpy as np
+import os
+import json
 
 class NetworkGenerator(object):
     """Provides the methods to generate a network graph and the CIMs related to it
@@ -94,52 +96,9 @@ class NetworkGenerator(object):
             row /= (sum(row) - row[i])
             row *= diag
             row[i] = -1 * diag
-            cim[i] = row
+            cim[i] = np.around(row, 4)
 
         return cim
-
-    def out_json(self, filename):
-        """Create a file in current directory and write on it the generated network and the CIMs, 
-            after having restructured the objects in order to respect the standard JSON file structure.
-
-        :param filename: Name of the output file (it must include json extension)
-        :type filename: string
-        """
-
-        dyn_str = [{"From": edge[0], "To": edge[1]} for edge in self._graph.edges]
-        variables = [{"Name": l, "Value": self._vals[i]} for i, l in enumerate(self._labels)]
-        dyn_cims = {}
-
-        for i, l in enumerate(self._labels):
-            dyn_cims[l] = {}
-            parents = self._graph.get_ordered_by_indx_set_of_parents(l)[0]
-            for j, comb in enumerate(self._cims[l].p_combs):
-                comb_key = ""
-                for k, val in enumerate(comb):
-                    comb_key += parents[k] + "=" + str(val)
-                    if k < len(comb) - 1:
-                        comb_key += ","
-
-                cim = self._cims[l].filter_cims_with_mask(np.array([True for p in parents]), comb)
-                if len(parents) == 1:
-                    cim = cim[comb[0]].cim
-                elif len(parents) == 0:
-                    cim = cim[0].cim
-                else:
-                    cim = cim.cim
-                
-                dyn_cims[l][comb_key] = [dict([(str(i), val) for i, val in enumerate(row)]) for row in cim]
-
-        data = {
-            "dyn.str": dyn_str,
-            "variables": variables,
-            "dyn.cims": dyn_cims,
-            "samples": []
-        }
-
-        path = os.getcwd()
-        with open(path + "/" + filename, "w") as json_file:
-            json.dump(data, json_file)
 
     @property
     def graph(self) -> NetworkGraph:
@@ -148,3 +107,42 @@ class NetworkGenerator(object):
     @property
     def cims(self) -> NetworkGraph:
         return self._cims   
+
+    @property
+    def dyn_str(self) -> list:
+        return [{"From": edge[0], "To": edge[1]} for edge in self._graph.edges]
+
+    @property
+    def variables(self) -> list:
+        return [{"Name": l, "Value": self._vals[i]} for i, l in enumerate(self._labels)]
+
+    """Restructure the CIMs object in order to fit the standard JSON file structure 
+    """
+    @property
+    def dyn_cims(self) -> dict:
+        dyn_cims = {}
+
+        for i, l in enumerate(self._labels):
+            dyn_cims[l] = {}
+            parents = self._graph.get_ordered_by_indx_set_of_parents(l)[0]
+            for j, comb in enumerate(self._cims[l].p_combs):
+                comb_key = ""
+                if len(parents) != 0:
+                    for k, val in enumerate(comb):
+                        comb_key += parents[k] + "=" + str(val)
+                        if k < len(comb) - 1:
+                            comb_key += ","
+                else:
+                    comb_key = l
+
+                cim = self._cims[l].filter_cims_with_mask(np.array([True for p in parents]), comb)
+                if len(parents) == 1:
+                    cim = cim[comb[0]].cim
+                elif len(parents) == 0:
+                    cim = cim[0].cim
+                else:
+                    cim = cim[0].cim
+                
+                dyn_cims[l][comb_key] = [dict([(str(i), val) for i, val in enumerate(row)]) for row in cim]
+
+        return dyn_cims
