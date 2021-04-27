@@ -32,10 +32,10 @@ class TestConditionalIntensityMatrix(unittest.TestCase):
                 c2[i, j] = (c2[i, j] + 1) / (self.state_res_times[i] + 1)
         c1.compute_cim_coefficients()
         for i in range(0, len(c1.state_residence_times)):
-            self.assertTrue(np.isclose(np.sum(c1.cim[i]), 0.0, 1e01, 1e-01))
+            self.assertTrue(np.isclose(np.sum(c1.cim[i]), 0.0, 1e01))
         for i in range(0, len(self.state_res_times)):
             for j in range(0, len(self.state_res_times)):
-                self.assertTrue(np.isclose(c1.cim[i, j], c2[i, j], 1e01, 1e-01))
+                self.assertTrue(np.isclose(c1.cim[i, j], c2[i, j], 1e01))
 
     def test_repr(self):
         c1 = ConditionalIntensityMatrix(self.state_res_times, self.state_transition_matrix)
