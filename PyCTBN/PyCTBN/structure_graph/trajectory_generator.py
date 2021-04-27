@@ -26,8 +26,8 @@ class TrajectoryGenerator(object):
 
     def __init__(self, importer: AbstractImporter = None, variables: list = None, dyn_str: list = None, dyn_cims: dict = None):
         """Constructor Method
-            It parses and elaborates the data fetched from importer in order to make the objects structure
-            more suitable for the forthcoming trajectory generation
+            It parses and elaborates the data fetched from importer (if defined, otherwise variables, dyn_str and dyn_cims are used) 
+            in order to make the objects structure more suitable for the forthcoming trajectory generation
         """
         
         self._importer = importer

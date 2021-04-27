@@ -12,7 +12,6 @@ card = 3
 vals = [card for l in labels]
 cim_min = 1
 cim_max = 3
-
 ng = NetworkGenerator(labels, vals)
 ng.generate_graph(0.3)
 ng.generate_cims(cim_min, cim_max)
