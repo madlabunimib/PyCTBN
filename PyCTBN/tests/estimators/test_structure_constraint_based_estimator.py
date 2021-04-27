@@ -54,7 +54,7 @@ class TestStructureConstraintBasedEstimator(unittest.TestCase):
         true_edges = set(map(tuple, true_edges))
 
         se1 = StructureConstraintBasedEstimator(self.s1,0.1,0.1)
-        edges = se1.estimate_structure(True)
+        edges = se1.estimate_structure(processes_number=2)
         
         self.assertFalse(se1.spurious_edges())
         self.assertEqual(edges, true_edges)

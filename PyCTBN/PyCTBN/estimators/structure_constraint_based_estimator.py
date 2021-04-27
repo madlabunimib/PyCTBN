@@ -199,8 +199,14 @@ class StructureConstraintBasedEstimator(StructureEstimator):
         return optimizer_obj.optimize_structure()
 
     
-    def ctpc_algorithm(self,disable_multiprocessing:bool= False ):
+    def ctpc_algorithm(self, disable_multiprocessing:bool= False, processes_number:int= None):
         """Compute the CTPC algorithm over the entire net.
+
+        :param disable_multiprocessing: true if you desire to disable the multiprocessing operations, default to False
+        :type disable_multiprocessing: Boolean, optional
+        :param processes_number: if disable_multiprocessing is false indicates 
+        the maximum number of process; if None it will be automatically set, default to None
+        :type processes_number: int, optional
         """
         ctpc_algo = self.one_iteration_of_CTPC_algorithm
         total_vars_numb = self._sample_path.total_variables_count
@@ -211,8 +217,6 @@ class StructureConstraintBasedEstimator(StructureEstimator):
 
         'get the number of CPU'
         cpu_count = multiprocessing.cpu_count()
-
-
 
         'Remove all the edges from the structure'   
         self._sample_path.structure.clean_structure_edges()
@@ -225,6 +229,9 @@ class StructureConstraintBasedEstimator(StructureEstimator):
             cpu_count = 1
             list_edges_partial = [ctpc_algo(n,total_vars_numb) for n in self._nodes]
         else:
+            if processes_number is not None and cpu_count < processes_number:
+                cpu_count = processes_number
+
             with concurrent.futures.ProcessPoolExecutor(max_workers=cpu_count) as executor:
                 list_edges_partial = executor.map(ctpc_algo,
                                                                  self._nodes,
@@ -238,8 +245,18 @@ class StructureConstraintBasedEstimator(StructureEstimator):
         return edges
 
         
-    def estimate_structure(self,disable_multiprocessing:bool=False):
-        return self.ctpc_algorithm(disable_multiprocessing=disable_multiprocessing)
+    def estimate_structure(self, disable_multiprocessing:bool=False, processes_number:int= None):
+        """
+        Compute the constraint-based algorithm to find the optimal structure
+
+        :param disable_multiprocessing: true if you desire to disable the multiprocessing operations, default to False
+        :type disable_multiprocessing: Boolean, optional
+        :param processes_number: if disable_multiprocessing is false indicates 
+        the maximum number of process; if None it will be automatically set, default to None
+        :type processes_number: int, optional
+        """
+        return self.ctpc_algorithm(disable_multiprocessing=disable_multiprocessing,
+                                    processes_number=processes_number)
 
     
 

@@ -54,7 +54,7 @@ class StructureScoreBasedEstimator(StructureEstimator):
 
     def estimate_structure(self, max_parents:int = None, iterations_number:int= 40,
                          patience:int = None, tabu_length:int = None, tabu_rules_duration:int = None,
-                         optimizer: str = 'tabu',disable_multiprocessing:bool= False ):
+                         optimizer: str = 'tabu', disable_multiprocessing:bool= False, processes_number:int= None):
         """
         Compute the score-based algorithm to find the optimal structure
 
@@ -72,6 +72,9 @@ class StructureScoreBasedEstimator(StructureEstimator):
         :type optimizer: string, optional
         :param disable_multiprocessing: true if you desire to disable the multiprocessing operations, default to False
         :type disable_multiprocessing: Boolean, optional
+        :param processes_number: if disable_multiprocessing is false indicates 
+        the maximum number of process; if None it will be automatically set, default to None
+        :type processes_number: int, optional
         """
         'Save the true edges structure in tuples'
         true_edges = copy.deepcopy(self._sample_path.structure.edges)
@@ -98,6 +101,8 @@ class StructureScoreBasedEstimator(StructureEstimator):
 
         if disable_multiprocessing:
             cpu_count = 1
+        elif processes_number is not None and cpu_count < processes_number:
+            cpu_count = processes_number
 
         
 

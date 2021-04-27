@@ -111,7 +111,8 @@ class TestStructureScoreBasedEstimator(unittest.TestCase):
                                     tabu_length = 15,
                                     tabu_rules_duration = 15,
                                     optimizer = 'hill',
-                                    disable_multiprocessing=False
+                                    disable_multiprocessing=False,
+                                    processes_number=2
                                     )
         
 
@@ -238,6 +239,7 @@ class TestStructureScoreBasedEstimator(unittest.TestCase):
 
         self.assertGreaterEqual(precision,0.75)
         self.assertGreaterEqual(recall,0.75)      
+
 
 
 if __name__ == '__main__':
