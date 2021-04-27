@@ -96,12 +96,11 @@ class StructureScoreBasedEstimator(StructureEstimator):
 
 
         'get the number of CPU'
-        cpu_count = multiprocessing.cpu_count()
-        print(f"CPU COUNT: {cpu_count}")
+        cpu_count = multiprocessing.cpu_count()        
 
         if disable_multiprocessing:
             cpu_count = 1
-        elif processes_number is not None and cpu_count < processes_number:
+        elif processes_number is not None and cpu_count > processes_number:
             cpu_count = processes_number
 
         
@@ -110,6 +109,8 @@ class StructureScoreBasedEstimator(StructureEstimator):
 
         #with get_context("spawn").Pool(processes=cpu_count) as pool:
         #with multiprocessing.Pool(processes=cpu_count) as pool:
+
+        print(f"CPU COUNT: {cpu_count}")
 
         'Estimate the best parents for each node'
         if disable_multiprocessing:

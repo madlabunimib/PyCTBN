@@ -225,13 +225,14 @@ class StructureConstraintBasedEstimator(StructureEstimator):
         #with multiprocessing.Pool(processes=cpu_count) as pool:
         #with get_context("spawn").Pool(processes=cpu_count) as pool:
         if disable_multiprocessing:
-            print("DISABILITATO")
+            print("DISABLED")
             cpu_count = 1
             list_edges_partial = [ctpc_algo(n,total_vars_numb) for n in self._nodes]
         else:
-            if processes_number is not None and cpu_count < processes_number:
+            if processes_number is not None and cpu_count > processes_number:
                 cpu_count = processes_number
 
+            print(f"CPU COUNT: {cpu_count}")
             with concurrent.futures.ProcessPoolExecutor(max_workers=cpu_count) as executor:
                 list_edges_partial = executor.map(ctpc_algo,
                                                                  self._nodes,
