@@ -94,7 +94,7 @@ class StructureConstraintBasedEstimator(StructureEstimator):
             l2 = list(self._nodes[bool_mask2])
             indxs2 = self._nodes_indxs[bool_mask2]
             vals2 = self._nodes_vals[bool_mask2]
-            eds2 = list(itertools.product(p_set, test_child))
+            eds2 = list(itertools.product(p_set, [test_child]))
             s2 = Structure(l2, indxs2, vals2, eds2, tot_vars_count)
             g2 = NetworkGraph(s2)
             g2.fast_init(test_child)
