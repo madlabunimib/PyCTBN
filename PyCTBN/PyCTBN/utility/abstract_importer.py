@@ -78,7 +78,7 @@ class AbstractImporter(ABC):
             Header of sample_frame = [Time | Variable values]
         """
         sample_frame = copy.deepcopy(sample_frame)
-        #sample_frame.iloc[:, 0] = sample_frame.iloc[:, 0].diff().shift(-1)
+        sample_frame.iloc[:, 0] = sample_frame.iloc[:, 0].diff().shift(-1)
         shifted_cols = sample_frame[columns_header].shift(-1).fillna(0).astype('int32')
         shifted_cols.columns = shifted_cols_header
         sample_frame = sample_frame.assign(**shifted_cols)
