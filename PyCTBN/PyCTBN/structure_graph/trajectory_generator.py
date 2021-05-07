@@ -7,6 +7,7 @@ import pandas as pd
 import re
 import json
 from numpy import random
+from multiprocessing import Process, Manager
 
 class TrajectoryGenerator(object):
     """Provides the methods to generate a trajectory basing on the network defined
@@ -131,6 +132,48 @@ class TrajectoryGenerator(object):
                 for i, v in enumerate(self._parents):
                     if self._vnames[next] in self._parents[v]:
                         time[i] = np.NaN
+
+    def worker(self, t_end, max_tr, trajectories):
+        """Single process that will be executed in parallel in order to generate one trajectory. 
+
+            :param t_end: If defined, the sampling ends when end time is reached
+            :type t_end: float
+            :param max_tr: Parameter taken in consideration in case that t_end isn't defined. It specifies the number of transitions to execute
+            :type max_tr: int
+            :param trajectories: Shared list that contains to which the generated trajectory is added
+            :type trajectories: list
+        """
+        
+        trajectory = self.CTBN_Sample(t_end = t_end, max_tr = max_tr)
+        trajectories.append(trajectory)
+
+    def multi_trajectory(self, t_ends: list = None, max_trs: list = None):
+        """Generate n trajectories in parallel, where n is the number of items in 
+            t_ends, if defined, or the number of items in max_trs otherwise
+
+            :param t_ends: List of t_end values for the trajectories that will be generated
+            :type t_ends: list
+            :param max_trs: List of max_tr values for the trajectories that will be generated
+            :type max_trs: list
+        """
+
+        if t_ends is None and max_trs is None:
+            return
+
+        trajectories = Manager().list()
+
+        if t_ends is not None:
+            processes = [Process(target = self.worker, args = (t, -1, trajectories)) for t in t_ends]
+        else:   
+            processes = [Process(target = self.worker, args = (-1, m, trajectories)) for m in max_trs]
+
+        for p in processes:
+            p.start()
+
+        for p in processes:
+            p.join()
+
+        return trajectories
 
     def to_json(self):
         """Convert the last generated trajectory from pandas.DataFrame object type to JSON format
