@@ -6,6 +6,11 @@ from PyCTBN.PyCTBN.structure_graph.structure import Structure
 from PyCTBN.PyCTBN.structure_graph.sample_path import SamplePath
 from PyCTBN.PyCTBN.estimators.structure_constraint_based_estimator import StructureConstraintBasedEstimator
 
+""" 
+    if __name__ == "__main__":
+        trajectories = tg.multi_trajectory(t_ends = [100, 100, 100])
+"""
+
 # Network Generation
 labels = ["X", "Y", "Z"]
 card = 3
@@ -20,7 +25,7 @@ ng.generate_cims(cim_min, cim_max)
 print(ng.dyn_str)
 e1 = JsonExporter(ng.variables, ng.dyn_str, ng.dyn_cims)
 tg = TrajectoryGenerator(variables = ng.variables, dyn_str = ng.dyn_str, dyn_cims = ng.dyn_cims)
-sigma = tg.CTBN_Sample(max_tr = 10)
+sigma = tg.CTBN_Sample(max_tr = 100)
 e1.add_trajectory(tg.to_json())
 e1.out_json("example.json")
 
@@ -35,6 +40,6 @@ s1.build_structure()
 se1 = StructureConstraintBasedEstimator(sample_path=s1, exp_test_alfa=0.1, chi_test_alfa=0.1,
                                         known_edges=[], thumb_threshold=25)
 edges = se1.estimate_structure(True)
-se1.save_plot_estimated_structure_graph('./result.png')
+# se1.save_plot_estimated_structure_graph('./result1.png')
 print(se1.adjacency_matrix())
 print(edges)
