@@ -3,6 +3,7 @@ from .network_graph import NetworkGraph
 from .conditional_intensity_matrix import ConditionalIntensityMatrix
 from .set_of_cims import SetOfCims
 import numpy as np
+import pandas as pd
 import os
 import json
 
@@ -105,44 +106,13 @@ class NetworkGenerator(object):
         return self._graph
 
     @property
-    def cims(self) -> NetworkGraph:
+    def cims(self) -> dict:
         return self._cims   
 
     @property
     def dyn_str(self) -> list:
-        return [{"From": edge[0], "To": edge[1]} for edge in self._graph.edges]
+        return pd.DataFrame([[edge[0], edge[1]] for edge in self._graph.edges], columns = ["From", "To"])
 
     @property
     def variables(self) -> list:
-        return [{"Name": l, "Value": self._vals[i]} for i, l in enumerate(self._labels)]
-
-    """Restructure the CIMs object in order to fit the standard JSON file structure 
-    """
-    @property
-    def dyn_cims(self) -> dict:
-        dyn_cims = {}
-
-        for i, l in enumerate(self._labels):
-            dyn_cims[l] = {}
-            parents = self._graph.get_ordered_by_indx_set_of_parents(l)[0]
-            for j, comb in enumerate(self._cims[l].p_combs):
-                comb_key = ""
-                if len(parents) != 0:
-                    for k, val in enumerate(comb):
-                        comb_key += parents[k] + "=" + str(val)
-                        if k < len(comb) - 1:
-                            comb_key += ","
-                else:
-                    comb_key = l
-
-                cim = self._cims[l].filter_cims_with_mask(np.array([True for p in parents]), comb)
-                if len(parents) == 1:
-                    cim = cim[comb[0]].cim
-                elif len(parents) == 0:
-                    cim = cim[0].cim
-                else:
-                    cim = cim[0].cim
-                
-                dyn_cims[l][comb_key] = [dict([(str(i), val) for i, val in enumerate(row)]) for row in cim]
-
-        return dyn_cims
+        return pd.DataFrame([[l, self._vals[i]] for i, l in enumerate(self._labels)], columns = ["Name", "Value"])

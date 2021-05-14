@@ -23,11 +23,11 @@ ng.generate_cims(cim_min, cim_max)
 
 # Trajectory Generation
 print(ng.dyn_str)
-e1 = JsonExporter(ng.variables, ng.dyn_str, ng.dyn_cims)
-tg = TrajectoryGenerator(variables = ng.variables, dyn_str = ng.dyn_str, dyn_cims = ng.dyn_cims)
-sigma = tg.CTBN_Sample(max_tr = 100)
-e1.add_trajectory(tg.to_json())
-e1.out_json("example.json")
+e1 = JsonExporter(ng.variables, ng.dyn_str, ng.cims)
+tg = TrajectoryGenerator(variables = ng.variables, dyn_str = ng.dyn_str, dyn_cims = e1.cims_to_json())
+sigma = tg.CTBN_Sample(max_tr = 30000)
+e1.add_trajectory(sigma)
+e1.out_file("example.json")
 
 # Network Estimation (Constraint Based)
 importer = JsonImporter(file_path="example.json", samples_label='samples',
