@@ -15,7 +15,7 @@ Please refer to https://app.codecov.io/gh/philipMartini/PyCTBN for a detailed re
 
 Documentation
 *************
-Please refer to https://philipmartini.github.io/PyCTBN/ for the full project documentation.
+Please refer to https://github.com/madlabunimib/PyCTBN/ for the full project documentation.
 
 Implementing your own data importer
 ***********************************
