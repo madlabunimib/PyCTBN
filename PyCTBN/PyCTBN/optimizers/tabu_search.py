@@ -184,5 +184,5 @@ class TabuSearch(Optimizer):
             if self.patience is not None and patince_count > self.patience:
                 break
 
-        print(f"finito variabile: {self.node_id}")
+        print(f"Finished variable: {self.node_id}")
         return graph.edges
