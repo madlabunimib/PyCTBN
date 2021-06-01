@@ -1,21 +1,35 @@
 PyCTBN
 ======
 
+.. image:: https://codecov.io/gh/madlabunimib/PyCTBN/branch/master/graph/badge.svg
+    :target: https://codecov.io/gh/madlabunimib/PyCTBN
+    
+    
+
+
 A Continuous Time Bayesian Networks Library
 
 Installation/Usage
 *******************
-Download the release in .tar.gz or .whl format and simply use pip install to install it::
+
+The library has been tested on Linux and Windows with Python 3.8 and it relies on the following Python modules:
+
+- numpy
+- pandas
+- networkx
+- scipy
+- matplotlib
+- tqdm
+
+**Pip installation**
+
+Download the release in .tar.gz or .whl format and simply use pip install to install it:
 
     $ pip install PyCTBN-1.0.tar.gz
     
-Coverage
-********
-Please refer to https://app.codecov.io/gh/madlabunimib/PyCTBN/ for a detailed report of test coverage.
-
 Documentation
 *************
-Please refer to https://github.com/madlabunimib/PyCTBN/ for the full project documentation.
+Please refer to https://madlabunimib.github.io/PyCTBN/ for the full project documentation.
 
 Implementing your own data importer
 ***********************************
