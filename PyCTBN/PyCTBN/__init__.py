@@ -1,3 +1,6 @@
+
+# License: MIT License
+
 import PyCTBN.PyCTBN.estimators
 from PyCTBN.PyCTBN.estimators import *
 import PyCTBN.PyCTBN.optimizers

@@ -1,3 +1,6 @@
+
+# License: MIT License
+
 import numpy as np
 
 

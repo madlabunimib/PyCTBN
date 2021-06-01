@@ -1,3 +1,6 @@
+
+# License: MIT License
+
 import sys
 sys.path.append("../../PyCTBN/")
 import glob

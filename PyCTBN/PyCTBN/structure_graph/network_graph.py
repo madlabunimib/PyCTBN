@@ -1,4 +1,7 @@
 
+# License: MIT License
+
+
 import typing
 
 import networkx as nx

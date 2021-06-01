@@ -1,3 +1,6 @@
+
+# License: MIT License
+
 from .fam_score_calculator import FamScoreCalculator
 from .parameters_estimator import ParametersEstimator
 from .structure_estimator import StructureEstimator

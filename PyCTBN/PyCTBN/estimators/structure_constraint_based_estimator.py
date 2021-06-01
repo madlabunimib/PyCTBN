@@ -1,4 +1,7 @@
 
+# License: MIT License
+
+
 import itertools
 import json
 import typing
