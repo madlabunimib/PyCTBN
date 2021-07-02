@@ -2,8 +2,8 @@ from setuptools import setup, find_packages
 
 
 setup(name='PyCTBN',
-      version='2.1',
-      url='https://github.com/philipMartini/PyCTBN',
+      version='2.2',
+      url='https://github.com/madlabunimib/PyCTBN',
       license='MIT',
       author=['Alessandro Bregoli', 'Filippo Martini','Luca Moretti'],
       author_email=['a.bregoli1@campus.unimib.it', 'f.martini@campus.unimib.it','lucamoretti96@gmail.com'],
