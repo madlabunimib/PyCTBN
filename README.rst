@@ -23,9 +23,9 @@ The library has been tested on Linux and Windows with Python 3.8 and it relies o
 
 **Pip installation**
 
-Download the release in .tar.gz or .whl format and simply use pip install to install it:
+Download the latest release in .tar.gz or .whl format and simply use pip install to install it:
 
-    $ pip install PyCTBN-1.0.tar.gz
+    $ pip install PyCTBN-2.2.tar.gz
     
 Documentation
 *************
