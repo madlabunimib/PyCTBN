@@ -3,9 +3,9 @@ Examples
 
 Installation/Usage
 ******************
-Download the release in .tar.gz or .whl format and simply use pip install to install it::
+Download the latest release in .tar.gz or .whl format and simply use pip install to install it::
 
-    $pip install PyCTBN-1.0.tar.gz
+    $pip install PyCTBN-2.2.tar.gz
 
 
 Implementing your own data importer
