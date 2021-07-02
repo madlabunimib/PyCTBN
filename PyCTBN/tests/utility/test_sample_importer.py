@@ -5,12 +5,15 @@
 import unittest
 import os
 import glob
+import json
 import numpy as np
 import pandas as pd
+
+
 from ...PyCTBN.utility.sample_importer import SampleImporter
 from ...PyCTBN.structure_graph.sample_path import SamplePath
 
-import json
+
 
 
 
