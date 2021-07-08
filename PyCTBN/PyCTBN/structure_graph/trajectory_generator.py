@@ -25,7 +25,7 @@ class TrajectoryGenerator(object):
     :type _generated_trajectory: pandas.DataFrame
     """
 
-    def __init__(self, importer: AbstractImporter = None, variables: list = None, dyn_str: list = None, dyn_cims: dict = None):
+    def __init__(self, importer: AbstractImporter = None, variables: pd.DataFrame = None, dyn_str: pd.DataFrame = None, dyn_cims: dict = None):
         """Constructor Method
             It parses and elaborates the data fetched from importer (if defined, otherwise variables, dyn_str and dyn_cims are used) 
             in order to make the objects structure more suitable for the forthcoming trajectory generation
@@ -34,31 +34,35 @@ class TrajectoryGenerator(object):
         self._importer = importer
 
         self._vnames = self._importer._df_variables.iloc[:, 0].to_list() if importer is not None else variables.iloc[:, 0].to_list()
-        
+ 
         self._parents = {}
         for v in self._vnames:
             if importer is not None:
                 self._parents[v] = self._importer._df_structure.where(self._importer._df_structure["To"] == v).dropna()["From"].tolist()
             else:
                 self._parents[v] = dyn_str.where(dyn_str["To"] == v).dropna()["From"].tolist()
-
+        
         self._cims = {}
-        sampled_cims = self._importer._raw_data[0]["dyn.cims"] if importer is not None else dyn_cims
-        for v in sampled_cims.keys():
-            p_combs = []
-            v_cims = []
-            for comb in sampled_cims[v].keys():
-                p_combs.append(np.array(re.findall(r"=(\d)", comb)).astype("int"))
-                cim = pd.DataFrame(sampled_cims[v][comb]).to_numpy()    
-                v_cims.append(ConditionalIntensityMatrix(cim = cim))
+        if importer is not None:
+            sampled_cims = self._importer._cims
+        
+            for v in sampled_cims.keys():
+                p_combs = []
+                v_cims = []
+                for comb in sampled_cims[v].keys():
+                    p_combs.append(np.array(re.findall(r"=(\d)", comb)).astype("int"))
+                    cim = pd.DataFrame(sampled_cims[v][comb]).to_numpy()    
+                    v_cims.append(ConditionalIntensityMatrix(cim = cim))
 
-            if importer is not None:
-                sof = SetOfCims(node_id = v, parents_states_number = [self._importer._df_variables.where(self._importer._df_variables["Name"] == p)["Value"] for p in self._parents[v]], 
-                    node_states_number = self._importer._df_variables.where(self._importer._df_variables["Name"] == v)["Value"], p_combs = np.array(p_combs), cims = v_cims)
-            else:
-                sof = SetOfCims(node_id = v, parents_states_number = [variables.where(variables["Name"] == p)["Value"] for p in self._parents[v]], 
-                    node_states_number = variables.where(variables["Name"] == v)["Value"], p_combs = np.array(p_combs), cims = v_cims)
-            self._cims[v] = sof
+                if importer is not None:
+                    sof = SetOfCims(node_id = v, parents_states_number = [self._importer._df_variables.where(self._importer._df_variables["Name"] == p)["Value"] for p in self._parents[v]], 
+                        node_states_number = self._importer._df_variables.where(self._importer._df_variables["Name"] == v)["Value"], p_combs = np.array(p_combs), cims = v_cims)
+                else:
+                    sof = SetOfCims(node_id = v, parents_states_number = [variables.where(variables["Name"] == p)["Value"] for p in self._parents[v]], 
+                        node_states_number = variables.where(variables["Name"] == v)["Value"], p_combs = np.array(p_combs), cims = v_cims)
+                self._cims[v] = sof
+        else:
+            self._cims = dyn_cims
 
     def CTBN_Sample(self, t_end = -1, max_tr = -1):
         """This method implements the generation of a trajectory, basing on the network structure and
@@ -97,7 +101,6 @@ class TrajectoryGenerator(object):
 
                     time[i] = t + random.exponential(scale = param)
         
-            # next = index of the variable that will transition first
             next = time.argmin()
             t = time[next]
 
@@ -174,10 +177,3 @@ class TrajectoryGenerator(object):
             p.join()
 
         return trajectories
-
-    def to_json(self):
-        """Convert the last generated trajectory from pandas.DataFrame object type to JSON format
-            (suitable to do input/output of the trajectory with file)
-        """
-
-        return json.loads(self._generated_trajectory.to_json(orient="records"))

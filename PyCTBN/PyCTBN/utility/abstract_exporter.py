@@ -4,7 +4,7 @@ import os
 from abc import ABC, abstractmethod
 
 class AbstractExporter(ABC):
-    """Provides the methods to save in json format a network information
+    """Abstract class that exposes the methods to save in json format a network information
     along with one or more trajectories generated basing on it
     
     :param _variables: Dataframe containing the nodes labels and cardinalities

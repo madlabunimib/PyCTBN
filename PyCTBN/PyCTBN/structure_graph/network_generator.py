@@ -4,8 +4,7 @@ from .conditional_intensity_matrix import ConditionalIntensityMatrix
 from .set_of_cims import SetOfCims
 import numpy as np
 import pandas as pd
-import os
-import json
+import random
 
 class NetworkGenerator(object):
     """Provides the methods to generate a network graph and the CIMs related to it
@@ -30,15 +29,28 @@ class NetworkGenerator(object):
         self._graph = None
         self._cims = None
 
-    def generate_graph(self, density):
+    def generate_graph(self, density, fixed: bool = False):
         """Generate the edges according to specified density, and then instantiate the NetworkGraph object
             to represent the network
 
         :param density: Probability of an edge between two nodes to exist
         :type density: float
+        :param fixed: Specifies whether the required density is mandatory or it's just a probability
+        :type fixed: bool
         """
+        
+        if fixed:
+            n_edges = density * len(self._labels) * (len(self._labels) - 1)
+            if not float.is_integer(n_edges):
+                raise RuntimeError("Invalid Density")
+            else:
+                n_edges = int(n_edges)
+            edges = [(i, j) for i in self._labels for j in self._labels if i != j]
+            random.shuffle(edges)
+            edges = edges[:n_edges]
+        else:
+            edges = [(i, j) for i in self._labels for j in self._labels if np.random.binomial(1, density) == 1 and i != j]
 
-        edges = [(i, j) for i in self._labels for j in self._labels if np.random.binomial(1, density) == 1 and i != j]
         s = Structure(self._labels, self._indxs, self._vals, edges, len(self._labels))
         self._graph = NetworkGraph(s)
         self._graph.add_nodes(s.nodes_labels)
