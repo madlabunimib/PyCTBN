@@ -8,7 +8,10 @@ from PyCTBN.PyCTBN.utility.json_importer import JsonImporter
 class TestTrajectoryGenerator(unittest.TestCase):
     @classmethod
     def setUpClass(cls) -> None:
-        cls.j1 = JsonImporter("./PyCTBN/test_data/networks_and_trajectories_binary_data_01_3.json", "samples", "dyn.str", "variables", "Time", "Name")
+        cls.j1 = JsonImporter(file_path = "./PyCTBN/test_data/networks_and_trajectories_binary_data_01_3.json", samples_label = "samples",
+                            structure_label = "dyn.str", variables_label = "variables",
+                            cims_label = "dyn.cims", time_key = "Time", 
+                            variables_key = "Name")
         cls.j1.import_data(0)
 
     def test_init(self):
@@ -47,11 +50,12 @@ class TestTrajectoryGenerator(unittest.TestCase):
         trajectories = tg.multi_trajectory(max_trs = max_trs)
         self.assertEqual(len(trajectories), len(max_trs))
         for i, trajectory in enumerate(trajectories):
-            self.assertEqual(len(trajectory), max_trs[i])
+            self.assertEqual(len(trajectory), max_trs[i] + 1)
         t_ends = [random.randint(100, 500) for i in range(10)]
         trajectories = tg.multi_trajectory(t_ends = t_ends)
         self.assertEqual(len(trajectories), len(t_ends))
         for i, trajectory in enumerate(trajectories):
-            self.assertEqual(len(trajectory), t_ends[i])
+            self.assertLessEqual(trajectory.loc[len(trajectory) - 2].at["Time"], t_ends[i])
 
-unittest.main()
+if __name__ == '__main__':
+    unittest.main()
