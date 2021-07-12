@@ -1,4 +1,7 @@
 
+# License: MIT License
+
+
 import itertools
 import json
 import typing
@@ -142,40 +145,34 @@ class StructureEstimator(object):
         return nx.difference(real_graph, self._complete_graph).edges
 
     def save_plot_estimated_structure_graph(self, file_path: str) -> None:  
-            """Plot the estimated structure in a graphical model style, use .png extension.
-            Spurious edges are colored in red if a prior structure is present.
+        """Plot the estimated structure in a graphical model style, use .png extension.
 
-            :param file_path: path to save the file to
-            :type: string
-            """
-            graph_to_draw = nx.DiGraph()
-            spurious_edges = self.spurious_edges()
-            non_spurious_edges = list(set(self._complete_graph.edges) - set(spurious_edges))
-            edges_colors = ['red' if edge in spurious_edges else 'black' for edge in self._complete_graph.edges]
-            graph_to_draw.add_edges_from(spurious_edges)
-            graph_to_draw.add_edges_from(non_spurious_edges)
-            pos = nx.spring_layout(graph_to_draw, k=0.5*1/np.sqrt(len(graph_to_draw.nodes())), iterations=50,scale=10)
-            options = {
-                "node_size": 2000,
-                "node_color": "white",
-                "edgecolors": "black",
-                'linewidths':2,
-                "with_labels":True,
-                "font_size":13,
-                'connectionstyle': 'arc3, rad = 0.1',
-                "arrowsize": 15,
-                "arrowstyle": '<|-',
-                "width": 1,
-                "edge_color":edges_colors,
-            }
+        :param file_path: path to save the file to
+        :type: string
+        """
+        pos = nx.spring_layout(self._complete_graph, k=0.5*1/np.sqrt(len(self._complete_graph.nodes)),
+                               iterations=50,scale=10)
+        options = {
+            "node_size": 2000,
+            "node_color": "white",
+            "edgecolors": "black",
+            'linewidths':2,
+            "with_labels":True,
+            "font_size":13,
+            'connectionstyle': 'arc3, rad = 0.1',
+            "arrowsize": 15,
+            #"arrowstyle": '<|-',
+            "width": 1,
+            #"edge_color":edges_colors,
+        }
 
-            nx.draw(graph_to_draw, pos, **options)
-            ax = plt.gca()
-            ax.margins(0.20)
-            plt.axis("off")
-            plt.savefig(file_path)
-            plt.clf()
-            print("Estimated Structure Plot Saved At: ", os.path.abspath(file_path))
+        nx.draw(self._complete_graph, pos, **options)
+        ax = plt.gca()
+        ax.margins(0.20)
+        plt.axis("off")
+        plt.savefig(file_path)
+        plt.clf()
+        print("Estimated Structure Plot Saved At: ", os.path.abspath(file_path))
 
 
 

@@ -1,4 +1,7 @@
 
+# License: MIT License
+
+
 import unittest
 import numpy as np
 from ...PyCTBN.structure_graph.structure import Structure

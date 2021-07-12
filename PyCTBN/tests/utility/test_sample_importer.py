@@ -1,13 +1,19 @@
 
+# License: MIT License
+
+
 import unittest
 import os
 import glob
+import json
 import numpy as np
 import pandas as pd
+
+
 from ...PyCTBN.utility.sample_importer import SampleImporter
 from ...PyCTBN.structure_graph.sample_path import SamplePath
 
-import json
+
 
 
 
@@ -17,9 +23,10 @@ class TestSampleImporter(unittest.TestCase):
     def setUpClass(cls) -> None:
         with open("./PyCTBN/test_data/networks_and_trajectories_binary_data_01_3.json") as f:
             raw_data = json.load(f)
-
+            
+            #read the samples
             trajectory_list_raw= raw_data[0]["samples"]
-
+            
             cls.trajectory_list = [pd.DataFrame(sample) for sample in trajectory_list_raw]
 
             cls.variables= pd.DataFrame(raw_data[0]["variables"])

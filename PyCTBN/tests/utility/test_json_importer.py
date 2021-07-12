@@ -1,4 +1,7 @@
 
+# License: MIT License
+
+
 import unittest
 import os
 import glob
@@ -39,7 +42,7 @@ class TestJsonImporter(unittest.TestCase):
         path = os.getcwd()
         path = path + '/data.json'
         j1 = JsonImporter(path, '', '', '', '', '')
-        self.assertTrue(self.ordered(data_set) == self.ordered(j1._raw_data))
+        self.assertTrue(self.ordered([data_set]) == self.ordered(j1._raw_data))
         os.remove('data.json')
 
     def test_read_json_file_not_found(self):
@@ -155,7 +158,7 @@ class TestJsonImporter(unittest.TestCase):
         self.assertEqual(j1.file_path, "./PyCTBN/test_data/networks_and_trajectories_binary_data_01_3.json")
 
     def test_import_data(self):
-        j1 = JsonImporter("./PyCTBN/test_data/networks_and_trajectories_binary_data_01_3.json", 'samples', 'dyn.str', 'variables', 'Time', 'Name')
+        j1 = JsonImporter("./PyCTBN/test_data/networks_and_trajectories_binary_data_02_10_1.json", 'samples', 'dyn.str', 'variables', 'Time', 'Name')
         j1.import_data(0)
         self.assertEqual(list(j1.variables[j1._variables_key]),
                          list(j1.concatenated_samples.columns.values[1:len(j1.variables[j1._variables_key]) + 1]))

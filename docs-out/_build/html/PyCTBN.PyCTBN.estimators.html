@@ -61,7 +61,7 @@
 	
           
           
-              <p class="caption"><span class="caption-text">Contents:</span></p>
+              <p><span class="caption-text">Contents:</span></p>
 <ul class="current">
 <li class="toctree-l1 current"><a class="reference internal" href="PyCTBN.PyCTBN.html">PyCTBN.PyCTBN package</a><ul class="current">
 <li class="toctree-l2 current"><a class="reference internal" href="PyCTBN.PyCTBN.html#subpackages">Subpackages</a></li>
@@ -115,12 +115,12 @@
           <div role="main" class="">
 
 	    <div id="content" class="hfeed entry-container hentry">
-  <div class="section" id="pyctbn-pyctbn-estimators-package">
+  <section id="pyctbn-pyctbn-estimators-package">
 <h1>PyCTBN.PyCTBN.estimators package<a class="headerlink" href="#pyctbn-pyctbn-estimators-package" title="Permalink to this headline">¶</a></h1>
-<div class="section" id="submodules">
+<section id="submodules">
 <h2>Submodules<a class="headerlink" href="#submodules" title="Permalink to this headline">¶</a></h2>
-</div>
-<div class="section" id="module-PyCTBN.PyCTBN.estimators.fam_score_calculator">
+</section>
+<section id="module-PyCTBN.PyCTBN.estimators.fam_score_calculator">
 <span id="pyctbn-pyctbn-estimators-fam-score-calculator-module"></span><h2>PyCTBN.PyCTBN.estimators.fam_score_calculator module<a class="headerlink" href="#module-PyCTBN.PyCTBN.estimators.fam_score_calculator" title="Permalink to this headline">¶</a></h2>
 <dl class="py class">
 <dt id="PyCTBN.PyCTBN.estimators.fam_score_calculator.FamScoreCalculator">
@@ -300,8 +300,8 @@ and a specif parents’s assignment</p>
 
 </dd></dl>
 
-</div>
-<div class="section" id="module-PyCTBN.PyCTBN.estimators.parameters_estimator">
+</section>
+<section id="module-PyCTBN.PyCTBN.estimators.parameters_estimator">
 <span id="pyctbn-pyctbn-estimators-parameters-estimator-module"></span><h2>PyCTBN.PyCTBN.estimators.parameters_estimator module<a class="headerlink" href="#module-PyCTBN.PyCTBN.estimators.parameters_estimator" title="Permalink to this headline">¶</a></h2>
 <dl class="py class">
 <dt id="PyCTBN.PyCTBN.estimators.parameters_estimator.ParametersEstimator">
@@ -385,8 +385,8 @@ in the graph <code class="docutils literal notranslate"><span class="pre">_net_g
 
 </dd></dl>
 
-</div>
-<div class="section" id="module-PyCTBN.PyCTBN.estimators.structure_constraint_based_estimator">
+</section>
+<section id="module-PyCTBN.PyCTBN.estimators.structure_constraint_based_estimator">
 <span id="pyctbn-pyctbn-estimators-structure-constraint-based-estimator-module"></span><h2>PyCTBN.PyCTBN.estimators.structure_constraint_based_estimator module<a class="headerlink" href="#module-PyCTBN.PyCTBN.estimators.structure_constraint_based_estimator" title="Permalink to this headline">¶</a></h2>
 <dl class="py class">
 <dt id="PyCTBN.PyCTBN.estimators.structure_constraint_based_estimator.StructureConstraintBasedEstimator">
@@ -467,22 +467,34 @@ Generates all the necessary structures and datas to perform the tests.</p>
 
 <dl class="py method">
 <dt id="PyCTBN.PyCTBN.estimators.structure_constraint_based_estimator.StructureConstraintBasedEstimator.ctpc_algorithm">
-<code class="sig-name descname">ctpc_algorithm</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">disable_multiprocessing</span><span class="p">:</span> <span class="n">bool</span> <span class="o">=</span> <span class="default_value">False</span></em><span class="sig-paren">)</span><a class="headerlink" href="#PyCTBN.PyCTBN.estimators.structure_constraint_based_estimator.StructureConstraintBasedEstimator.ctpc_algorithm" title="Permalink to this definition">¶</a></dt>
+<code class="sig-name descname">ctpc_algorithm</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">disable_multiprocessing</span><span class="p">:</span> <span class="n">bool</span> <span class="o">=</span> <span class="default_value">False</span></em>, <em class="sig-param"><span class="n">processes_number</span><span class="p">:</span> <span class="n">int</span> <span class="o">=</span> <span class="default_value">None</span></em><span class="sig-paren">)</span><a class="headerlink" href="#PyCTBN.PyCTBN.estimators.structure_constraint_based_estimator.StructureConstraintBasedEstimator.ctpc_algorithm" title="Permalink to this definition">¶</a></dt>
 <dd><p>Compute the CTPC algorithm over the entire net.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>disable_multiprocessing</strong> (<em>Boolean</em><em>, </em><em>optional</em>) – true if you desire to disable the multiprocessing operations, default to False</p></li>
+<li><p><strong>processes_number</strong> – if disable_multiprocessing is false indicates</p></li>
+</ul>
+</dd>
+</dl>
+<p>the maximum number of process; if None it will be automatically set, default to None
+:type processes_number: int, optional</p>
 </dd></dl>
 
 <dl class="py method">
 <dt id="PyCTBN.PyCTBN.estimators.structure_constraint_based_estimator.StructureConstraintBasedEstimator.estimate_structure">
-<code class="sig-name descname">estimate_structure</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">disable_multiprocessing</span><span class="p">:</span> <span class="n">bool</span> <span class="o">=</span> <span class="default_value">False</span></em><span class="sig-paren">)</span><a class="headerlink" href="#PyCTBN.PyCTBN.estimators.structure_constraint_based_estimator.StructureConstraintBasedEstimator.estimate_structure" title="Permalink to this definition">¶</a></dt>
-<dd><p>Abstract method to estimate the structure</p>
+<code class="sig-name descname">estimate_structure</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">disable_multiprocessing</span><span class="p">:</span> <span class="n">bool</span> <span class="o">=</span> <span class="default_value">False</span></em>, <em class="sig-param"><span class="n">processes_number</span><span class="p">:</span> <span class="n">int</span> <span class="o">=</span> <span class="default_value">None</span></em><span class="sig-paren">)</span><a class="headerlink" href="#PyCTBN.PyCTBN.estimators.structure_constraint_based_estimator.StructureConstraintBasedEstimator.estimate_structure" title="Permalink to this definition">¶</a></dt>
+<dd><p>Compute the constraint-based algorithm to find the optimal structure</p>
 <dl class="field-list simple">
-<dt class="field-odd">Returns</dt>
-<dd class="field-odd"><p>List of estimated edges</p>
-</dd>
-<dt class="field-even">Return type</dt>
-<dd class="field-even"><p>Typing.List</p>
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>disable_multiprocessing</strong> (<em>Boolean</em><em>, </em><em>optional</em>) – true if you desire to disable the multiprocessing operations, default to False</p></li>
+<li><p><strong>processes_number</strong> – if disable_multiprocessing is false indicates</p></li>
+</ul>
 </dd>
 </dl>
+<p>the maximum number of process; if None it will be automatically set, default to None
+:type processes_number: int, optional</p>
 </dd></dl>
 
 <dl class="py method">
@@ -521,8 +533,8 @@ it is performed also the chi_test.</p>
 
 </dd></dl>
 
-</div>
-<div class="section" id="module-PyCTBN.PyCTBN.estimators.structure_estimator">
+</section>
+<section id="module-PyCTBN.PyCTBN.estimators.structure_estimator">
 <span id="pyctbn-pyctbn-estimators-structure-estimator-module"></span><h2>PyCTBN.PyCTBN.estimators.structure_estimator module<a class="headerlink" href="#module-PyCTBN.PyCTBN.estimators.structure_estimator" title="Permalink to this headline">¶</a></h2>
 <dl class="py class">
 <dt id="PyCTBN.PyCTBN.estimators.structure_estimator.StructureEstimator">
@@ -636,8 +648,7 @@ that do not contains a the node identified by <code class="docutils literal notr
 <dl class="py method">
 <dt id="PyCTBN.PyCTBN.estimators.structure_estimator.StructureEstimator.save_plot_estimated_structure_graph">
 <code class="sig-name descname">save_plot_estimated_structure_graph</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">file_path</span><span class="p">:</span> <span class="n">str</span></em><span class="sig-paren">)</span> &#x2192; None<a class="headerlink" href="#PyCTBN.PyCTBN.estimators.structure_estimator.StructureEstimator.save_plot_estimated_structure_graph" title="Permalink to this definition">¶</a></dt>
-<dd><p>Plot the estimated structure in a graphical model style, use .png extension.
-Spurious edges are colored in red if a prior structure is present.</p>
+<dd><p>Plot the estimated structure in a graphical model style, use .png extension.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
 <dd class="field-odd"><p><strong>file_path</strong> – path to save the file to</p>
@@ -678,8 +689,8 @@ Spurious edges are colored in red if a prior structure is present.</p>
 
 </dd></dl>
 
-</div>
-<div class="section" id="module-PyCTBN.PyCTBN.estimators.structure_score_based_estimator">
+</section>
+<section id="module-PyCTBN.PyCTBN.estimators.structure_score_based_estimator">
 <span id="pyctbn-pyctbn-estimators-structure-score-based-estimator-module"></span><h2>PyCTBN.PyCTBN.estimators.structure_score_based_estimator module<a class="headerlink" href="#module-PyCTBN.PyCTBN.estimators.structure_score_based_estimator" title="Permalink to this headline">¶</a></h2>
 <dl class="py class">
 <dt id="PyCTBN.PyCTBN.estimators.structure_score_based_estimator.StructureScoreBasedEstimator">
@@ -724,7 +735,7 @@ using a score based approach and differt kinds of optimization algorithms.</p>
 
 <dl class="py method">
 <dt id="PyCTBN.PyCTBN.estimators.structure_score_based_estimator.StructureScoreBasedEstimator.estimate_structure">
-<code class="sig-name descname">estimate_structure</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">max_parents</span><span class="p">:</span> <span class="n">int</span> <span class="o">=</span> <span class="default_value">None</span></em>, <em class="sig-param"><span class="n">iterations_number</span><span class="p">:</span> <span class="n">int</span> <span class="o">=</span> <span class="default_value">40</span></em>, <em class="sig-param"><span class="n">patience</span><span class="p">:</span> <span class="n">int</span> <span class="o">=</span> <span class="default_value">None</span></em>, <em class="sig-param"><span class="n">tabu_length</span><span class="p">:</span> <span class="n">int</span> <span class="o">=</span> <span class="default_value">None</span></em>, <em class="sig-param"><span class="n">tabu_rules_duration</span><span class="p">:</span> <span class="n">int</span> <span class="o">=</span> <span class="default_value">None</span></em>, <em class="sig-param"><span class="n">optimizer</span><span class="p">:</span> <span class="n">str</span> <span class="o">=</span> <span class="default_value">'tabu'</span></em>, <em class="sig-param"><span class="n">disable_multiprocessing</span><span class="p">:</span> <span class="n">bool</span> <span class="o">=</span> <span class="default_value">False</span></em><span class="sig-paren">)</span><a class="headerlink" href="#PyCTBN.PyCTBN.estimators.structure_score_based_estimator.StructureScoreBasedEstimator.estimate_structure" title="Permalink to this definition">¶</a></dt>
+<code class="sig-name descname">estimate_structure</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">max_parents</span><span class="p">:</span> <span class="n">int</span> <span class="o">=</span> <span class="default_value">None</span></em>, <em class="sig-param"><span class="n">iterations_number</span><span class="p">:</span> <span class="n">int</span> <span class="o">=</span> <span class="default_value">40</span></em>, <em class="sig-param"><span class="n">patience</span><span class="p">:</span> <span class="n">int</span> <span class="o">=</span> <span class="default_value">None</span></em>, <em class="sig-param"><span class="n">tabu_length</span><span class="p">:</span> <span class="n">int</span> <span class="o">=</span> <span class="default_value">None</span></em>, <em class="sig-param"><span class="n">tabu_rules_duration</span><span class="p">:</span> <span class="n">int</span> <span class="o">=</span> <span class="default_value">None</span></em>, <em class="sig-param"><span class="n">optimizer</span><span class="p">:</span> <span class="n">str</span> <span class="o">=</span> <span class="default_value">'tabu'</span></em>, <em class="sig-param"><span class="n">disable_multiprocessing</span><span class="p">:</span> <span class="n">bool</span> <span class="o">=</span> <span class="default_value">False</span></em>, <em class="sig-param"><span class="n">processes_number</span><span class="p">:</span> <span class="n">int</span> <span class="o">=</span> <span class="default_value">None</span></em><span class="sig-paren">)</span><a class="headerlink" href="#PyCTBN.PyCTBN.estimators.structure_score_based_estimator.StructureScoreBasedEstimator.estimate_structure" title="Permalink to this definition">¶</a></dt>
 <dd><p>Compute the score-based algorithm to find the optimal structure</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
@@ -736,9 +747,12 @@ using a score based approach and differt kinds of optimization algorithms.</p>
 <li><p><strong>tabu_rules_duration</strong> (<em>int</em><em>, </em><em>optional</em>) – number of iterations in which each rule keeps its value, default to None</p></li>
 <li><p><strong>optimizer</strong> (<em>string</em><em>, </em><em>optional</em>) – name of the optimizer algorithm. Possible values: ‘hill’ (Hill climbing),’tabu’ (tabu search), defualt to ‘tabu’</p></li>
 <li><p><strong>disable_multiprocessing</strong> (<em>Boolean</em><em>, </em><em>optional</em>) – true if you desire to disable the multiprocessing operations, default to False</p></li>
+<li><p><strong>processes_number</strong> – if disable_multiprocessing is false indicates</p></li>
 </ul>
 </dd>
 </dl>
+<p>the maximum number of process; if None it will be automatically set, default to None
+:type processes_number: int, optional</p>
 </dd></dl>
 
 <dl class="py method">
@@ -763,11 +777,11 @@ using a score based approach and differt kinds of optimization algorithms.</p>
 
 </dd></dl>
 
-</div>
-<div class="section" id="module-PyCTBN.PyCTBN.estimators">
+</section>
+<section id="module-PyCTBN.PyCTBN.estimators">
 <span id="module-contents"></span><h2>Module contents<a class="headerlink" href="#module-PyCTBN.PyCTBN.estimators" title="Permalink to this headline">¶</a></h2>
-</div>
-</div>
+</section>
+</section>
 
 
 	    </div>
