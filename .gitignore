@@ -3,7 +3,6 @@ __pycache__
 **/__pycache__
 **/data
 **/PyCTBN.egg-info
-**/dist
 **/results_data
 **/.scannerwork
 **/build
@@ -15,3 +14,4 @@ test3.json
 result0.png
 example.json
 test_time.py
+.idea

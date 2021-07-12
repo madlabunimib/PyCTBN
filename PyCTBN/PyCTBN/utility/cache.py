@@ -1,4 +1,7 @@
 
+# License: MIT License
+
+
 import typing
 
 from ..structure_graph.set_of_cims import SetOfCims 

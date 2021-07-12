@@ -1,3 +1,6 @@
+
+# License: MIT License
+
 from .optimizer import Optimizer
 from .tabu_search import TabuSearch
 from .hill_climbing_search import HillClimbing
