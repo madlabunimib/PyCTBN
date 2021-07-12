@@ -12,6 +12,14 @@ PyCTBN.PyCTBN.structure\_graph.conditional\_intensity\_matrix module
    :undoc-members:
    :show-inheritance:
 
+PyCTBN.PyCTBN.structure\_graph.network\_generator module
+--------------------------------------------------------
+
+.. automodule:: PyCTBN.PyCTBN.structure_graph.network_generator
+   :members:
+   :undoc-members:
+   :show-inheritance:
+
 PyCTBN.PyCTBN.structure\_graph.network\_graph module
 ----------------------------------------------------
 
@@ -48,6 +56,14 @@ PyCTBN.PyCTBN.structure\_graph.trajectory module
 ------------------------------------------------
 
 .. automodule:: PyCTBN.PyCTBN.structure_graph.trajectory
+   :members:
+   :undoc-members:
+   :show-inheritance:
+
+PyCTBN.PyCTBN.structure\_graph.trajectory\_generator module
+-----------------------------------------------------------
+
+.. automodule:: PyCTBN.PyCTBN.structure_graph.trajectory_generator
    :members:
    :undoc-members:
    :show-inheritance:
