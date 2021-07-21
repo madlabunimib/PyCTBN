@@ -343,3 +343,56 @@ Score based estimation with Tabu Search and Data Augmentation
         # ...or save it also in a graphical model fashion 
         # (remember to specify the path AND the .png extension)
         se1.save_plot_estimated_structure_graph('./result0.png')
+
+Network graph and parameters generation, trajectory sampling, data export
+**************************************************************
+
+| This example shows how to randomically generate a CTBN, that means both the graph and the CIMS, taking as input
+| the list of variables labels and their related cardinality. The whole procedure is managed by NetworkGenerator,
+| respectively with the generate_graph method, that allows to define the expected density of the graph, and
+| generate_cims method, that takes as input the range in which the parameters must be included.
+| Afterwards, the example shows how to sample a trajectory over the previously generated network, through the
+| CTBN_Sample method and setting a fixed number of transitions equal to 30000.
+| The output data, made up by network structure, cims and trajectory, are then saved on a JSON file by
+| exploiting the functions of JSONExporter class.
+| To prove the simplicity of interaction among the modules, the example eventually reads the file and computes
+| the estimation of the structure by using a ConstraintBased approach.
+
+.. code-block:: python
+    from PyCTBN.PyCTBN.structure_graph.trajectory_generator import TrajectoryGenerator
+    from PyCTBN.PyCTBN.structure_graph.network_generator import NetworkGenerator
+    from PyCTBN.PyCTBN.utility.json_importer import JsonImporter
+    from PyCTBN.PyCTBN.utility.json_exporter import JsonExporter
+    from PyCTBN.PyCTBN.structure_graph.sample_path import SamplePath
+    from PyCTBN.PyCTBN.estimators.structure_constraint_based_estimator import StructureConstraintBasedEstimator
+
+    def main():
+        # Network Generation
+        labels = ["X", "Y", "Z"]
+        card = 3
+        vals = [card for l in labels]
+        cim_min = 1
+        cim_max = 3
+        ng = NetworkGenerator(labels, vals)
+        ng.generate_graph(0.3)
+        ng.generate_cims(cim_min, cim_max)
+
+        # Trajectory Generation
+        e1 = JsonExporter(ng.variables, ng.dyn_str, ng.cims)
+        tg = TrajectoryGenerator(variables = ng.variables, dyn_str = ng.dyn_str, dyn_cims = ng.cims)
+        sigma = tg.CTBN_Sample(max_tr = 30000)
+        e1.add_trajectory(sigma)
+        e1.out_file("example.json")
+
+        # Network Estimation (Constraint Based)
+        importer = JsonImporter(file_path = "example.json", samples_label = "samples",
+                                structure_label = "dyn.str", variables_label = "variables",
+                                cims_label = "dyn.cims", time_key = "Time", 
+                                variables_key = "Name")
+        importer.import_data(0)
+        s1 = SamplePath(importer=importer)
+        s1.build_trajectories()
+        s1.build_structure()
+        se1 = StructureConstraintBasedEstimator(sample_path=s1, exp_test_alfa=0.1, chi_test_alfa=0.1,
+                                                known_edges=[], thumb_threshold=25)
+        edges = se1.estimate_structure(True)
