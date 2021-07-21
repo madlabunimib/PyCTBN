@@ -19,6 +19,10 @@
     <link rel="stylesheet" href="_static/css/pdj.css" type="text/css" />
 
   
+    <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
+  
+    <link rel="stylesheet" href="_static/css/pdj.css" type="text/css" />
+  
 
   
 
@@ -123,8 +127,8 @@
 <section id="module-PyCTBN.PyCTBN.optimizers.constraint_based_optimizer">
 <span id="pyctbn-pyctbn-optimizers-constraint-based-optimizer-module"></span><h2>PyCTBN.PyCTBN.optimizers.constraint_based_optimizer module<a class="headerlink" href="#module-PyCTBN.PyCTBN.optimizers.constraint_based_optimizer" title="Permalink to this headline">¶</a></h2>
 <dl class="py class">
-<dt id="PyCTBN.PyCTBN.optimizers.constraint_based_optimizer.ConstraintBasedOptimizer">
-<em class="property">class </em><code class="sig-prename descclassname">PyCTBN.PyCTBN.optimizers.constraint_based_optimizer.</code><code class="sig-name descname">ConstraintBasedOptimizer</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">node_id</span><span class="p">:</span> <span class="n">str</span></em>, <em class="sig-param"><span class="n">structure_estimator</span><span class="p">:</span> <span class="n"><a class="reference internal" href="PyCTBN.PyCTBN.estimators.html#PyCTBN.PyCTBN.estimators.structure_estimator.StructureEstimator" title="PyCTBN.PyCTBN.estimators.structure_estimator.StructureEstimator">PyCTBN.PyCTBN.estimators.structure_estimator.StructureEstimator</a></span></em>, <em class="sig-param"><span class="n">tot_vars_count</span><span class="p">:</span> <span class="n">int</span></em><span class="sig-paren">)</span><a class="headerlink" href="#PyCTBN.PyCTBN.optimizers.constraint_based_optimizer.ConstraintBasedOptimizer" title="Permalink to this definition">¶</a></dt>
+<dt class="sig sig-object py" id="PyCTBN.PyCTBN.optimizers.constraint_based_optimizer.ConstraintBasedOptimizer">
+<em class="property"><span class="pre">class</span> </em><span class="sig-prename descclassname"><span class="pre">PyCTBN.PyCTBN.optimizers.constraint_based_optimizer.</span></span><span class="sig-name descname"><span class="pre">ConstraintBasedOptimizer</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">node_id</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><span class="pre">str</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">structure_estimator</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><a class="reference internal" href="PyCTBN.PyCTBN.estimators.html#PyCTBN.PyCTBN.estimators.structure_estimator.StructureEstimator" title="PyCTBN.PyCTBN.estimators.structure_estimator.StructureEstimator"><span class="pre">PyCTBN.PyCTBN.estimators.structure_estimator.StructureEstimator</span></a></span></em>, <em class="sig-param"><span class="n"><span class="pre">tot_vars_count</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><span class="pre">int</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#PyCTBN.PyCTBN.optimizers.constraint_based_optimizer.ConstraintBasedOptimizer" title="Permalink to this definition">¶</a></dt>
 <dd><p>Bases: <a class="reference internal" href="#PyCTBN.PyCTBN.optimizers.optimizer.Optimizer" title="PyCTBN.PyCTBN.optimizers.optimizer.Optimizer"><code class="xref py py-class docutils literal notranslate"><span class="pre">PyCTBN.PyCTBN.optimizers.optimizer.Optimizer</span></code></a></p>
 <p>Optimizer class that implement a CTPC Algorithm</p>
 <dl class="field-list simple">
@@ -137,8 +141,8 @@
 </dd>
 </dl>
 <dl class="py method">
-<dt id="PyCTBN.PyCTBN.optimizers.constraint_based_optimizer.ConstraintBasedOptimizer.optimize_structure">
-<code class="sig-name descname">optimize_structure</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#PyCTBN.PyCTBN.optimizers.constraint_based_optimizer.ConstraintBasedOptimizer.optimize_structure" title="Permalink to this definition">¶</a></dt>
+<dt class="sig sig-object py" id="PyCTBN.PyCTBN.optimizers.constraint_based_optimizer.ConstraintBasedOptimizer.optimize_structure">
+<span class="sig-name descname"><span class="pre">optimize_structure</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#PyCTBN.PyCTBN.optimizers.constraint_based_optimizer.ConstraintBasedOptimizer.optimize_structure" title="Permalink to this definition">¶</a></dt>
 <dd><p>Compute Optimization process for a structure_estimator by using a CTPC Algorithm</p>
 <dl class="field-list simple">
 <dt class="field-odd">Returns</dt>
@@ -156,8 +160,8 @@
 <section id="module-PyCTBN.PyCTBN.optimizers.hill_climbing_search">
 <span id="pyctbn-pyctbn-optimizers-hill-climbing-search-module"></span><h2>PyCTBN.PyCTBN.optimizers.hill_climbing_search module<a class="headerlink" href="#module-PyCTBN.PyCTBN.optimizers.hill_climbing_search" title="Permalink to this headline">¶</a></h2>
 <dl class="py class">
-<dt id="PyCTBN.PyCTBN.optimizers.hill_climbing_search.HillClimbing">
-<em class="property">class </em><code class="sig-prename descclassname">PyCTBN.PyCTBN.optimizers.hill_climbing_search.</code><code class="sig-name descname">HillClimbing</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">node_id</span><span class="p">:</span> <span class="n">str</span></em>, <em class="sig-param"><span class="n">structure_estimator</span><span class="p">:</span> <span class="n"><a class="reference internal" href="PyCTBN.PyCTBN.estimators.html#PyCTBN.PyCTBN.estimators.structure_estimator.StructureEstimator" title="PyCTBN.PyCTBN.estimators.structure_estimator.StructureEstimator">PyCTBN.PyCTBN.estimators.structure_estimator.StructureEstimator</a></span></em>, <em class="sig-param"><span class="n">max_parents</span><span class="p">:</span> <span class="n">int</span> <span class="o">=</span> <span class="default_value">None</span></em>, <em class="sig-param"><span class="n">iterations_number</span><span class="p">:</span> <span class="n">int</span> <span class="o">=</span> <span class="default_value">40</span></em>, <em class="sig-param"><span class="n">patience</span><span class="p">:</span> <span class="n">int</span> <span class="o">=</span> <span class="default_value">None</span></em><span class="sig-paren">)</span><a class="headerlink" href="#PyCTBN.PyCTBN.optimizers.hill_climbing_search.HillClimbing" title="Permalink to this definition">¶</a></dt>
+<dt class="sig sig-object py" id="PyCTBN.PyCTBN.optimizers.hill_climbing_search.HillClimbing">
+<em class="property"><span class="pre">class</span> </em><span class="sig-prename descclassname"><span class="pre">PyCTBN.PyCTBN.optimizers.hill_climbing_search.</span></span><span class="sig-name descname"><span class="pre">HillClimbing</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">node_id</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><span class="pre">str</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">structure_estimator</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><a class="reference internal" href="PyCTBN.PyCTBN.estimators.html#PyCTBN.PyCTBN.estimators.structure_estimator.StructureEstimator" title="PyCTBN.PyCTBN.estimators.structure_estimator.StructureEstimator"><span class="pre">PyCTBN.PyCTBN.estimators.structure_estimator.StructureEstimator</span></a></span></em>, <em class="sig-param"><span class="n"><span class="pre">max_parents</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><span class="pre">Optional</span><span class="p"><span class="pre">[</span></span><span class="pre">int</span><span class="p"><span class="pre">]</span></span></span> <span class="o"><span class="pre">=</span></span> <span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">iterations_number</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><span class="pre">int</span></span> <span class="o"><span class="pre">=</span></span> <span class="default_value"><span class="pre">40</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">patience</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><span class="pre">Optional</span><span class="p"><span class="pre">[</span></span><span class="pre">int</span><span class="p"><span class="pre">]</span></span></span> <span class="o"><span class="pre">=</span></span> <span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#PyCTBN.PyCTBN.optimizers.hill_climbing_search.HillClimbing" title="Permalink to this definition">¶</a></dt>
 <dd><p>Bases: <a class="reference internal" href="#PyCTBN.PyCTBN.optimizers.optimizer.Optimizer" title="PyCTBN.PyCTBN.optimizers.optimizer.Optimizer"><code class="xref py py-class docutils literal notranslate"><span class="pre">PyCTBN.PyCTBN.optimizers.optimizer.Optimizer</span></code></a></p>
 <p>Optimizer class that implement Hill Climbing Search</p>
 <dl class="field-list simple">
@@ -172,8 +176,8 @@
 </dd>
 </dl>
 <dl class="py method">
-<dt id="PyCTBN.PyCTBN.optimizers.hill_climbing_search.HillClimbing.optimize_structure">
-<code class="sig-name descname">optimize_structure</code><span class="sig-paren">(</span><span class="sig-paren">)</span> &#x2192; List<a class="headerlink" href="#PyCTBN.PyCTBN.optimizers.hill_climbing_search.HillClimbing.optimize_structure" title="Permalink to this definition">¶</a></dt>
+<dt class="sig sig-object py" id="PyCTBN.PyCTBN.optimizers.hill_climbing_search.HillClimbing.optimize_structure">
+<span class="sig-name descname"><span class="pre">optimize_structure</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span> &#x2192; <span class="pre">List</span><a class="headerlink" href="#PyCTBN.PyCTBN.optimizers.hill_climbing_search.HillClimbing.optimize_structure" title="Permalink to this definition">¶</a></dt>
 <dd><p>Compute Optimization process for a structure_estimator by using a Hill Climbing Algorithm</p>
 <dl class="field-list simple">
 <dt class="field-odd">Returns</dt>
@@ -191,8 +195,8 @@
 <section id="module-PyCTBN.PyCTBN.optimizers.optimizer">
 <span id="pyctbn-pyctbn-optimizers-optimizer-module"></span><h2>PyCTBN.PyCTBN.optimizers.optimizer module<a class="headerlink" href="#module-PyCTBN.PyCTBN.optimizers.optimizer" title="Permalink to this headline">¶</a></h2>
 <dl class="py class">
-<dt id="PyCTBN.PyCTBN.optimizers.optimizer.Optimizer">
-<em class="property">class </em><code class="sig-prename descclassname">PyCTBN.PyCTBN.optimizers.optimizer.</code><code class="sig-name descname">Optimizer</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">node_id</span><span class="p">:</span> <span class="n">str</span></em>, <em class="sig-param"><span class="n">structure_estimator</span><span class="p">:</span> <span class="n"><a class="reference internal" href="PyCTBN.PyCTBN.estimators.html#PyCTBN.PyCTBN.estimators.structure_estimator.StructureEstimator" title="PyCTBN.PyCTBN.estimators.structure_estimator.StructureEstimator">PyCTBN.PyCTBN.estimators.structure_estimator.StructureEstimator</a></span></em><span class="sig-paren">)</span><a class="headerlink" href="#PyCTBN.PyCTBN.optimizers.optimizer.Optimizer" title="Permalink to this definition">¶</a></dt>
+<dt class="sig sig-object py" id="PyCTBN.PyCTBN.optimizers.optimizer.Optimizer">
+<em class="property"><span class="pre">class</span> </em><span class="sig-prename descclassname"><span class="pre">PyCTBN.PyCTBN.optimizers.optimizer.</span></span><span class="sig-name descname"><span class="pre">Optimizer</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">node_id</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><span class="pre">str</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">structure_estimator</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><a class="reference internal" href="PyCTBN.PyCTBN.estimators.html#PyCTBN.PyCTBN.estimators.structure_estimator.StructureEstimator" title="PyCTBN.PyCTBN.estimators.structure_estimator.StructureEstimator"><span class="pre">PyCTBN.PyCTBN.estimators.structure_estimator.StructureEstimator</span></a></span></em><span class="sig-paren">)</span><a class="headerlink" href="#PyCTBN.PyCTBN.optimizers.optimizer.Optimizer" title="Permalink to this definition">¶</a></dt>
 <dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">abc.ABC</span></code></p>
 <p>Interface class for all the optimizer’s child PyCTBN</p>
 <dl class="field-list simple">
@@ -204,8 +208,8 @@
 </dd>
 </dl>
 <dl class="py method">
-<dt id="PyCTBN.PyCTBN.optimizers.optimizer.Optimizer.optimize_structure">
-<em class="property">abstract </em><code class="sig-name descname">optimize_structure</code><span class="sig-paren">(</span><span class="sig-paren">)</span> &#x2192; List<a class="headerlink" href="#PyCTBN.PyCTBN.optimizers.optimizer.Optimizer.optimize_structure" title="Permalink to this definition">¶</a></dt>
+<dt class="sig sig-object py" id="PyCTBN.PyCTBN.optimizers.optimizer.Optimizer.optimize_structure">
+<em class="property"><span class="pre">abstract</span> </em><span class="sig-name descname"><span class="pre">optimize_structure</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span> &#x2192; <span class="pre">List</span><a class="headerlink" href="#PyCTBN.PyCTBN.optimizers.optimizer.Optimizer.optimize_structure" title="Permalink to this definition">¶</a></dt>
 <dd><p>Compute Optimization process for a structure_estimator</p>
 <dl class="field-list simple">
 <dt class="field-odd">Returns</dt>
@@ -223,8 +227,8 @@
 <section id="module-PyCTBN.PyCTBN.optimizers.tabu_search">
 <span id="pyctbn-pyctbn-optimizers-tabu-search-module"></span><h2>PyCTBN.PyCTBN.optimizers.tabu_search module<a class="headerlink" href="#module-PyCTBN.PyCTBN.optimizers.tabu_search" title="Permalink to this headline">¶</a></h2>
 <dl class="py class">
-<dt id="PyCTBN.PyCTBN.optimizers.tabu_search.TabuSearch">
-<em class="property">class </em><code class="sig-prename descclassname">PyCTBN.PyCTBN.optimizers.tabu_search.</code><code class="sig-name descname">TabuSearch</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">node_id</span><span class="p">:</span> <span class="n">str</span></em>, <em class="sig-param"><span class="n">structure_estimator</span><span class="p">:</span> <span class="n"><a class="reference internal" href="PyCTBN.PyCTBN.estimators.html#PyCTBN.PyCTBN.estimators.structure_estimator.StructureEstimator" title="PyCTBN.PyCTBN.estimators.structure_estimator.StructureEstimator">PyCTBN.PyCTBN.estimators.structure_estimator.StructureEstimator</a></span></em>, <em class="sig-param"><span class="n">max_parents</span><span class="p">:</span> <span class="n">int</span> <span class="o">=</span> <span class="default_value">None</span></em>, <em class="sig-param"><span class="n">iterations_number</span><span class="p">:</span> <span class="n">int</span> <span class="o">=</span> <span class="default_value">40</span></em>, <em class="sig-param"><span class="n">patience</span><span class="p">:</span> <span class="n">int</span> <span class="o">=</span> <span class="default_value">None</span></em>, <em class="sig-param"><span class="n">tabu_length</span><span class="p">:</span> <span class="n">int</span> <span class="o">=</span> <span class="default_value">None</span></em>, <em class="sig-param"><span class="n">tabu_rules_duration</span><span class="o">=</span><span class="default_value">None</span></em><span class="sig-paren">)</span><a class="headerlink" href="#PyCTBN.PyCTBN.optimizers.tabu_search.TabuSearch" title="Permalink to this definition">¶</a></dt>
+<dt class="sig sig-object py" id="PyCTBN.PyCTBN.optimizers.tabu_search.TabuSearch">
+<em class="property"><span class="pre">class</span> </em><span class="sig-prename descclassname"><span class="pre">PyCTBN.PyCTBN.optimizers.tabu_search.</span></span><span class="sig-name descname"><span class="pre">TabuSearch</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">node_id</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><span class="pre">str</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">structure_estimator</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><a class="reference internal" href="PyCTBN.PyCTBN.estimators.html#PyCTBN.PyCTBN.estimators.structure_estimator.StructureEstimator" title="PyCTBN.PyCTBN.estimators.structure_estimator.StructureEstimator"><span class="pre">PyCTBN.PyCTBN.estimators.structure_estimator.StructureEstimator</span></a></span></em>, <em class="sig-param"><span class="n"><span class="pre">max_parents</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><span class="pre">Optional</span><span class="p"><span class="pre">[</span></span><span class="pre">int</span><span class="p"><span class="pre">]</span></span></span> <span class="o"><span class="pre">=</span></span> <span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">iterations_number</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><span class="pre">int</span></span> <span class="o"><span class="pre">=</span></span> <span class="default_value"><span class="pre">40</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">patience</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><span class="pre">Optional</span><span class="p"><span class="pre">[</span></span><span class="pre">int</span><span class="p"><span class="pre">]</span></span></span> <span class="o"><span class="pre">=</span></span> <span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">tabu_length</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><span class="pre">Optional</span><span class="p"><span class="pre">[</span></span><span class="pre">int</span><span class="p"><span class="pre">]</span></span></span> <span class="o"><span class="pre">=</span></span> <span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">tabu_rules_duration</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#PyCTBN.PyCTBN.optimizers.tabu_search.TabuSearch" title="Permalink to this definition">¶</a></dt>
 <dd><p>Bases: <a class="reference internal" href="#PyCTBN.PyCTBN.optimizers.optimizer.Optimizer" title="PyCTBN.PyCTBN.optimizers.optimizer.Optimizer"><code class="xref py py-class docutils literal notranslate"><span class="pre">PyCTBN.PyCTBN.optimizers.optimizer.Optimizer</span></code></a></p>
 <p>Optimizer class that implement Tabu Search</p>
 <dl class="field-list simple">
@@ -241,8 +245,8 @@
 </dd>
 </dl>
 <dl class="py method">
-<dt id="PyCTBN.PyCTBN.optimizers.tabu_search.TabuSearch.optimize_structure">
-<code class="sig-name descname">optimize_structure</code><span class="sig-paren">(</span><span class="sig-paren">)</span> &#x2192; List<a class="headerlink" href="#PyCTBN.PyCTBN.optimizers.tabu_search.TabuSearch.optimize_structure" title="Permalink to this definition">¶</a></dt>
+<dt class="sig sig-object py" id="PyCTBN.PyCTBN.optimizers.tabu_search.TabuSearch.optimize_structure">
+<span class="sig-name descname"><span class="pre">optimize_structure</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span> &#x2192; <span class="pre">List</span><a class="headerlink" href="#PyCTBN.PyCTBN.optimizers.tabu_search.TabuSearch.optimize_structure" title="Permalink to this definition">¶</a></dt>
 <dd><p>Compute Optimization process for a structure_estimator by using a Hill Climbing Algorithm</p>
 <dl class="field-list simple">
 <dt class="field-odd">Returns</dt>
@@ -300,6 +304,9 @@
             HAS_SOURCE:  true
         };
     </script>
+    <script type="text/javascript" src="_static/documentation_options.js">
+
+    </script>
     <script type="text/javascript" src="_static/jquery.js">
 
     </script>
@@ -307,9 +314,6 @@
 
     </script>
     <script type="text/javascript" src="_static/doctools.js">
-
-    </script>
-    <script type="text/javascript" src="_static/language_data.js">
 
     </script>
 

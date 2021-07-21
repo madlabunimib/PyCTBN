@@ -26,7 +26,8 @@ class SetOfCims(object):
     :_actual_cims: the cims of the node
     """
 
-    def __init__(self, node_id: str, parents_states_number: typing.List, node_states_number: int, p_combs: np.ndarray):
+    def __init__(self, node_id: str, parents_states_number: typing.List, node_states_number: int, p_combs: np.ndarray,
+        cims: np.ndarray = None):
         """Constructor Method
         """
         self._node_id = node_id
@@ -36,7 +37,11 @@ class SetOfCims(object):
         self._state_residence_times = None
         self._transition_matrices = None
         self._p_combs = p_combs
-        self.build_times_and_transitions_structures()
+
+        if cims is not None:
+            self._actual_cims = cims
+        else:
+            self.build_times_and_transitions_structures()
 
     def build_times_and_transitions_structures(self) -> None:
         """Initializes at the correct dimensions the state residence times matrix and the state transition matrices.
@@ -60,7 +65,7 @@ class SetOfCims(object):
         :type transition_matrices: numpy.ndArray
         """
         for state_res_time_vector, transition_matrix in zip(state_res_times, transition_matrices):
-            cim_to_add = ConditionalIntensityMatrix(state_res_time_vector, transition_matrix)
+            cim_to_add = ConditionalIntensityMatrix(state_residence_times = state_res_time_vector, state_transition_matrix = transition_matrix)
             cim_to_add.compute_cim_coefficients()
             self._actual_cims.append(cim_to_add)
         self._actual_cims = np.array(self._actual_cims)
@@ -82,7 +87,7 @@ class SetOfCims(object):
             return self._actual_cims
         else:
             flat_indxs = np.argwhere(np.all(self._p_combs[:, mask_arr] == comb, axis=1)).ravel()
-            return self._actual_cims[flat_indxs]
+            return np.array(self._actual_cims)[flat_indxs.astype(int)]
 
     @property
     def actual_cims(self) -> np.ndarray:

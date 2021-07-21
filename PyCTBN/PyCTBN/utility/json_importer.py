@@ -33,8 +33,8 @@ class JsonImporter(AbstractImporter):
     :type _raw_data: List
     """
 
-    def __init__(self, file_path: str, samples_label: str, structure_label: str, variables_label: str, time_key: str,
-                 variables_key: str):
+    def __init__(self, file_path: str, samples_label: str, structure_label: str, variables_label: str, time_key: str, 
+                    variables_key: str, cims_label: str = None):
         """Constructor method
 
         .. note::
@@ -45,6 +45,7 @@ class JsonImporter(AbstractImporter):
         self._samples_label = samples_label
         self._structure_label = structure_label
         self._variables_label = variables_label
+        self._cims_label = cims_label
         self._time_key = time_key
         self._variables_key = variables_key
         self._df_samples_list = None
@@ -65,6 +66,9 @@ class JsonImporter(AbstractImporter):
         self.clear_data_frame_list()
         self._df_structure = self.import_structure(self._raw_data)
         self._df_variables = self.import_variables(self._raw_data)
+
+        if self._cims_label != None:
+            self._cims = self._raw_data[indx][self._cims_label]
 
     def import_trajectories(self, raw_data: typing.List) -> typing.List:
         """Imports the trajectories from the list of dicts ``raw_data``.

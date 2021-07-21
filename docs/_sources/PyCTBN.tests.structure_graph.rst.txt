@@ -12,6 +12,14 @@ PyCTBN.tests.structure\_graph.test\_cim module
    :undoc-members:
    :show-inheritance:
 
+PyCTBN.tests.structure\_graph.test\_networkgenerator module
+-----------------------------------------------------------
+
+.. automodule:: PyCTBN.tests.structure_graph.test_networkgenerator
+   :members:
+   :undoc-members:
+   :show-inheritance:
+
 PyCTBN.tests.structure\_graph.test\_networkgraph module
 -------------------------------------------------------
 
@@ -48,6 +56,14 @@ PyCTBN.tests.structure\_graph.test\_trajectory module
 -----------------------------------------------------
 
 .. automodule:: PyCTBN.tests.structure_graph.test_trajectory
+   :members:
+   :undoc-members:
+   :show-inheritance:
+
+PyCTBN.tests.structure\_graph.test\_trajectorygenerator module
+--------------------------------------------------------------
+
+.. automodule:: PyCTBN.tests.structure_graph.test_trajectorygenerator
    :members:
    :undoc-members:
    :show-inheritance:

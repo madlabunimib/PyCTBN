@@ -19,13 +19,13 @@ class TestCache(unittest.TestCase):
     def test_put(self):
         c1 = Cache()
         pset1 = {'X', 'Y'}
-        sofc1 = SetOfCims('Z', [], 3, np.array([]))
+        sofc1 = SetOfCims(node_id = 'Z', parents_states_number = [], node_states_number = 3, p_combs = np.array([]))
         c1.put(pset1, sofc1)
         self.assertEqual(1, len(c1._actual_cache))
         self.assertEqual(1, len(c1._list_of_sets_of_parents))
         self.assertEqual(sofc1, c1._actual_cache[0])
         pset2 = {'X'}
-        sofc2 = SetOfCims('Z', [], 3, np.array([]))
+        sofc2 = SetOfCims(node_id = 'Z', parents_states_number = [], node_states_number = 3, p_combs = np.array([]))
         c1.put(pset2, sofc2)
         self.assertEqual(2, len(c1._actual_cache))
         self.assertEqual(2, len(c1._list_of_sets_of_parents))
@@ -34,7 +34,7 @@ class TestCache(unittest.TestCase):
     def test_find(self):
         c1 = Cache()
         pset1 = {'X', 'Y'}
-        sofc1 = SetOfCims('Z', [], 3, np.array([]))
+        sofc1 = SetOfCims(node_id = 'Z', parents_states_number = [], node_states_number = 3, p_combs = np.array([]))
         c1.put(pset1, sofc1)
         self.assertEqual(1, len(c1._actual_cache))
         self.assertEqual(1, len(c1._list_of_sets_of_parents))

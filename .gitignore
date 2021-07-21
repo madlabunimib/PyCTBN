@@ -5,5 +5,13 @@ __pycache__
 **/PyCTBN.egg-info
 **/results_data
 **/.scannerwork
+**/build
+test.py
+test_1.py
+test1.json
+test2.json
+test3.json
+result0.png
+example.json
+test_time.py
 .idea
-
