@@ -19,10 +19,6 @@
     <link rel="stylesheet" href="_static/css/pdj.css" type="text/css" />
 
   
-    <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
-  
-    <link rel="stylesheet" href="_static/css/pdj.css" type="text/css" />
-  
 
   
 
@@ -123,14 +119,58 @@
 <h1>PyCTBN.PyCTBN.utility package<a class="headerlink" href="#pyctbn-pyctbn-utility-package" title="Permalink to this headline">¶</a></h1>
 <section id="submodules">
 <h2>Submodules<a class="headerlink" href="#submodules" title="Permalink to this headline">¶</a></h2>
+</section>
+<section id="module-PyCTBN.PyCTBN.utility.abstract_exporter">
+<span id="pyctbn-pyctbn-utility-abstract-exporter-module"></span><h2>PyCTBN.PyCTBN.utility.abstract_exporter module<a class="headerlink" href="#module-PyCTBN.PyCTBN.utility.abstract_exporter" title="Permalink to this headline">¶</a></h2>
+<dl class="py class">
+<dt id="PyCTBN.PyCTBN.utility.abstract_exporter.AbstractExporter">
+<em class="property">class </em><code class="sig-prename descclassname">PyCTBN.PyCTBN.utility.abstract_exporter.</code><code class="sig-name descname">AbstractExporter</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">variables</span><span class="p">:</span> <span class="n">pandas.core.frame.DataFrame</span> <span class="o">=</span> <span class="default_value">None</span></em>, <em class="sig-param"><span class="n">dyn_str</span><span class="p">:</span> <span class="n">pandas.core.frame.DataFrame</span> <span class="o">=</span> <span class="default_value">None</span></em>, <em class="sig-param"><span class="n">dyn_cims</span><span class="p">:</span> <span class="n">dict</span> <span class="o">=</span> <span class="default_value">None</span></em><span class="sig-paren">)</span><a class="headerlink" href="#PyCTBN.PyCTBN.utility.abstract_exporter.AbstractExporter" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">abc.ABC</span></code></p>
+<p>Abstract class that exposes the methods to save in json format a network information
+along with one or more trajectories generated basing on it</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>_variables</strong> (<em>pandas.DataFrame</em>) – Dataframe containing the nodes labels and cardinalities</p></li>
+<li><p><strong>_dyn_str</strong> (<em>pandas.DataFrame</em>) – Dataframe containing the structure of the network (edges)</p></li>
+<li><p><strong>_dyn_cims</strong> (<em>dict</em>) – It contains, for every variable (label is the key), the SetOfCims object related to it</p></li>
+<li><p><strong>_trajectories</strong> (<em>List</em>) – List of trajectories, that can be added subsequently</p></li>
+</ul>
+</dd>
+</dl>
+<dl class="py method">
+<dt id="PyCTBN.PyCTBN.utility.abstract_exporter.AbstractExporter.add_trajectory">
+<code class="sig-name descname">add_trajectory</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">trajectory</span><span class="p">:</span> <span class="n">list</span></em><span class="sig-paren">)</span><a class="headerlink" href="#PyCTBN.PyCTBN.utility.abstract_exporter.AbstractExporter.add_trajectory" title="Permalink to this definition">¶</a></dt>
+<dd><p>Add a new trajectory to the current list</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>trajectory</strong> (<em>pandas.DataFrame</em>) – The trajectory to add</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt id="PyCTBN.PyCTBN.utility.abstract_exporter.AbstractExporter.out_file">
+<em class="property">abstract </em><code class="sig-name descname">out_file</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">filename</span></em><span class="sig-paren">)</span><a class="headerlink" href="#PyCTBN.PyCTBN.utility.abstract_exporter.AbstractExporter.out_file" title="Permalink to this definition">¶</a></dt>
+<dd><dl class="simple">
+<dt>Create a file in current directory and write on it the previously added data </dt><dd><p>(variables, dyn_str, dyn_cims and trajectories)</p>
+</dd>
+</dl>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>filename</strong> (<em>string</em>) – Name of the output file (it must include json extension)</p>
+</dd>
+</dl>
+</dd></dl>
+
+</dd></dl>
 
 </section>
 <section id="module-PyCTBN.PyCTBN.utility.abstract_importer">
-
 <span id="pyctbn-pyctbn-utility-abstract-importer-module"></span><h2>PyCTBN.PyCTBN.utility.abstract_importer module<a class="headerlink" href="#module-PyCTBN.PyCTBN.utility.abstract_importer" title="Permalink to this headline">¶</a></h2>
 <dl class="py class">
-<dt class="sig sig-object py" id="PyCTBN.PyCTBN.utility.abstract_importer.AbstractImporter">
-<em class="property"><span class="pre">class</span> </em><span class="sig-prename descclassname"><span class="pre">PyCTBN.PyCTBN.utility.abstract_importer.</span></span><span class="sig-name descname"><span class="pre">AbstractImporter</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">file_path</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><span class="pre">Optional</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">]</span></span></span> <span class="o"><span class="pre">=</span></span> <span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">trajectory_list</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><span class="pre">Optional</span><span class="p"><span class="pre">[</span></span><span class="pre">Union</span><span class="p"><span class="pre">[</span></span><span class="pre">pandas.core.frame.DataFrame</span><span class="p"><span class="pre">,</span> </span><span class="pre">numpy.ndarray</span><span class="p"><span class="pre">]</span></span><span class="p"><span class="pre">]</span></span></span> <span class="o"><span class="pre">=</span></span> <span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">variables</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><span class="pre">Optional</span><span class="p"><span class="pre">[</span></span><span class="pre">pandas.core.frame.DataFrame</span><span class="p"><span class="pre">]</span></span></span> <span class="o"><span class="pre">=</span></span> <span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">prior_net_structure</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><span class="pre">Optional</span><span class="p"><span class="pre">[</span></span><span class="pre">pandas.core.frame.DataFrame</span><span class="p"><span class="pre">]</span></span></span> <span class="o"><span class="pre">=</span></span> <span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#PyCTBN.PyCTBN.utility.abstract_importer.AbstractImporter" title="Permalink to this definition">¶</a></dt>
+<dt id="PyCTBN.PyCTBN.utility.abstract_importer.AbstractImporter">
+<em class="property">class </em><code class="sig-prename descclassname">PyCTBN.PyCTBN.utility.abstract_importer.</code><code class="sig-name descname">AbstractImporter</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">file_path</span><span class="p">:</span> <span class="n">str</span> <span class="o">=</span> <span class="default_value">None</span></em>, <em class="sig-param"><span class="n">trajectory_list</span><span class="p">:</span> <span class="n">Union<span class="p">[</span>pandas.core.frame.DataFrame<span class="p">, </span>numpy.ndarray<span class="p">]</span></span> <span class="o">=</span> <span class="default_value">None</span></em>, <em class="sig-param"><span class="n">variables</span><span class="p">:</span> <span class="n">pandas.core.frame.DataFrame</span> <span class="o">=</span> <span class="default_value">None</span></em>, <em class="sig-param"><span class="n">prior_net_structure</span><span class="p">:</span> <span class="n">pandas.core.frame.DataFrame</span> <span class="o">=</span> <span class="default_value">None</span></em><span class="sig-paren">)</span><a class="headerlink" href="#PyCTBN.PyCTBN.utility.abstract_importer.AbstractImporter" title="Permalink to this definition">¶</a></dt>
 <dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">abc.ABC</span></code></p>
 <p>Abstract class that exposes all the necessary methods to process the trajectories and the net structure.</p>
 <dl class="field-list simple">
@@ -161,8 +201,8 @@ See the tutorial on how to construct a correct <code class="docutils literal not
 <p>See :class:<code class="docutils literal notranslate"><span class="pre">JsonImporter</span></code> for an example implementation</p>
 </div>
 <dl class="py method">
-<dt class="sig sig-object py" id="PyCTBN.PyCTBN.utility.abstract_importer.AbstractImporter.build_list_of_samples_array">
-<span class="sig-name descname"><span class="pre">build_list_of_samples_array</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">concatenated_sample</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><span class="pre">pandas.core.frame.DataFrame</span></span></em><span class="sig-paren">)</span> &#x2192; <span class="pre">List</span><a class="headerlink" href="#PyCTBN.PyCTBN.utility.abstract_importer.AbstractImporter.build_list_of_samples_array" title="Permalink to this definition">¶</a></dt>
+<dt id="PyCTBN.PyCTBN.utility.abstract_importer.AbstractImporter.build_list_of_samples_array">
+<code class="sig-name descname">build_list_of_samples_array</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">concatenated_sample</span><span class="p">:</span> <span class="n">pandas.core.frame.DataFrame</span></em><span class="sig-paren">)</span> &#x2192; List<a class="headerlink" href="#PyCTBN.PyCTBN.utility.abstract_importer.AbstractImporter.build_list_of_samples_array" title="Permalink to this definition">¶</a></dt>
 <dd><p>Builds a List containing the the delta times numpy array, and the complete transitions matrix</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
@@ -179,8 +219,8 @@ and converted</p>
 </dd></dl>
 
 <dl class="py method">
-<dt class="sig sig-object py" id="PyCTBN.PyCTBN.utility.abstract_importer.AbstractImporter.build_sorter">
-<em class="property"><span class="pre">abstract</span> </em><span class="sig-name descname"><span class="pre">build_sorter</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">trajecory_header</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><span class="pre">object</span></span></em><span class="sig-paren">)</span> &#x2192; <span class="pre">List</span><a class="headerlink" href="#PyCTBN.PyCTBN.utility.abstract_importer.AbstractImporter.build_sorter" title="Permalink to this definition">¶</a></dt>
+<dt id="PyCTBN.PyCTBN.utility.abstract_importer.AbstractImporter.build_sorter">
+<em class="property">abstract </em><code class="sig-name descname">build_sorter</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">trajecory_header</span><span class="p">:</span> <span class="n">object</span></em><span class="sig-paren">)</span> &#x2192; List<a class="headerlink" href="#PyCTBN.PyCTBN.utility.abstract_importer.AbstractImporter.build_sorter" title="Permalink to this definition">¶</a></dt>
 <dd><p>Initializes the <code class="docutils literal notranslate"><span class="pre">_sorter</span></code> class member from a trajectory dataframe, exctracting the header of the frame
 and keeping ONLY the variables symbolic labels, cutting out the time label in the header.</p>
 <dl class="field-list simple">
@@ -197,14 +237,14 @@ and keeping ONLY the variables symbolic labels, cutting out the time label in th
 </dd></dl>
 
 <dl class="py method">
-<dt class="sig sig-object py" id="PyCTBN.PyCTBN.utility.abstract_importer.AbstractImporter.clear_concatenated_frame">
-<span class="sig-name descname"><span class="pre">clear_concatenated_frame</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span> &#x2192; <span class="pre">None</span><a class="headerlink" href="#PyCTBN.PyCTBN.utility.abstract_importer.AbstractImporter.clear_concatenated_frame" title="Permalink to this definition">¶</a></dt>
+<dt id="PyCTBN.PyCTBN.utility.abstract_importer.AbstractImporter.clear_concatenated_frame">
+<code class="sig-name descname">clear_concatenated_frame</code><span class="sig-paren">(</span><span class="sig-paren">)</span> &#x2192; None<a class="headerlink" href="#PyCTBN.PyCTBN.utility.abstract_importer.AbstractImporter.clear_concatenated_frame" title="Permalink to this definition">¶</a></dt>
 <dd><p>Removes all values in the dataframe concatenated_samples.</p>
 </dd></dl>
 
 <dl class="py method">
-<dt class="sig sig-object py" id="PyCTBN.PyCTBN.utility.abstract_importer.AbstractImporter.compute_row_delta_in_all_samples_frames">
-<span class="sig-name descname"><span class="pre">compute_row_delta_in_all_samples_frames</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">df_samples_list</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><span class="pre">List</span></span></em><span class="sig-paren">)</span> &#x2192; <span class="pre">None</span><a class="headerlink" href="#PyCTBN.PyCTBN.utility.abstract_importer.AbstractImporter.compute_row_delta_in_all_samples_frames" title="Permalink to this definition">¶</a></dt>
+<dt id="PyCTBN.PyCTBN.utility.abstract_importer.AbstractImporter.compute_row_delta_in_all_samples_frames">
+<code class="sig-name descname">compute_row_delta_in_all_samples_frames</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">df_samples_list</span><span class="p">:</span> <span class="n">List</span></em><span class="sig-paren">)</span> &#x2192; None<a class="headerlink" href="#PyCTBN.PyCTBN.utility.abstract_importer.AbstractImporter.compute_row_delta_in_all_samples_frames" title="Permalink to this definition">¶</a></dt>
 <dd><p>Calls the method <code class="docutils literal notranslate"><span class="pre">compute_row_delta_sigle_samples_frame</span></code> on every dataframe present in the list
 <code class="docutils literal notranslate"><span class="pre">df_samples_list</span></code>.
 Concatenates the result in the dataframe <code class="docutils literal notranslate"><span class="pre">concatanated_samples</span></code></p>
@@ -227,8 +267,8 @@ and merged trajectories</p>
 </dd></dl>
 
 <dl class="py method">
-<dt class="sig sig-object py" id="PyCTBN.PyCTBN.utility.abstract_importer.AbstractImporter.compute_row_delta_sigle_samples_frame">
-<span class="sig-name descname"><span class="pre">compute_row_delta_sigle_samples_frame</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">sample_frame</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><span class="pre">pandas.core.frame.DataFrame</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">columns_header</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><span class="pre">List</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">shifted_cols_header</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><span class="pre">List</span></span></em><span class="sig-paren">)</span> &#x2192; <span class="pre">pandas.core.frame.DataFrame</span><a class="headerlink" href="#PyCTBN.PyCTBN.utility.abstract_importer.AbstractImporter.compute_row_delta_sigle_samples_frame" title="Permalink to this definition">¶</a></dt>
+<dt id="PyCTBN.PyCTBN.utility.abstract_importer.AbstractImporter.compute_row_delta_sigle_samples_frame">
+<code class="sig-name descname">compute_row_delta_sigle_samples_frame</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">sample_frame</span><span class="p">:</span> <span class="n">pandas.core.frame.DataFrame</span></em>, <em class="sig-param"><span class="n">columns_header</span><span class="p">:</span> <span class="n">List</span></em>, <em class="sig-param"><span class="n">shifted_cols_header</span><span class="p">:</span> <span class="n">List</span></em><span class="sig-paren">)</span> &#x2192; pandas.core.frame.DataFrame<a class="headerlink" href="#PyCTBN.PyCTBN.utility.abstract_importer.AbstractImporter.compute_row_delta_sigle_samples_frame" title="Permalink to this definition">¶</a></dt>
 <dd><p>Computes the difference between each value present in th time column.
 Copies and shift by one position up all the values present in the remaining columns.</p>
 <dl class="field-list simple">
@@ -253,36 +293,36 @@ Header of sample_frame = [Time | Variable values]</p>
 </div>
 </dd></dl>
 
-<dl class="py property">
-<dt class="sig sig-object py" id="PyCTBN.PyCTBN.utility.abstract_importer.AbstractImporter.concatenated_samples">
-<em class="property"><span class="pre">property</span> </em><span class="sig-name descname"><span class="pre">concatenated_samples</span></span><em class="property"><span class="pre">:</span> <span class="pre">pandas.core.frame.DataFrame</span></em><a class="headerlink" href="#PyCTBN.PyCTBN.utility.abstract_importer.AbstractImporter.concatenated_samples" title="Permalink to this definition">¶</a></dt>
+<dl class="py method">
+<dt id="PyCTBN.PyCTBN.utility.abstract_importer.AbstractImporter.concatenated_samples">
+<em class="property">property </em><code class="sig-name descname">concatenated_samples</code><a class="headerlink" href="#PyCTBN.PyCTBN.utility.abstract_importer.AbstractImporter.concatenated_samples" title="Permalink to this definition">¶</a></dt>
 <dd></dd></dl>
 
 <dl class="py method">
-<dt class="sig sig-object py" id="PyCTBN.PyCTBN.utility.abstract_importer.AbstractImporter.dataset_id">
-<em class="property"><span class="pre">abstract</span> </em><span class="sig-name descname"><span class="pre">dataset_id</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span> &#x2192; <span class="pre">object</span><a class="headerlink" href="#PyCTBN.PyCTBN.utility.abstract_importer.AbstractImporter.dataset_id" title="Permalink to this definition">¶</a></dt>
+<dt id="PyCTBN.PyCTBN.utility.abstract_importer.AbstractImporter.dataset_id">
+<em class="property">abstract </em><code class="sig-name descname">dataset_id</code><span class="sig-paren">(</span><span class="sig-paren">)</span> &#x2192; object<a class="headerlink" href="#PyCTBN.PyCTBN.utility.abstract_importer.AbstractImporter.dataset_id" title="Permalink to this definition">¶</a></dt>
 <dd><p>If the original dataset contains multiple dataset, this method returns a unique id to identify the current
 dataset</p>
 </dd></dl>
 
-<dl class="py property">
-<dt class="sig sig-object py" id="PyCTBN.PyCTBN.utility.abstract_importer.AbstractImporter.file_path">
-<em class="property"><span class="pre">property</span> </em><span class="sig-name descname"><span class="pre">file_path</span></span><em class="property"><span class="pre">:</span> <span class="pre">str</span></em><a class="headerlink" href="#PyCTBN.PyCTBN.utility.abstract_importer.AbstractImporter.file_path" title="Permalink to this definition">¶</a></dt>
+<dl class="py method">
+<dt id="PyCTBN.PyCTBN.utility.abstract_importer.AbstractImporter.file_path">
+<em class="property">property </em><code class="sig-name descname">file_path</code><a class="headerlink" href="#PyCTBN.PyCTBN.utility.abstract_importer.AbstractImporter.file_path" title="Permalink to this definition">¶</a></dt>
 <dd></dd></dl>
 
-<dl class="py property">
-<dt class="sig sig-object py" id="PyCTBN.PyCTBN.utility.abstract_importer.AbstractImporter.sorter">
-<em class="property"><span class="pre">property</span> </em><span class="sig-name descname"><span class="pre">sorter</span></span><em class="property"><span class="pre">:</span> <span class="pre">List</span></em><a class="headerlink" href="#PyCTBN.PyCTBN.utility.abstract_importer.AbstractImporter.sorter" title="Permalink to this definition">¶</a></dt>
+<dl class="py method">
+<dt id="PyCTBN.PyCTBN.utility.abstract_importer.AbstractImporter.sorter">
+<em class="property">property </em><code class="sig-name descname">sorter</code><a class="headerlink" href="#PyCTBN.PyCTBN.utility.abstract_importer.AbstractImporter.sorter" title="Permalink to this definition">¶</a></dt>
 <dd></dd></dl>
 
-<dl class="py property">
-<dt class="sig sig-object py" id="PyCTBN.PyCTBN.utility.abstract_importer.AbstractImporter.structure">
-<em class="property"><span class="pre">property</span> </em><span class="sig-name descname"><span class="pre">structure</span></span><em class="property"><span class="pre">:</span> <span class="pre">pandas.core.frame.DataFrame</span></em><a class="headerlink" href="#PyCTBN.PyCTBN.utility.abstract_importer.AbstractImporter.structure" title="Permalink to this definition">¶</a></dt>
+<dl class="py method">
+<dt id="PyCTBN.PyCTBN.utility.abstract_importer.AbstractImporter.structure">
+<em class="property">property </em><code class="sig-name descname">structure</code><a class="headerlink" href="#PyCTBN.PyCTBN.utility.abstract_importer.AbstractImporter.structure" title="Permalink to this definition">¶</a></dt>
 <dd></dd></dl>
 
-<dl class="py property">
-<dt class="sig sig-object py" id="PyCTBN.PyCTBN.utility.abstract_importer.AbstractImporter.variables">
-<em class="property"><span class="pre">property</span> </em><span class="sig-name descname"><span class="pre">variables</span></span><em class="property"><span class="pre">:</span> <span class="pre">pandas.core.frame.DataFrame</span></em><a class="headerlink" href="#PyCTBN.PyCTBN.utility.abstract_importer.AbstractImporter.variables" title="Permalink to this definition">¶</a></dt>
+<dl class="py method">
+<dt id="PyCTBN.PyCTBN.utility.abstract_importer.AbstractImporter.variables">
+<em class="property">property </em><code class="sig-name descname">variables</code><a class="headerlink" href="#PyCTBN.PyCTBN.utility.abstract_importer.AbstractImporter.variables" title="Permalink to this definition">¶</a></dt>
 <dd></dd></dl>
 
 </dd></dl>
@@ -291,8 +331,8 @@ dataset</p>
 <section id="module-PyCTBN.PyCTBN.utility.cache">
 <span id="pyctbn-pyctbn-utility-cache-module"></span><h2>PyCTBN.PyCTBN.utility.cache module<a class="headerlink" href="#module-PyCTBN.PyCTBN.utility.cache" title="Permalink to this headline">¶</a></h2>
 <dl class="py class">
-<dt class="sig sig-object py" id="PyCTBN.PyCTBN.utility.cache.Cache">
-<em class="property"><span class="pre">class</span> </em><span class="sig-prename descclassname"><span class="pre">PyCTBN.PyCTBN.utility.cache.</span></span><span class="sig-name descname"><span class="pre">Cache</span></span><a class="headerlink" href="#PyCTBN.PyCTBN.utility.cache.Cache" title="Permalink to this definition">¶</a></dt>
+<dt id="PyCTBN.PyCTBN.utility.cache.Cache">
+<em class="property">class </em><code class="sig-prename descclassname">PyCTBN.PyCTBN.utility.cache.</code><code class="sig-name descname">Cache</code><a class="headerlink" href="#PyCTBN.PyCTBN.utility.cache.Cache" title="Permalink to this definition">¶</a></dt>
 <dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></p>
 <p>This class acts as a cache of <code class="docutils literal notranslate"><span class="pre">SetOfCims</span></code> objects for a node.</p>
 <dl class="field-list simple">
@@ -305,14 +345,14 @@ index is related</p>
 </dd>
 </dl>
 <dl class="py method">
-<dt class="sig sig-object py" id="PyCTBN.PyCTBN.utility.cache.Cache.clear">
-<span class="sig-name descname"><span class="pre">clear</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#PyCTBN.PyCTBN.utility.cache.Cache.clear" title="Permalink to this definition">¶</a></dt>
+<dt id="PyCTBN.PyCTBN.utility.cache.Cache.clear">
+<code class="sig-name descname">clear</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#PyCTBN.PyCTBN.utility.cache.Cache.clear" title="Permalink to this definition">¶</a></dt>
 <dd><p>Clear the contents both of <code class="docutils literal notranslate"><span class="pre">__actual_cache</span></code> and <code class="docutils literal notranslate"><span class="pre">__list_of_sets_of_parents</span></code>.</p>
 </dd></dl>
 
 <dl class="py method">
-<dt class="sig sig-object py" id="PyCTBN.PyCTBN.utility.cache.Cache.find">
-<span class="sig-name descname"><span class="pre">find</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">parents_comb</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><span class="pre">Set</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#PyCTBN.PyCTBN.utility.cache.Cache.find" title="Permalink to this definition">¶</a></dt>
+<dt id="PyCTBN.PyCTBN.utility.cache.Cache.find">
+<code class="sig-name descname">find</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">parents_comb</span><span class="p">:</span> <span class="n">Set</span></em><span class="sig-paren">)</span><a class="headerlink" href="#PyCTBN.PyCTBN.utility.cache.Cache.find" title="Permalink to this definition">¶</a></dt>
 <dd><p>Tries to find in cache given the symbolic parents combination <code class="docutils literal notranslate"><span class="pre">parents_comb</span></code> the <code class="docutils literal notranslate"><span class="pre">SetOfCims</span></code>
 related to that <code class="docutils literal notranslate"><span class="pre">parents_comb</span></code>.</p>
 <dl class="field-list simple">
@@ -330,8 +370,8 @@ None otherwise.</p>
 </dd></dl>
 
 <dl class="py method">
-<dt class="sig sig-object py" id="PyCTBN.PyCTBN.utility.cache.Cache.put">
-<span class="sig-name descname"><span class="pre">put</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">parents_comb</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><span class="pre">Set</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">socim</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><a class="reference internal" href="PyCTBN.PyCTBN.structure_graph.html#PyCTBN.PyCTBN.structure_graph.set_of_cims.SetOfCims" title="PyCTBN.PyCTBN.structure_graph.set_of_cims.SetOfCims"><span class="pre">PyCTBN.PyCTBN.structure_graph.set_of_cims.SetOfCims</span></a></span></em><span class="sig-paren">)</span><a class="headerlink" href="#PyCTBN.PyCTBN.utility.cache.Cache.put" title="Permalink to this definition">¶</a></dt>
+<dt id="PyCTBN.PyCTBN.utility.cache.Cache.put">
+<code class="sig-name descname">put</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">parents_comb</span><span class="p">:</span> <span class="n">Set</span></em>, <em class="sig-param"><span class="n">socim</span><span class="p">:</span> <span class="n"><a class="reference internal" href="PyCTBN.PyCTBN.structure_graph.html#PyCTBN.PyCTBN.structure_graph.set_of_cims.SetOfCims" title="PyCTBN.PyCTBN.structure_graph.set_of_cims.SetOfCims">PyCTBN.PyCTBN.structure_graph.set_of_cims.SetOfCims</a></span></em><span class="sig-paren">)</span><a class="headerlink" href="#PyCTBN.PyCTBN.utility.cache.Cache.put" title="Permalink to this definition">¶</a></dt>
 <dd><p>Place in cache the <code class="docutils literal notranslate"><span class="pre">SetOfCims</span></code> object, and the related symbolic index <code class="docutils literal notranslate"><span class="pre">parents_comb</span></code> in
 <code class="docutils literal notranslate"><span class="pre">__list_of_sets_of_parents</span></code>.</p>
 <dl class="field-list simple">
@@ -346,14 +386,52 @@ None otherwise.</p>
 
 </dd></dl>
 
+</section>
+<section id="module-PyCTBN.PyCTBN.utility.json_exporter">
+<span id="pyctbn-pyctbn-utility-json-exporter-module"></span><h2>PyCTBN.PyCTBN.utility.json_exporter module<a class="headerlink" href="#module-PyCTBN.PyCTBN.utility.json_exporter" title="Permalink to this headline">¶</a></h2>
+<dl class="py class">
+<dt id="PyCTBN.PyCTBN.utility.json_exporter.JsonExporter">
+<em class="property">class </em><code class="sig-prename descclassname">PyCTBN.PyCTBN.utility.json_exporter.</code><code class="sig-name descname">JsonExporter</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">variables</span><span class="p">:</span> <span class="n">pandas.core.frame.DataFrame</span> <span class="o">=</span> <span class="default_value">None</span></em>, <em class="sig-param"><span class="n">dyn_str</span><span class="p">:</span> <span class="n">pandas.core.frame.DataFrame</span> <span class="o">=</span> <span class="default_value">None</span></em>, <em class="sig-param"><span class="n">dyn_cims</span><span class="p">:</span> <span class="n">dict</span> <span class="o">=</span> <span class="default_value">None</span></em><span class="sig-paren">)</span><a class="headerlink" href="#PyCTBN.PyCTBN.utility.json_exporter.JsonExporter" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <a class="reference internal" href="#PyCTBN.PyCTBN.utility.abstract_exporter.AbstractExporter" title="PyCTBN.PyCTBN.utility.abstract_exporter.AbstractExporter"><code class="xref py py-class docutils literal notranslate"><span class="pre">PyCTBN.PyCTBN.utility.abstract_exporter.AbstractExporter</span></code></a></p>
+<p>Provides the methods to save in json format a network information
+along with one or more trajectories generated basing on it</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>_variables</strong> (<em>pandas.DataFrame</em>) – Dataframe containing the nodes labels and cardinalities</p></li>
+<li><p><strong>_dyn_str</strong> (<em>pandas.DataFrame</em>) – Dataframe containing the structure of the network (edges)</p></li>
+<li><p><strong>_dyn_cims</strong> (<em>dict</em>) – It contains, for every variable (label is the key), the SetOfCims object related to it</p></li>
+<li><p><strong>_trajectories</strong> (<em>List</em>) – List of trajectories, that can be added subsequently</p></li>
+</ul>
+</dd>
+</dl>
+<dl class="py method">
+<dt id="PyCTBN.PyCTBN.utility.json_exporter.JsonExporter.cims_to_json">
+<code class="sig-name descname">cims_to_json</code><span class="sig-paren">(</span><span class="sig-paren">)</span> &#x2192; dict<a class="headerlink" href="#PyCTBN.PyCTBN.utility.json_exporter.JsonExporter.cims_to_json" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt id="PyCTBN.PyCTBN.utility.json_exporter.JsonExporter.out_file">
+<code class="sig-name descname">out_file</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">filename</span></em><span class="sig-paren">)</span><a class="headerlink" href="#PyCTBN.PyCTBN.utility.json_exporter.JsonExporter.out_file" title="Permalink to this definition">¶</a></dt>
+<dd><dl class="simple">
+<dt>Create a file in current directory and write on it the previously added data </dt><dd><p>(variables, dyn_str, dyn_cims and trajectories)</p>
+</dd>
+</dl>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>filename</strong> (<em>string</em>) – Name of the output file (it must include json extension)</p>
+</dd>
+</dl>
+</dd></dl>
+
+</dd></dl>
 
 </section>
 <section id="module-PyCTBN.PyCTBN.utility.json_importer">
-
 <span id="pyctbn-pyctbn-utility-json-importer-module"></span><h2>PyCTBN.PyCTBN.utility.json_importer module<a class="headerlink" href="#module-PyCTBN.PyCTBN.utility.json_importer" title="Permalink to this headline">¶</a></h2>
 <dl class="py class">
-<dt class="sig sig-object py" id="PyCTBN.PyCTBN.utility.json_importer.JsonImporter">
-<em class="property"><span class="pre">class</span> </em><span class="sig-prename descclassname"><span class="pre">PyCTBN.PyCTBN.utility.json_importer.</span></span><span class="sig-name descname"><span class="pre">JsonImporter</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">file_path</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><span class="pre">str</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">samples_label</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><span class="pre">str</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">structure_label</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><span class="pre">str</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">variables_label</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><span class="pre">str</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">time_key</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><span class="pre">str</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">variables_key</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><span class="pre">str</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">cims_label</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><span class="pre">Optional</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">]</span></span></span> <span class="o"><span class="pre">=</span></span> <span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#PyCTBN.PyCTBN.utility.json_importer.JsonImporter" title="Permalink to this definition">¶</a></dt>
+<dt id="PyCTBN.PyCTBN.utility.json_importer.JsonImporter">
+<em class="property">class </em><code class="sig-prename descclassname">PyCTBN.PyCTBN.utility.json_importer.</code><code class="sig-name descname">JsonImporter</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">file_path</span><span class="p">:</span> <span class="n">str</span></em>, <em class="sig-param"><span class="n">samples_label</span><span class="p">:</span> <span class="n">str</span></em>, <em class="sig-param"><span class="n">structure_label</span><span class="p">:</span> <span class="n">str</span></em>, <em class="sig-param"><span class="n">variables_label</span><span class="p">:</span> <span class="n">str</span></em>, <em class="sig-param"><span class="n">time_key</span><span class="p">:</span> <span class="n">str</span></em>, <em class="sig-param"><span class="n">variables_key</span><span class="p">:</span> <span class="n">str</span></em>, <em class="sig-param"><span class="n">cims_label</span><span class="p">:</span> <span class="n">str</span> <span class="o">=</span> <span class="default_value">None</span></em><span class="sig-paren">)</span><a class="headerlink" href="#PyCTBN.PyCTBN.utility.json_importer.JsonImporter" title="Permalink to this definition">¶</a></dt>
 <dd><p>Bases: <a class="reference internal" href="#PyCTBN.PyCTBN.utility.abstract_importer.AbstractImporter" title="PyCTBN.PyCTBN.utility.abstract_importer.AbstractImporter"><code class="xref py py-class docutils literal notranslate"><span class="pre">PyCTBN.PyCTBN.utility.abstract_importer.AbstractImporter</span></code></a></p>
 <p>Implements the abstracts methods of AbstractImporter and adds all the necessary methods to process and prepare
 the data in json extension.</p>
@@ -379,29 +457,27 @@ the data in json extension.</p>
 </dd>
 </dl>
 <dl class="py method">
-<dt class="sig sig-object py" id="PyCTBN.PyCTBN.utility.json_importer.JsonImporter.build_sorter">
-<span class="sig-name descname"><span class="pre">build_sorter</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">sample_frame</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><span class="pre">pandas.core.frame.DataFrame</span></span></em><span class="sig-paren">)</span> &#x2192; <span class="pre">List</span><a class="headerlink" href="#PyCTBN.PyCTBN.utility.json_importer.JsonImporter.build_sorter" title="Permalink to this definition">¶</a></dt>
+<dt id="PyCTBN.PyCTBN.utility.json_importer.JsonImporter.build_sorter">
+<code class="sig-name descname">build_sorter</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">sample_frame</span><span class="p">:</span> <span class="n">pandas.core.frame.DataFrame</span></em><span class="sig-paren">)</span> &#x2192; List<a class="headerlink" href="#PyCTBN.PyCTBN.utility.json_importer.JsonImporter.build_sorter" title="Permalink to this definition">¶</a></dt>
 <dd><p>Implements the abstract method build_sorter of the <code class="xref py py-class docutils literal notranslate"><span class="pre">AbstractImporter</span></code> for this dataset.</p>
 </dd></dl>
 
 <dl class="py method">
-<dt class="sig sig-object py" id="PyCTBN.PyCTBN.utility.json_importer.JsonImporter.clear_data_frame_list">
-<span class="sig-name descname"><span class="pre">clear_data_frame_list</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span> &#x2192; <span class="pre">None</span><a class="headerlink" href="#PyCTBN.PyCTBN.utility.json_importer.JsonImporter.clear_data_frame_list" title="Permalink to this definition">¶</a></dt>
+<dt id="PyCTBN.PyCTBN.utility.json_importer.JsonImporter.clear_data_frame_list">
+<code class="sig-name descname">clear_data_frame_list</code><span class="sig-paren">(</span><span class="sig-paren">)</span> &#x2192; None<a class="headerlink" href="#PyCTBN.PyCTBN.utility.json_importer.JsonImporter.clear_data_frame_list" title="Permalink to this definition">¶</a></dt>
 <dd><p>Removes all values present in the dataframes in the list <code class="docutils literal notranslate"><span class="pre">_df_samples_list</span></code>.</p>
 </dd></dl>
 
 <dl class="py method">
-<dt class="sig sig-object py" id="PyCTBN.PyCTBN.utility.json_importer.JsonImporter.dataset_id">
-<span class="sig-name descname"><span class="pre">dataset_id</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span> &#x2192; <span class="pre">object</span><a class="headerlink" href="#PyCTBN.PyCTBN.utility.json_importer.JsonImporter.dataset_id" title="Permalink to this definition">¶</a></dt>
+<dt id="PyCTBN.PyCTBN.utility.json_importer.JsonImporter.dataset_id">
+<code class="sig-name descname">dataset_id</code><span class="sig-paren">(</span><span class="sig-paren">)</span> &#x2192; object<a class="headerlink" href="#PyCTBN.PyCTBN.utility.json_importer.JsonImporter.dataset_id" title="Permalink to this definition">¶</a></dt>
 <dd><p>If the original dataset contains multiple dataset, this method returns a unique id to identify the current
 dataset</p>
 </dd></dl>
 
 <dl class="py method">
-
 <dt id="PyCTBN.PyCTBN.utility.json_importer.JsonImporter.import_data">
 <code class="sig-name descname">import_data</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">indx</span><span class="p">:</span> <span class="n">int</span> <span class="o">=</span> <span class="default_value">0</span></em><span class="sig-paren">)</span> &#x2192; None<a class="headerlink" href="#PyCTBN.PyCTBN.utility.json_importer.JsonImporter.import_data" title="Permalink to this definition">¶</a></dt>
-
 <dd><p>Implements the abstract method of <code class="xref py py-class docutils literal notranslate"><span class="pre">AbstractImporter</span></code>.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
@@ -411,8 +487,8 @@ dataset</p>
 </dd></dl>
 
 <dl class="py method">
-<dt class="sig sig-object py" id="PyCTBN.PyCTBN.utility.json_importer.JsonImporter.import_sampled_cims">
-<span class="sig-name descname"><span class="pre">import_sampled_cims</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">raw_data</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><span class="pre">List</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">indx</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><span class="pre">int</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">cims_key</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><span class="pre">str</span></span></em><span class="sig-paren">)</span> &#x2192; <span class="pre">Dict</span><a class="headerlink" href="#PyCTBN.PyCTBN.utility.json_importer.JsonImporter.import_sampled_cims" title="Permalink to this definition">¶</a></dt>
+<dt id="PyCTBN.PyCTBN.utility.json_importer.JsonImporter.import_sampled_cims">
+<code class="sig-name descname">import_sampled_cims</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">raw_data</span><span class="p">:</span> <span class="n">List</span></em>, <em class="sig-param"><span class="n">indx</span><span class="p">:</span> <span class="n">int</span></em>, <em class="sig-param"><span class="n">cims_key</span><span class="p">:</span> <span class="n">str</span></em><span class="sig-paren">)</span> &#x2192; Dict<a class="headerlink" href="#PyCTBN.PyCTBN.utility.json_importer.JsonImporter.import_sampled_cims" title="Permalink to this definition">¶</a></dt>
 <dd><p>Imports the synthetic CIMS in the dataset in a dictionary, using variables labels
 as keys for the set of CIMS of a particular node.</p>
 <dl class="field-list simple">
@@ -433,8 +509,8 @@ as keys for the set of CIMS of a particular node.</p>
 </dd></dl>
 
 <dl class="py method">
-<dt class="sig sig-object py" id="PyCTBN.PyCTBN.utility.json_importer.JsonImporter.import_structure">
-<span class="sig-name descname"><span class="pre">import_structure</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">raw_data</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><span class="pre">List</span></span></em><span class="sig-paren">)</span> &#x2192; <span class="pre">pandas.core.frame.DataFrame</span><a class="headerlink" href="#PyCTBN.PyCTBN.utility.json_importer.JsonImporter.import_structure" title="Permalink to this definition">¶</a></dt>
+<dt id="PyCTBN.PyCTBN.utility.json_importer.JsonImporter.import_structure">
+<code class="sig-name descname">import_structure</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">raw_data</span><span class="p">:</span> <span class="n">List</span></em><span class="sig-paren">)</span> &#x2192; pandas.core.frame.DataFrame<a class="headerlink" href="#PyCTBN.PyCTBN.utility.json_importer.JsonImporter.import_structure" title="Permalink to this definition">¶</a></dt>
 <dd><p>Imports in a dataframe the data in the list raw_data at the key <code class="docutils literal notranslate"><span class="pre">_structure_label</span></code></p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
@@ -450,8 +526,8 @@ as keys for the set of CIMS of a particular node.</p>
 </dd></dl>
 
 <dl class="py method">
-<dt class="sig sig-object py" id="PyCTBN.PyCTBN.utility.json_importer.JsonImporter.import_trajectories">
-<span class="sig-name descname"><span class="pre">import_trajectories</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">raw_data</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><span class="pre">List</span></span></em><span class="sig-paren">)</span> &#x2192; <span class="pre">List</span><a class="headerlink" href="#PyCTBN.PyCTBN.utility.json_importer.JsonImporter.import_trajectories" title="Permalink to this definition">¶</a></dt>
+<dt id="PyCTBN.PyCTBN.utility.json_importer.JsonImporter.import_trajectories">
+<code class="sig-name descname">import_trajectories</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">raw_data</span><span class="p">:</span> <span class="n">List</span></em><span class="sig-paren">)</span> &#x2192; List<a class="headerlink" href="#PyCTBN.PyCTBN.utility.json_importer.JsonImporter.import_trajectories" title="Permalink to this definition">¶</a></dt>
 <dd><p>Imports the trajectories from the list of dicts <code class="docutils literal notranslate"><span class="pre">raw_data</span></code>.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
@@ -467,8 +543,8 @@ as keys for the set of CIMS of a particular node.</p>
 </dd></dl>
 
 <dl class="py method">
-<dt class="sig sig-object py" id="PyCTBN.PyCTBN.utility.json_importer.JsonImporter.import_variables">
-<span class="sig-name descname"><span class="pre">import_variables</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">raw_data</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><span class="pre">List</span></span></em><span class="sig-paren">)</span> &#x2192; <span class="pre">pandas.core.frame.DataFrame</span><a class="headerlink" href="#PyCTBN.PyCTBN.utility.json_importer.JsonImporter.import_variables" title="Permalink to this definition">¶</a></dt>
+<dt id="PyCTBN.PyCTBN.utility.json_importer.JsonImporter.import_variables">
+<code class="sig-name descname">import_variables</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">raw_data</span><span class="p">:</span> <span class="n">List</span></em><span class="sig-paren">)</span> &#x2192; pandas.core.frame.DataFrame<a class="headerlink" href="#PyCTBN.PyCTBN.utility.json_importer.JsonImporter.import_variables" title="Permalink to this definition">¶</a></dt>
 <dd><p>Imports the data in <code class="docutils literal notranslate"><span class="pre">raw_data</span></code> at the key <code class="docutils literal notranslate"><span class="pre">_variables_label</span></code>.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
@@ -484,8 +560,8 @@ as keys for the set of CIMS of a particular node.</p>
 </dd></dl>
 
 <dl class="py method">
-<dt class="sig sig-object py" id="PyCTBN.PyCTBN.utility.json_importer.JsonImporter.normalize_trajectories">
-<span class="sig-name descname"><span class="pre">normalize_trajectories</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">raw_data</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><span class="pre">List</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">indx</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><span class="pre">int</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">trajectories_key</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><span class="pre">str</span></span></em><span class="sig-paren">)</span> &#x2192; <span class="pre">List</span><a class="headerlink" href="#PyCTBN.PyCTBN.utility.json_importer.JsonImporter.normalize_trajectories" title="Permalink to this definition">¶</a></dt>
+<dt id="PyCTBN.PyCTBN.utility.json_importer.JsonImporter.normalize_trajectories">
+<code class="sig-name descname">normalize_trajectories</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">raw_data</span><span class="p">:</span> <span class="n">List</span></em>, <em class="sig-param"><span class="n">indx</span><span class="p">:</span> <span class="n">int</span></em>, <em class="sig-param"><span class="n">trajectories_key</span><span class="p">:</span> <span class="n">str</span></em><span class="sig-paren">)</span> &#x2192; List<a class="headerlink" href="#PyCTBN.PyCTBN.utility.json_importer.JsonImporter.normalize_trajectories" title="Permalink to this definition">¶</a></dt>
 <dd><p>Extracts the trajectories in <code class="docutils literal notranslate"><span class="pre">raw_data</span></code> at the index <code class="docutils literal notranslate"><span class="pre">index</span></code> at the key <code class="docutils literal notranslate"><span class="pre">trajectories</span> <span class="pre">key</span></code>.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
@@ -505,8 +581,8 @@ as keys for the set of CIMS of a particular node.</p>
 </dd></dl>
 
 <dl class="py method">
-<dt class="sig sig-object py" id="PyCTBN.PyCTBN.utility.json_importer.JsonImporter.one_level_normalizing">
-<span class="sig-name descname"><span class="pre">one_level_normalizing</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">raw_data</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><span class="pre">List</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">indx</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><span class="pre">int</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">key</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><span class="pre">str</span></span></em><span class="sig-paren">)</span> &#x2192; <span class="pre">pandas.core.frame.DataFrame</span><a class="headerlink" href="#PyCTBN.PyCTBN.utility.json_importer.JsonImporter.one_level_normalizing" title="Permalink to this definition">¶</a></dt>
+<dt id="PyCTBN.PyCTBN.utility.json_importer.JsonImporter.one_level_normalizing">
+<code class="sig-name descname">one_level_normalizing</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">raw_data</span><span class="p">:</span> <span class="n">List</span></em>, <em class="sig-param"><span class="n">indx</span><span class="p">:</span> <span class="n">int</span></em>, <em class="sig-param"><span class="n">key</span><span class="p">:</span> <span class="n">str</span></em><span class="sig-paren">)</span> &#x2192; pandas.core.frame.DataFrame<a class="headerlink" href="#PyCTBN.PyCTBN.utility.json_importer.JsonImporter.one_level_normalizing" title="Permalink to this definition">¶</a></dt>
 <dd><p>Extracts the one-level nested data in the list <code class="docutils literal notranslate"><span class="pre">raw_data</span></code> at the index <code class="docutils literal notranslate"><span class="pre">indx</span></code> at the key <code class="docutils literal notranslate"><span class="pre">key</span></code>.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
@@ -526,8 +602,8 @@ as keys for the set of CIMS of a particular node.</p>
 </dd></dl>
 
 <dl class="py method">
-<dt class="sig sig-object py" id="PyCTBN.PyCTBN.utility.json_importer.JsonImporter.read_json_file">
-<span class="sig-name descname"><span class="pre">read_json_file</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span> &#x2192; <span class="pre">List</span><a class="headerlink" href="#PyCTBN.PyCTBN.utility.json_importer.JsonImporter.read_json_file" title="Permalink to this definition">¶</a></dt>
+<dt id="PyCTBN.PyCTBN.utility.json_importer.JsonImporter.read_json_file">
+<code class="sig-name descname">read_json_file</code><span class="sig-paren">(</span><span class="sig-paren">)</span> &#x2192; List<a class="headerlink" href="#PyCTBN.PyCTBN.utility.json_importer.JsonImporter.read_json_file" title="Permalink to this definition">¶</a></dt>
 <dd><p>Reads the JSON file in the path self.filePath.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Returns</dt>
@@ -545,8 +621,8 @@ as keys for the set of CIMS of a particular node.</p>
 <section id="module-PyCTBN.PyCTBN.utility.sample_importer">
 <span id="pyctbn-pyctbn-utility-sample-importer-module"></span><h2>PyCTBN.PyCTBN.utility.sample_importer module<a class="headerlink" href="#module-PyCTBN.PyCTBN.utility.sample_importer" title="Permalink to this headline">¶</a></h2>
 <dl class="py class">
-<dt class="sig sig-object py" id="PyCTBN.PyCTBN.utility.sample_importer.SampleImporter">
-<em class="property"><span class="pre">class</span> </em><span class="sig-prename descclassname"><span class="pre">PyCTBN.PyCTBN.utility.sample_importer.</span></span><span class="sig-name descname"><span class="pre">SampleImporter</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">trajectory_list</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><span class="pre">Optional</span><span class="p"><span class="pre">[</span></span><span class="pre">Union</span><span class="p"><span class="pre">[</span></span><span class="pre">pandas.core.frame.DataFrame</span><span class="p"><span class="pre">,</span> </span><span class="pre">numpy.ndarray</span><span class="p"><span class="pre">,</span> </span><span class="pre">List</span><span class="p"><span class="pre">]</span></span><span class="p"><span class="pre">]</span></span></span> <span class="o"><span class="pre">=</span></span> <span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">variables</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><span class="pre">Optional</span><span class="p"><span class="pre">[</span></span><span class="pre">Union</span><span class="p"><span class="pre">[</span></span><span class="pre">pandas.core.frame.DataFrame</span><span class="p"><span class="pre">,</span> </span><span class="pre">numpy.ndarray</span><span class="p"><span class="pre">,</span> </span><span class="pre">List</span><span class="p"><span class="pre">]</span></span><span class="p"><span class="pre">]</span></span></span> <span class="o"><span class="pre">=</span></span> <span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">prior_net_structure</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><span class="pre">Optional</span><span class="p"><span class="pre">[</span></span><span class="pre">Union</span><span class="p"><span class="pre">[</span></span><span class="pre">pandas.core.frame.DataFrame</span><span class="p"><span class="pre">,</span> </span><span class="pre">numpy.ndarray</span><span class="p"><span class="pre">,</span> </span><span class="pre">List</span><span class="p"><span class="pre">]</span></span><span class="p"><span class="pre">]</span></span></span> <span class="o"><span class="pre">=</span></span> <span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#PyCTBN.PyCTBN.utility.sample_importer.SampleImporter" title="Permalink to this definition">¶</a></dt>
+<dt id="PyCTBN.PyCTBN.utility.sample_importer.SampleImporter">
+<em class="property">class </em><code class="sig-prename descclassname">PyCTBN.PyCTBN.utility.sample_importer.</code><code class="sig-name descname">SampleImporter</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">trajectory_list</span><span class="p">:</span> <span class="n">Union<span class="p">[</span>pandas.core.frame.DataFrame<span class="p">, </span>numpy.ndarray<span class="p">, </span>List<span class="p">]</span></span> <span class="o">=</span> <span class="default_value">None</span></em>, <em class="sig-param"><span class="n">variables</span><span class="p">:</span> <span class="n">Union<span class="p">[</span>pandas.core.frame.DataFrame<span class="p">, </span>numpy.ndarray<span class="p">, </span>List<span class="p">]</span></span> <span class="o">=</span> <span class="default_value">None</span></em>, <em class="sig-param"><span class="n">prior_net_structure</span><span class="p">:</span> <span class="n">Union<span class="p">[</span>pandas.core.frame.DataFrame<span class="p">, </span>numpy.ndarray<span class="p">, </span>List<span class="p">]</span></span> <span class="o">=</span> <span class="default_value">None</span></em><span class="sig-paren">)</span><a class="headerlink" href="#PyCTBN.PyCTBN.utility.sample_importer.SampleImporter" title="Permalink to this definition">¶</a></dt>
 <dd><p>Bases: <a class="reference internal" href="#PyCTBN.PyCTBN.utility.abstract_importer.AbstractImporter" title="PyCTBN.PyCTBN.utility.abstract_importer.AbstractImporter"><code class="xref py py-class docutils literal notranslate"><span class="pre">PyCTBN.PyCTBN.utility.abstract_importer.AbstractImporter</span></code></a></p>
 <p>Implements the abstracts methods of AbstractImporter and adds all the necessary methods to process and prepare
 the data loaded directly by using DataFrame</p>
@@ -566,21 +642,21 @@ the data loaded directly by using DataFrame</p>
 </dd>
 </dl>
 <dl class="py method">
-<dt class="sig sig-object py" id="PyCTBN.PyCTBN.utility.sample_importer.SampleImporter.build_sorter">
-<span class="sig-name descname"><span class="pre">build_sorter</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">sample_frame</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><span class="pre">pandas.core.frame.DataFrame</span></span></em><span class="sig-paren">)</span> &#x2192; <span class="pre">List</span><a class="headerlink" href="#PyCTBN.PyCTBN.utility.sample_importer.SampleImporter.build_sorter" title="Permalink to this definition">¶</a></dt>
+<dt id="PyCTBN.PyCTBN.utility.sample_importer.SampleImporter.build_sorter">
+<code class="sig-name descname">build_sorter</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">sample_frame</span><span class="p">:</span> <span class="n">pandas.core.frame.DataFrame</span></em><span class="sig-paren">)</span> &#x2192; List<a class="headerlink" href="#PyCTBN.PyCTBN.utility.sample_importer.SampleImporter.build_sorter" title="Permalink to this definition">¶</a></dt>
 <dd><p>Implements the abstract method build_sorter of the <code class="xref py py-class docutils literal notranslate"><span class="pre">AbstractImporter</span></code> in order to get the ordered variables list.</p>
 </dd></dl>
 
 <dl class="py method">
-<dt class="sig sig-object py" id="PyCTBN.PyCTBN.utility.sample_importer.SampleImporter.dataset_id">
-<span class="sig-name descname"><span class="pre">dataset_id</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span> &#x2192; <span class="pre">str</span><a class="headerlink" href="#PyCTBN.PyCTBN.utility.sample_importer.SampleImporter.dataset_id" title="Permalink to this definition">¶</a></dt>
+<dt id="PyCTBN.PyCTBN.utility.sample_importer.SampleImporter.dataset_id">
+<code class="sig-name descname">dataset_id</code><span class="sig-paren">(</span><span class="sig-paren">)</span> &#x2192; str<a class="headerlink" href="#PyCTBN.PyCTBN.utility.sample_importer.SampleImporter.dataset_id" title="Permalink to this definition">¶</a></dt>
 <dd><p>If the original dataset contains multiple dataset, this method returns a unique id to identify the current
 dataset</p>
 </dd></dl>
 
 <dl class="py method">
-<dt class="sig sig-object py" id="PyCTBN.PyCTBN.utility.sample_importer.SampleImporter.import_data">
-<span class="sig-name descname"><span class="pre">import_data</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">header_column</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#PyCTBN.PyCTBN.utility.sample_importer.SampleImporter.import_data" title="Permalink to this definition">¶</a></dt>
+<dt id="PyCTBN.PyCTBN.utility.sample_importer.SampleImporter.import_data">
+<code class="sig-name descname">import_data</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">header_column</span><span class="o">=</span><span class="default_value">None</span></em><span class="sig-paren">)</span><a class="headerlink" href="#PyCTBN.PyCTBN.utility.sample_importer.SampleImporter.import_data" title="Permalink to this definition">¶</a></dt>
 <dd></dd></dl>
 
 </dd></dl>
@@ -629,9 +705,6 @@ dataset</p>
             HAS_SOURCE:  true
         };
     </script>
-    <script type="text/javascript" src="_static/documentation_options.js">
-
-    </script>
     <script type="text/javascript" src="_static/jquery.js">
 
     </script>
@@ -639,6 +712,9 @@ dataset</p>
 
     </script>
     <script type="text/javascript" src="_static/doctools.js">
+
+    </script>
+    <script type="text/javascript" src="_static/language_data.js">
 
     </script>
 

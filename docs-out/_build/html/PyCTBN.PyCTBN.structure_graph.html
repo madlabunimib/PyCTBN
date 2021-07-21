@@ -124,7 +124,7 @@
 <span id="pyctbn-pyctbn-structure-graph-conditional-intensity-matrix-module"></span><h2>PyCTBN.PyCTBN.structure_graph.conditional_intensity_matrix module<a class="headerlink" href="#module-PyCTBN.PyCTBN.structure_graph.conditional_intensity_matrix" title="Permalink to this headline">¶</a></h2>
 <dl class="py class">
 <dt id="PyCTBN.PyCTBN.structure_graph.conditional_intensity_matrix.ConditionalIntensityMatrix">
-<em class="property">class </em><code class="sig-prename descclassname">PyCTBN.PyCTBN.structure_graph.conditional_intensity_matrix.</code><code class="sig-name descname">ConditionalIntensityMatrix</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">state_residence_times</span><span class="p">:</span> <span class="n">numpy.array</span></em>, <em class="sig-param"><span class="n">state_transition_matrix</span><span class="p">:</span> <span class="n">numpy.array</span></em><span class="sig-paren">)</span><a class="headerlink" href="#PyCTBN.PyCTBN.structure_graph.conditional_intensity_matrix.ConditionalIntensityMatrix" title="Permalink to this definition">¶</a></dt>
+<em class="property">class </em><code class="sig-prename descclassname">PyCTBN.PyCTBN.structure_graph.conditional_intensity_matrix.</code><code class="sig-name descname">ConditionalIntensityMatrix</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">state_residence_times</span><span class="p">:</span> <span class="n">numpy.array</span> <span class="o">=</span> <span class="default_value">None</span></em>, <em class="sig-param"><span class="n">state_transition_matrix</span><span class="p">:</span> <span class="n">numpy.array</span> <span class="o">=</span> <span class="default_value">None</span></em>, <em class="sig-param"><span class="n">cim</span><span class="p">:</span> <span class="n">numpy.array</span> <span class="o">=</span> <span class="default_value">None</span></em><span class="sig-paren">)</span><a class="headerlink" href="#PyCTBN.PyCTBN.structure_graph.conditional_intensity_matrix.ConditionalIntensityMatrix" title="Permalink to this definition">¶</a></dt>
 <dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></p>
 <p>Abstracts the Conditional Intesity matrix of a node as aggregation of the state residence times vector
 and state transition matrix and the actual CIM matrix.</p>
@@ -159,6 +159,83 @@ The class member <code class="docutils literal notranslate"><span class="pre">_c
 <dl class="py method">
 <dt id="PyCTBN.PyCTBN.structure_graph.conditional_intensity_matrix.ConditionalIntensityMatrix.state_transition_matrix">
 <em class="property">property </em><code class="sig-name descname">state_transition_matrix</code><a class="headerlink" href="#PyCTBN.PyCTBN.structure_graph.conditional_intensity_matrix.ConditionalIntensityMatrix.state_transition_matrix" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+</dd></dl>
+
+</section>
+<section id="module-PyCTBN.PyCTBN.structure_graph.network_generator">
+<span id="pyctbn-pyctbn-structure-graph-network-generator-module"></span><h2>PyCTBN.PyCTBN.structure_graph.network_generator module<a class="headerlink" href="#module-PyCTBN.PyCTBN.structure_graph.network_generator" title="Permalink to this headline">¶</a></h2>
+<dl class="py class">
+<dt id="PyCTBN.PyCTBN.structure_graph.network_generator.NetworkGenerator">
+<em class="property">class </em><code class="sig-prename descclassname">PyCTBN.PyCTBN.structure_graph.network_generator.</code><code class="sig-name descname">NetworkGenerator</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">labels</span></em>, <em class="sig-param"><span class="n">vals</span></em><span class="sig-paren">)</span><a class="headerlink" href="#PyCTBN.PyCTBN.structure_graph.network_generator.NetworkGenerator" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></p>
+<p>Provides the methods to generate a network graph and the CIMs related to it
+Items in _labels, _vals and _indxs are related, and therefore respect the same order</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>_labels</strong> (<em>List</em>) – List of variables labels that will be part of the network</p></li>
+<li><p><strong>_vals</strong> (<em>List</em>) – List of cardinalities of the variables in network (defined in the same order as _labels)</p></li>
+<li><p><strong>_indxs</strong> (<em>List</em>) – List of the nodes indexes</p></li>
+<li><p><strong>_cims</strong> (<em>Dict</em>) – It contains, for each variable label (the key), the SetOfCims object related to it</p></li>
+<li><p><strong>_graph</strong> (<a class="reference internal" href="#PyCTBN.PyCTBN.structure_graph.network_graph.NetworkGraph" title="PyCTBN.PyCTBN.structure_graph.network_graph.NetworkGraph"><em>NetworkGraph</em></a>) – The NetworkGraph object representing the generated structure</p></li>
+</ul>
+</dd>
+</dl>
+<dl class="py method">
+<dt id="PyCTBN.PyCTBN.structure_graph.network_generator.NetworkGenerator.cims">
+<em class="property">property </em><code class="sig-name descname">cims</code><a class="headerlink" href="#PyCTBN.PyCTBN.structure_graph.network_generator.NetworkGenerator.cims" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt id="PyCTBN.PyCTBN.structure_graph.network_generator.NetworkGenerator.dyn_str">
+<em class="property">property </em><code class="sig-name descname">dyn_str</code><a class="headerlink" href="#PyCTBN.PyCTBN.structure_graph.network_generator.NetworkGenerator.dyn_str" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt id="PyCTBN.PyCTBN.structure_graph.network_generator.NetworkGenerator.generate_cims">
+<code class="sig-name descname">generate_cims</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">min_val</span></em>, <em class="sig-param"><span class="n">max_val</span></em><span class="sig-paren">)</span><a class="headerlink" href="#PyCTBN.PyCTBN.structure_graph.network_generator.NetworkGenerator.generate_cims" title="Permalink to this definition">¶</a></dt>
+<dd><dl class="simple">
+<dt>For each node, generate the corresponding SetOfCims. The objective is to group the CIMs </dt><dd><p>(actually generated by private method __generate_cim) according to parents possibles states of every node.
+This method must obviously be executed after the graph has been generated.</p>
+</dd>
+</dl>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>min_val</strong> (<em>float</em>) – Minimum value allowed for the coefficients in the CIMs</p></li>
+<li><p><strong>max_val</strong> (<em>float</em>) – Maximum value allowed for the coefficients in the CIMs</p></li>
+</ul>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt id="PyCTBN.PyCTBN.structure_graph.network_generator.NetworkGenerator.generate_graph">
+<code class="sig-name descname">generate_graph</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">density</span></em>, <em class="sig-param"><span class="n">fixed</span><span class="p">:</span> <span class="n">bool</span> <span class="o">=</span> <span class="default_value">False</span></em><span class="sig-paren">)</span><a class="headerlink" href="#PyCTBN.PyCTBN.structure_graph.network_generator.NetworkGenerator.generate_graph" title="Permalink to this definition">¶</a></dt>
+<dd><dl class="simple">
+<dt>Generate the edges according to specified density, and then instantiate the NetworkGraph object</dt><dd><p>to represent the network</p>
+</dd>
+</dl>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>density</strong> (<em>float</em>) – Probability of an edge between two nodes to exist</p></li>
+<li><p><strong>fixed</strong> (<em>bool</em>) – Specifies whether the required density is mandatory or it’s just a probability</p></li>
+</ul>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt id="PyCTBN.PyCTBN.structure_graph.network_generator.NetworkGenerator.graph">
+<em class="property">property </em><code class="sig-name descname">graph</code><a class="headerlink" href="#PyCTBN.PyCTBN.structure_graph.network_generator.NetworkGenerator.graph" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt id="PyCTBN.PyCTBN.structure_graph.network_generator.NetworkGenerator.variables">
+<em class="property">property </em><code class="sig-name descname">variables</code><a class="headerlink" href="#PyCTBN.PyCTBN.structure_graph.network_generator.NetworkGenerator.variables" title="Permalink to this definition">¶</a></dt>
 <dd></dd></dl>
 
 </dd></dl>
@@ -525,7 +602,7 @@ Clears all the unused dataframes in <code class="docutils literal notranslate"><
 <span id="pyctbn-pyctbn-structure-graph-set-of-cims-module"></span><h2>PyCTBN.PyCTBN.structure_graph.set_of_cims module<a class="headerlink" href="#module-PyCTBN.PyCTBN.structure_graph.set_of_cims" title="Permalink to this headline">¶</a></h2>
 <dl class="py class">
 <dt id="PyCTBN.PyCTBN.structure_graph.set_of_cims.SetOfCims">
-<em class="property">class </em><code class="sig-prename descclassname">PyCTBN.PyCTBN.structure_graph.set_of_cims.</code><code class="sig-name descname">SetOfCims</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">node_id</span><span class="p">:</span> <span class="n">str</span></em>, <em class="sig-param"><span class="n">parents_states_number</span><span class="p">:</span> <span class="n">List</span></em>, <em class="sig-param"><span class="n">node_states_number</span><span class="p">:</span> <span class="n">int</span></em>, <em class="sig-param"><span class="n">p_combs</span><span class="p">:</span> <span class="n">numpy.ndarray</span></em><span class="sig-paren">)</span><a class="headerlink" href="#PyCTBN.PyCTBN.structure_graph.set_of_cims.SetOfCims" title="Permalink to this definition">¶</a></dt>
+<em class="property">class </em><code class="sig-prename descclassname">PyCTBN.PyCTBN.structure_graph.set_of_cims.</code><code class="sig-name descname">SetOfCims</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">node_id</span><span class="p">:</span> <span class="n">str</span></em>, <em class="sig-param"><span class="n">parents_states_number</span><span class="p">:</span> <span class="n">List</span></em>, <em class="sig-param"><span class="n">node_states_number</span><span class="p">:</span> <span class="n">int</span></em>, <em class="sig-param"><span class="n">p_combs</span><span class="p">:</span> <span class="n">numpy.ndarray</span></em>, <em class="sig-param"><span class="n">cims</span><span class="p">:</span> <span class="n">numpy.ndarray</span> <span class="o">=</span> <span class="default_value">None</span></em><span class="sig-paren">)</span><a class="headerlink" href="#PyCTBN.PyCTBN.structure_graph.set_of_cims.SetOfCims" title="Permalink to this definition">¶</a></dt>
 <dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></p>
 <p>Aggregates all the CIMS of the node identified by the label _node_id.</p>
 <dl class="field-list simple">
@@ -777,6 +854,77 @@ The class member <code class="docutils literal notranslate"><span class="pre">_t
 <dt id="PyCTBN.PyCTBN.structure_graph.trajectory.Trajectory.trajectory">
 <em class="property">property </em><code class="sig-name descname">trajectory</code><a class="headerlink" href="#PyCTBN.PyCTBN.structure_graph.trajectory.Trajectory.trajectory" title="Permalink to this definition">¶</a></dt>
 <dd></dd></dl>
+
+</dd></dl>
+
+</section>
+<section id="module-PyCTBN.PyCTBN.structure_graph.trajectory_generator">
+<span id="pyctbn-pyctbn-structure-graph-trajectory-generator-module"></span><h2>PyCTBN.PyCTBN.structure_graph.trajectory_generator module<a class="headerlink" href="#module-PyCTBN.PyCTBN.structure_graph.trajectory_generator" title="Permalink to this headline">¶</a></h2>
+<dl class="py class">
+<dt id="PyCTBN.PyCTBN.structure_graph.trajectory_generator.TrajectoryGenerator">
+<em class="property">class </em><code class="sig-prename descclassname">PyCTBN.PyCTBN.structure_graph.trajectory_generator.</code><code class="sig-name descname">TrajectoryGenerator</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">importer</span><span class="p">:</span> <span class="n"><a class="reference internal" href="PyCTBN.PyCTBN.utility.html#PyCTBN.PyCTBN.utility.abstract_importer.AbstractImporter" title="PyCTBN.PyCTBN.utility.abstract_importer.AbstractImporter">PyCTBN.PyCTBN.utility.abstract_importer.AbstractImporter</a></span> <span class="o">=</span> <span class="default_value">None</span></em>, <em class="sig-param"><span class="n">variables</span><span class="p">:</span> <span class="n">pandas.core.frame.DataFrame</span> <span class="o">=</span> <span class="default_value">None</span></em>, <em class="sig-param"><span class="n">dyn_str</span><span class="p">:</span> <span class="n">pandas.core.frame.DataFrame</span> <span class="o">=</span> <span class="default_value">None</span></em>, <em class="sig-param"><span class="n">dyn_cims</span><span class="p">:</span> <span class="n">dict</span> <span class="o">=</span> <span class="default_value">None</span></em><span class="sig-paren">)</span><a class="headerlink" href="#PyCTBN.PyCTBN.structure_graph.trajectory_generator.TrajectoryGenerator" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></p>
+<p>Provides the methods to generate a trajectory basing on the network defined
+in the importer.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>_importer</strong> (<a class="reference internal" href="PyCTBN.PyCTBN.utility.html#PyCTBN.PyCTBN.utility.abstract_importer.AbstractImporter" title="PyCTBN.PyCTBN.utility.abstract_importer.AbstractImporter"><em>AbstractImporter</em></a>) – the Importer object which contains the imported and processed data</p></li>
+<li><p><strong>_vnames</strong> (<em>List</em>) – List of the variables labels that belong to the network</p></li>
+<li><p><strong>_parents</strong> (<em>Dict</em>) – It contains, for each variable label (the key), the list of related parents labels</p></li>
+<li><p><strong>_cims</strong> (<em>Dict</em>) – It contains, for each variable label (the key), the SetOfCims object related to it</p></li>
+<li><p><strong>_generated_trajectory</strong> (<em>pandas.DataFrame</em>) – Result of the execution of CTBN_Sample, contains the output trajectory</p></li>
+</ul>
+</dd>
+</dl>
+<dl class="py method">
+<dt id="PyCTBN.PyCTBN.structure_graph.trajectory_generator.TrajectoryGenerator.CTBN_Sample">
+<code class="sig-name descname">CTBN_Sample</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">t_end</span><span class="o">=</span><span class="default_value">- 1</span></em>, <em class="sig-param"><span class="n">max_tr</span><span class="o">=</span><span class="default_value">- 1</span></em><span class="sig-paren">)</span><a class="headerlink" href="#PyCTBN.PyCTBN.structure_graph.trajectory_generator.TrajectoryGenerator.CTBN_Sample" title="Permalink to this definition">¶</a></dt>
+<dd><dl class="simple">
+<dt>This method implements the generation of a trajectory, basing on the network structure and</dt><dd><p>on the coefficients defined in the CIMs.
+The variables are initialized with value 0, and the method takes care of adding the
+conventional last row made up of -1.</p>
+</dd>
+</dl>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>t_end</strong> (<em>float</em>) – If defined, the sampling ends when end time is reached</p></li>
+<li><p><strong>max_tr</strong> (<em>int</em>) – Parameter taken in consideration in case that t_end isn’t defined. It specifies the number of transitions to execute</p></li>
+</ul>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt id="PyCTBN.PyCTBN.structure_graph.trajectory_generator.TrajectoryGenerator.multi_trajectory">
+<code class="sig-name descname">multi_trajectory</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">t_ends</span><span class="p">:</span> <span class="n">list</span> <span class="o">=</span> <span class="default_value">None</span></em>, <em class="sig-param"><span class="n">max_trs</span><span class="p">:</span> <span class="n">list</span> <span class="o">=</span> <span class="default_value">None</span></em><span class="sig-paren">)</span><a class="headerlink" href="#PyCTBN.PyCTBN.structure_graph.trajectory_generator.TrajectoryGenerator.multi_trajectory" title="Permalink to this definition">¶</a></dt>
+<dd><p>Generate n trajectories in parallel, where n is the number of items in 
+t_ends, if defined, or the number of items in max_trs otherwise</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>t_ends</strong> (<em>list</em>) – List of t_end values for the trajectories that will be generated</p></li>
+<li><p><strong>max_trs</strong> (<em>list</em>) – List of max_tr values for the trajectories that will be generated</p></li>
+</ul>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt id="PyCTBN.PyCTBN.structure_graph.trajectory_generator.TrajectoryGenerator.worker">
+<code class="sig-name descname">worker</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">t_end</span></em>, <em class="sig-param"><span class="n">max_tr</span></em>, <em class="sig-param"><span class="n">trajectories</span></em><span class="sig-paren">)</span><a class="headerlink" href="#PyCTBN.PyCTBN.structure_graph.trajectory_generator.TrajectoryGenerator.worker" title="Permalink to this definition">¶</a></dt>
+<dd><p>Single process that will be executed in parallel in order to generate one trajectory.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>t_end</strong> (<em>float</em>) – If defined, the sampling ends when end time is reached</p></li>
+<li><p><strong>max_tr</strong> (<em>int</em>) – Parameter taken in consideration in case that t_end isn’t defined. It specifies the number of transitions to execute</p></li>
+<li><p><strong>trajectories</strong> (<em>list</em>) – Shared list that contains to which the generated trajectory is added</p></li>
+</ul>
+</dd>
+</dl>
+</dd></dl>
 
 </dd></dl>
 

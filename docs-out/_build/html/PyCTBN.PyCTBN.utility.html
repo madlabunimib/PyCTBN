@@ -120,6 +120,52 @@
 <section id="submodules">
 <h2>Submodules<a class="headerlink" href="#submodules" title="Permalink to this headline">¶</a></h2>
 </section>
+<section id="module-PyCTBN.PyCTBN.utility.abstract_exporter">
+<span id="pyctbn-pyctbn-utility-abstract-exporter-module"></span><h2>PyCTBN.PyCTBN.utility.abstract_exporter module<a class="headerlink" href="#module-PyCTBN.PyCTBN.utility.abstract_exporter" title="Permalink to this headline">¶</a></h2>
+<dl class="py class">
+<dt id="PyCTBN.PyCTBN.utility.abstract_exporter.AbstractExporter">
+<em class="property">class </em><code class="sig-prename descclassname">PyCTBN.PyCTBN.utility.abstract_exporter.</code><code class="sig-name descname">AbstractExporter</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">variables</span><span class="p">:</span> <span class="n">pandas.core.frame.DataFrame</span> <span class="o">=</span> <span class="default_value">None</span></em>, <em class="sig-param"><span class="n">dyn_str</span><span class="p">:</span> <span class="n">pandas.core.frame.DataFrame</span> <span class="o">=</span> <span class="default_value">None</span></em>, <em class="sig-param"><span class="n">dyn_cims</span><span class="p">:</span> <span class="n">dict</span> <span class="o">=</span> <span class="default_value">None</span></em><span class="sig-paren">)</span><a class="headerlink" href="#PyCTBN.PyCTBN.utility.abstract_exporter.AbstractExporter" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">abc.ABC</span></code></p>
+<p>Abstract class that exposes the methods to save in json format a network information
+along with one or more trajectories generated basing on it</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>_variables</strong> (<em>pandas.DataFrame</em>) – Dataframe containing the nodes labels and cardinalities</p></li>
+<li><p><strong>_dyn_str</strong> (<em>pandas.DataFrame</em>) – Dataframe containing the structure of the network (edges)</p></li>
+<li><p><strong>_dyn_cims</strong> (<em>dict</em>) – It contains, for every variable (label is the key), the SetOfCims object related to it</p></li>
+<li><p><strong>_trajectories</strong> (<em>List</em>) – List of trajectories, that can be added subsequently</p></li>
+</ul>
+</dd>
+</dl>
+<dl class="py method">
+<dt id="PyCTBN.PyCTBN.utility.abstract_exporter.AbstractExporter.add_trajectory">
+<code class="sig-name descname">add_trajectory</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">trajectory</span><span class="p">:</span> <span class="n">list</span></em><span class="sig-paren">)</span><a class="headerlink" href="#PyCTBN.PyCTBN.utility.abstract_exporter.AbstractExporter.add_trajectory" title="Permalink to this definition">¶</a></dt>
+<dd><p>Add a new trajectory to the current list</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>trajectory</strong> (<em>pandas.DataFrame</em>) – The trajectory to add</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt id="PyCTBN.PyCTBN.utility.abstract_exporter.AbstractExporter.out_file">
+<em class="property">abstract </em><code class="sig-name descname">out_file</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">filename</span></em><span class="sig-paren">)</span><a class="headerlink" href="#PyCTBN.PyCTBN.utility.abstract_exporter.AbstractExporter.out_file" title="Permalink to this definition">¶</a></dt>
+<dd><dl class="simple">
+<dt>Create a file in current directory and write on it the previously added data </dt><dd><p>(variables, dyn_str, dyn_cims and trajectories)</p>
+</dd>
+</dl>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>filename</strong> (<em>string</em>) – Name of the output file (it must include json extension)</p>
+</dd>
+</dl>
+</dd></dl>
+
+</dd></dl>
+
+</section>
 <section id="module-PyCTBN.PyCTBN.utility.abstract_importer">
 <span id="pyctbn-pyctbn-utility-abstract-importer-module"></span><h2>PyCTBN.PyCTBN.utility.abstract_importer module<a class="headerlink" href="#module-PyCTBN.PyCTBN.utility.abstract_importer" title="Permalink to this headline">¶</a></h2>
 <dl class="py class">
@@ -341,11 +387,51 @@ None otherwise.</p>
 </dd></dl>
 
 </section>
+<section id="module-PyCTBN.PyCTBN.utility.json_exporter">
+<span id="pyctbn-pyctbn-utility-json-exporter-module"></span><h2>PyCTBN.PyCTBN.utility.json_exporter module<a class="headerlink" href="#module-PyCTBN.PyCTBN.utility.json_exporter" title="Permalink to this headline">¶</a></h2>
+<dl class="py class">
+<dt id="PyCTBN.PyCTBN.utility.json_exporter.JsonExporter">
+<em class="property">class </em><code class="sig-prename descclassname">PyCTBN.PyCTBN.utility.json_exporter.</code><code class="sig-name descname">JsonExporter</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">variables</span><span class="p">:</span> <span class="n">pandas.core.frame.DataFrame</span> <span class="o">=</span> <span class="default_value">None</span></em>, <em class="sig-param"><span class="n">dyn_str</span><span class="p">:</span> <span class="n">pandas.core.frame.DataFrame</span> <span class="o">=</span> <span class="default_value">None</span></em>, <em class="sig-param"><span class="n">dyn_cims</span><span class="p">:</span> <span class="n">dict</span> <span class="o">=</span> <span class="default_value">None</span></em><span class="sig-paren">)</span><a class="headerlink" href="#PyCTBN.PyCTBN.utility.json_exporter.JsonExporter" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <a class="reference internal" href="#PyCTBN.PyCTBN.utility.abstract_exporter.AbstractExporter" title="PyCTBN.PyCTBN.utility.abstract_exporter.AbstractExporter"><code class="xref py py-class docutils literal notranslate"><span class="pre">PyCTBN.PyCTBN.utility.abstract_exporter.AbstractExporter</span></code></a></p>
+<p>Provides the methods to save in json format a network information
+along with one or more trajectories generated basing on it</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>_variables</strong> (<em>pandas.DataFrame</em>) – Dataframe containing the nodes labels and cardinalities</p></li>
+<li><p><strong>_dyn_str</strong> (<em>pandas.DataFrame</em>) – Dataframe containing the structure of the network (edges)</p></li>
+<li><p><strong>_dyn_cims</strong> (<em>dict</em>) – It contains, for every variable (label is the key), the SetOfCims object related to it</p></li>
+<li><p><strong>_trajectories</strong> (<em>List</em>) – List of trajectories, that can be added subsequently</p></li>
+</ul>
+</dd>
+</dl>
+<dl class="py method">
+<dt id="PyCTBN.PyCTBN.utility.json_exporter.JsonExporter.cims_to_json">
+<code class="sig-name descname">cims_to_json</code><span class="sig-paren">(</span><span class="sig-paren">)</span> &#x2192; dict<a class="headerlink" href="#PyCTBN.PyCTBN.utility.json_exporter.JsonExporter.cims_to_json" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt id="PyCTBN.PyCTBN.utility.json_exporter.JsonExporter.out_file">
+<code class="sig-name descname">out_file</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">filename</span></em><span class="sig-paren">)</span><a class="headerlink" href="#PyCTBN.PyCTBN.utility.json_exporter.JsonExporter.out_file" title="Permalink to this definition">¶</a></dt>
+<dd><dl class="simple">
+<dt>Create a file in current directory and write on it the previously added data </dt><dd><p>(variables, dyn_str, dyn_cims and trajectories)</p>
+</dd>
+</dl>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>filename</strong> (<em>string</em>) – Name of the output file (it must include json extension)</p>
+</dd>
+</dl>
+</dd></dl>
+
+</dd></dl>
+
+</section>
 <section id="module-PyCTBN.PyCTBN.utility.json_importer">
 <span id="pyctbn-pyctbn-utility-json-importer-module"></span><h2>PyCTBN.PyCTBN.utility.json_importer module<a class="headerlink" href="#module-PyCTBN.PyCTBN.utility.json_importer" title="Permalink to this headline">¶</a></h2>
 <dl class="py class">
 <dt id="PyCTBN.PyCTBN.utility.json_importer.JsonImporter">
-<em class="property">class </em><code class="sig-prename descclassname">PyCTBN.PyCTBN.utility.json_importer.</code><code class="sig-name descname">JsonImporter</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">file_path</span><span class="p">:</span> <span class="n">str</span></em>, <em class="sig-param"><span class="n">samples_label</span><span class="p">:</span> <span class="n">str</span></em>, <em class="sig-param"><span class="n">structure_label</span><span class="p">:</span> <span class="n">str</span></em>, <em class="sig-param"><span class="n">variables_label</span><span class="p">:</span> <span class="n">str</span></em>, <em class="sig-param"><span class="n">time_key</span><span class="p">:</span> <span class="n">str</span></em>, <em class="sig-param"><span class="n">variables_key</span><span class="p">:</span> <span class="n">str</span></em><span class="sig-paren">)</span><a class="headerlink" href="#PyCTBN.PyCTBN.utility.json_importer.JsonImporter" title="Permalink to this definition">¶</a></dt>
+<em class="property">class </em><code class="sig-prename descclassname">PyCTBN.PyCTBN.utility.json_importer.</code><code class="sig-name descname">JsonImporter</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">file_path</span><span class="p">:</span> <span class="n">str</span></em>, <em class="sig-param"><span class="n">samples_label</span><span class="p">:</span> <span class="n">str</span></em>, <em class="sig-param"><span class="n">structure_label</span><span class="p">:</span> <span class="n">str</span></em>, <em class="sig-param"><span class="n">variables_label</span><span class="p">:</span> <span class="n">str</span></em>, <em class="sig-param"><span class="n">time_key</span><span class="p">:</span> <span class="n">str</span></em>, <em class="sig-param"><span class="n">variables_key</span><span class="p">:</span> <span class="n">str</span></em>, <em class="sig-param"><span class="n">cims_label</span><span class="p">:</span> <span class="n">str</span> <span class="o">=</span> <span class="default_value">None</span></em><span class="sig-paren">)</span><a class="headerlink" href="#PyCTBN.PyCTBN.utility.json_importer.JsonImporter" title="Permalink to this definition">¶</a></dt>
 <dd><p>Bases: <a class="reference internal" href="#PyCTBN.PyCTBN.utility.abstract_importer.AbstractImporter" title="PyCTBN.PyCTBN.utility.abstract_importer.AbstractImporter"><code class="xref py py-class docutils literal notranslate"><span class="pre">PyCTBN.PyCTBN.utility.abstract_importer.AbstractImporter</span></code></a></p>
 <p>Implements the abstracts methods of AbstractImporter and adds all the necessary methods to process and prepare
 the data in json extension.</p>
