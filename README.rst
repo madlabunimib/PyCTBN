@@ -359,6 +359,7 @@ Network graph and parameters generation, trajectory sampling, data export
 | the estimation of the structure by using a ConstraintBased approach.
 
 .. code-block:: python
+
     from PyCTBN.PyCTBN.structure_graph.trajectory_generator import TrajectoryGenerator
     from PyCTBN.PyCTBN.structure_graph.network_generator import NetworkGenerator
     from PyCTBN.PyCTBN.utility.json_importer import JsonImporter
